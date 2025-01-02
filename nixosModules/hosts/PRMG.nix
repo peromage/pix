@@ -131,11 +131,13 @@ in with lib; {
       iotop # IO
       iftop # Network
 
-      ## Devices
+      ## Peripherals
       parted
       pciutils # lspci
       usbutils # lsusb
       lsof # List open files
+
+      ## Networking
       dnsutils  # dig, nslookup
       iperf3
       nmap
