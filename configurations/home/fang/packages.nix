@@ -77,6 +77,10 @@
     yt-dlp
     zbar
 
+    ## Drawing
+    libwacom
+    krita
+
     ## GUI
     firefox
     remmina
