@@ -46,6 +46,10 @@ let
     ## Package management
     pip
     pipx # Ad-hoc user space tool
+
+    ## Packages required for peripherals
+    libevdev
+    pyudev
   ]);
 
 in pkgs.buildEnv {
