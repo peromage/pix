@@ -78,7 +78,6 @@
     zbar
 
     ## GUI
-    brave
     firefox
     remmina
     zeal
