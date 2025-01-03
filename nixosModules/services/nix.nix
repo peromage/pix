@@ -54,7 +54,7 @@ in with lib; {
 
     (mkIf (cfg.enable && cfg.enableOptimization) {
       nix = {
-        settings.auto-optimise-store = true;
+        settings.auto-optimise-store = true; ## Use hard links to save space
 
         optimise = {
           automatic = true;
@@ -65,7 +65,7 @@ in with lib; {
           automatic = true;
           persistent = true;
           dates = "weekly";
-          options = "--delete-older-than 30d";
+          options = ""; ## Use "nix-collect-garbage --delete-older-than 30d" to purge old system profiles
           randomizedDelaySec = "0";
         };
       };
