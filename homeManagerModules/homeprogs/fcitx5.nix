@@ -3,6 +3,12 @@
 let
   cfg = config.pix.homeprogs.fcitx5;
   src = "${pix.path.dotfiles}/fcitx5";
+  srcRimeIce = pkgs.fetchFromGitHub {
+    owner = "iDvel";
+    repo = "rime-ice";
+    rev = "2024.12.12";
+    hash = "sha256-2QZdlLGZwWIesbjYTE/2yhM1hHGVVp7jR02bR0oqxV0=";
+  };
 
 in with lib; {
   options.pix.homeprogs.fcitx5 = {
@@ -35,7 +41,7 @@ in with lib; {
     };
 
     xdg.dataFile."fcitx5" = {
-      source = "${src}/.local/share/fcitx5";
+      source = "${srcRimeIce.outPath}";
       recursive = true;
     };
   };
