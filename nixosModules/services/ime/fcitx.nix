@@ -31,6 +31,7 @@ in with lib; {
 
     environment.systemPackages = with pkgs; [
       librime
+      librime-lua
       rime-cli
       rime-data
     ]
