@@ -40,7 +40,10 @@ in with lib; {
       recursive = true;
     };
 
-    xdg.dataFile."fcitx5" = {
+    /* To rebuild, cd to this directory and execute:
+         rime_deployer --build
+    */
+    xdg.dataFile."fcitx5/rime" = {
       source = "${srcRimeIce.outPath}";
       recursive = true;
     };
