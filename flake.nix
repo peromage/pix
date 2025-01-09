@@ -23,7 +23,7 @@
       maintainer = {
         name = "Fang Deng";
         email = "fang@elfang.com";
-        github = "fangtfs";
+        github = "peromage";
         githubId = 10389606;
       };
 
