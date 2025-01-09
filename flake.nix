@@ -18,18 +18,16 @@
 
   outputs = { self, nixpkgs, home-manager, nix-darwin, ... }:
     let
+      pix = self;
+
       /* Meta */
-      license = lib.licenses.gpl3Plus;
+      license = nixpkgs.lib.licenses.gpl3Plus;
       maintainer = {
         name = "Fang Deng";
         email = "fang@elfang.com";
         github = "peromage";
         githubId = 10389606;
       };
-
-      lib = nixpkgs.lib;
-      libpix = (import path.lib { inherit nixpkgs; });
-      pix = self;
 
       path = {
         ## Root directory can be accessed through `pix.outPath'
@@ -53,49 +51,46 @@
         arm64_mac = "aarch64-darwin";
       };
 
-      /* Improvised functions */
-      imp = with self.imp; {
-        forSupportedSystems = lib.genAttrs (lib.attrValues supportedSystems);
+      /* Lib with additional functions */
+      lib = (import path.lib { inherit nixpkgs; }) // (with lib; {
+        forSupportedSystems = with nixpkgs.lib; genAttrs (attrValues supportedSystems);
 
         mkPkgs = system: import nixpkgs {
           inherit system;
           overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
-        mkImport = args: libpix.call (args // { inherit pix; });
+        mkImport = args: call (args // { inherit pix; });
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
-        mkNixOS = name: libpix.mkConfiguration lib.nixosSystem (modules: {
+        mkNixOS = name: mkConfiguration nixpkgs.lib.nixosSystem (modules: {
           specialArgs = { inherit pix; };
           modules = modules ++ [{
             nixpkgs.overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
           }];
         }) (path.nixosConfigurations + "/${name}");
 
-        mkDarwin = name: libpix.mkConfiguration nix-darwin.lib.darwinSystem (modules: {
+        mkDarwin = name: mkConfiguration nix-darwin.lib.darwinSystem (modules: {
           specialArgs = { inherit pix; };
           modules = modules;
         }) (path.darwinConfigurations + "/${name}");
 
         mkHome = name: system: let
           pkgs = mkPkgs system;
-        in libpix.mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
+        in mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
           inherit pkgs;
           extraSpecialArgs = { inherit pix; };
           modules = modules;
         }) (path.homeConfigurations + "/${name}");
-      };
+      });
 
-    in {
+    in with lib; {
       /* Pix */
-      inherit license maintainer path supportedSystems imp pix;
-      lib = libpix;
-
-    } // (with imp; {
+      inherit license maintainer path supportedSystems pix lib;
 
       /* Expose modules
 
@@ -198,5 +193,5 @@
       homeConfigurations = {
         fang_pc = mkHome "fang" supportedSystems.amd64_pc;
       };
-    });
+    };
 }
