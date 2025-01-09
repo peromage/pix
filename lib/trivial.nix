@@ -26,11 +26,14 @@ in with self; {
      caller must tell this function where to end.
 
      Type:
-       wrapReturn :: Number -> (Any -> Any) -> (Any -> ... -> Any) -> Any
+       filterReturn :: (Any -> ... -> Any) -> Number -> (Any -> Any) -> Any
   */
-  wrapReturn = n: wf: f:
-    let wrap = f: n: a: if n == 1 then wf (f a) else wrap (f a) (n - 1);
-    in assert n > 0; wrap f n;
+  filterReturn = f: narg: filter:
+    let virtualFilter = f: narg: arg:
+      if narg == 1
+      then filter (f arg)
+      else virtualFilter (f arg) (narg - 1);
+    in assert narg > 0; virtualFilter f narg;
 
   /* Filter the arguments of the original function.
 
@@ -43,11 +46,14 @@ in with self; {
      and return a list of altered arguments.
 
      Type:
-       wrapArgs :: Number -> (Any -> ... -> [Any]) -> (Any -> ... -> Any) -> Any
+       filterArgs :: (Any -> ... -> Any) -> Number -> (Any -> ... -> [Any]) -> Any
   */
-  wrapArgs = n: wf: f:
-    let wrap = wf: n: a: if n == 1 then apply f (wf a) else wrap (wf a) (n - 1);
-    in assert n > 0; wrap wf n;
+  filterArgs = f: narg: filter:
+    let virtualFilter = filter: narg: arg:
+      if narg == 1
+      then apply f (filter arg)
+      else virtualFilter (filter arg) (narg - 1);
+    in assert narg > 0; virtualFilter filter narg;
 
   /* Fix point and override pattern.
      See: http://r6.ca/blog/20140422T142911Z.html
