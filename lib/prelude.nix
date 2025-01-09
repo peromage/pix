@@ -24,7 +24,7 @@ in with self; {
   mapImport = f: top: with lib; mapAttrs'
     (name: value: nameValuePair (baseNameNoNixExt name) (f value))
     (genAttrs
-      (listDir (n: t: isNotDisabled n t && isNotDefaultNix n t && isImportable n t) top)
+      (listDir (andPred (notPred isDisabled) (notPred isDefaultNix)) top)
       import);
 
   /* A generic function that filters all the files/directories under the given
@@ -33,26 +33,23 @@ in with self; {
      Type:
        listDir :: (String -> String -> Bool) -> Path -> [String]
   */
-  listDir = pred: dir: lib.mapAttrsToList
-    (n: t: builtins.toString (dir + "/${n}"))
-    (lib.filterAttrs pred (builtins.readDir dir));
+  listDir = pred: dir: with builtins; lib.mapAttrsToList
+    (n: t: toString (dir + "/${n}"))
+    (lib.filterAttrs pred (readDir dir));
 
   /* Predications used for `listDir'. */
-  isDirType = name: type: type == "directory";
-  isFileType = name: type: type == "regular";
+  notPred = pred: name: type: ! pred name type;
+  andPred = predA: predB: name: type: predA name type && predB name type;
+  orPred = predA: predB: name: type: predA name type || predB name type;
+
+  isDirectoryType = name: type: type == "directory";
+  isRegularType = name: type: type == "regular";
   isSymbolicType = name: type: type == "symlink";
   isDefaultNix = name: type: name == "default.nix";
   isNixFile = name: type: isNotDirType name type && builtins.match ".+\\.nix$" name != null;
-  isImportable = name: type: isDirType name type || isNixFile name type;
   isDisabled = name: type: builtins.match "^DISABLED_.*" name != null;
-
-  isNotDirType = name: type: ! isDirType name type;
-  isNotFileType = name: type: ! isFileType name type;
-  isNotSymbolicType = name: type: ! isSymbolicType name type;
-  isNotDefaultNix = name: type: ! isDefaultNix name type;
-  isNotNixFile = name: type: ! isNixFile name type;
-  isNotImportable = name: type: ! isImportable name type;
-  isNotDisabled = name: type: ! isDisabled name type;
+  isImportable = name: type: isDirectoryType name type || isNixFile name type;
+  hasDefaultNix = name: type: with builtins; isDirectoryType name type && hasAttr "default.nix"  (readDir name);
 
   /* Return the basename without .nix extension
 
