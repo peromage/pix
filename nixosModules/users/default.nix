@@ -6,7 +6,7 @@ let
   isRootUser = name: name == "root";
 
 in with lib; {
-  imports = with libpix; listDir isNotDefaultNix ./.;
+  imports = with libpix; listDir (notPred isDefaultNix) ./.;
 
   /* Interface */
   options.pix.users = {

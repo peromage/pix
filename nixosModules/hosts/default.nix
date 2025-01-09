@@ -5,7 +5,7 @@ let
   libpix = pix.lib;
 
 in with lib; {
-  imports = with libpix; listDir isNotDefaultNix ./.;
+  imports = with libpix; listDir (notPred isDefaultNix) ./.;
 
   /* Interface */
   options.pix.hosts = {

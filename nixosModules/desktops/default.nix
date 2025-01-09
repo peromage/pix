@@ -5,7 +5,7 @@ let
   cfg = config.pix.desktops;
 
 in with lib; {
-  imports = with libpix; listDir isNotDefaultNix ./.;
+  imports = with libpix; listDir (notPred isDefaultNix) ./.;
 
   options.pix.desktops = {
     /* The display server is actually selected by the display manager.

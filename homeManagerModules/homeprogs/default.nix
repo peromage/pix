@@ -1,5 +1,5 @@
 { pix, ... }:
 
 {
-  imports = with pix.lib; listDir isNotDefaultNix ./.;
+  imports = with pix.lib; listDir (notPred isDefaultNix) ./.;
 }

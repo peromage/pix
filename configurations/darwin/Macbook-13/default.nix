@@ -4,7 +4,7 @@ let
   inherit (pix.inputs) nixpkgs;
 
 in {
-  imports = with pix.lib; listDir isNotDefaultNix ./.;
+  imports = with pix.lib; listDir (notPred isDefaultNix) ./.;
 
   nixpkgs = {
     hostPlatform = "x86_64-darwin";

@@ -6,7 +6,7 @@ let
   cfg = config.pix.hardware;
 
 in with lib; {
-  imports = with pix.lib; listDir isNotDefaultNix ./.;
+  imports = with pix.lib; listDir (notPred isDefaultNix) ./.;
 
   options.pix.hardware = {
     platform = mkOption {
