@@ -1,7 +1,7 @@
 { lib, ... }:
 
 {
-  config.pix.users.profiles.fang = with lib; {
+  config.pix.users.fang = with lib; {
     description = "Fang The Handsome";
     id = 1001;
     groups = [ "wheel" "users" "audio" "video" "cdrom" "networkmanager" ];
