@@ -4,10 +4,9 @@ let
   src = pix.path.dotfiles;
 
 in {
-  imports = [
-    ./packages.nix
-    ./stateVersion.nix
-  ];
+  imports = [ ./packages.nix ];
+
+  home.stateVersion = "24.05";
 
   /* Managed by Home Manager */
   programs.home-manager.enable = true;
