@@ -12,6 +12,8 @@
     pix.nixosModules.default
   ];
 
+  system.stateVersion = "24.05";
+
   pix = {
     # users.root.nologin = lib.mkForce false;
     # hosts.profiles.PRMG.enable = true;
