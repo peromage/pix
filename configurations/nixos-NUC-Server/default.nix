@@ -2,16 +2,12 @@
 
 {
   imports = [
-    ./hardware.nix
-    ./stateVersion.nix
     pix.nixosModules.default
+    ./hardware.nix
+    ../presets/system-PROX
+    ../presets/user-wangguan
+    ../presets/user-root
   ];
 
   system.stateVersion = "24.05";
-
-  pix = {
-    hosts.profiles.PROX.enable = true;
-    users.profiles.wangguan.enable = true;
-    users.profiles.root.enable = false;
-  };
 }

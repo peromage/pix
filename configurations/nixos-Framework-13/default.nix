@@ -4,20 +4,12 @@
 
 {
   imports = [
+    pix.nixosModules.default
     ./hardware.nix
     ./mounts.nix
-    ./stateVersion.nix
-    ../../presets/user-fang
-    ../../presets/user-root
-    pix.nixosModules.default
+    ../presets/user-fang
+    ../presets/user-root
   ];
 
   system.stateVersion = "24.05";
-
-  pix = {
-    # users.root.nologin = lib.mkForce false;
-    # hosts.profiles.PRMG.enable = true;
-    # users.profiles.fang.enable = true;
-    # users.profiles.root.enable = false;
-  };
 }
