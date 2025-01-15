@@ -2,7 +2,7 @@
 , lib
 , fetchFromGitHub
 , system
-, ... }:
+}:
 
 let
   inherit (pix.inputs) nixpkgs;
