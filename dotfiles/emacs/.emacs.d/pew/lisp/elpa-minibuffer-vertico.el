@@ -68,6 +68,20 @@
   (consult-buffer-filter (pewlib::workspace::map-buffer-regex pewlib::workspace::hidden-buffer-keywords))
   ;; Find hidden directory
   (consult-find-args "find . ! -path '*/.git/*'")
+  ;; Don't skip hidden directories/files except .git
+  (consult-ripgrep-args "rg \
+--null \
+--line-buffered \
+--color=never \
+--max-columns=1000 \
+--path-separator / \
+--smart-case \
+--no-heading \
+--with-filename \
+--line-number \
+--search-zip \
+--hidden \
+--glob !.git")
 
   :config
   ;; Enable preview for certain completions
@@ -85,15 +99,8 @@
     "Like `consult-ripgrep' but with additional arguments.
 Search directory DIR will be selected by a prompt.
 ARGS should be a string of arguments passed to ripgrep."
-    (interactive "DSearch directory: \nsrg args (-t/--type, -g/--glob, -./--hidden, --no-ignore ...): ")
-    (let ((consult-ripgrep-args
-           (format
-            ;; Default arguments from `consult-ripgrep-args'
-            "rg \
---null --line-buffered --color=never --max-columns=1000 \
---path-separator / --smart-case --no-heading --line-number \
-%s ."
-            args)))
+    (interactive "DSearch directory: \nsAdditional rg args (-t/--type, -g/--glob, -./--hidden, --no-ignore ...): ")
+    (let ((consult-ripgrep-args (concat consult-ripgrep-args args)))
       (consult-ripgrep dir)))
 
   ;; Completion in region replacement
