@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pix, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.pix.dotfiles.gpg;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.gpg = {
-    enable = mkEnableOption "GPG";
+    enable = mkEnableOption "Pot GNUPG";
   };
 
   config = mkIf cfg.enable {

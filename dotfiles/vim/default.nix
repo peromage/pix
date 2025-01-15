@@ -1,4 +1,4 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.vim;

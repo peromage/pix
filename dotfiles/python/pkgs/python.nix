@@ -34,7 +34,7 @@
 
 ## NOTE: When using override and referring `prev.userPyenvDir' Nix will complain
 ## the argument is missing if this package is never overridden.
-{ pkgs, userPyenvDir ? "pip-packages", ... }:
+{ pkgs, userPyenvDir ? "pip-packages" }:
 
 let
   myPython = pkgs.python3.withPackages (pyPkgs: with pyPkgs; [

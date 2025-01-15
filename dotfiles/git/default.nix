@@ -1,4 +1,4 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.git;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.git = {
-    enable = mkEnableOption "Git";
+    enable = mkEnableOption "Pot Git";
 
     extraIncludes = mkOption {
       type = with types; listOf attrs;

@@ -7,7 +7,7 @@
    3. Cherry-pick config.
 */
 
-{ config, lib, pkgs, ...}:
+{ config, lib, ...}:
 
 let
   cfg = config.pix.dotfiles.gnome;

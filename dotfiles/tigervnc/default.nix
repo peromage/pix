@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pix, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.pix.dotfiles.tigervnc;

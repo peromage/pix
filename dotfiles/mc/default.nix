@@ -1,4 +1,4 @@
-{ config, lib, pix, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.pix.dotfiles.mc;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.mc = {
-    enable = mkEnableOption "Midnight Commander";
+    enable = mkEnableOption "Pot Midnight Commander";
   };
 
   config = mkIf cfg.enable {

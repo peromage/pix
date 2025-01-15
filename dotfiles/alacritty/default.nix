@@ -1,4 +1,4 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.alacritty;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.alacritty = {
-    enable = mkEnableOption "Alacritty";
+    enable = mkEnableOption "Pot Alacritty";
   };
 
   config = mkIf cfg.enable {

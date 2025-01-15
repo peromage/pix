@@ -1,4 +1,4 @@
-{ config, lib, pix, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.pix.dotfiles.pwsh;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.pwsh = {
-    enable = mkEnableOption "PowerShell";
+    enable = mkEnableOption "Pot PowerShell";
   };
 
   config = mkIf cfg.enable {

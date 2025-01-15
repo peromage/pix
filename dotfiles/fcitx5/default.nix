@@ -1,8 +1,9 @@
-{ config, lib, pkgs, pix, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.pix.dotfiles.fcitx5;
-  src = ./home;
+  srcFcitx5Config = ./home/.config/fcitx5;
+  srcFcitx5PluginConfig = ./home/.local/share/fcitx5;
 
   srcRimeIce = pkgs.fetchFromGitHub {
     owner = "iDvel";
@@ -13,7 +14,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.fcitx5 = {
-    enable = mkEnableOption "Fcitx5";
+    enable = mkEnableOption "Pot Fcitx5";
   };
 
   config = mkIf cfg.enable {
@@ -37,7 +38,7 @@ in with lib; {
     # ];
 
     xdg.configFile."fcitx5" = {
-      source = "${src}/.config/fcitx5";
+      source = srcFcitx5Config;
       recursive = true;
     };
 
@@ -45,7 +46,7 @@ in with lib; {
          rime_deployer --build
     */
     xdg.dataFile."fcitx5/rime" = {
-      source = "${srcRimeIce.outPath}";
+      source = srcRimeIce.outPath;
       recursive = true;
     };
   };

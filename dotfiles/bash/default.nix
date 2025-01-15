@@ -1,4 +1,4 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.bash;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.bash = {
-    enable = mkEnableOption "Bash";
+    enable = mkEnableOption "Pot Bash";
   };
 
   config = mkIf cfg.enable {

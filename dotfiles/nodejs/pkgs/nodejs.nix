@@ -1,4 +1,4 @@
-{ pkgs, userNpmDir ? "npm-packages", ... }:
+{ pkgs, userNpmDir ? "npm-packages" }:
 
 let
   myNodeJs = pkgs.nodejs_latest;

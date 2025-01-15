@@ -1,4 +1,4 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.fish;
@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.fish = {
-    enable = mkEnableOption "Fish";
+    enable = mkEnableOption "Pot Fish";
   };
 
   config = mkIf cfg.enable {

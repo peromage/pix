@@ -2,23 +2,23 @@
 
 let
   cfg = config.pix.dotfiles.python;
-  python = pkgs.callPackage ./python.nix { userPyenvDir = "${config.xdg.dataHome}/${p.userPyenvDir}"; };
+  myPython = pkgs.callPackage ./pkgs/python.nix { userPyenvDir = "${config.xdg.dataHome}/${p.userPyenvDir}"; };
 
 in with lib; {
   options.pix.dotfiles.python = {
-    enable = mkEnableOption "Python3";
+    enable = mkEnableOption "Pot Python3";
   };
 
   config = mkIf cfg.enable {
     home.sessionVariables = {
-      PIP_PREFIX = python.userPyenvDir;
-      PYTHONPATH = "${python.userPythonPath}:$PYTHONPATH";
+      PIP_PREFIX = myPython.userPyenvDir;
+      PYTHONPATH = "${myPython.userPythonPath}:$PYTHONPATH";
     };
 
     home.sessionPath = [
-      python.userPath
+      myPython.userPath
     ];
 
-    home.packages = [ python ];
+    home.packages = [ myPython ];
   };
 }
