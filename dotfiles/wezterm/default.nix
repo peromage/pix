@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.wezterm;
-  src = "${pix.path.dotfiles}/wezterm/.config/wezterm";
+  cfg = config.pix.dotfiles.wezterm;
+  src = ./home/.config/wezterm;
 
 in with lib; {
-  options.pix.homeprogs.wezterm = {
+  options.pix.dotfiles.wezterm = {
     enable = mkEnableOption "Wez's Terminal";
   };
 
