@@ -1,11 +1,11 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.gpg;
-  src = "${pix.path.dotfiles}/gnupg/.gnupg";
+  cfg = config.pix.dotfiles.gpg;
+  src = ./home/.gnupg;
 
 in with lib; {
-  options.pix.homeprogs.gpg = {
+  options.pix.dotfiles.gpg = {
     enable = mkEnableOption "GPG";
   };
 
