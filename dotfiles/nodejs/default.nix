@@ -1,13 +1,13 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.pix.homeprogs.nodejs;
+  cfg = config.pix.dotfiles.nodejs;
   nodejs = let n = pkgs.pixPkgs.nodejs; in n.override {
     userNpmDir = "${config.xdg.dataHome}/${n.userNpmDir}";
   };
 
 in with lib; {
-  options.pix.homeprogs.nodejs = {
+  options.pix.dotfiles.nodejs = {
     enable = mkEnableOption "NodeJS";
   };
 
@@ -17,7 +17,7 @@ in with lib; {
     ];
     home.packages = [ nodejs ];
     home.file.".npmrc".text = ''
-      prefix=/home/fang/.local/share/npm-packages
+      prefix=${userNpmDir}
     '';
   };
 }
