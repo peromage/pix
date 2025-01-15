@@ -1,11 +1,11 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.tigervnc;
-  src = "${pix.path.dotfiles}/systemd/.config/systemd/user/x0vncserver.service";
+  cfg = config.pix.dotfiles.tigervnc;
+  src = ./home/.config/systemd/user/x0vncserver.service;
 
 in with lib; {
-  options.pix.homeprogs.tigervnc = {
+  options.pix.dotfiles.tigervnc = {
     enable = mkEnableOption "TigerVNC";
   };
 
