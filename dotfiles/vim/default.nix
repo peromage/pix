@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.vim = {
-    enable = mkEnableOption "Vim";
+    enable = mkEnableOption "Pot Vim";
   };
 
   config = mkIf cfg.enable {

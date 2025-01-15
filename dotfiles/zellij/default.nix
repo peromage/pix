@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.zellij = {
-    enable = mkEnableOption "Zellij";
+    enable = mkEnableOption "Pot Zellij";
   };
 
   config = mkIf cfg.enable {

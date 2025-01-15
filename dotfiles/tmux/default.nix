@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.tmux = {
-    enable = mkEnableOption "Tmux";
+    enable = mkEnableOption "Pot Tmux";
   };
 
   config = mkIf cfg.enable {

@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.vscode = {
-    enable = mkEnableOption "Visual Studio Code";
+    enable = mkEnableOption "Pot Visual Studio Code";
   };
 
   config = mkIf cfg.enable {

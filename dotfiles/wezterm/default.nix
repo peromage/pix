@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.wezterm = {
-    enable = mkEnableOption "Wez's Terminal";
+    enable = mkEnableOption "Pot Wez's Terminal";
   };
 
   config = mkIf cfg.enable {

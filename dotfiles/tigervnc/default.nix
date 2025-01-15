@@ -6,7 +6,7 @@ let
 
 in with lib; {
   options.pix.dotfiles.tigervnc = {
-    enable = mkEnableOption "TigerVNC";
+    enable = mkEnableOption "Pot TigerVNC";
   };
 
   config = mkIf cfg.enable {
