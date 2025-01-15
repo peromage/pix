@@ -2,7 +2,9 @@
 
 let
   cfg = config.pix.dotfiles.python;
-  myPython = pkgs.callPackage ./pkgs/python.nix { userPyenvDir = "${config.xdg.dataHome}/${p.userPyenvDir}"; };
+  myPython = let python = pkgs.callPackage ./pkgs/python.nix {}; in python.override {
+    userPyenvDir = "${config.xdg.dataHome}/${python.userPyenvDir}";
+  };
 
 in with lib; {
   options.pix.dotfiles.python = {
