@@ -9,6 +9,6 @@ pkgs.stdenvNoCC.mkDerivation {
 
   installPhase = ''
     mkdir -p bin
-    cp $src/bin/* bin/
+    install --mode=555 $src/bin/* bin/
   '';
 }
