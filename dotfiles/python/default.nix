@@ -1,13 +1,13 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.pix.homeprogs.python;
+  cfg = config.pix.dotfiles.python;
   python = let p = pkgs.pixPkgs.python; in p.override {
     userPyenvDir = "${config.xdg.dataHome}/${p.userPyenvDir}";
   };
 
 in with lib; {
-  options.pix.homeprogs.python = {
+  options.pix.dotfiles.python = {
     enable = mkEnableOption "Python3";
   };
 
