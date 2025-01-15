@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.alacritty;
-  src = "${pix.path.dotfiles}/alacritty/.config/alacritty";
+  cfg = config.pix.dotfiles.alacritty;
+  src = ./home/.config/alacritty;
 
 in with lib; {
-  options.pix.homeprogs.alacritty = {
+  options.pix.dotfiles.alacritty = {
     enable = mkEnableOption "Alacritty";
   };
 
