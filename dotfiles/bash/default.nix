@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.bash;
-  src = "${pix.path.dotfiles}/bash";
+  cfg = config.pix.dotfiles.bash;
+  src = ./home;
 
 in with lib; {
-  options.pix.homeprogs.bash = {
+  options.pix.dotfiles.bash = {
     enable = mkEnableOption "Bash";
   };
 
@@ -18,8 +18,8 @@ in with lib; {
       profileExtra = "";
       logoutExtra = "";
       initExtra = ''
-      source ${src}/.bashrc noenv
-    '';
+        source ${src}/.bashrc noenv
+      '';
     };
   };
 }
