@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.vim;
-  src = "${pix.path.dotfiles}/vim/.vim";
+  cfg = config.pix.dotfiles.vim;
+  src = ./home/.vim;
 
 in with lib; {
-  options.pix.homeprogs.vim = {
+  options.pix.dotfiles.vim = {
     enable = mkEnableOption "Vim";
   };
 
