@@ -1,8 +1,9 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.fcitx5;
-  src = "${pix.path.dotfiles}/fcitx5";
+  cfg = config.pix.dotfiles.fcitx5;
+  src = ./home;
+
   srcRimeIce = pkgs.fetchFromGitHub {
     owner = "iDvel";
     repo = "rime-ice";
@@ -11,7 +12,7 @@ let
   };
 
 in with lib; {
-  options.pix.homeprogs.fcitx5 = {
+  options.pix.dotfiles.fcitx5 = {
     enable = mkEnableOption "Fcitx5";
   };
 
