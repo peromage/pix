@@ -1,0 +1,1 @@
+../../dotfiles/emacs/spelling_and_dicts.nix
