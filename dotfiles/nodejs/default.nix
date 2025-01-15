@@ -2,9 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.nodejs;
-  nodejs = let n = pkgs.pixPkgs.nodejs; in n.override {
-    userNpmDir = "${config.xdg.dataHome}/${n.userNpmDir}";
-  };
+  nodejis = pkgs.callPackage ./nodejs.nix { userNpmDir = "${config.xdg.dataHome}/${n.userNpmDir}"; };
 
 in with lib; {
   options.pix.dotfiles.nodejs = {
