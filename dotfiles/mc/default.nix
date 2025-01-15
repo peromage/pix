@@ -1,11 +1,11 @@
 { config, lib, pix, pkgs, ... }:
 
 let
-  cfg = config.pix.homeprogs.mc;
-  src = "${pix.path.dotfiles}/mc/.config/mc";
+  cfg = config.pix.dotfiles.mc;
+  src = ./home/.config/mc;
 
 in with lib; {
-  options.pix.homeprogs.mc = {
+  options.pix.dotfiles.mc = {
     enable = mkEnableOption "Midnight Commander";
   };
 
