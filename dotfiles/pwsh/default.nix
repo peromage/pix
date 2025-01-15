@@ -1,11 +1,11 @@
 { config, lib, pix, pkgs, ... }:
 
 let
-  cfg = config.pix.homeprogs.powershell;
-  src = "${pix.path.dotfiles}/pwsh/.config/powershell";
+  cfg = config.pix.dotfiles.pwsh;
+  src = ./home/.config/powershell;
 
 in with lib; {
-  options.pix.homeprogs.powershell = {
+  options.pix.dotfiles.pwsh = {
     enable = mkEnableOption "PowerShell";
   };
 
