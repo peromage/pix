@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.fish;
-  src = "${pix.path.dotfiles}/fish/.config/fish";
+  cfg = config.pix.dotfiles.fish;
+  src = ./home/.config/fish;
 
 in with lib; {
-  options.pix.homeprogs.fish = {
+  options.pix.dotfiles.fish = {
     enable = mkEnableOption "Fish";
   };
 
@@ -15,8 +15,8 @@ in with lib; {
       shellInit = "";
       loginShellInit = "";
       interactiveShellInit = ''
-      source ${src}/config.fish
-    '';
+        source ${src}/config.fish
+      '';
     };
 
     xdg.configFile = {
