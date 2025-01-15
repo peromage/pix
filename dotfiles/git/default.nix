@@ -1,11 +1,11 @@
 { config, lib, pix, ... }:
 
 let
-  cfg = config.pix.homeprogs.git;
-  src = "${pix.path.dotfiles}/git/.config/git";
+  cfg = config.pix.dotfiles.git;
+  src = ./home/.config/git;
 
 in with lib; {
-  options.pix.homeprogs.git = {
+  options.pix.dotfiles.git = {
     enable = mkEnableOption "Git";
 
     extraIncludes = mkOption {
