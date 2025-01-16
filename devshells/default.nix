@@ -1,17 +1,13 @@
-{ pix, pkgs, ... }@args:
+{ pix, pkgs, ... }:
 
 let
-  inherit (pix.inputs.nixpkgs) lib;
-  libpix = pix.lib;
-  pathGeneric = ./generic;
-  pathSystem = ./. + "/${pkgs.system}";
+  importPackages = pkgAttrs: pkgs.lib.mapAttrs (name: file: pkgs.newScope { inherit pix; } file {}) pkgAttrs;
 
-  /* During the import, two directories will be included:
-     - generic
-     - [system]
+  pkgsCommon = importPackages {
+    build-essential-env = ./common/build-essential-env.nix;
+    python-env = ./common/python-env.nix;
+  };
 
-     The system directory is optional, which is something like x86_64-linux.
-  */
-  callPackagesIn = libpix.mapImport (fn: pkgs.callPackage fn args);
+  pkgsPlatformSpecialized = {};
 
-in callPackagesIn pathGeneric // lib.optionalAttrs (builtins.pathExists pathSystem) (callPackagesIn pathSystem)
+in pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {})
