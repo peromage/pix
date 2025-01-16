@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./ime/
+    ./ime
     ./documentation.nix
     ./firewall.nix
     ./flatpak.nix

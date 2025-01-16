@@ -5,7 +5,7 @@ let
 
 in with lib; {
   imports = [
-    ./bootloader/
+    ./bootloader
     ./audio.nix
     ./bluetooth.nix
     ./firmware.nix
