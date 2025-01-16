@@ -1,11 +1,15 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  libpix = pix.lib;
   cfg = config.pix.desktops;
+  libpix = pix.lib;
 
 in with lib; {
-  imports = with libpix; listDir (notPred isDefaultNix) ./.;
+  imports = [
+    ./gnome.nix
+    ./kde.nix
+    ./xfce.nix
+  ];
 
   options.pix.desktops = {
     /* The display server is actually selected by the display manager.

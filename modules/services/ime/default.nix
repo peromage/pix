@@ -2,17 +2,17 @@
 
 let
   cfg = config.pix.services.ime;
-  libpix = pix.lib;
+  enabledIME = pix.lib.filterEnable cfg;
 
 in with lib; {
-  imports = with libpix; listDir (notPred isDefaultNix) ./.;
+  imports = [
+    ./fcitx.nix
+    ./ibus.nix
+  ];
 
   options.pix.services.ime = {};
 
-  config = let
-    enabledIME = filterAttrs (_: config: config.enable) cfg;
-
-  in {
+  config = {
     assertions = [
       {
         ## One or none

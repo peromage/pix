@@ -1,12 +1,18 @@
-### All service options
-
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.hardware;
 
 in with lib; {
-  imports = with pix.lib; listDir (notPred isDefaultNix) ./.;
+  imports = [
+    ./bootloader/
+    ./audio.nix
+    ./bluetooth.nix
+    ./firmware.nix
+    ./networking.nix
+    ./peripherals.nix
+    ./power.nix
+  ];
 
   options.pix.hardware = {
     platform = mkOption {

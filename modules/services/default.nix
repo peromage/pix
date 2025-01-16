@@ -1,7 +1,21 @@
-### All service options
-
-{ pix, ... }:
+{ ... }:
 
 {
-  imports = with pix.lib; listDir (notPred isDefaultNix) ./.;
+  imports = [
+    ./ime/
+    ./documentation.nix
+    ./firewall.nix
+    ./flatpak.nix
+    ./frp.nix
+    ./globalprotect.nix
+    ./i18n.nix
+    ./nix.nix
+    ./shadowsocks.nix
+    ./sshd.nix
+    ./steam.nix
+    ./traveling.nix
+    ./vconsole.nix
+    ./virtmanager.nix
+    ./waydroid.nix
+  ];
 }

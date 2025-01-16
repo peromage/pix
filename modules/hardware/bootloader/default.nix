@@ -1,11 +1,14 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.pix.hardware.bootloader;
-  libpix = pix.lib;
 
 in with lib; {
-  imports = with libpix; listDir (notPred isDefaultNix) ./.;
+  imports = [
+    ./grub.nix
+    ./lanzaboote.nix
+    ./systemd-boot.nix
+  ];
 
   options.pix.hardware.bootloader = {};
 
