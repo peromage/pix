@@ -3,7 +3,7 @@
 , fetchFromGitHub
 , swift
 , swiftPackages
-, ... }:
+}:
 
 swiftPackages.stdenv.mkDerivation rec {
   pname = "bclm";
@@ -23,5 +23,6 @@ swiftPackages.stdenv.mkDerivation rec {
     swift-docc
     Foundation
     xcbuild
-    XCTest ];
+    XCTest
+  ];
 }

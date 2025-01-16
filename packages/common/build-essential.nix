@@ -3,7 +3,7 @@
    The name is brought from the similar package in Debian.
 */
 
-{ pkgs, ... }:
+{ pkgs }:
 
 pkgs.buildEnv {
   name = "build-essential";
