@@ -60,7 +60,7 @@ in with self; {
      Type:
        anyEnable :: AttrSet -> Bool
   */
-  anyEnable = attrs: lib.foldlAttrs (a: _: v: v.enable || a) false attrs;
+  anyEnable = attrs: with lib; any (v: v.enable) (attrValues attrs);
 
   /* Return an attrs for names that have `enable' attribute true;
 
