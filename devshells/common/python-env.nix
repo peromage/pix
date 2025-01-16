@@ -4,7 +4,7 @@
    This also supports some packages that require C compilation during installation.
 */
 
-{ pkgs, writeScriptBin, ... }:
+{ pkgs, writeScriptBin }:
 
 let
   python = let p = pkgs.pixPkgs.python; in p.override {

@@ -12,7 +12,7 @@
    For example, the Python package `pynput' requires canonical headers from
    `linuxHeaders' package.
 */
-{ pkgs, ... }:
+{ pkgs }:
 
 let
   fhsenv = pkgs.buildFHSEnv {
