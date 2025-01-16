@@ -67,5 +67,5 @@ in with self; {
      Type:
        filterEnable :: AttrSet -> AttrSet
   */
-  filterEnable = lib.filterAttrs (n: v: v.enable);
+  filterEnable = lib.filterAttrs (_: v: v.enable);
 }
