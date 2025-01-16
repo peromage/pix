@@ -60,10 +60,9 @@ in with self; {
   */
   fixOverride = f: let x = f x; in x // {
     override = overrides: fixOverride (self: f self // (
-      if builtins.isFunction overrides then
-        overrides self
-      else
-        overrides
+      if builtins.isFunction overrides
+      then overrides self
+      else overrides
     ));
   };
 }

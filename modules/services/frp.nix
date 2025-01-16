@@ -3,6 +3,9 @@
 let
   cfg = config.pix.services.frp;
 
+  allowedPorts = cfg.openPorts ++ [ cfg.bindPort ];
+  proxyBindAddr = if null == cfg.proxyBindAddr then cfg.bindAddr else cfg.proxyBindAddr;
+
 in with lib; {
   options.pix.services.frp = {
     enable = mkEnableOption "FRP server";
@@ -38,11 +41,7 @@ in with lib; {
     };
   };
 
-  config = let
-    allowedPorts = cfg.openPorts ++ [ cfg.bindPort ];
-    proxyBindAddr = if null == cfg.proxyBindAddr then cfg.bindAddr else cfg.proxyBindAddr;
-
-  in mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.frp = {
       enable = true;
       role = "server";
