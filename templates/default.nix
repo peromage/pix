@@ -1,3 +1,6 @@
-{ pix, ... }:
+{ ... }:
 
-pix.lib.mapImport (x: x) ./.
+rec {
+  default = pix-flake;
+  pix-flake = import ./pix-flake;
+}
