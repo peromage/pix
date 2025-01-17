@@ -54,18 +54,11 @@ in with self; {
   */
   mkMergeIf = listOfAttrs: lib.mkMerge (map (x: lib.mkIf x.cond x.as) listOfAttrs);
 
-  /* Check the `enable' attribute for each name in the set and return true if
-     at least one is true;
+  /* Apply predicate `f' on each attribute and return true if at least one is true.
+     Otherwise, return false.
 
      Type:
-       anyEnable :: AttrSet -> Bool
+       anyAttrs :: (String -> a -> Bool) -> Bool
   */
-  anyEnable = attrs: with lib; any (v: v.enable) (attrValues attrs);
-
-  /* Return an attrs for names that have `enable' attribute true;
-
-     Type:
-       filterEnable :: AttrSet -> AttrSet
-  */
-  filterEnable = lib.filterAttrs (_: v: v.enable);
+  anyAttrs = f: attrs: with lib; any (name: f name attrs.${name}) (attrNames attrs);
 }

@@ -13,7 +13,7 @@ in with lib; {
   options.pix.hardware.bootloader = {};
 
   config = let
-    enabledBootloaders = filterAttrs (_: config: config.enable) cfg;
+    enabledBootloaders = lib.filterAttrs (_: v: v.enable) cfg;
 
   in {
     assertions = [

@@ -131,7 +131,7 @@ in with lib; {
       (_: config: { gid = config.id; })
       (filterNormalUser userCfg);
 
-    nix.settings.trusted-users = attrNames (filterAttrs (_: config: config.enableNixManagement) (filterNormalUser userCfg));
+    nix.settings.trusted-users = attrNames (filterAttrs (_: v: v.enableNixManagement) (filterNormalUser userCfg));
 
     assertions = [
       {

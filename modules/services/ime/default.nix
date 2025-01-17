@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.services.ime;
-  enabledIME = pix.lib.filterEnable cfg;
+  enabledIME = lib.filterAttrs (_: v: v.enable) cfg;
 
 in with lib; {
   imports = [

@@ -2,7 +2,6 @@
 
 let
   cfg = config.pix.desktops;
-  libpix = pix.lib;
 
 in with lib; {
   imports = [
@@ -37,7 +36,7 @@ in with lib; {
     env = {};
   };
 
-  config = mkIf (libpix.anyEnable cfg.env) {
+  config = mkIf (pix.lib.anyAttrs (_: v: v.enable) cfg.env) {
     services = {
       xserver.enable = true;
       libinput.enable = true;
