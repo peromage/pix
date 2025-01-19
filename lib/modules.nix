@@ -4,27 +4,22 @@ let
   lib = nixpkgs.lib;
 
 in with self; {
-  /* A generic function to generate a module that has ability to add additonal
-     modules.  Similar to the concept of override.
+  /* A thin wrapper for configuration.
+     This function provides ability to override the original configuration by
+     calling the underlying `extend' function.
 
-     `f' is a configuration generation function like `nixosSystem',
+     `conf' is a configuration generation function like `nixosSystem',
      `darwinSystem' or `homeManagerConfiguration'.
 
-     `fGenArgs' is a function that takes a list of modules and returns an attrs that
-     can be consumed by `f'.
-
-     `modules' is a list of modules passed to `fGenArgs'.
+     `f' is a fixed-point function that produces the result consumed by `conf'
+     function.
 
      Type:
-       mkConfiguration :: (AttrSet -> AttrSet) -> ([Path | AttrSet] -> AttrSet) -> (Path | AttrSet | [Path | AttrSet]) -> AttrSet
+       mkConfiguration :: (a -> a) -> (a -> a)
   */
-  mkConfiguration = f: fGenArgs: modules:
-    let
-      virtualMake = modules:
-        with lib; let savedList = toList modules;
-                  in f (fGenArgs savedList)
-                     // { extraModules = newModules: virtualMake (savedList ++ (toList newModules)); };
-    in virtualMake modules;
+  mkConfiguration = conf: f: with lib; conf (fix f) // {
+    extend = overlay: mkConfiguration conf (extends overlay f);
+  };
 
   /* Merge a list of attribute sets from config top level.
 
@@ -42,7 +37,6 @@ in with self; {
       (lib.mapAttrs
         (n: v: lib.mkMerge v)
         (lib.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
-
 
   /* Merge multiple module block conditonally.
 
