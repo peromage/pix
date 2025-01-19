@@ -29,68 +29,53 @@
         githubId = 10389606;
       };
 
-      path = {
-        ## Root directory can be accessed through `pix.outPath'
-        dotfiles = ./dotfiles;
-        lib = ./lib;
-        devshells = ./devshells;
-        nixosModules = ./nixosModules;
-        homeManagerModules = ./homeManagerModules;
-        nixosConfigurations = ./configurations/nixos;
-        darwinConfigurations = ./configurations/darwin;
-        homeConfigurations = ./configurations/home;
-        overlays = ./overlays;
-        packages = ./packages;
-        templates = ./templates;
-      };
-
-      supportedSystems = {
-        amd64_pc = "x86_64-linux";
-        amd64_mac = "x86_64-darwin";
-        arm64_pc = "aarch64-linux";
-        arm64_mac = "aarch64-darwin";
-      };
+      supportedSystems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
 
       /* Lib with additional functions */
-      lib = (import path.lib { inherit nixpkgs; }) // (with lib; {
-        forSupportedSystems = with nixpkgs.lib; genAttrs (attrValues supportedSystems);
+      lib = (import ./lib { inherit nixpkgs; }) // (with lib; {
+        forEachSupportedSystems = with nixpkgs.lib; genAttrs supportedSystems;
 
         mkPkgs = system: import nixpkgs {
           inherit system;
           overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
-        mkImport = args: call (args // { inherit pix; });
+        callPackageOn = fn: system: (mkPkgs system).newScope { inherit pix; } fn {};
+        importPackage = fn: import fn { inherit pix; };
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
-        mkNixOS = name: mkConfiguration nixpkgs.lib.nixosSystem (modules: {
+        mkNixOS = fn: mkConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
-          modules = modules ++ [{
-            nixpkgs.overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
-          }];
-        }) (path.nixosConfigurations + "/${name}");
+          modules = [
+            fn
+            { nixpkgs.overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ]; }
+          ];
+        });
 
-        mkDarwin = name: mkConfiguration nix-darwin.lib.darwinSystem (modules: {
+        mkDarwin = fn: mkConfiguration nix-darwin.lib.darwinSystem (_: {
           specialArgs = { inherit pix; };
-          modules = modules;
-        }) (path.darwinConfigurations + "/${name}");
+          modules = [ fn ];
+        });
 
-        mkHome = name: system: let
+        mkHome = system: fn: mkConfiguration home-manager.lib.homeManagerConfiguration (_: {
           pkgs = mkPkgs system;
-        in mkConfiguration home-manager.lib.homeManagerConfiguration (modules: {
-          inherit pkgs;
           extraSpecialArgs = { inherit pix; };
-          modules = modules;
-        }) (path.homeConfigurations + "/${name}");
+          modules = [ fn ];
+        });
       });
 
     in with lib; {
       /* Pix */
-      inherit license maintainer path supportedSystems pix lib;
+      inherit license maintainer supportedSystems pix lib;
 
       /* Expose modules
 
@@ -101,8 +86,8 @@
       */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
-        nixos = import path.nixosModules;
-        homeManager = import path.homeManagerModules;
+        nixos = import ./modules { inherit pix; };
+        dotfiles = import ./dotfiles { inherit pix; };
       };
 
       /* Packages
@@ -126,14 +111,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forSupportedSystems (system: mkImport { pkgs = mkPkgs system; } path.packages);
+      packages = forEachSupportedSystems (callPackageOn ./packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSupportedSystems (system: mkImport { pkgs = mkPkgs system; } path.devshells);
+      devShells = forSupportedSystems (callPackageOn ./devshells);
 
       /* Code Formatter
 
@@ -142,20 +127,20 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = forSupportedSystems (system: (mkPkgs system).alejandra);
 
       /* Overlays
 
          Imported by other flakes
       */
-      overlays = mkImport {} path.overlays;
+      overlays = importPackage ./overlays;
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = mkImport {} path.templates;
+      templates = importPackage ./templates;
 
       /* NixOS Configurations
 
@@ -163,8 +148,8 @@
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
       nixosConfigurations = {
-        Framework = mkNixOS "Framework-13";
-        NUC = mkNixOS "NUC-Server";
+        Framework = mkNixOS ./configurations/nixos-Framework-13;
+        NUC = mkNixOS ./configurations/nixos-NUC-Server;
       };
 
       /* Darwin Configurations
@@ -173,7 +158,7 @@
            darwin-rebuild switch --flake .#HOST_NAME
       */
       darwinConfigurations = {
-        Macbook = mkDarwin "Macbook-13";
+        Macbook = mkDarwin ./configurations/darwin-Macbook-13;
       };
 
       /* HomeManager Configurations
@@ -191,7 +176,7 @@
          from there automatically.
       */
       homeConfigurations = {
-        fang_pc = mkHome "fang" supportedSystems.amd64_pc;
+        fang = mkHome "x86_64-linux" ./configurations/presets/user-fang/home;
       };
     };
 }
