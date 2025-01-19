@@ -57,12 +57,15 @@ in with self; {
 
   /* Fix point and override pattern.
      See: http://r6.ca/blog/20140422T142911Z.html
+     See also: `lib.makeExtensible'.  Better use `lib.makeExtensible' instead of
+     this as this may encounter infinite recursion since it doesn't provide
+     access to prev (only final).
   */
-  fixOverride = f: let x = f x; in x // {
-    override = overrides: fixOverride (self: f self // (
-      if builtins.isFunction overrides
-      then overrides self
-      else overrides
+  fixOverridable = f: let x = f x; in x // {
+    fixOverride = g: fixOverridable (self: f self // (
+      if builtins.isFunction g
+      then g self
+      else g
     ));
   };
 }
