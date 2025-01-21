@@ -40,12 +40,12 @@
       lib = (import ./lib { inherit nixpkgs; }) // (with lib; {
         forEachSupportedSystems = with nixpkgs.lib; genAttrs supportedSystems;
 
-        mkPkgs = system: import nixpkgs {
+        makePkg = system: import nixpkgs {
           inherit system;
           overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
-        callPackageOn = fn: system: (mkPkgs system).newScope { inherit pix; } fn {};
+        callPackageWithSystem = fn: system: (makePkg system).newScope { inherit pix; } fn {};
         importPackage = fn: import fn { inherit pix; };
 
         /* Note that the `system' attribute is not explicitly set (default to null)
@@ -53,7 +53,7 @@
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
-        mkNixOS = fn: mkConfiguration nixpkgs.lib.nixosSystem (_: {
+        makeNixOS = fn: mkConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
           modules = [
             fn
@@ -61,13 +61,13 @@
           ];
         });
 
-        mkDarwin = fn: mkConfiguration nix-darwin.lib.darwinSystem (_: {
+        makeDarwin = fn: mkConfiguration nix-darwin.lib.darwinSystem (_: {
           specialArgs = { inherit pix; };
           modules = [ fn ];
         });
 
-        mkHome = system: fn: mkConfiguration home-manager.lib.homeManagerConfiguration (_: {
-          pkgs = mkPkgs system;
+        makeHome = system: fn: mkConfiguration home-manager.lib.homeManagerConfiguration (_: {
+          pkgs = makePkg system;
           extraSpecialArgs = { inherit pix; };
           modules = [ fn ];
         });
@@ -86,8 +86,8 @@
       */
       nixosModules = {
         default = self.outputs.nixosModules.nixos;
-        nixos = import ./modules { inherit pix; };
-        dotfiles = import ./dotfiles { inherit pix; };
+        nixos = import ./modules;
+        dotfiles = import ./dotfiles;
       };
 
       /* Packages
@@ -111,14 +111,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forEachSupportedSystems (callPackageOn ./packages);
+      packages = forEachSupportedSystems (callPackageWithSystem ./packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSupportedSystems (callPackageOn ./devshells);
+      devShells = forSupportedSystems (callPackageWithSystem ./devshells);
 
       /* Code Formatter
 
@@ -127,7 +127,7 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = forSupportedSystems (system: (mkPkgs system).alejandra);
+      formatter = forSupportedSystems (system: (makePkg system).alejandra);
 
       /* Overlays
 
@@ -148,8 +148,8 @@
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
       nixosConfigurations = {
-        Framework = mkNixOS ./configurations/nixos-Framework-13;
-        NUC = mkNixOS ./configurations/nixos-NUC-Server;
+        Framework = makeNixOS ./configurations/nixos-Framework-13;
+        NUC = makeNixOS ./configurations/nixos-NUC-Server;
       };
 
       /* Darwin Configurations
@@ -158,7 +158,7 @@
            darwin-rebuild switch --flake .#HOST_NAME
       */
       darwinConfigurations = {
-        Macbook = mkDarwin ./configurations/darwin-Macbook-13;
+        Macbook = makeDarwin ./configurations/darwin-Macbook-13;
       };
 
       /* HomeManager Configurations
@@ -176,7 +176,7 @@
          from there automatically.
       */
       homeConfigurations = {
-        fang = mkHome "x86_64-linux" ./configurations/presets/user-fang/home;
+        fang = makeHome "x86_64-linux" ./configurations/presets/user-fang/home;
       };
     };
 }
