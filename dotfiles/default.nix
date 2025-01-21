@@ -1,6 +1,6 @@
-{ pix, ... }@args:
+{ pix, ... }:
 {
-  imports = map (m: import m args) [
+  imports = [
     ./alacritty
     ./bash
     ./emacs
