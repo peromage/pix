@@ -38,15 +38,14 @@
 
       /* Lib with additional functions */
       lib = (import ./lib { inherit nixpkgs; }) // (with lib; {
-        forEachSupportedSystems = with nixpkgs.lib; genAttrs supportedSystems;
+        forEachSupportedSystems = nixpkgs.lib.genAttrs supportedSystems;
 
         makePkg = system: import nixpkgs {
           inherit system;
           overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
-        callPackageWithSystem = fn: system: (makePkg system).newScope { inherit pix; } fn {};
-        importPackage = fn: import fn { inherit pix; };
+        callPackageWithPix = nixpkgs.lib.callPackageWith { inherit pix; };
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
@@ -111,14 +110,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forEachSupportedSystems (callPackageWithSystem ./packages);
+      packages = forEachSupportedSystems (system: callPackageWithPix ./packages { inherit system; });
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSupportedSystems (callPackageWithSystem ./devshells);
+      devShells = forSupportedSystems (system: callPackageWithPix ./devshells { inherit system; });
 
       /* Code Formatter
 
@@ -133,14 +132,14 @@
 
          Imported by other flakes
       */
-      overlays = importPackage ./overlays;
+      overlays = callPackageWithPix ./overlays {};
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = importPackage ./templates;
+      templates = callPackageWithPix ./templates {};
 
       /* NixOS Configurations
 
