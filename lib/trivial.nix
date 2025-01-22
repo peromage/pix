@@ -1,4 +1,4 @@
-{ self, nixpkgs, ... }:
+{ self, nixpkgs }:
 
 let
   lib = nixpkgs.lib;

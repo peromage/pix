@@ -1,8 +1,7 @@
 { nixpkgs }:
 
 let
-  lib = nixpkgs.lib;
-  self = with lib; foldl' (acc: x: acc // (import x { inherit nixpkgs self; })) {} [
+  self = with nixpkgs.lib; foldl' (acc: x: acc // (callPackageWith { inherit nixpkgs self; } x {})) {} [
     ./modules.nix
     ./prelude.nix
     ./trivial.nix
