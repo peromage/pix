@@ -1,4 +1,4 @@
-{ pix, pkgs, ... }:
+{ pix, system }:
 
 let
   importPackages = pkgAttrs: pkgs.lib.mapAttrs (name: file: pkgs.newScope { inherit pix; } file {}) pkgAttrs;

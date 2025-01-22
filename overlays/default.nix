@@ -1,4 +1,4 @@
-{ pix, ... }:
+{ pix }:
 
 {
   unrestrictedPkgs = final: prev: {
