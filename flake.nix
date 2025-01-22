@@ -148,8 +148,8 @@
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
       nixosConfigurations = {
-        Framework = makeNixOS ./configurations/nixos-Framework-13;
-        NUC = makeNixOS ./configurations/nixos-NUC-Server;
+        Framework = makeNixOS ./config/nixos-Framework-13;
+        NUC = makeNixOS ./config/nixos-NUC-Server;
       };
 
       /* Darwin Configurations
@@ -158,7 +158,7 @@
            darwin-rebuild switch --flake .#HOST_NAME
       */
       darwinConfigurations = {
-        Macbook = makeDarwin ./configurations/darwin-Macbook-13;
+        Macbook = makeDarwin ./config/darwin-Macbook-13;
       };
 
       /* HomeManager Configurations
@@ -176,7 +176,7 @@
          from there automatically.
       */
       homeConfigurations = {
-        fang = makeHome "x86_64-linux" ./configurations/presets/user-fang/home;
+        fang = makeHome "x86_64-linux" ./config/presets/user-fang/home;
       };
     };
 }
