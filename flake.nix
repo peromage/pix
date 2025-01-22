@@ -55,8 +55,9 @@
         makeNixOS = fn: mkConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
           modules = [
-            fn
+            self.outputs.nixosModules.nixos
             { nixpkgs.overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ]; }
+            fn
           ];
         });
 
@@ -68,7 +69,7 @@
         makeHome = system: fn: mkConfiguration home-manager.lib.homeManagerConfiguration (_: {
           pkgs = makePkg system;
           extraSpecialArgs = { inherit pix; };
-          modules = [ fn ];
+          modules = [ self.outputs.nixosModules.dotfiles fn ];
         });
       });
 
