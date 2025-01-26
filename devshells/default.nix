@@ -1,13 +1,13 @@
-{ pix, system }:
+{ pix, pkgs, lib }:
 
 let
-  importPackages = pkgAttrs: pkgs.lib.mapAttrs (name: file: pkgs.newScope { inherit pix; } file {}) pkgAttrs;
+  callPackages = lib.mapAttrs (_: file: pkgs.callPackage file {});
 
-  pkgsCommon = importPackages {
+  pkgsCommon = {
     build-essential-env = ./common/build-essential-env.nix;
     python-env = ./common/python-env.nix;
   };
 
   pkgsPlatformSpecialized = {};
 
-in pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {})
+in callPackages (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {}))
