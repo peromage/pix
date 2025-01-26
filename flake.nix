@@ -29,30 +29,31 @@
         githubId = 10389606;
       };
 
-      supportedSystems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-
       /* Lib with additional functions */
-      lib = (import ./lib { inherit nixpkgs; }) // (with lib; {
-        forEachSupportedSystems = nixpkgs.lib.genAttrs supportedSystems;
+      lib = (import ./lib { inherit nixpkgs; }).extend (final: prev: {
+        supportedSystems = [
+          "x86_64-linux"
+          "x86_64-darwin"
+          "aarch64-linux"
+          "aarch64-darwin"
+        ];
+
+        forEachSupportedSystems = nixpkgs.lib.genAttrs final.supportedSystems;
 
         makePkg = system: import nixpkgs {
           inherit system;
           overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
         };
 
-        callPackageWithPix = nixpkgs.lib.callPackageWith { inherit pix; };
+        callPackageWithPix = fn: nixpkgs.lib.callPackageWith { inherit pix; } fn {};
+        callPackageForSystem = fn: system: (final.makePkg system).newScope { inherit pix; } fn {};
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
-        makeNixOS = fn: mkConfiguration nixpkgs.lib.nixosSystem (_: {
+        makeNixOS = fn: final.makeConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
           modules = [
             self.outputs.nixosModules.nixos
@@ -61,13 +62,13 @@
           ];
         });
 
-        makeDarwin = fn: mkConfiguration nix-darwin.lib.darwinSystem (_: {
+        makeDarwin = fn: final.makeConfiguration nix-darwin.lib.darwinSystem (_: {
           specialArgs = { inherit pix; };
           modules = [ fn ];
         });
 
-        makeHome = system: fn: mkConfiguration home-manager.lib.homeManagerConfiguration (_: {
-          pkgs = makePkg system;
+        makeHome = system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
+          pkgs = final.makePkg system;
           extraSpecialArgs = { inherit pix; };
           modules = [ self.outputs.nixosModules.dotfiles fn ];
         });
@@ -75,7 +76,7 @@
 
     in with lib; {
       /* Pix */
-      inherit license maintainer supportedSystems pix lib;
+      inherit license maintainer pix lib;
 
       /* Expose modules
 
@@ -111,14 +112,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forEachSupportedSystems (system: callPackageWithPix ./packages { inherit system; });
+      packages = forEachSupportedSystems (callPackageForSystem ./packages);
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSupportedSystems (system: callPackageWithPix ./devshells { inherit system; });
+      devShells = forSupportedSystems (callPackageForSystem ./devshells);
 
       /* Code Formatter
 
@@ -127,20 +128,20 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = forSupportedSystems (system: (makePkg system).alejandra);
+      formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
          Imported by other flakes
       */
-      overlays = callPackageWithPix ./overlays {};
+      overlays = callPackageWithPix ./overlays;
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = callPackageWithPix ./templates {};
+      templates = callPackageWithPix ./templates;
 
       /* NixOS Configurations
 
