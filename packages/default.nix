@@ -1,7 +1,7 @@
-{ pix, pkgs, lib }:
+{ pix, pkgs }:
 
 let
-  callPackages = lib.mapAttrs (_: file: pkgs.callPackage file {});
+  callPackages = pkgs.lib.mapAttrs (_: file: pkgs.callPackage file {});
 
   pkgsCommon = {
     build-essential = ./common/build-essential.nix;
