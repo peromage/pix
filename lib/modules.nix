@@ -15,9 +15,9 @@ in with self; {
      function.
 
      Type:
-       mkConfiguration :: (a -> a) -> (a -> a)
+       makeConfiguration :: (a -> a) -> (a -> a)
   */
-  mkConfiguration = conf: f: with lib; conf (fix f) // {
+  makeConfiguration = conf: f: with lib; conf (fix f) // {
     extend = overlay: mkConfiguration conf (extends overlay f);
   };
 
