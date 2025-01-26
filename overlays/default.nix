@@ -14,4 +14,8 @@
   pixPkgs = final: prev: {
     pixPkgs = pix.packages.${final.system};
   };
+
+  callPackageNewScope = final: prev: {
+    callPackage = prev.newScope { inherit pix; };
+  };
 }
