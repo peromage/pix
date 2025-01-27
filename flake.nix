@@ -31,6 +31,14 @@
 
       /* Lib with additional functions */
       lib = (import ./lib { inherit nixpkgs; }).extend (final: prev: {
+        callPixSub = final.autoCall { inherit nixpkgs pix; };
+
+        pkgsOverlays = with self.outputs.overlays; [
+          unrestrictedPkgs
+          pixPkgs
+          callPackageNewScope
+        ];
+
         supportedSystems = [
           "x86_64-linux"
           "x86_64-darwin"
@@ -40,13 +48,10 @@
 
         forEachSupportedSystems = nixpkgs.lib.genAttrs final.supportedSystems;
 
-        makePkg = system: import nixpkgs {
+        makePkgs = system: import nixpkgs {
           inherit system;
-          overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ];
+          overlays = final.pkgsOverlays;
         };
-
-        callPackageWithPix = fn: nixpkgs.lib.callPackageWith { inherit pix; } fn {};
-        callPackageForSystem = fn: system: (final.makePkg system).newScope { inherit pix; } fn {};
 
         /* Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
@@ -57,7 +62,7 @@
           specialArgs = { inherit pix; };
           modules = [
             self.outputs.nixosModules.nixos
-            { nixpkgs.overlays = with self.outputs.overlays; [ unrestrictedPkgs pixPkgs ]; }
+            { nixpkgs.overlays = final.pkgsOverlays; }
             fn
           ];
         });
@@ -68,7 +73,7 @@
         });
 
         makeHome = system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
-          pkgs = final.makePkg system;
+          pkgs = final.makePkgs system;
           extraSpecialArgs = { inherit pix; };
           modules = [ self.outputs.nixosModules.dotfiles fn ];
         });
@@ -112,14 +117,14 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forEachSupportedSystems (callPackageForSystem ./packages);
+      packages = forEachSupportedSystems (system: callPixSub ./packages { pkgs = makePkgs system; });
 
       /* Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forSupportedSystems (callPackageForSystem ./devshells);
+      devShells = forEachSupportedSystems (system: callPixSub ./devshells { pkgs = makePkgs system; });
 
       /* Code Formatter
 
@@ -128,20 +133,20 @@
 
          Alternatively, `nixpkgs-fmt'
       */
-      formatter = forSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = forEachSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /* Overlays
 
          Imported by other flakes
       */
-      overlays = callPackageWithPix ./overlays;
+      overlays = callPixSub ./overlays {};
 
       /* Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = callPackageWithPix ./templates;
+      templates = callPixSub ./templates {};
 
       /* NixOS Configurations
 
