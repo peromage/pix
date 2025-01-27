@@ -1,9 +1,15 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types;
+
   cfg = config.pix.services.firewall;
 
-in with lib; {
+in {
   options.pix.services.firewall = {
     enable = mkEnableOption "stateful firewall";
 

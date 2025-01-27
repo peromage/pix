@@ -1,9 +1,14 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    length
+    attrNames
+    filterAttrs;
+
   cfg = config.pix.hardware.bootloader;
 
-in with lib; {
+in {
   imports = [
     ./grub.nix
     ./lanzaboote.nix
@@ -13,7 +18,7 @@ in with lib; {
   options.pix.hardware.bootloader = {};
 
   config = let
-    enabledBootloaders = lib.filterAttrs (_: v: v.enable) cfg;
+    enabledBootloaders = filterAttrs (_: v: v.enable) cfg;
 
   in {
     assertions = [

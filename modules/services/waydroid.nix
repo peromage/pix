@@ -1,9 +1,13 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf;
+
   cfg = config.pix.services.waydroid;
 
-in with lib; {
+in {
   options.pix.services.waydroid = {
     enable = mkEnableOption "waydroid";
   };

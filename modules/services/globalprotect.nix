@@ -1,14 +1,18 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf;
+
   cfg = config.pix.services.globalprotect;
 
 in {
   options.pix.services.globalprotect = {
-    enable = lib.mkEnableOption "GlobalProtect VPN client";
+    enable = mkEnableOption "GlobalProtect VPN client";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services.globalprotect.enable = true;
     environment.systemPackages = with pkgs; [
       globalprotect-openconnect

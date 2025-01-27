@@ -1,9 +1,16 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    singleton;
+
   cfg = config.pix.services.shadowsocks;
 
-in with lib; {
+in {
   options.pix.services.shadowsocks = {
     enable = mkEnableOption "ShadowSocks";
 

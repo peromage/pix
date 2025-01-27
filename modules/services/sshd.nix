@@ -1,9 +1,15 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types;
+
   cfg = config.pix.services.sshd;
 
-in with lib; {
+in {
   options.pix.services.sshd = {
     enable = mkEnableOption "SSH service";
 

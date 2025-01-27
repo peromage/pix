@@ -2,9 +2,15 @@
 
 let
   inherit (pix.inputs) lanzaboote;
+
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkForce;
+
   cfg = config.pix.hardware.bootloader.lanzaboote;
 
-in with lib; {
+in {
   imports = [ lanzaboote.nixosModules.lanzaboote ];
 
   options.pix.hardware.bootloader.lanzaboote = {

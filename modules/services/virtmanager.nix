@@ -1,9 +1,14 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkMerge
+    mkIf;
+
   cfg = config.pix.services.virtmanager;
 
-in with lib; {
+in {
   options.pix.services.virtmanager = {
     enable = mkEnableOption "virtual manager";
     enableIntelSRIOV = mkEnableOption "Intel SR-IOV";

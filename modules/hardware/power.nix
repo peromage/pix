@@ -1,9 +1,15 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types;
+
   cfg = config.pix.hardware.power;
 
-in with lib; {
+in {
   options.pix.hardware.power = {
     enable = mkEnableOption "power governor";
 

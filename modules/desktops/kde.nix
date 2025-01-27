@@ -1,10 +1,14 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf;
+
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.kde;
 
-in with lib; {
+in {
   options.pix.desktops.env.kde = {
     enable = mkEnableOption "KDE";
     enableSDDM = mkEnableOption "SDDM display manager" // { default = true; };

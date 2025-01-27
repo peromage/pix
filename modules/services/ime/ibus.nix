@@ -1,9 +1,15 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types;
+
   cfg = config.pix.services.ime.ibus;
 
-in with lib; {
+in {
   options.pix.services.ime.ibus = {
     enable = mkEnableOption "Ibus";
 

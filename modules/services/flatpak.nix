@@ -1,9 +1,13 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf;
+
   cfg = config.pix.services.flatpak;
 
-in with lib; {
+in {
   options.pix.services.flatpak = {
     enable = mkEnableOption "Flatpak";
   };

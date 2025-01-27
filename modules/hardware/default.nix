@@ -1,9 +1,14 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkOption
+    types
+    singleton;
+
   cfg = config.pix.hardware;
 
-in with lib; {
+in {
   imports = [
     ./bootloader
     ./audio.nix

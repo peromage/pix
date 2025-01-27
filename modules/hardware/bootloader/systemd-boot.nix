@@ -1,9 +1,14 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkForce;
+
   cfg = config.pix.hardware.bootloader.systemd-boot;
 
-in with lib; {
+in {
   options.pix.hardware.bootloader.systemd-boot = {
     enable = mkEnableOption "Systemd-boot bootloader";
   };

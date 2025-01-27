@@ -1,14 +1,18 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf;
+
   cfg = config.pix.hardware.audio;
 
 in {
   options.pix.hardware.audio = {
-    enable = lib.mkEnableOption "audio services";
+    enable = mkEnableOption "audio services";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     hardware.pulseaudio.enable = false; # Use pipewire
     security.rtkit.enable = true;
 

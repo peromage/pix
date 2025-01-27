@@ -1,6 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkMerge
+    mkIf;
+
   cfg = config.pix.services.steam;
 
   customSteam = pkgs.steam.override {
@@ -22,7 +27,7 @@ let
     ];
   };
 
-in with lib; {
+in {
   options.pix.services.steam = {
     enable = mkEnableOption "Steam";
     openFirewall = {

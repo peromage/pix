@@ -1,9 +1,17 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    mkMerge
+    types
+    elem;
+
   cfg = config.pix.hardware.peripherals;
 
-in with lib; {
+in {
   options.pix.hardware.peripherals = {
     enable = mkEnableOption "peripheral management";
     devices = mkOption {

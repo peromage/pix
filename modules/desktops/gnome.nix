@@ -1,10 +1,15 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkMerge;
+
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.gnome;
 
-in with lib; {
+in {
   options.pix.desktops.env.gnome = {
     enable = mkEnableOption "Gnome";
     enableGDM = mkEnableOption "GDM display manager" // { default = true; };

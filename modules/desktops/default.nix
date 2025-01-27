@@ -1,9 +1,17 @@
 { config, lib, pkgs, pix, ... }:
 
 let
+  inherit (lib)
+    mkOption
+    types
+    mkIf;
+
+  inherit (pix.lib)
+    anyAttrs;
+
   cfg = config.pix.desktops;
 
-in with lib; {
+in {
   imports = [
     ./gnome.nix
     ./kde.nix
@@ -36,7 +44,7 @@ in with lib; {
     env = {};
   };
 
-  config = mkIf (pix.lib.anyAttrs (_: v: v.enable) cfg.env) {
+  config = mkIf (anyAttrs (_: v: v.enable) cfg.env) {
     services = {
       xserver.enable = true;
       libinput.enable = true;

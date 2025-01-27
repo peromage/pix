@@ -1,9 +1,16 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkOption
+    mkEnableOption
+    mkIf
+    mkForce
+    types;
+
   cfg = config.pix.hardware.bootloader.grub;
 
-in with lib; {
+in {
   options.pix.hardware.bootloader.grub = {
     enable = mkEnableOption "Grub bootloader";
 

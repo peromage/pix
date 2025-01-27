@@ -1,9 +1,15 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types;
+
   cfg = config.pix.services.i18n;
 
-in with lib; {
+in {
   options.pix.services.i18n = {
     enable = mkEnableOption "internationalization";
 

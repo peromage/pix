@@ -1,10 +1,15 @@
-{ config, lib, pix, ... }:
+{ config, lib, ... }:
 
 let
-  cfg = config.pix.services.ime;
-  enabledIME = lib.filterAttrs (_: v: v.enable) cfg;
+  inherit (lib)
+    filterAttrs
+    length
+    attrNames;
 
-in with lib; {
+  cfg = config.pix.services.ime;
+  enabledIME = filterAttrs (_: v: v.enable) cfg;
+
+in {
   imports = [
     ./fcitx.nix
     ./ibus.nix

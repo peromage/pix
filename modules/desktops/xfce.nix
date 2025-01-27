@@ -1,10 +1,14 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf;
+
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.xfce;
 
-in with lib; {
+in {
   options.pix.desktops.env.xfce = {
     enable = mkEnableOption "XFCE";
     enableLightDM = mkEnableOption "LightDM display manager" // { default = true; };

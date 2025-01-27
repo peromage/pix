@@ -1,10 +1,16 @@
 { config, lib, pkgs, ... }:
 
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types;
+
   cfg = config.pix.services.ime.fcitx;
   gnomeCfg = config.pix.desktops.env.gnome;
 
-in with lib; {
+in {
   options.pix.services.ime.fcitx = {
     enable = mkEnableOption "Fcitx5";
 

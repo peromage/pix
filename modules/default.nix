@@ -1,4 +1,4 @@
-{ pix, ... }:
+{ ... }:
 {
   imports = [
     ./options.nix

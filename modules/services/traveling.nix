@@ -17,9 +17,16 @@
 { config, lib, ... }:
 
 let
+  inherit (lib)
+    mkOption
+    mkMerge
+    mkIf
+    mkForce
+    types;
+
   cfg = config.pix.services.traveling;
 
-in with lib; {
+in {
   options.pix.services.traveling = {
     region = mkOption {
       type = with types; nullOr (enum [ "China" ]);

@@ -2,9 +2,16 @@
 
 let
   inherit (pix.inputs) nixpkgs;
+
+  inherit (lib)
+    mkEnableOption
+    mkMerge
+    mkIf
+    mkDefault;
+
   cfg = config.pix.services.nix;
 
-in with lib; {
+in {
   options.pix.services.nix = {
     enable = mkEnableOption "Nix settings";
     enableOptimization = mkEnableOption "Nix optimization" // { default = true; };
