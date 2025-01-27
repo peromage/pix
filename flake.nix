@@ -60,11 +60,7 @@
         */
         makeNixOS = fn: final.makeConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
-          modules = [
-            self.outputs.nixosModules.nixos
-            { nixpkgs.overlays = final.pkgsOverlays; }
-            fn
-          ];
+          modules = [ self.outputs.nixosModules.nixos { nixpkgs.overlays = final.pkgsOverlays; } fn ];
         });
 
         makeDarwin = fn: final.makeConfiguration nix-darwin.lib.darwinSystem (_: {
