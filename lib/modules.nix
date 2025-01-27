@@ -1,24 +1,33 @@
 { self, nixpkgs }:
 
 let
-  lib = nixpkgs.lib;
+  inherit (nixpkgs.lib)
+    fix
+    extends
+    getAttrs
+    mapAttrs
+    mkMerge
+    mkIf
+    foldAttrs
+    any
+    attrNames;
 
 in with self; {
   /* A thin wrapper for configuration.
      This function provides ability to override the original configuration by
      calling the underlying `extend' function.
 
-     `conf' is a configuration generation function like `nixosSystem',
+     `f' is a configuration generation function like `nixosSystem',
      `darwinSystem' or `homeManagerConfiguration'.
 
-     `f' is a fixed-point function that produces the result consumed by `conf'
+     `fp' is a fixed-point function that produces the result consumed by `f'
      function.
 
      Type:
        makeConfiguration :: (a -> a) -> (a -> a)
   */
-  makeConfiguration = conf: f: with lib; conf (fix f) // {
-    extend = overlay: mkConfiguration conf (extends overlay f);
+  makeConfiguration = f: fp: f (fix fp) // {
+    extend = overlay: makeConfiguration f (extends overlay fp);
   };
 
   /* Merge a list of attribute sets from config top level.
@@ -33,10 +42,10 @@ in with self; {
        mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    lib.getAttrs firstLevelNames
-      (lib.mapAttrs
-        (n: v: lib.mkMerge v)
-        (lib.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    getAttrs firstLevelNames
+      (mapAttrs
+        (n: v: mkMerge v)
+        (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   /* Merge multiple module block conditonally.
 
@@ -46,7 +55,7 @@ in with self; {
      Type:
        mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: lib.mkMerge (map (x: lib.mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
 
   /* Apply predicate `f' on each attribute and return true if at least one is true.
      Otherwise, return false.
@@ -54,5 +63,5 @@ in with self; {
      Type:
        anyAttrs :: (String -> a -> Bool) -> Bool
   */
-  anyAttrs = f: attrs: with lib; any (name: f name attrs.${name}) (attrNames attrs);
+  anyAttrs = f: attrs: any (name: f name attrs.${name}) (attrNames attrs);
 }
