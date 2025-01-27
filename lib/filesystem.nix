@@ -22,7 +22,7 @@ in with self; {
   */
   autoCall = autoArgs: fn: args:
     let
-      f = isFunction fn then fn else import fn;
+      f = if isFunction fn then fn else import fn;
       passedArgs = intersectAttrs (functionArgs f) autoArgs // args;
     in
       f passedArgs;
