@@ -1,18 +1,14 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf;
-
   cfg = config.pix.services.vconsole;
 
 in {
   options.pix.services.vconsole = {
-    enable = mkEnableOption "virtual console";
+    enable = lib.mkEnableOption "virtual console";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     console = {
       enable = true;
       earlySetup = false;

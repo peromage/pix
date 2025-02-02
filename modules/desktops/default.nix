@@ -1,14 +1,6 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  inherit (lib)
-    mkOption
-    types
-    mkIf;
-
-  inherit (pix.lib)
-    anyAttrs;
-
   cfg = config.pix.desktops;
 
 in {
@@ -22,8 +14,8 @@ in {
     /* The display server is actually selected by the display manager.
        See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
-    enableWayland = mkOption {
-      type = types.bool;
+    enableWayland = lib.mkOption {
+      type = lib.types.bool;
       default = true;
       description = ''
         Use Wayland as default display server.
@@ -31,8 +23,8 @@ in {
       '';
     };
 
-    enableGraphicAcceleration = mkOption {
-      type = types.bool;
+    enableGraphicAcceleration = lib.mkOption {
+      type = lib.types.bool;
       default = true;
       description = ''
         Graphic acceleration support.
@@ -44,7 +36,7 @@ in {
     env = {};
   };
 
-  config = mkIf (anyAttrs (_: v: v.enable) cfg.env) {
+  config = lib.mkIf (pix.lib.anyAttrs (_: v: v.enable) cfg.env) {
     services = {
       xserver.enable = true;
       libinput.enable = true;

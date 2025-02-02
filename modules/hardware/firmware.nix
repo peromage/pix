@@ -1,19 +1,15 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf;
-
   cfg = config.pix.hardware.firmware;
 
 in {
   options.pix.hardware.firmware = {
     ## Don't forget `fwupdmgr update'
-    enable = mkEnableOption "firmware management";
+    enable = lib.mkEnableOption "firmware management";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     hardware = {
       enableAllFirmware = true;
       enableRedistributableFirmware = true;

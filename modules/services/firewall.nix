@@ -1,44 +1,38 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    types;
-
   cfg = config.pix.services.firewall;
 
 in {
   options.pix.services.firewall = {
-    enable = mkEnableOption "stateful firewall";
+    enable = lib.mkEnableOption "stateful firewall";
 
     allowedTCPPorts = mkOption {
-      type = with types; listOf port;
+      type = with lib.types; listOf port;
       default = [];
       description = "Allowed TCP ports.";
     };
 
     allowedTCPPortRanges = mkOption {
-      type = with types; listOf (attrsOf port);
+      type = with lib.types; listOf (attrsOf port);
       default = [];
       description = "Allowed TCP port range in attrs { from; to; }.";
     };
 
     allowedUDPPorts = mkOption {
-      type = with types; listOf port;
+      type = with lib.types; listOf port;
       default = [];
       description = "Allowed UDP ports.";
     };
 
     allowedUDPPortRanges = mkOption {
-      type = with types; listOf (attrsOf port);
+      type = with lib.types; listOf (attrsOf port);
       default = [];
       description = "Allowed UDP port range in attrs { from; to; }.";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     ## Explicitly disable nftables to use iptables instead for better compatibility
     networking.nftables.enable = false;
 

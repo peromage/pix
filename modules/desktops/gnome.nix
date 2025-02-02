@@ -1,22 +1,17 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    mkMerge;
-
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.gnome;
 
 in {
   options.pix.desktops.env.gnome = {
-    enable = mkEnableOption "Gnome";
-    enableGDM = mkEnableOption "GDM display manager" // { default = true; };
+    enable = lib.mkEnableOption "Gnome";
+    enableGDM = lib.mkEnableOption "GDM display manager" // { default = true; };
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
       services.xserver = {
         desktopManager.gnome.enable = true;
         displayManager.gdm.enable = cfg.enableGDM;
@@ -33,7 +28,7 @@ in {
     })
 
     # X11 accessories
-    (mkIf (cfg.enable && ! cfgOverall.enableWayland) {
+    (lib.mkIf (cfg.enable && ! cfgOverall.enableWayland) {
       environment.systemPackages = with pkgs; [
         gnomeExtensions.x11-gestures
       ];

@@ -1,18 +1,14 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf;
-
   cfg = config.pix.services.documentation;
 
 in {
   options.pix.services.documentation = {
-    enable = mkEnableOption "documentation generation";
+    enable = lib.mkEnableOption "documentation generation";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     documentation = {
       enable = true;
       man.enable = true;

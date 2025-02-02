@@ -1,21 +1,16 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkMerge
-    mkIf;
-
   cfg = config.pix.services.virtmanager;
 
 in {
   options.pix.services.virtmanager = {
-    enable = mkEnableOption "virtual manager";
-    enableIntelSRIOV = mkEnableOption "Intel SR-IOV";
+    enable = lib.mkEnableOption "virtual manager";
+    enableIntelSRIOV = lib.mkEnableOption "Intel SR-IOV";
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
       virtualisation.libvirtd = {
         enable = true;
         onBoot = "ignore";
@@ -27,7 +22,7 @@ in {
     /* FIXME: Missing a DKMS module:
        https://github.com/strongtz/i915-sriov-dkms
     */
-    (mkIf (cfg.enable && cfg.enableIntelSRIOV) {
+    (lib.mkIf (cfg.enable && cfg.enableIntelSRIOV) {
       boot = {
         kernelParams = [
           "intel_iommu=on"

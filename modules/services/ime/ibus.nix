@@ -1,26 +1,20 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    types;
-
   cfg = config.pix.services.ime.ibus;
 
 in {
   options.pix.services.ime.ibus = {
-    enable = mkEnableOption "Ibus";
+    enable = lib.mkEnableOption "Ibus";
 
-    layout = mkOption {
-      type = types.str;
+    layout = lib.mkOption {
+      type = lib.types.str;
       default = "us";
       description = "X keyboard layout, or multiple keyboard layouts separated by commas.";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.xserver.xkb.layout = cfg.layout;
 
     i18n.inputMethod = {

@@ -1,18 +1,14 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf;
-
   cfg = config.pix.hardware.bluetooth;
 
 in {
   options.pix.hardware.bluetooth = {
-    enable = mkEnableOption "Bluetooth management";
+    enable = lib.mkEnableOption "Bluetooth management";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;

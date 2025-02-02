@@ -1,26 +1,18 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  inherit (pix.inputs) nixpkgs;
-
-  inherit (lib)
-    mkEnableOption
-    mkMerge
-    mkIf
-    mkDefault;
-
   cfg = config.pix.services.nix;
 
 in {
   options.pix.services.nix = {
-    enable = mkEnableOption "Nix settings";
-    enableOptimization = mkEnableOption "Nix optimization" // { default = true; };
+    enable = lib.mkEnableOption "Nix settings";
+    enableOptimization = lib.mkEnableOption "Nix optimization" // { default = true; };
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
       nixpkgs = {
-        hostPlatform = mkDefault "x86_64-linux";
+        hostPlatform = lib.mkDefault "x86_64-linux";
         config = {
           allowUnfree = true;
           allowBroken = true;
@@ -55,11 +47,11 @@ in {
           */
         package = pkgs.nixVersions.stable;
 
-        nixPath = [ "nixpkgs=${nixpkgs}" ];
+        nixPath = [ "nixpkgs=${pix.inputs.nixpkgs}" ];
       };
     })
 
-    (mkIf (cfg.enable && cfg.enableOptimization) {
+    (lib.mkIf (cfg.enable && cfg.enableOptimization) {
       nix = {
         settings.auto-optimise-store = true; ## Use hard links to save space
 

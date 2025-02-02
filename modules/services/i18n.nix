@@ -1,32 +1,26 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    types;
-
   cfg = config.pix.services.i18n;
 
 in {
   options.pix.services.i18n = {
-    enable = mkEnableOption "internationalization";
+    enable = lib.mkEnableOption "internationalization";
 
-    locale = mkOption {
-      type = types.str;
+    locale = lib.mkOption {
+      type = lib.types.str;
       default = "en_US.UTF-8";
       description = "Default locale settings.";
     };
 
-    timeZone = mkOption {
-      type = types.str;
+    timeZone = lib.mkOption {
+      type = lib.types.str;
       default = "America/Detroit";
       description = "Default time zone.";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     i18n = {
       defaultLocale = cfg.locale;
       extraLocaleSettings = {

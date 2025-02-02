@@ -1,39 +1,32 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkOption
-    mkEnableOption
-    mkIf
-    mkForce
-    types;
-
   cfg = config.pix.hardware.bootloader.grub;
 
 in {
   options.pix.hardware.bootloader.grub = {
-    enable = mkEnableOption "Grub bootloader";
+    enable = lib.mkEnableOption "Grub bootloader";
 
-    device = mkOption {
-      type = types.str;
+    device = lib.mkOption {
+      type = lib.types.str;
       default = "";
       description = "Same option `boot.loader.grub.device'.";
     };
 
-    probeOS = mkEnableOption "Detect other OS";
+    probeOS = lib.mkEnableOption "Detect other OS";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
       loader = {
         grub = {
-          enable = mkForce true;
+          enable = lib.mkForce true;
           efiSupport = true;
           device = cfg.grubDevice;
           useOSProber = cfg.probeOS;
         };
-        systemd-boot.enable = mkForce false;
+        systemd-boot.enable = lib.mkForce false;
         efi.canTouchEfiVariables = false;
       };
     };

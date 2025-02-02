@@ -1,12 +1,6 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    types;
-
   cfg = config.pix.services.frp;
 
   allowedPorts = cfg.openPorts ++ [ cfg.bindPort ];
@@ -14,40 +8,40 @@ let
 
 in {
   options.pix.services.frp = {
-    enable = mkEnableOption "FRP server";
+    enable = lib.mkEnableOption "FRP server";
 
-    bindAddr = mkOption {
-      type = types.str;
+    bindAddr = lib.mkOption {
+      type = lib.types.str;
       default = "0.0.0.0";
       description = "The address that the server listens to.";
     };
 
-    bindPort = mkOption {
-      type = types.port;
+    bindPort = lib.mkOption {
+      type = lib.types.port;
       default = 7000;
       description = "The port for server and clients communication.";
     };
 
-    openPorts = mkOption {
-      type = with types; listOf port;
+    openPorts = lib.mkOption {
+      type = with lib.types; listOf port;
       default = [];
       description = "Additional ports that are allowed by firewall.";
     };
 
-    proxyBindAddr = mkOption {
-      type = with types; nullOr str;
+    proxyBindAddr = lib.mkOption {
+      type = with lib.types; nullOr str;
       default = null;
       description = "Proxy listen address.  Default to bindAddr if null.";
     };
 
-    password = mkOption {
-      type = types.str;
+    password = lib.mkOption {
+      type = lib.types.str;
       default = "P@55w0rd";
       description = "Token for client connection authentication.";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.frp = {
       enable = true;
       role = "server";

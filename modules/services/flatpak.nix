@@ -1,18 +1,14 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf;
-
   cfg = config.pix.services.flatpak;
 
 in {
   options.pix.services.flatpak = {
-    enable = mkEnableOption "Flatpak";
+    enable = lib.mkEnableOption "Flatpak";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.flatpak.enable = true;
 
     ## Add default remote for all users

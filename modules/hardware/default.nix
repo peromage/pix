@@ -1,11 +1,6 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkOption
-    types
-    singleton;
-
   cfg = config.pix.hardware;
 
 in {
@@ -20,8 +15,8 @@ in {
   ];
 
   options.pix.hardware = {
-    platform = mkOption {
-      type = with types; nullOr str;
+    platform = lib.mkOption {
+      type = with lib.types; nullOr str;
       default = null;
       description = ''
         Host platform architecture.
@@ -33,7 +28,7 @@ in {
   config = {
     nixpkgs.hostPlatform = cfg.platform;
 
-    assertions = singleton {
+    assertions = lib.singleton {
       assertion = cfg.platform != null;
       message = "Platform must be explicitly specified.";
     };

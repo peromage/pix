@@ -1,21 +1,16 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    mkDefault;
-
   cfg = config.pix.hardware.networking;
 
 in {
   options.pix.hardware.networking = {
-    enable = mkEnableOption "network management";
+    enable = lib.mkEnableOption "network management";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     networking = {
-      useDHCP = mkDefault true;
+      useDHCP = lib.mkDefault true;
       useHostResolvConf = false;
       networkmanager = {
         enable = true;

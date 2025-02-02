@@ -1,11 +1,6 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkMerge
-    mkIf;
-
   cfg = config.pix.services.steam;
 
   customSteam = pkgs.steam.override {
@@ -29,15 +24,15 @@ let
 
 in {
   options.pix.services.steam = {
-    enable = mkEnableOption "Steam";
+    enable = lib.mkEnableOption "Steam";
     openFirewall = {
-      remotePlay = mkEnableOption "Steam remote play ports";
-      sourceServer = mkEnableOption "Steam Source server ports";
+      remotePlay = lib.mkEnableOption "Steam remote play ports";
+      sourceServer = lib.mkEnableOption "Steam Source server ports";
     };
   };
 
-  config = mkMerge [
-    (mkIf cfg.enable {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enable {
       hardware.steam-hardware.enable = true;
 
       programs.steam = {
@@ -52,11 +47,11 @@ in {
       ];
     })
 
-    (mkIf (cfg.enable && cfg.openFirewall.remotePlay) {
+    (lib.mkIf (cfg.enable && cfg.openFirewall.remotePlay) {
       programs.steam.remotePlay.openFirewall = true;
     })
 
-    (mkIf (cfg.enable && cfg.openFirewall.sourceServer) {
+    (lib.mkIf (cfg.enable && cfg.openFirewall.sourceServer) {
       programs.steam.dedicatedServer.openFirewall = true;
     })
   ];

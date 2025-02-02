@@ -1,27 +1,21 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    types;
-
   cfg = config.pix.services.ime.fcitx;
   gnomeCfg = config.pix.desktops.env.gnome;
 
 in {
   options.pix.services.ime.fcitx = {
-    enable = mkEnableOption "Fcitx5";
+    enable = lib.mkEnableOption "Fcitx5";
 
-    layout = mkOption {
-      type = types.str;
+    layout = lib.mkOption {
+      type = lib.types.str;
       default = "us";
       description = "X keyboard layout, or multiple keyboard layouts separated by commas.";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.xserver.xkb.layout = cfg.layout;
 
     i18n.inputMethod = {

@@ -17,28 +17,21 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkOption
-    mkMerge
-    mkIf
-    mkForce
-    types;
-
   cfg = config.pix.services.traveling;
 
 in {
   options.pix.services.traveling = {
-    region = mkOption {
-      type = with types; nullOr (enum [ "China" ]);
+    region = lib.mkOption {
+      type = with lib.types; nullOr (enum [ "China" ]);
       default = null;
       description = "Travel region.";
     };
   };
 
-  config = mkMerge [
-    (mkIf ("China" == cfg.region) {
-      time.timeZone = mkForce "Asia/Shanghai";
-      nix.settings.substituters = mkForce [
+  config = lib.mkMerge [
+    (lib.mkIf ("China" == cfg.region) {
+      time.timeZone = lib.mkForce "Asia/Shanghai";
+      nix.settings.substituters = lib.mkForce [
         # "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
         # "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"

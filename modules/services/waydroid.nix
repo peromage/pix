@@ -1,18 +1,14 @@
 { config, lib, pkgs, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf;
-
   cfg = config.pix.services.waydroid;
 
 in {
   options.pix.services.waydroid = {
-    enable = mkEnableOption "waydroid";
+    enable = lib.mkEnableOption "waydroid";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     virtualisation.waydroid.enable = true;
 
     /* To start a user session in the background and avoid accidental shutdown

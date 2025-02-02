@@ -1,20 +1,13 @@
 { config, lib, pkgs, pix, ... }:
 
 let
-  inherit (pix.inputs) lanzaboote;
-
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    mkForce;
-
   cfg = config.pix.hardware.bootloader.lanzaboote;
 
 in {
-  imports = [ lanzaboote.nixosModules.lanzaboote ];
+  imports = [ pix.inputs.lanzaboote.nixosModules.lanzaboote ];
 
   options.pix.hardware.bootloader.lanzaboote = {
-    enable = mkEnableOption ''
+    enable = lib.mkEnableOption ''
       Lanzaboote bootloader for secureboot
 
       This option implies systemd-boot.
@@ -37,7 +30,7 @@ in {
     '';
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
       lanzaboote = {
@@ -46,8 +39,8 @@ in {
       };
 
       loader = {
-        grub.enable = mkForce false;
-        systemd-boot.enable = mkForce false;
+        grub.enable = lib.mkForce false;
+        systemd-boot.enable = lib.mkForce false;
         efi.canTouchEfiVariables = false;
       };
     };

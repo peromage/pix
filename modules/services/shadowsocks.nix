@@ -1,45 +1,38 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkOption
-    mkIf
-    types
-    singleton;
-
   cfg = config.pix.services.shadowsocks;
 
 in {
   options.pix.services.shadowsocks = {
-    enable = mkEnableOption "ShadowSocks";
+    enable = lib.mkEnableOption "ShadowSocks";
 
-    port = mkOption {
-      type = with types; nullOr port;
+    port = lib.mkOption {
+      type = with lib.types; nullOr port;
       default = 8388;
       description = "Default service port.";
     };
 
-    bind = mkOption {
-      type = with types; listOf str;
+    bind = lib.mkOption {
+      type = with lib.types; listOf str;
       default = [ "0.0.0.0" ];
       description = "Addresses to listen to.";
     };
 
-    password = mkOption {
-      type = with types; nullOr str;
+    password = lib.mkOption {
+      type = with lib.types; nullOr str;
       default = null;
       description = "Connection password.";
     };
 
-    extraConfig = mkOption {
-      type = types.attrs;
+    extraConfig = lib.mkOption {
+      type = lib.types.attrs;
       default = {};
       description = "Extra configurations in keys and values.";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     services.shadowsocks = {
       enable = true;
       password = cfg.password;
@@ -53,7 +46,7 @@ in {
 
     networking.firewall.allowedTCPPorts = [ cfg.port ];
 
-    assertions = singleton {
+    assertions = lib.singleton {
       assertion = null != cfg.password;
       message = "No password specified for service Shadowsocks.";
     };

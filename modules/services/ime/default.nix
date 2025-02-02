@@ -1,13 +1,8 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    filterAttrs
-    length
-    attrNames;
-
   cfg = config.pix.services.ime;
-  enabledIME = filterAttrs (_: v: v.enable) cfg;
+  enabledIME = lib.filterAttrs (_: v: v.enable) cfg;
 
 in {
   imports = [
@@ -21,7 +16,7 @@ in {
     assertions = [
       {
         ## One or none
-        assertion = length (attrNames enabledIME) < 2;
+        assertion = lib.length (lib.attrNames enabledIME) < 2;
         message = "Only one IME can be activated at a time.";
       }
     ];

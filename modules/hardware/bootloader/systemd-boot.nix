@@ -1,24 +1,19 @@
 { config, lib, ... }:
 
 let
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    mkForce;
-
   cfg = config.pix.hardware.bootloader.systemd-boot;
 
 in {
   options.pix.hardware.bootloader.systemd-boot = {
-    enable = mkEnableOption "Systemd-boot bootloader";
+    enable = lib.mkEnableOption "Systemd-boot bootloader";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     boot = {
       bootspec.enable = true;
       loader = {
-        grub.enable = mkForce false;
-        systemd-boot.enable = mkForce true;
+        grub.enable = lib.mkForce false;
+        systemd-boot.enable = lib.mkForce true;
         efi.canTouchEfiVariables = false;
       };
     };
