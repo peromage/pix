@@ -13,14 +13,14 @@ let
   cfg = config.pix.dotfiles.gnome;
   dconfDump = import ./dconf.nix { inherit lib; };
 
-in with lib; {
+in {
   options.pix.dotfiles.gnome = {
-    enableKeyboardShortcuts = mkEnableOption "Customized keyboard shortcut";
-    enableGnomeTerminalConfig = mkEnableOption "Customized Gnome Terminal config";
+    enableKeyboardShortcuts = lib.mkEnableOption "Customized keyboard shortcut";
+    enableGnomeTerminalConfig = lib.mkEnableOption "Customized Gnome Terminal config";
   };
 
-  config = mkMerge [
-    (mkIf cfg.enableKeyboardShortcuts {
+  config = lib.mkMerge [
+    (lib.mkIf cfg.enableKeyboardShortcuts {
       dconf.settings = {
         inherit (dconfDump.dconf.settings)
           "org/gnome/desktop/wm/keybindings"
@@ -31,7 +31,7 @@ in with lib; {
       };
     })
 
-    (mkIf cfg.enableGnomeTerminalConfig {
+    (lib.mkIf cfg.enableGnomeTerminalConfig {
       dconf.settings = {
         inherit (dconfDump.dconf.settings)
           "org/gnome/terminal/legacy"

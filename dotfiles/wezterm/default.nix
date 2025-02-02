@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.wezterm;
   src = ./home/.config/wezterm;
 
-in with lib; {
+in {
   options.pix.dotfiles.wezterm = {
-    enable = mkEnableOption "Pot Wez's Terminal";
+    enable = lib.mkEnableOption "Pot Wez's Terminal";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
       # enableBashIntegration = true;

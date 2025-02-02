@@ -5,12 +5,12 @@ let
   src = ./home/.emacs.d;
   myEmacs = pkgs.callPackage ./pkgs/emacs.nix {};
 
-in with lib; {
+in {
   options.pix.dotfiles.emacs = {
-    enable = mkEnableOption "Pot Emacs";
+    enable = lib.mkEnableOption "Pot Emacs";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.package = [ myEmacs ];
 
     home.file.".emacs.d" = {

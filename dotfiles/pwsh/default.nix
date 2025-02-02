@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.pwsh;
   src = ./home/.config/powershell;
 
-in with lib; {
+in {
   options.pix.dotfiles.pwsh = {
-    enable = mkEnableOption "Pot PowerShell";
+    enable = lib.mkEnableOption "Pot PowerShell";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = [ pkgs.powershell ];
 
     xdg.configFile."powershell" = {

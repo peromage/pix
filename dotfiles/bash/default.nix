@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.bash;
   src = ./home;
 
-in with lib; {
+in {
   options.pix.dotfiles.bash = {
-    enable = mkEnableOption "Pot Bash";
+    enable = lib.mkEnableOption "Pot Bash";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.bash = {
       enable = true;
       enableCompletion = true;

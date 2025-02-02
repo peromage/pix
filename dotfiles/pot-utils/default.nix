@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.pot-utils;
   potUtils = pkgs.callPackage ./pkgs/pot-utils.nix {};
 
-in with lib; {
+in {
   options.pix.dotfiles.pot-utils = {
-    enable = mkEnableOption "Pot Utils";
+    enable = lib.mkEnableOption "Pot Utils";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.package = [ potUtils ];
   };
 }

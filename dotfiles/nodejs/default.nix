@@ -6,17 +6,17 @@ let
     userNpmDir = "${config.xdg.dataHome}/${nodejs.userNpmDir}";
   };
 
-in with lib; {
+in {
   options.pix.dotfiles.nodejs = {
-    enable = mkEnableOption "Pot NodeJS";
+    enable = lib.mkEnableOption "Pot NodeJS";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.sessionPath = [
-      nodejs.userPath
+      myNodejs.userPath
     ];
 
-    home.packages = [ nodejs ];
+    home.packages = [ myNodejs ];
 
     home.file.".npmrc".text = ''
       prefix=${myNodejs.userNpmDir}

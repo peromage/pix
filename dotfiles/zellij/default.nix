@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.zellij;
   src = ./home/.config/zellij;
 
-in with lib; {
+in {
   options.pix.dotfiles.zellij = {
-    enable = mkEnableOption "Pot Zellij";
+    enable = lib.mkEnableOption "Pot Zellij";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.zellij.enable = true;
 
     xdg.configFile."zellij" = {

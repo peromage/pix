@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.alacritty;
   src = ./home/.config/alacritty;
 
-in with lib; {
+in {
   options.pix.dotfiles.alacritty = {
-    enable = mkEnableOption "Pot Alacritty";
+    enable = lib.mkEnableOption "Pot Alacritty";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.alacritty.enable = true;
 
     xdg.configFile."alacritty" = {

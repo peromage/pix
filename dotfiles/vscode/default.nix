@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.vscode;
   src = ./home/.config/Code;
 
-in with lib; {
+in {
   options.pix.dotfiles.vscode = {
-    enable = mkEnableOption "Pot Visual Studio Code";
+    enable = lib.mkEnableOption "Pot Visual Studio Code";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.vscode.enable = true;
 
     xdg.configFile."Code" = {

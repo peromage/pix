@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.tmux;
   src = ./home/.config/tmux;
 
-in with lib; {
+in {
   options.pix.dotfiles.tmux = {
-    enable = mkEnableOption "Pot Tmux";
+    enable = lib.mkEnableOption "Pot Tmux";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.tmux.enable = true;
 
     xdg.configFile."tmux" = {

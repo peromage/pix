@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.git;
   src = ./home/.config/git;
 
-in with lib; {
+in {
   options.pix.dotfiles.git = {
-    enable = mkEnableOption "Pot Git";
+    enable = lib.mkEnableOption "Pot Git";
 
-    extraIncludes = mkOption {
-      type = with types; listOf attrs;
+    extraIncludes = lib.mkOption {
+      type = with lib.types; listOf attrs;
       default = [];
       description = ''
         Extra inlcudes of git config.
@@ -19,7 +19,7 @@ in with lib; {
     # extraIncludes = options.programs.git.includes;
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
       lfs.enable = true;

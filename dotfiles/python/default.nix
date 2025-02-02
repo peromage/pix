@@ -6,12 +6,12 @@ let
     userPyenvDir = "${config.xdg.dataHome}/${python.userPyenvDir}";
   };
 
-in with lib; {
+in {
   options.pix.dotfiles.python = {
-    enable = mkEnableOption "Pot Python3";
+    enable = lib.mkEnableOption "Pot Python3";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.sessionVariables = {
       PIP_PREFIX = myPython.userPyenvDir;
       PYTHONPATH = "${myPython.userPythonPath}:$PYTHONPATH";

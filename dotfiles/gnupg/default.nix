@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.gpg;
   src = ./home/.gnupg;
 
-in with lib; {
+in {
   options.pix.dotfiles.gpg = {
-    enable = mkEnableOption "Pot GNUPG";
+    enable = lib.mkEnableOption "Pot GNUPG";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.gpg = {
       enable = true;
       scdaemonSettings = {};

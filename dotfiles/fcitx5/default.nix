@@ -12,12 +12,12 @@ let
     hash = "sha256-2QZdlLGZwWIesbjYTE/2yhM1hHGVVp7jR02bR0oqxV0=";
   };
 
-in with lib; {
+in {
   options.pix.dotfiles.fcitx5 = {
-    enable = mkEnableOption "Pot Fcitx5";
+    enable = lib.mkEnableOption "Pot Fcitx5";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     /* Temporarily disabled since this is problematic in user space.  Instead, the
      IME module should be enabled in NixOS config.
     */

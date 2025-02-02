@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.fish;
   src = ./home/.config/fish;
 
-in with lib; {
+in {
   options.pix.dotfiles.fish = {
-    enable = mkEnableOption "Pot Fish";
+    enable = lib.mkEnableOption "Pot Fish";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.fish = {
       enable = true;
       shellInit = "";

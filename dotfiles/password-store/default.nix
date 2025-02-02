@@ -3,12 +3,12 @@
 let
   cfg = config.pix.dotfiles.password-store;
 
-in with lib; {
+in {
   options.pix.dotfiles.password-store = {
-    enable = mkEnableOption "Pot Password Store";
+    enable = lib.mkEnableOption "Pot Password Store";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.password-store = {
       enable = true;
 

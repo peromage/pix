@@ -4,12 +4,12 @@ let
   cfg = config.pix.dotfiles.vim;
   src = ./home/.vim;
 
-in with lib; {
+in {
   options.pix.dotfiles.vim = {
-    enable = mkEnableOption "Pot Vim";
+    enable = lib.mkEnableOption "Pot Vim";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.vim = {
       enable = true;
       extraConfig = ''
