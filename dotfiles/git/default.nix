@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.git;
-  src = ./home/.config/git;
+  src = ./home-files/.config/git;
 
 in {
   options.pix.dotfiles.git = {

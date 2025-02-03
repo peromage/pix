@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.vim;
-  src = ./home/.vim;
+  src = ./home-files/.vim;
 
 in {
   options.pix.dotfiles.vim = {

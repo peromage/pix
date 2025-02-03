@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.emacs;
-  src = ./home/.emacs.d;
+  src = ./home-files/.emacs.d;
   myEmacs = pkgs.callPackage ./pkgs/emacs.nix {};
 
 in {

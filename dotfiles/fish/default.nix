@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.fish;
-  src = ./home/.config/fish;
+  src = ./home-files/.config/fish;
 
 in {
   options.pix.dotfiles.fish = {

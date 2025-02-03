@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.gpg;
-  src = ./home/.gnupg;
+  src = ./home-files/.gnupg;
 
 in {
   options.pix.dotfiles.gpg = {

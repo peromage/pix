@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.vscode;
-  src = ./home/.config/Code;
+  src = ./home-files/.config/Code;
 
 in {
   options.pix.dotfiles.vscode = {

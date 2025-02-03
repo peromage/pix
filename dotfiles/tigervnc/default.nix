@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.tigervnc;
-  src = ./home/.config/systemd/user/x0vncserver.service;
+  src = ./home-files/.config/systemd/user/x0vncserver.service;
 
 in {
   options.pix.dotfiles.tigervnc = {

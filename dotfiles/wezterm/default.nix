@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.wezterm;
-  src = ./home/.config/wezterm;
+  src = ./home-files/.config/wezterm;
 
 in {
   options.pix.dotfiles.wezterm = {

@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.mc;
-  src = ./home/.config/mc;
+  src = ./home-files/.config/mc;
 
 in {
   options.pix.dotfiles.mc = {

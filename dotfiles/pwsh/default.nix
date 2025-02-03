@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.pwsh;
-  src = ./home/.config/powershell;
+  src = ./home-files/.config/powershell;
 
 in {
   options.pix.dotfiles.pwsh = {

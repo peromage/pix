@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.alacritty;
-  src = ./home/.config/alacritty;
+  src = ./home-files/.config/alacritty;
 
 in {
   options.pix.dotfiles.alacritty = {

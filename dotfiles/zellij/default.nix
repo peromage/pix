@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.zellij;
-  src = ./home/.config/zellij;
+  src = ./home-files/.config/zellij;
 
 in {
   options.pix.dotfiles.zellij = {

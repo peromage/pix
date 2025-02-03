@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.tmux;
-  src = ./home/.config/tmux;
+  src = ./home-files/.config/tmux;
 
 in {
   options.pix.dotfiles.tmux = {

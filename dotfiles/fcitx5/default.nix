@@ -2,8 +2,8 @@
 
 let
   cfg = config.pix.dotfiles.fcitx5;
-  srcFcitx5Config = ./home/.config/fcitx5;
-  srcFcitx5PluginConfig = ./home/.local/share/fcitx5;
+  srcFcitx5Config = ./home-files/.config/fcitx5;
+  srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
 
   srcRimeIce = pkgs.fetchFromGitHub {
     owner = "iDvel";
