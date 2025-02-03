@@ -35,6 +35,6 @@ in {
       rime-cli
       rime-data
     ]
-    ++ optional gnomeCfg.enable gnomeExtensions.kimpanel;
+    ++ lib.optional gnomeCfg.enable gnomeExtensions.kimpanel;
   };
 }

@@ -6,6 +6,7 @@
   imports = [
     ./hardware.nix
     ./mounts.nix
+    ../presets/system-PRMG
     ../presets/user-fang
     ../presets/user-root
   ];

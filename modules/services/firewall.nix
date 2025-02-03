@@ -7,25 +7,25 @@ in {
   options.pix.services.firewall = {
     enable = lib.mkEnableOption "stateful firewall";
 
-    allowedTCPPorts = mkOption {
+    allowedTCPPorts = lib.mkOption {
       type = with lib.types; listOf port;
       default = [];
       description = "Allowed TCP ports.";
     };
 
-    allowedTCPPortRanges = mkOption {
+    allowedTCPPortRanges = lib.mkOption {
       type = with lib.types; listOf (attrsOf port);
       default = [];
       description = "Allowed TCP port range in attrs { from; to; }.";
     };
 
-    allowedUDPPorts = mkOption {
+    allowedUDPPorts = lib.mkOption {
       type = with lib.types; listOf port;
       default = [];
       description = "Allowed UDP ports.";
     };
 
-    allowedUDPPortRanges = mkOption {
+    allowedUDPPortRanges = lib.mkOption {
       type = with lib.types; listOf (attrsOf port);
       default = [];
       description = "Allowed UDP port range in attrs { from; to; }.";

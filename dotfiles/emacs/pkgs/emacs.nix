@@ -15,7 +15,7 @@ let
     vterm # Since vterm cannot be compiled in user environment, use this instead
   ]);
 
-  mySpell = pkgs.callPackage ./spelling_and_dicts.nix {};
+  mySpell = pkgs.callPackage ./spelling.nix {};
 
   ## May omit buildEnv?
 in pkgs.buildEnv {
