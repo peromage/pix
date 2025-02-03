@@ -1,7 +1,7 @@
 { lib, ... }:
 
 {
-  config.pix.users.root = with lib; {
+  config.pix.users.root = {
     nologin = true;
   };
 }

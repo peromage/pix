@@ -1,19 +1,15 @@
 { pix, pkgs, ... }:
 
 {
-  imports = [
-    pix.nixosModules.homeManager
-  ];
-
   /* Pre-configured packages */
-  pix.homeprogs = {
+  pix.dotfiles = {
     bash.enable = true;
     fcitx5.enable = true;
     fish.enable = true;
     git = {
       enable = true;
       extraIncludes = [
-        { path = "${pix.path.dotfiles}/git/.config/git/user-fang"; }
+        { path = "${pix.outPath}/dotfiles/git/home-files/.config/git/user-fang"; }
       ];
     };
     gpg.enable = true;
@@ -33,9 +29,9 @@
 
   home.packages = with pkgs; [
     ## Daily
-    pixPkgs.pixpot
+    pixPkgs.pot-utils
     pixPkgs.emacs
-    pixPkgs.aspell
+    pixPkgs.spelling
     ripgrep
     stow
 
@@ -68,8 +64,6 @@
     graphviz
     hugo
     libreoffice-fresh
-    hunspell
-    hunspellDicts.en_US
     gimp
     kdenlive
     flameshot
