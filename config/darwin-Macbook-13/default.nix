@@ -1,10 +1,10 @@
 { pix, pkgs, ... }:
 
-let
-  inherit (pix.inputs) nixpkgs;
-
-in {
-  imports = with pix.lib; listDir (notPred isDefaultNix) ./.;
+{
+  imports = [
+    ./homebrew.nix
+    ./packages.nix
+  ];
 
   nixpkgs = {
     hostPlatform = "x86_64-darwin";
@@ -19,7 +19,7 @@ in {
     package = pkgs.nixVersions.stable;
     registry.nixpkgs.flake = nixpkgs;
     nixPath = [
-      "nixpkgs=${nixpkgs}"
+      "nixpkgs=${pix.inputs.nixpkgs}"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
   };

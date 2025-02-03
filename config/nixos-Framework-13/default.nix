@@ -4,7 +4,6 @@
 
 {
   imports = [
-    pix.nixosModules.default
     ./hardware.nix
     ./mounts.nix
     ../presets/user-fang

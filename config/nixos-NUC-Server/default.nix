@@ -2,7 +2,6 @@
 
 {
   imports = [
-    pix.nixosModules.default
     ./hardware.nix
     ../presets/system-PROX
     ../presets/user-wangguan
