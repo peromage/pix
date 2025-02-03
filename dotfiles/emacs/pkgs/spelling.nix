@@ -10,7 +10,7 @@ let
   ]);
 
 in pkgs.buildEnv {
-  name = "my-spelling-and-dicts";
+  name = "my-spelling";
   paths = with pkgs; [
     myAspell
     myHunspell
