@@ -4,6 +4,7 @@
   /* Pre-configured packages */
   pix.dotfiles = {
     bash.enable = true;
+    emacs.enable = true;
     fcitx5.enable = true;
     fish.enable = true;
     git = {
@@ -30,8 +31,6 @@
   home.packages = with pkgs; [
     ## Daily
     pixPkgs.pot-utils
-    pixPkgs.emacs
-    pixPkgs.spelling
     ripgrep
     stow
 
