@@ -71,6 +71,9 @@
     diceware
     yt-dlp
     zbar
+    ffmpeg
+    exiftool
+    imagemagick
 
     ## Drawing
     libwacom
