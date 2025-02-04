@@ -8,7 +8,7 @@ pkgs.stdenvNoCC.mkDerivation {
   dontPatchShebangs = true;
 
   installPhase = ''
-    mkdir -p bin
-    install --mode=555 $src/bin/* bin/
+    mkdir -p $out/bin
+    install --mode=555 $src/bin/* $out/bin/
   '';
 }
