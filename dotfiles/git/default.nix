@@ -16,7 +16,6 @@ in {
         This is equivalent to `programs.git.includes';
       '';
     };
-    # extraIncludes = options.programs.git.includes;
   };
 
   config = lib.mkIf cfg.enable {

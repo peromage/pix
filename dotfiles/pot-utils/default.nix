@@ -10,6 +10,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.package = [ potUtils ];
+    home.packages = [ potUtils ];
   };
 }

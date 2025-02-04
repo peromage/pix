@@ -11,7 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.package = [ myEmacs ];
+    home.packages = [ myEmacs ];
 
     home.file.".emacs.d" = {
       source = src;

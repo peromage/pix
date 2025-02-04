@@ -1,9 +1,6 @@
-{ pix, pkgs, ... }:
+{ ... }:
 
-let
-  src = pix.path.dotfiles;
-
-in {
+{
   imports = [ ./packages.nix ];
 
   home.stateVersion = "24.05";
