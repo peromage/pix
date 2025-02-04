@@ -200,7 +200,7 @@
          from there automatically.
       */
       homeConfigurations = {
-        fang = makeHome "x86_64-linux" ./config/presets/user-fang/home;
+        fang = makeHome "x86_64-linux" ./config/presets/user-fang/home-manager;
       };
     };
 }
