@@ -19,7 +19,8 @@ in {
       programs.virt-manager.enable = true;
     })
 
-    /* FIXME: Missing a DKMS module:
+    /*
+       FIXME: Missing a DKMS module:
        https://github.com/strongtz/i915-sriov-dkms
     */
     (lib.mkIf (cfg.enable && cfg.enableIntelSRIOV) {

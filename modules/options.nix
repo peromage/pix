@@ -87,7 +87,9 @@ let
   mkRootUser = config: immutable: definePassword config.nologin immutable config.password;
 
 in {
-  /* System Options */
+  /*
+     System Options
+  */
   options.pix.system = {
     hostName = lib.mkOption {
       type = with lib.types; nullOr str;
@@ -106,7 +108,9 @@ in {
     };
   };
 
-  /* User Options */
+  /*
+     User Options
+  */
   options.pix.users = lib.mkOption {
     type = with lib.types; attrsOf (submodule userSettings);
     default = {};

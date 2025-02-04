@@ -1,4 +1,5 @@
-/* Nixified Gnome dconf configurations.
+/*
+   Nixified Gnome dconf configurations.
 
    To reliably convert dumped dconf database to home-manager config, use `dconf2nix'.
 

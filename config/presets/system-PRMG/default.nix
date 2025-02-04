@@ -1,7 +1,9 @@
 { config, lib, pkgs, ... }:
 
 with lib; {
-  /* Pix options */
+  /*
+     Pix options
+  */
   pix.system.hostName = "PRMG";
   pix.services = {
     i18n.enable = true;
@@ -21,13 +23,17 @@ with lib; {
 
   pix.desktops.env.gnome.enable = true;
 
-  /* Non-pix options */
+  /*
+     Non-pix options
+  */
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs; [];
   };
 
-  /* Fonts */
+  /*
+     Fonts
+  */
   fonts = {
     fontDir.enable = true;
 
@@ -86,7 +92,9 @@ with lib; {
     };
   };
 
-  /* Packages */
+  /*
+     Packages
+  */
   environment.systemPackages = with pkgs; [
     ## Most used CLI
     vim

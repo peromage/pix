@@ -1,4 +1,5 @@
-/* Settings while traveling to some restricted regions.
+/*
+   Settings while traveling to some restricted regions.
 
    For flakes the following options can be added to avoid problems during
    evaluation.

@@ -11,7 +11,8 @@ in {
   ];
 
   options.pix.desktops = {
-    /* The display server is actually selected by the display manager.
+    /*
+       The display server is actually selected by the display manager.
        See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
     enableWayland = lib.mkOption {

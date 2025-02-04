@@ -40,11 +40,13 @@ in {
           ];
         };
 
-        /* Synonyms
-             pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
-             pkgs.nixVersions.unstable -> pkgs.nixUnstable
-             See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
-          */
+        /*
+           Synonyms:
+           pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
+           pkgs.nixVersions.unstable -> pkgs.nixUnstable
+
+           See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
+        */
         package = pkgs.nixVersions.stable;
 
         nixPath = [ "nixpkgs=${pix.inputs.nixpkgs}" ];

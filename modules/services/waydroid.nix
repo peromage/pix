@@ -11,7 +11,8 @@ in {
   config = lib.mkIf cfg.enable {
     virtualisation.waydroid.enable = true;
 
-    /* To start a user session in the background and avoid accidental shutdown
+    /*
+       To start a user session in the background and avoid accidental shutdown
        If don't care about the session life time, use `waydroid show-full-ui' to
        directly start it.
     */

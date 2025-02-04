@@ -8,21 +8,24 @@ let
     isFunction;
 
 in with self; {
-  /* Join a list of strings/paths with separaters.
+  /*
+     Join a list of strings/paths with separaters.
 
      Type:
        joinStrs :: String -> [Any] -> String
   */
   join = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
 
-  /* Apply a list of arguments to the function.
+  /*
+     Apply a list of arguments to the function.
 
      Type:
        apply :: (Any -> Any) -> [Any] -> Any
   */
   apply = foldl' (f: x: f x);
 
-  /* Filter the return value of the original function.
+  /*
+     Filter the return value of the original function.
 
      Note that n (the number of arguments) must be greater than 0 since a
      function should at least have one argument.  This is required because for
@@ -39,7 +42,8 @@ in with self; {
       else virtualFilter (f arg) (narg - 1);
     in assert narg > 0; virtualFilter f narg;
 
-  /* Filter the arguments of the original function.
+  /*
+     Filter the arguments of the original function.
 
      Note that n (the number of arguments) must be greater than 0 since a
      function should at least have one argument.  This is required because for
@@ -59,7 +63,8 @@ in with self; {
       else virtualFilter (filter arg) (narg - 1);
     in assert narg > 0; virtualFilter filter narg;
 
-  /* Fix point and override pattern.
+  /*
+     Fix point and override pattern.
      See: http://r6.ca/blog/20140422T142911Z.html
      See also: `lib.makeExtensible'.  Better use `lib.makeExtensible' instead of
      this as this may encounter infinite recursion since it doesn't provide

@@ -1,7 +1,9 @@
 { config, lib, pkgs, ... }:
 
 with lib; {
-  /* Pix options */
+  /*
+     Pix options
+  */
   pix.system.hostName = "PROX";
   pix.services = {
     i18n.enable = true;

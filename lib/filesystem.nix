@@ -14,7 +14,8 @@ let
     removeSuffix;
 
 in with self; {
-  /* Simplified version of `nixpkgs.lib.callPackageWith'.
+  /*
+     Simplified version of `nixpkgs.lib.callPackageWith'.
      This function doesn't add override attribute to the result.
 
      Type:
@@ -27,7 +28,8 @@ in with self; {
     in
       f passedArgs;
 
-  /* A generic function that filters all the files/directories under the given
+  /*
+     A generic function that filters all the files/directories under the given
      directory.  Return a list of names prepended with the given directory.
 
      Type:
@@ -38,7 +40,9 @@ in with self; {
       (name: type: nameValuePair (toString (dir + "/${name}")) type)
       (readDir dir)));
 
-  /* Predications used for `listDir'. */
+  /*
+     Predications used for `listDir'.
+  */
   notPred = pred: name: type: ! pred name type;
   andPred = predA: predB: name: type: predA name type && predB name type;
   orPred = predA: predB: name: type: predA name type || predB name type;
@@ -51,7 +55,8 @@ in with self; {
   isDisabled = name: type: match "^DISABLED_.*" name != null;
   hasDefaultNix = andPred isDirectoryType (name: type: hasAttr "default.nix"  (readDir name));
 
-  /* Return the basename without .nix extension
+  /*
+     Return the basename without .nix extension
 
      Type:
        baseNameNoNixExt :: String -> String

@@ -1,4 +1,5 @@
-/* C/C++ build tools/dependencies.
+/*
+   C/C++ build tools/dependencies.
 
    The name is brought from the similar package in Debian.
 */

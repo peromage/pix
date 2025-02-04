@@ -5,11 +5,14 @@
 
   home.stateVersion = "24.05";
 
-  /* Managed by Home Manager */
+  /*
+     Managed by Home Manager
+  */
   programs.home-manager.enable = true;
 
 
-  /* Mapped path from Home Manager's variables:
+  /*
+     Mapped path from Home Manager's variables:
 
      `~/.config': config.xdg.configHome
      `~/.local/share': config.xdg.dataHome
@@ -32,7 +35,8 @@
     homeDirectory = "/home/fang";
   };
 
-  /* Alternatively source in a manual way:
+  /*
+     Alternatively source in a manual way:
      ~/.nix-profile/etc/profile.d/hm-session-vars.sh
      or
      /etc/profiles/per-user/fang/etc/profile.d/hm-session-vars.sh

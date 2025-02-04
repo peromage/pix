@@ -1,7 +1,9 @@
 { pix, pkgs, ... }:
 
 {
-  /* Pre-configured packages */
+  /*
+     Pre-configured packages
+  */
   pix.dotfiles = {
     bash.enable = true;
     emacs.enable = true;

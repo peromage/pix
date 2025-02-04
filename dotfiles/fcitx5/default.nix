@@ -18,8 +18,11 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    /* Temporarily disabled since this is problematic in user space.  Instead, the
-     IME module should be enabled in NixOS config.
+    /*
+       Temporarily disabled since this is problematic in user space.
+       Instead, the IME module should be enabled in NixOS config.
+
+       FIXME: May be enabled in the future.
     */
     # i18n.inputMethod = {
     #   enabled = "fcitx5";
@@ -42,7 +45,8 @@ in {
       recursive = true;
     };
 
-    /* To rebuild, cd to this directory and execute:
+    /*
+       To rebuild, cd to this directory and execute:
          rime_deployer --build
     */
     xdg.dataFile."fcitx5/rime" = {

@@ -1,6 +1,7 @@
 { lib, ... }:
 
-/* Note for the BTRFS mount options like `nodatacow', only the first mounted
+/*
+   Note for the BTRFS mount options like `nodatacow', only the first mounted
    volume takes effect.
    However, for options like `noatime' can be set separately per volume.
    See: https://btrfs.readthedocs.io/en/latest/Administration.html

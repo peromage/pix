@@ -1,4 +1,5 @@
-/* An FHS environment with essential C/C++ utilities.
+/*
+   An FHS environment with essential C/C++ utilities.
 
    This is to address an issue where traditional search path is required when
    building projects out of NixOS config.

@@ -1,4 +1,5 @@
-/* Python FHS environment.
+/*
+   Python FHS environment.
 
    This is used as a "virtual" environment which allows to install user packages.
    This also supports some packages that require C compilation during installation.

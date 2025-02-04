@@ -13,7 +13,8 @@ let
     attrNames;
 
 in with self; {
-  /* A thin wrapper for configuration.
+  /*
+     A thin wrapper for configuration.
      This function provides ability to override the original configuration by
      calling the underlying `extend' function.
 
@@ -30,7 +31,8 @@ in with self; {
     extend = overlay: makeConfiguration f (extends overlay fp);
   };
 
-  /* Merge a list of attribute sets from config top level.
+  /*
+     Merge a list of attribute sets from config top level.
 
      NOTE: This is a workaround to solve the infinite recursion issue when trying
      merge configs from top level.  The first level of attribute names must be
@@ -47,7 +49,8 @@ in with self; {
         (n: v: mkMerge v)
         (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
-  /* Merge multiple module block conditonally.
+  /*
+     Merge multiple module block conditonally.
 
      To leverage lazyness and avoid infinit recursion when some module blocks
      need to be evaluated conditionally.
@@ -57,7 +60,8 @@ in with self; {
   */
   mkMergeIf = listOfAttrs: mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
 
-  /* Apply predicate `f' on each attribute and return true if at least one is true.
+  /*
+     Apply predicate `f' on each attribute and return true if at least one is true.
      Otherwise, return false.
 
      Type:

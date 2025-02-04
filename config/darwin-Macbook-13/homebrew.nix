@@ -1,7 +1,8 @@
 { lib, ... }:
 
 lib.mkMerge [
-  /* Homebrew basic config
+  /*
+     Homebrew basic config
 
      Note that Homebrew will not be installed automatically even `homebrew.enable'
      is turned on.  It needs manual installation.
@@ -15,7 +16,8 @@ lib.mkMerge [
     homebrew.enable = true;
   }
 
-  /* Limit battery charge.
+  /*
+     Limit battery charge.
 
      Enable with the following commands:
        sudo bclm write 75

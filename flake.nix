@@ -2,16 +2,22 @@
   description = "PIX - Peromage's nIX configuration";
 
   inputs = {
-    /* Common flakes */
+    /*
+       Common flakes
+    */
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     lanzaboote = { url = "github:nix-community/lanzaboote/master"; inputs.nixpkgs.follows = "nixpkgs"; };
     home-manager = { url = "github:nix-community/home-manager/master"; inputs.nixpkgs.follows = "nixpkgs"; };
 
-    /* Mac specialized */
+    /*
+       Mac specialized
+    */
     nix-darwin = { url = "github:LnL7/nix-darwin/master"; inputs.nixpkgs.follows = "nixpkgs"; };
 
-    /* Some useful flakes */
+    /*
+       Some useful flakes
+    */
     # nix-colors = { url = "github:misterio77/nix-colors/main"; inputs.nixpkgs.follows = "nixpkgs"; };
     # nix-alien = { url = "github:thiagokokada/nix-alien/master"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
@@ -20,7 +26,9 @@
     let
       pix = self;
 
-      /* Meta */
+      /*
+         Meta
+      */
       license = nixpkgs.lib.licenses.gpl3Plus;
       maintainer = {
         name = "Fang Deng";
@@ -29,7 +37,9 @@
         githubId = 10389606;
       };
 
-      /* Lib with additional functions */
+      /*
+         Lib with additional functions
+      */
       lib = (import ./lib { inherit nixpkgs; }).extend (final: prev: {
         callPixSub = final.autoCall { inherit nixpkgs pix; };
 
@@ -53,7 +63,8 @@
           overlays = final.pkgsOverlays;
         };
 
-        /* Note that the `system' attribute is not explicitly set (default to null)
+        /*
+           Note that the `system' attribute is not explicitly set (default to null)
            to allow modules to set it themselves.  This allows a hermetic configuration
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
@@ -76,10 +87,13 @@
       });
 
     in with lib; {
-      /* Pix */
+      /*
+         Pix
+      */
       inherit license maintainer pix lib;
 
-      /* Expose modules
+      /*
+         Expose modules
 
          NOTE: Both `nixos' and `homeManager' module require an additional `pix'
          argument (I.E. this flake).  Don't forget to pass it in the `specialArgs'
@@ -92,7 +106,8 @@
         dotfiles = import ./dotfiles;
       };
 
-      /* Packages
+      /*
+         Packages
 
          Related commands:
            nix build .#PACKAGE_NAME
@@ -115,14 +130,16 @@
       */
       packages = forEachSupportedSystems (system: callPixSub ./packages { pkgs = makePkgs system; });
 
-      /* Development Shells
+      /*
+         Development Shells
 
          Related commands:
            nix develop .#SHELL_NAME
       */
       devShells = forEachSupportedSystems (system: callPixSub ./devshells { pkgs = makePkgs system; });
 
-      /* Code Formatter
+      /*
+         Code Formatter
 
          Related commands:
            nix fmt
@@ -131,20 +148,23 @@
       */
       formatter = forEachSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
-      /* Overlays
+      /*
+         Overlays
 
          Imported by other flakes
       */
       overlays = callPixSub ./overlays {};
 
-      /* Templates
+      /*
+         Templates
 
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
       templates = callPixSub ./templates {};
 
-      /* NixOS Configurations
+      /*
+         NixOS Configurations
 
          Related commands:
            nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
@@ -154,7 +174,8 @@
         NUC = makeNixOS ./config/nixos-NUC-Server;
       };
 
-      /* Darwin Configurations
+      /*
+         Darwin Configurations
 
          Related commands:
            darwin-rebuild switch --flake .#HOST_NAME
@@ -163,7 +184,8 @@
         Macbook = makeDarwin ./config/darwin-Macbook-13;
       };
 
-      /* HomeManager Configurations
+      /*
+         HomeManager Configurations
 
          Related commands:
            nix build .#homeConfigurations.SYSTEM.NAME.activationPackage

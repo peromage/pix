@@ -3,7 +3,8 @@
 let
   emacs = pkgs.emacs29;
 
-  /* Emacs dependencies.  Some packages like vterm may have issues to build in
+  /*
+     Emacs dependencies.  Some packages like vterm may have issues to build in
      Nix environment due to encapsulated environment.  Include them together
      with this declaration so that Emacs can find them.
 
