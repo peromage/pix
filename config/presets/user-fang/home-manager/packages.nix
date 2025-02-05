@@ -48,7 +48,6 @@
     eza # Replace `ls'
     fzf
     jq # Json parser
-    unrestrictedPkgs.minecraft
 
     ## Development
     dotnet-sdk_8
