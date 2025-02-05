@@ -110,14 +110,14 @@
                         ("plink" "/bin/bash")))
 
   :init
-  (defun pew::vterm::new (arg)
+  (defun pew::vterm::new (shell)
     "Create a new vterm window.
 ARG is a prefix argument.  If it is non-nill, a prompt will pop up to allow
 users to specify the shell to start with."
-    (interactive "P")
-    (if arg
-        (let ((vterm-shell (read-string "Shell: ")))
-          (vterm :new))
+    (interactive "sShell: ")
+    (unless (boundp 'vterm-shell)
+      (defvar vterm-shell))
+    (let ((vterm-shell shell))
       (vterm :new))))
 
 (use-package treemacs
