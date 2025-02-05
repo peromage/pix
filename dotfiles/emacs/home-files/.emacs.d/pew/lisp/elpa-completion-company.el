@@ -8,10 +8,10 @@
   :bind ( :map company-mode-map
           ("C-M-i" . company-complete)
           :map company-active-map
-          ("TAB"   . company-complete-common)
-          ("<tab>" . company-complete-common)
           ("C-c"   . company-complete-selection)
           ("C-k"   . company-abort)
+          ;; ("RET"   . nil)
+          ;; ("<return>"   . nil)
           :map pew::M-c-map
           ("i"     . company-complete)
           ("f"     . company-files)
@@ -28,6 +28,7 @@
   (company-tooltip-align-annotations t)
   (company-tooltip-flip-when-above nil) ;; Cursor keys are also flipped so keep it off
   (company-show-quick-access 'left)
+  (company-show-numbers 'left)
   (company-selection-wrap-around nil)
   (company-insertion-on-trigger nil) ;; Auto commit
   (company-abort-on-unique-match t)
@@ -36,6 +37,7 @@
 
   :config
   (global-company-mode 1)
+  (company-tng-mode 1)
 
   (pewcfg
     :eval-after
