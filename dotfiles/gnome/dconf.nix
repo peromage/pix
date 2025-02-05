@@ -1,43 +1,26 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib }:
+{ lib, ... }:
 
 with lib.hm.gvariant;
 
 {
   dconf.settings = {
-    "apps/seahorse/listing" = {
-      keyrings-selected = [ "openssh:///home/fang/.ssh" ];
-    };
-
-    "apps/seahorse/windows/key-manager" = {
-      height = 476;
-      width = 600;
-    };
-
-    "desktop/ibus/general" = {
-      preload-engines = [ "xkb:us::eng" "rime" ];
-    };
-
-    "desktop/ibus/general/hotkey" = {
-      triggers = [ "<Control><Shift>bar" ];
-    };
-
-    "desktop/ibus/panel" = {
-      show = 2;
-      show-icon-on-systray = true;
-    };
-
-    "desktop/ibus/panel/emoji" = {
-      favorites = [ "\128004" "\291" "\531" "\2166" ];
-      hotkey = [ "<Control><Shift>e" ];
+    "org/gnome/Connections" = {
+      first-run = false;
     };
 
     "org/gnome/Console" = {
       custom-font = "Iosevka 10";
       font-scale = 1.2000000000000002;
-      last-window-maximised = true;
+      last-window-maximised = false;
       last-window-size = mkTuple [ 1210 834 ];
       use-system-font = false;
+    };
+
+    "org/gnome/Extensions" = {
+      window-height = 1011;
+      window-maximized = false;
+      window-width = 1209;
     };
 
     "org/gnome/Geary" = {
@@ -80,7 +63,7 @@ with lib.hm.gvariant;
       target-currency = "";
       target-units = "radian";
       window-maximized = false;
-      window-size = mkTuple [ 360 576 ];
+      window-size = mkTuple [ 367 576 ];
       word-size = 64;
     };
 
@@ -90,9 +73,15 @@ with lib.hm.gvariant;
       window-size = mkTuple [ 768 600 ];
     };
 
+    "org/gnome/clocks/state/window" = {
+      maximized = false;
+      panel-id = "stopwatch";
+      size = mkTuple [ 870 690 ];
+    };
+
     "org/gnome/control-center" = {
       last-panel = "keyboard";
-      window-state = mkTuple [ 1175 994 false ];
+      window-state = mkTuple [ 1275 747 false ];
     };
 
     "org/gnome/desktop/a11y/applications" = {
@@ -119,11 +108,19 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
-      picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/pixels-l.jpg";
-      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/pixels-d.jpg";
-      primary-color = "#967864";
+      picture-options = "scaled";
+      picture-uri = "file:///home/fang/.config/background";
+      picture-uri-dark = "file:///home/fang/.config/background";
+      primary-color = "#241f31";
       secondary-color = "#000000";
+    };
+
+    "org/gnome/desktop/calendar" = {
+      show-weekdate = false;
+    };
+
+    "org/gnome/desktop/datetime" = {
+      automatic-timezone = false;
     };
 
     "org/gnome/desktop/input-sources" = {
@@ -133,15 +130,19 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/interface" = {
+      clock-format = "24h";
+      clock-show-date = true;
+      clock-show-weekday = false;
       color-scheme = "prefer-dark";
-      cursor-size = 32;
+      cursor-size = 48;
+      locate-pointer = false;
       show-battery-percentage = true;
       text-scaling-factor = 1.25;
       toolkit-accessibility = false;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "gnome-power-panel" "org-gnome-console" "brave-browser" "org-gnome-settings" "gnome-network-panel" "org-gnome-nautilus" "firefox" "balena-etcher-electron" "org-gnome-fileroller" "emacsclient" "org-wezfurlong-wezterm" "steam" "qq" "gimp" "org-gnome-texteditor" "discord" ];
+      application-children = [ "gnome-power-panel" "org-gnome-console" "brave-browser" "org-gnome-settings" "gnome-network-panel" "org-gnome-nautilus" "firefox" "balena-etcher-electron" "org-gnome-fileroller" "emacsclient" "org-wezfurlong-wezterm" "steam" "qq" "gimp" "org-gnome-texteditor" "discord" "com-discordapp-discord" "com-valvesoftware-steam" "minecraft-launcher" "org-gnome-software" "org-gnome-terminal" ];
     };
 
     "org/gnome/desktop/notifications/application/balena-etcher-electron" = {
@@ -150,6 +151,14 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/notifications/application/brave-browser" = {
       application-id = "brave-browser.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/com-discordapp-discord" = {
+      application-id = "com.discordapp.Discord.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/com-valvesoftware-steam" = {
+      application-id = "com.valvesoftware.Steam.desktop";
     };
 
     "org/gnome/desktop/notifications/application/discord" = {
@@ -176,6 +185,10 @@ with lib.hm.gvariant;
       application-id = "gnome-power-panel.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/minecraft-launcher" = {
+      application-id = "minecraft-launcher.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/org-gnome-console" = {
       application-id = "org.gnome.Console.desktop";
     };
@@ -190,6 +203,14 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/notifications/application/org-gnome-settings" = {
       application-id = "org.gnome.Settings.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/org-gnome-software" = {
+      application-id = "org.gnome.Software.desktop";
+    };
+
+    "org/gnome/desktop/notifications/application/org-gnome-terminal" = {
+      application-id = "org.gnome.Terminal.desktop";
     };
 
     "org/gnome/desktop/notifications/application/org-gnome-texteditor" = {
@@ -215,22 +236,28 @@ with lib.hm.gvariant;
 
     "org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "default";
-      left-handed = true;
+      left-handed = false;
       natural-scroll = false;
       speed = 0.0;
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
+      click-method = "areas";
       speed = 0.1428571428571428;
       tap-to-click = false;
       two-finger-scrolling-enabled = true;
     };
 
+    "org/gnome/desktop/privacy" = {
+      old-files-age = mkUint32 30;
+      recent-files-max-age = -1;
+    };
+
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/pixels-l.jpg";
-      primary-color = "#967864";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
+      primary-color = "#241f31";
       secondary-color = "#000000";
     };
 
@@ -269,6 +296,8 @@ with lib.hm.gvariant;
       panel-run-dialog = [ "<Super>r" ];
       switch-applications = [];
       switch-applications-backward = [];
+      switch-input-source = [];
+      switch-input-source-backward = [];
       switch-panels = [];
       switch-panels-backward = [];
       switch-to-workspace-1 = [];
@@ -281,6 +310,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/wm/preferences" = {
+      button-layout = "appmenu:minimize,maximize,close";
       num-workspaces = 6;
     };
 
@@ -342,10 +372,15 @@ with lib.hm.gvariant;
 
     "org/gnome/nautilus/window-state" = {
       initial-size = mkTuple [ 1254 911 ];
-      maximized = false;
+      maximized = true;
     };
 
     "org/gnome/nm-applet/eap/069ef1dc-5e7b-4db5-8522-c4e5f4b8f562" = {
+      ignore-ca-cert = false;
+      ignore-phase2-ca-cert = false;
+    };
+
+    "org/gnome/nm-applet/eap/0e8d1d58-8b85-4607-87d3-9aaadd88f529" = {
       ignore-ca-cert = false;
       ignore-phase2-ca-cert = false;
     };
@@ -379,6 +414,10 @@ with lib.hm.gvariant;
       last-folder-path = "/home/fang/Downloads";
     };
 
+    "org/gnome/portal/filechooser/com/microsoft/Edge" = {
+      last-folder-path = "/home/fang/Documents";
+    };
+
     "org/gnome/portal/filechooser/gnome-background-panel" = {
       last-folder-path = "/home/fang/Pictures/Arknights_Wallpaper";
     };
@@ -408,18 +447,25 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/settings-daemon/plugins/power" = {
+      idle-dim = false;
       power-button-action = "suspend";
       sleep-inactive-ac-type = "nothing";
     };
 
     "org/gnome/shell" = {
-      command-history = [ "r" "bash" "systemctl hibernation" "flameshot" "systemctl hibernate" "restart" ];
+      command-history = [ "r" "bash" "systemctl hibernation" "flameshot" "systemctl hibernate" "restart" "zeal" "webex" "nix run nixpkgs#barrier" "emacs" ];
       disable-user-extensions = false;
-      disabled-extensions = [ "places-menu@gnome-shell-extensions.gcampax.github.com" "window-list@gnome-shell-extensions.gcampax.github.com" "windowsNavigator@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" ];
-      enabled-extensions = [ "kimpanel@kde.org" "trayIconsReloaded@selfmade.pl" ];
-      favorite-apps = [ "firefox.desktop" "org.gnome.Terminal.desktop" "org.gnome.Nautilus.desktop" "emacsclient.desktop" "org.gnome.Settings.desktop" "brave-browser.desktop" ];
+      disabled-extensions = [ "launch-new-instance@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" "places-menu@gnome-shell-extensions.gcampax.github.com" "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com" "light-style@gnome-shell-extensions.gcampax.github.com" "windowsNavigator@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
+      enabled-extensions = [ "kimpanel@kde.org" "trayIconsReloaded@selfmade.pl" "apps-menu@gnome-shell-extensions.gcampax.github.com" "x11gestures@joseexposito.github.io" "window-list@gnome-shell-extensions.gcampax.github.com" ];
+      favorite-apps = [ "firefox.desktop" "org.gnome.Terminal.desktop" "org.gnome.Nautilus.desktop" "emacsclient.desktop" "org.gnome.Settings.desktop" "com.microsoft.Edge.desktop" ];
       last-selected-power-profile = "power-saver";
       welcome-dialog-last-shown-version = "44.2";
+    };
+
+    "org/gnome/shell/extensions/window-list" = {
+      display-all-workspaces = false;
+      grouping-mode = "never";
+      show-on-all-monitors = true;
     };
 
     "org/gnome/shell/keybindings" = {
@@ -438,8 +484,10 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/software" = {
-      check-timestamp = mkInt64 1704528011;
+      check-timestamp = mkInt64 1736362804;
       first-run = false;
+      flatpak-purge-timestamp = mkInt64 1738766973;
+      update-notification-timestamp = mkInt64 1736292234;
     };
 
     "org/gnome/terminal/legacy" = {
@@ -494,114 +542,8 @@ with lib.hm.gvariant;
       visible-name = "my_fish";
     };
 
-    "org/gtk/gtk4/settings/file-chooser" = {
-      date-format = "regular";
-      location-mode = "path-bar";
-      show-hidden = true;
-      show-size-column = true;
-      show-type-column = true;
-      sidebar-width = 140;
-      sort-column = "name";
-      sort-directories-first = true;
-      sort-order = "ascending";
-      type-format = "category";
-      view-type = "list";
-      window-size = mkTuple [ 1107 788 ];
-    };
-
-    "org/gtk/settings/file-chooser" = {
-      date-format = "regular";
-      location-mode = "path-bar";
-      show-hidden = false;
-      show-size-column = true;
-      show-type-column = true;
-      sidebar-width = 184;
-      sort-column = "modified";
-      sort-directories-first = false;
-      sort-order = "descending";
-      type-format = "category";
-      window-position = mkTuple [ 26 23 ];
-      window-size = mkTuple [ 1128 673 ];
-    };
-
-    "org/virt-manager/virt-manager" = {
-      manager-window-height = 550;
-      manager-window-width = 550;
-    };
-
-    "org/virt-manager/virt-manager/confirm" = {
-      forcepoweroff = false;
-      removedev = true;
-      unapplied-dev = true;
-    };
-
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = [ "qemu:///system" ];
-      uris = [ "qemu:///system" ];
-    };
-
-    "org/virt-manager/virt-manager/conns/qemu:system" = {
-      window-size = mkTuple [ 800 600 ];
-    };
-
-    "org/virt-manager/virt-manager/details" = {
-      show-toolbar = true;
-    };
-
-    "org/virt-manager/virt-manager/new-vm" = {
-      graphics-type = "system";
-    };
-
-    "org/virt-manager/virt-manager/urls" = {
-      isos = [ "/home/fang/Downloads/ISO/Win10_22H2_English_x64v1.iso" "/home/fang/Downloads/ISO/Win11_23H2_English_x64v2.iso" ];
-    };
-
-    "org/virt-manager/virt-manager/vmlist-fields" = {
-      disk-usage = false;
-      network-traffic = false;
-    };
-
-    "org/virt-manager/virt-manager/vms/6a1b925af02d4afa9a0328b17fd45c1e" = {
-      autoconnect = 1;
-      scaling = 1;
-      vm-window-size = mkTuple [ 1024 810 ];
-    };
-
-    "org/virt-manager/virt-manager/vms/7d7c87f1ef224091994662ed0c529b7a" = {
-      autoconnect = 1;
-      scaling = 1;
-      vm-window-size = mkTuple [ 1024 810 ];
-    };
-
-    "org/virt-manager/virt-manager/vms/b833d74ecbcf40829d77eeaabd3ed9be" = {
-      autoconnect = 1;
-      scaling = 1;
-      vm-window-size = mkTuple [ 1431 1178 ];
-    };
-
-    "system/proxy" = {
-      ignore-hosts = [];
-      mode = "none";
-    };
-
-    "system/proxy/ftp" = {
-      host = "127.0.0.1";
-      port = 5566;
-    };
-
-    "system/proxy/http" = {
-      host = "127.0.0.1";
-      port = 5566;
-    };
-
-    "system/proxy/https" = {
-      host = "127.0.0.1";
-      port = 5566;
-    };
-
-    "system/proxy/socks" = {
-      host = "127.0.0.1";
-      port = 5566;
+    "org/gnome/tweaks" = {
+      show-extensions-notice = false;
     };
 
   };

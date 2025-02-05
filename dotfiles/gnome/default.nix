@@ -4,7 +4,7 @@
    To reliably convert dumped dconf database to home-manager config, use `dconf2nix'.
 
    1. Make modifications through Gnome menus.
-   2. Dump and nixify dconf: dconf dump / | dconf2nix > dconf.nix
+   2. Dump and nixify dconf: `dconf dump /org/gnome/ | dconf2nix -r /org/gnome/ > dconf.nix'
    3. Cherry-pick config.
 */
 
