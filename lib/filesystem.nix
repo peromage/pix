@@ -1,17 +1,7 @@
 { self, nixpkgs }:
 
 let
-  inherit (nixpkgs.lib)
-    isFunction
-    functionArgs
-    intersectAttrs
-    attrNames
-    toString
-    readDir
-    baseNameOf
-    match
-    hasAttr
-    removeSuffix;
+  lib = nixpkgs.lib;
 
 in with self; {
   /*
@@ -23,8 +13,8 @@ in with self; {
   */
   autoCall = autoArgs: fn: args:
     let
-      f = if isFunction fn then fn else import fn;
-      passedArgs = intersectAttrs (functionArgs f) autoArgs // args;
+      f = if lib.isFunction fn then fn else import fn;
+      passedArgs = lib.intersectAttrs (lib.functionArgs f) autoArgs // args;
     in
       f passedArgs;
 
@@ -35,10 +25,10 @@ in with self; {
      Type:
        listDir :: (String -> String -> Bool) -> Path -> [String]
   */
-  listDir = pred: dir: attrNames
-    (filterAttrs pred (mapAttrs'
-      (name: type: nameValuePair (toString (dir + "/${name}")) type)
-      (readDir dir)));
+  listDir = pred: dir: lib.attrNames
+    (lib.filterAttrs pred (lib.mapAttrs'
+      (name: type: lib.nameValuePair (lib.toString (dir + "/${name}")) type)
+      (lib.readDir dir)));
 
   /*
      Predications used for `listDir'.
@@ -50,10 +40,10 @@ in with self; {
   isDirectoryType = name: type: type == "directory";
   isRegularType = name: type: type == "regular";
   isSymbolicType = name: type: type == "symlink";
-  isDefaultNix = name: type: (baseNameOf name) == "default.nix";
-  isNixFile = andPred isRegularType (name: type: match ".+\\.nix$" name != null);
-  isDisabled = name: type: match "^DISABLED_.*" name != null;
-  hasDefaultNix = andPred isDirectoryType (name: type: hasAttr "default.nix"  (readDir name));
+  isDefaultNix = name: type: (lib.baseNameOf name) == "default.nix";
+  isNixFile = andPred isRegularType (name: type: lib.match ".+\\.nix$" name != null);
+  isDisabled = name: type: lib.match "^DISABLED_.*" name != null;
+  hasDefaultNix = andPred isDirectoryType (name: type: lib.hasAttr "default.nix"  (lib.readDir name));
 
   /*
      Return the basename without .nix extension
@@ -61,5 +51,5 @@ in with self; {
      Type:
        baseNameNoNixExt :: String -> String
   */
-  baseNameNoNixExt = name: removeSuffix ".nix" (baseNameOf name);
+  baseNameNoNixExt = name: lib.removeSuffix ".nix" (lib.baseNameOf name);
 }

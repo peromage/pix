@@ -1,16 +1,7 @@
 { self, nixpkgs }:
 
 let
-  inherit (nixpkgs.lib)
-    fix
-    extends
-    getAttrs
-    mapAttrs
-    mkMerge
-    mkIf
-    foldAttrs
-    any
-    attrNames;
+  lib = nixpkgs.lib;
 
 in with self; {
   /*
@@ -27,8 +18,8 @@ in with self; {
      Type:
        makeConfiguration :: (a -> a) -> (a -> a)
   */
-  makeConfiguration = f: fp: f (fix fp) // {
-    extend = overlay: makeConfiguration f (extends overlay fp);
+  makeConfiguration = f: fp: f (lib.fix fp) // {
+    extend = overlay: makeConfiguration f (lib.extends overlay fp);
   };
 
   /*
@@ -44,10 +35,10 @@ in with self; {
        mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    getAttrs firstLevelNames
-      (mapAttrs
-        (n: v: mkMerge v)
-        (foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    lib.getAttrs firstLevelNames
+      (lib.mapAttrs
+        (n: v: lib.mkMerge v)
+        (lib.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   /*
      Merge multiple module block conditonally.
@@ -58,7 +49,7 @@ in with self; {
      Type:
        mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: mkMerge (map (x: mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: lib.mkMerge (map (x: lib.mkIf x.cond x.as) listOfAttrs);
 
   /*
      Apply predicate `f' on each attribute and return true if at least one is true.
@@ -67,5 +58,5 @@ in with self; {
      Type:
        anyAttrs :: (String -> a -> Bool) -> Bool
   */
-  anyAttrs = f: attrs: any (name: f name attrs.${name}) (attrNames attrs);
+  anyAttrs = f: attrs: lib.any (name: f name attrs.${name}) (lib.attrNames attrs);
 }

@@ -1,11 +1,7 @@
 { self, nixpkgs }:
 
 let
-  inherit (nixpkgs.lib)
-    foldl'
-    head
-    tail
-    isFunction;
+  lib = nixpkgs.lib;
 
 in with self; {
   /*
@@ -14,7 +10,7 @@ in with self; {
      Type:
        joinStrs :: String -> [Any] -> String
   */
-  join = sep: list: foldl' (a: i: a + "${sep}${i}") (head list) (tail list);
+  join = sep: list: lib.foldl (a: i: a + "${sep}${i}") (lib.head list) (lib.tail list);
 
   /*
      Apply a list of arguments to the function.
@@ -22,7 +18,7 @@ in with self; {
      Type:
        apply :: (Any -> Any) -> [Any] -> Any
   */
-  apply = foldl' (f: x: f x);
+  apply = lib.foldl (f: x: f x);
 
   /*
      Filter the return value of the original function.
@@ -72,7 +68,7 @@ in with self; {
   */
   fixOverridable = f: let x = f x; in x // {
     fixOverride = g: fixOverridable (self: f self // (
-      if isFunction g
+      if lib.isFunction g
       then g self
       else g
     ));
