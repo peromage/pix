@@ -87,5 +87,8 @@
 
     ## Wayland
     wl-clipboard
+
+    ## Entertainment
+    prismlauncher
   ];
 }
