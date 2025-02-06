@@ -38,7 +38,7 @@ However, there is problem that if a hashed password file is used, it must be tra
 A simple solution would be creating a local =flake.nix= that is not tracked anywhere, which has been demonstrated previously already.
 
 * Sub-projects
-** Emacs ([[./dotfiles/emacs/.emacs.d][Pew]])
+** Emacs ([[./dotfiles/emacs/home-files/.emacs.d][Pew]])
 My personal Emacs configuration.
 
 ** Dotfiles ([[./dotfiles][Pot]])
