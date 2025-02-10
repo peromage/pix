@@ -109,10 +109,10 @@ with lib.hm.gvariant;
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "scaled";
-      picture-uri = "file:///home/fang/.config/background";
-      picture-uri-dark = "file:///home/fang/.config/background";
-      primary-color = "#241f31";
-      secondary-color = "#000000";
+      picture-uri = "file:///home/fang/Pictures/Arknights_Wallpaper/%E5%AE%A3%E4%BC%A0%E5%9B%BE/%E6%B0%B4%E6%99%B6%E7%AE%AD%E8%A1%8C%E5%8A%A8.jpg";
+      picture-uri-dark = "file:///home/fang/Pictures/Arknights_Wallpaper/%E5%AE%A3%E4%BC%A0%E5%9B%BE/%E6%B0%B4%E6%99%B6%E7%AE%AD%E8%A1%8C%E5%8A%A8.jpg";
+      primary-color = "#000000000000";
+      secondary-color = "#000000000000";
     };
 
     "org/gnome/desktop/calendar" = {
@@ -126,7 +126,7 @@ with lib.hm.gvariant;
     "org/gnome/desktop/input-sources" = {
       mru-sources = [ (mkTuple [ "xkb" "us" ]) ];
       sources = [ (mkTuple [ "xkb" "us" ]) ];
-      xkb-options = [ "terminate:ctrl_alt_bksp" ];
+      xkb-options = [ "terminate:ctrl_alt_bksp" "lv3:ralt_switch" ];
     };
 
     "org/gnome/desktop/interface" = {
@@ -142,7 +142,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "gnome-power-panel" "org-gnome-console" "brave-browser" "org-gnome-settings" "gnome-network-panel" "org-gnome-nautilus" "firefox" "balena-etcher-electron" "org-gnome-fileroller" "emacsclient" "org-wezfurlong-wezterm" "steam" "qq" "gimp" "org-gnome-texteditor" "discord" "com-discordapp-discord" "com-valvesoftware-steam" "minecraft-launcher" "org-gnome-software" "org-gnome-terminal" ];
+      application-children = [ "gnome-power-panel" "org-gnome-console" "brave-browser" "org-gnome-settings" "gnome-network-panel" "org-gnome-nautilus" "firefox" "balena-etcher-electron" "org-gnome-fileroller" "emacsclient" "org-wezfurlong-wezterm" "steam" "qq" "gimp" "org-gnome-texteditor" "discord" "com-discordapp-discord" "com-valvesoftware-steam" "minecraft-launcher" "org-gnome-software" "org-gnome-terminal" "org-prismlauncher-prismlauncher" ];
     };
 
     "org/gnome/desktop/notifications/application/balena-etcher-electron" = {
@@ -217,6 +217,10 @@ with lib.hm.gvariant;
       application-id = "org.gnome.TextEditor.desktop";
     };
 
+    "org/gnome/desktop/notifications/application/org-prismlauncher-prismlauncher" = {
+      application-id = "org.prismlauncher.PrismLauncher.desktop";
+    };
+
     "org/gnome/desktop/notifications/application/org-wezfurlong-wezterm" = {
       application-id = "org.wezfurlong.wezterm.desktop";
     };
@@ -256,9 +260,9 @@ with lib.hm.gvariant;
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/blobs-l.svg";
-      primary-color = "#241f31";
-      secondary-color = "#000000";
+      picture-uri = "file:///home/fang/.local/share/backgrounds/2025-02-07-09-46-50-%E6%B3%B0%E6%8B%89%E9%A5%AD.jpg";
+      primary-color = "#000000000000";
+      secondary-color = "#000000000000";
     };
 
     "org/gnome/desktop/search-providers" = {
@@ -372,7 +376,7 @@ with lib.hm.gvariant;
 
     "org/gnome/nautilus/window-state" = {
       initial-size = mkTuple [ 1254 911 ];
-      maximized = true;
+      maximized = false;
     };
 
     "org/gnome/nm-applet/eap/069ef1dc-5e7b-4db5-8522-c4e5f4b8f562" = {
@@ -419,11 +423,15 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/portal/filechooser/gnome-background-panel" = {
-      last-folder-path = "/home/fang/Pictures/Arknights_Wallpaper";
+      last-folder-path = "/home/fang/Pictures/Arknights_Wallpaper/\23459\20256\22270";
     };
 
     "org/gnome/portal/filechooser/org/gnome/Settings" = {
       last-folder-path = "/home/fang/Downloads";
+    };
+
+    "org/gnome/portal/filechooser/org/gnome/tweaks" = {
+      last-folder-path = "/home/fang/Pictures/Arknights_Wallpaper/\23459\20256\22270";
     };
 
     "org/gnome/settings-daemon/plugins/color" = {
@@ -432,7 +440,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
+      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/" ];
       magnifier = [];
       magnifier-zoom-in = [];
       magnifier-zoom-out = [];
@@ -446,6 +454,18 @@ with lib.hm.gvariant;
       name = "Gnome Terminal";
     };
 
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+      binding = "<Super>e";
+      command = "nautilus -w";
+      name = "Nautilus";
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      binding = "<Super>c";
+      command = "gnome-text-editor -n";
+      name = "Text Editor";
+    };
+
     "org/gnome/settings-daemon/plugins/power" = {
       idle-dim = false;
       power-button-action = "suspend";
@@ -457,7 +477,7 @@ with lib.hm.gvariant;
       disable-user-extensions = false;
       disabled-extensions = [ "launch-new-instance@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" "places-menu@gnome-shell-extensions.gcampax.github.com" "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com" "light-style@gnome-shell-extensions.gcampax.github.com" "windowsNavigator@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
       enabled-extensions = [ "kimpanel@kde.org" "trayIconsReloaded@selfmade.pl" "apps-menu@gnome-shell-extensions.gcampax.github.com" "x11gestures@joseexposito.github.io" "window-list@gnome-shell-extensions.gcampax.github.com" ];
-      favorite-apps = [ "firefox.desktop" "org.gnome.Terminal.desktop" "org.gnome.Nautilus.desktop" "emacsclient.desktop" "org.gnome.Settings.desktop" "com.microsoft.Edge.desktop" ];
+      favorite-apps = [ "firefox.desktop" "emacsclient.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Terminal.desktop" "org.gnome.Settings.desktop" "com.microsoft.Edge.desktop" ];
       last-selected-power-profile = "power-saver";
       welcome-dialog-last-shown-version = "44.2";
     };
@@ -484,9 +504,9 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/software" = {
-      check-timestamp = mkInt64 1736362804;
+      check-timestamp = mkInt64 1738854237;
       first-run = false;
-      flatpak-purge-timestamp = mkInt64 1738766973;
+      flatpak-purge-timestamp = mkInt64 1738977316;
       update-notification-timestamp = mkInt64 1736292234;
     };
 
