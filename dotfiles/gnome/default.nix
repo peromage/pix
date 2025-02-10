@@ -13,6 +13,8 @@
 let
   cfg = config.pix.dotfiles.gnome;
   dconfDump = import ./dconf.nix { inherit lib; };
+  getConf = regex: lib.filterAttrs (name: _: lib.match regex name != null) dconfDump.dconf.settings;
+  getConfs = lib.foldl (acc: regex: acc // getConf regex) {};
 
 in {
   options.pix.dotfiles.gnome = {
@@ -22,26 +24,22 @@ in {
 
   config = lib.mkMerge [
     (lib.mkIf cfg.enableKeyboardShortcuts {
-      dconf.settings = {
-        inherit (dconfDump.dconf.settings)
-          "org/gnome/desktop/wm/keybindings"
-          "org/gnome/mutter/wayland/keybindings"
-          "org/gnome/settings-daemon/plugins/media-keys"
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0"
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1"
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2"
-          "org/gnome/shell/keybindings";
-      };
+      dconf.settings = getConfs [
+        "org/gnome/desktop/wm/keybindings"
+        "org/gnome/mutter/wayland/keybindings"
+        "org/gnome/settings-daemon/plugins/media-keys"
+        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/.*"
+        "org/gnome/shell/keybindings"
+      ];
     })
 
     (lib.mkIf cfg.enableGnomeTerminalConfig {
-      dconf.settings = {
-        inherit (dconfDump.dconf.settings)
-          "org/gnome/terminal/legacy"
-          "org/gnome/terminal/legacy/keybindings"
-          "org/gnome/terminal/legacy/profiles:"
-          "org/gnome/terminal/legacy/profiles:/:233c6191-db1e-403e-9b76-0f006019cf4c" ;
-      };
+      dconf.settings = getConfs [
+        "org/gnome/terminal/legacy"
+        "org/gnome/terminal/legacy/keybindings"
+        "org/gnome/terminal/legacy/profiles:"
+        "org/gnome/terminal/legacy/profiles:/.*"
+      ];
     })
   ];
 }
