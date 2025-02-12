@@ -31,7 +31,7 @@
 (use-package yasnippet
   :ensure t
   :custom
-  (yas-snippet-dirs (list (plist-get pew::path-plist :yas-template)))
+  (yas-snippet-dirs (list (expand-file-name "pew/yasnippet" pew::toplevel-dir)))
   (yas-indent-line 'fixed)
   :config
   (yas-global-mode 1))
