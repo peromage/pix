@@ -8,15 +8,14 @@
 
 (require 'files)
 
-;;; Process arguments
-(if (< (length argv) 1)
-    (error "No pewcfg root specified"))
-(setq pewcfg-dir (file-truename (nth 0 argv)))
+(unless (and (file-exists-p "pewcfg.el")
+             (file-exists-p "pewcfg-core.el")
+             (file-exists-p "pewcfg-use-package.el"))
+  (error "Working directory must be pewcfg root!"))
 
 ;;; Load paths
-(add-to-list 'load-path pewcfg-dir)
-(let ((default-directory pewcfg-dir))
-  (normal-top-level-add-subdirs-to-load-path))
+(add-to-list 'load-path default-directory)
+(normal-top-level-add-subdirs-to-load-path)
 
 ;;; Load required modules
 (require 'pewcfg)

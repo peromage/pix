@@ -3,15 +3,14 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Process arguments
-(if (< (length argv) 1) (error "Not enough arguments"))
-(setq init-dir (nth 0 argv))
+(unless (and (file-directory-p "pew") (file-exists-p "init-mini.el"))
+  (error "Working directory must be Pew config root!"))
 
 ;;; Test starts
 (require 'url-vars)
 (let* ((debug-on-error t)
        (url-show-status nil)
-       (user-emacs-directory init-dir)
+       (user-emacs-directory default-directory)
        (user-init-file (expand-file-name "init-mini.el" user-emacs-directory))
        (load-path (delq user-emacs-directory load-path)))
   (load-file user-init-file)
