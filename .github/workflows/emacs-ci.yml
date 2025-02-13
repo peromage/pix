@@ -51,16 +51,16 @@ jobs:
 
       - name: Test - Fresh startup with package installation
         working-directory: ${{ env.PEW_HOME }}
-        run: ./pew/tests/test-init.sh $(pwd)
+        run: ./pew/tests/test-init.sh
 
       - name: Test - Normal startup
         working-directory: ${{ env.PEW_HOME }}
-        run: ./pew/tests/test-init.sh $(pwd)
+        run: ./pew/tests/test-init.sh
 
       - name: Test - Mini startup
         working-directory: ${{ env.PEW_HOME }}
-        run: ./pew/tests/test-init-mini.sh $(pwd)
+        run: ./pew/tests/test-init-mini.sh
 
       - name: Test - pewcfg unittest
         working-directory: ${{ env.PEW_HOME }}/pew/site-lisp/pewcfg
-        run: ./tests/run-tests.sh $(pwd)
+        run: ./tests/run-tests.sh
