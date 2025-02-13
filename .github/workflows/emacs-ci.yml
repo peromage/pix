@@ -11,7 +11,7 @@ on:
 jobs:
   sanity-test:
     env:
-      PEW_HOME: dotfiles/emacs/.emacs.d
+      PEW_TOPLEVEL: dotfiles/emacs/home-files/.emacs.d
 
     strategy:
       fail-fast: false
@@ -50,17 +50,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test - Fresh startup with package installation
-        working-directory: ${{ env.PEW_HOME }}
+        working-directory: ${{ env.PEW_TOPLEVEL }}
         run: ./pew/tests/test-init.sh
 
       - name: Test - Normal startup
-        working-directory: ${{ env.PEW_HOME }}
+        working-directory: ${{ env.PEW_TOPLEVEL }}
         run: ./pew/tests/test-init.sh
 
       - name: Test - Mini startup
-        working-directory: ${{ env.PEW_HOME }}
+        working-directory: ${{ env.PEW_TOPLEVEL }}
         run: ./pew/tests/test-init-mini.sh
 
       - name: Test - pewcfg unittest
-        working-directory: ${{ env.PEW_HOME }}/pew/site-lisp/pewcfg
+        working-directory: ${{ env.PEW_TOPLEVEL }}/pew/site-lisp/pewcfg
         run: ./tests/run-tests.sh
