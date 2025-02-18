@@ -79,7 +79,8 @@
     krita
 
     ## GUI
-    firefox
+    ## Some apps like browser and steam prefer to be installed via flatpak since
+    ## they're updated often while nixpkgs (flake) is not
     remmina
     zeal
     mpv
