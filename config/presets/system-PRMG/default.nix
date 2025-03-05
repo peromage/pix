@@ -37,11 +37,10 @@ with lib; {
   fonts = {
     fontDir.enable = true;
 
-    packages = with pkgs; [
+    packages = (with pkgs; [
       iosevka
       cascadia-code
       emacs-all-the-icons-fonts
-      nerdfonts
       liberation_ttf
       noto-fonts
       noto-fonts-emoji
@@ -51,7 +50,17 @@ with lib; {
       dejavu_fonts
       wqy_zenhei
       wqy_microhei
-    ];
+    ]) ++ (with pkgs.nerd-fonts; [
+      fira-code
+      _0xproto
+      roboto-mono
+      symbols-only
+      comic-shanns-mono
+      heavy-data
+      ubuntu
+      ubuntu-sans
+      ubuntu-mono
+    ]);
 
     fontconfig = {
       enable = true;
