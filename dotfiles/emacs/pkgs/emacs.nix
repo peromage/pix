@@ -1,7 +1,7 @@
 { pkgs }:
 
 let
-  emacs = pkgs.emacs29;
+  emacs = pkgs.emacs;
 
   /*
      Emacs dependencies.  Some packages like vterm may have issues to build in

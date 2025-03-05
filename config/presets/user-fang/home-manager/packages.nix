@@ -65,7 +65,7 @@
     hugo
     libreoffice-fresh
     gimp
-    kdenlive
+    kdePackages.kdenlive
     flameshot
     diceware
     yt-dlp
