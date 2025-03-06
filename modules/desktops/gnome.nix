@@ -10,8 +10,9 @@ in {
     enableGDM = lib.mkEnableOption "GDM display manager" // { default = true; };
   };
 
-  config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    ## For both Wayland and X11
+    {
       services.xserver = {
         desktopManager.gnome.enable = true;
         displayManager.gdm.enable = cfg.enableGDM;
@@ -25,14 +26,14 @@ in {
         gnome-terminal ## Provides more functionalities than default gnome-console
         gnomeExtensions.tray-icons-reloaded
       ];
-    })
+    }
 
-    # X11 accessories
-    (lib.mkIf (cfg.enable && ! cfgOverall.enableWayland) {
+    ## X11 utilities
+    (lib.mkIf (!cfgOverall.enableWayland) {
       environment.systemPackages = with pkgs; [
         gnomeExtensions.x11-gestures
       ];
       services.touchegg.enable = true;
     })
-  ];
+  ]);
 }
