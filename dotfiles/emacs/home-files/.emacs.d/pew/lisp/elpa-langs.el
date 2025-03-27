@@ -89,7 +89,8 @@
   :mode ("\\.mmd\\'" . mermaid-mode)
   :custom
   (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
-  :init
+
+  :preface
   (defun pew::mermaid-mode::install-cli ()
     "Install Mermaid CLI tool in user Emacs folder."
     (interactive)
@@ -103,6 +104,7 @@
 (use-package ob-mermaid
   :ensure t
   :defer t
+
   :init
   (with-eval-after-load 'org
     (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))

@@ -109,7 +109,7 @@
   (vterm-tramp-shells '(("ssh" "/bin/bash")
                         ("plink" "/bin/bash")))
 
-  :init
+  :preface
   (defun pew::vterm::new (shell)
     "Create a new vterm window.
 ARG is a prefix argument.  If it is non-nill, a prompt will pop up to allow
