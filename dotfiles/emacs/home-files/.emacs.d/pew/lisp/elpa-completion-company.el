@@ -36,16 +36,13 @@
   (company-inhibit-inside-symbols nil)
 
   :config
-  (global-company-mode 1)
-  (company-tng-mode 1)
+  (with-eval-after-load 'orderless
+    (define-advice company-capf (:around (capf-fn &rest args) pew::company::completion-style)
+      (let ((completion-styles '(basic partial-completion orderless)))
+        (apply capf-fn args))))
 
-  (pewcfg
-    :eval-after
-    ;; Make completion ordered
-    (orderless
-     (define-advice company-capf (:around (capf-fn &rest args) pew::company::completion-style)
-       (let ((completion-styles '(basic partial-completion orderless)))
-         (apply capf-fn args))))))
+  (global-company-mode 1)
+  (company-tng-mode 1))
 
 (provide 'elpa-completion-company)
 ;;; elpa-completion-company.el ends here

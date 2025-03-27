@@ -265,14 +265,13 @@ See `evil-define-key*'."
     '(("*" . pew::evil::visual-search-region-text)))
 
   ;; Elisp with leader
-  (pewcfg :eval-after
-          (elisp-mode
-           (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
-             ;; Quick eval
-             '(("eb" . eval-buffer)
-               ("er" . eval-region)
-               ("ef" . eval-defun)
-               ("ee" . eval-last-sexp)))))
+  (with-eval-after-load 'elisp-mode
+    (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
+      ;; Quick eval
+      '(("eb" . eval-buffer)
+        ("er" . eval-region)
+        ("ef" . eval-defun)
+        ("ee" . eval-last-sexp))))
 
 ;;; Workaround
   ;; Evil X settings
