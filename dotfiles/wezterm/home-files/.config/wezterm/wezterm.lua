@@ -1,46 +1,46 @@
 --- wezterm.lua --- Wezterm config -*- lua-indent-level: 2; outline-regexp: "---\\(-* [^ \t\n]\\)"; -*-
 
 --
--- Thie configuration accepts an overlay file to apply customizations on top of
+-- Thie configuration accepts a custom file to apply customizations on top of
 -- the default settings without touching this file itself.
 --
--- The overlay function should return a subset of the config table.
+-- The override function should return a final config table.
 --
--- Example: wezterm-overlay.lua
+-- Example: wezterm-custom.lua
 --
 -- local gnome_fix = require "mymodules.wayland-gnome-fix"
 -- return {
---   overlay = function(prev)
---     gnome_fix.apply_to_config(prev)
+--   override = function(cfg)
+--     gnome_fix.apply_to_config(cfg)
 --
---     return {
---       font_size = 16,
---       default_prog = { "fish", "-i" },
+--     cfg.font_size = 16
+--     cfg.default_prog = { "fish", "-i" }
 --
---       ssh_domains = prev.ssh_domains:_append {
---         {
---           name = "Dev Domain",
---           remote_address = "dev",
---           remote_wezterm_path = "/home/fang/bin/wezterm",
---         },
---       },
---
---       wsl_domains = prev.wsl_domains:_append {
---         {
---           name = "WSL::Ubuntu-20.04",
---           distribution = "Ubuntu-20.04",
---           default_cwd = "~",
---         },
---       },
---
---       launch_menu = prev.launch_menu:_append {
---         {
---           label = "SSH to dev desktop",
---           args = { "ssh", "-t", "dev" },
---           domain = { DomainName = "local" },
---         },
+--     cfg.ssh_domains:_concat_impure {
+--       {
+--         name = "Dev Domain",
+--         remote_address = "dev",
+--         remote_wezterm_path = "/home/fang/bin/wezterm",
 --       },
 --     }
+--
+--     cfg.wsl_domains:_concat_impure {
+--       {
+--         name = "WSL::Ubuntu-20.04",
+--         distribution = "Ubuntu-20.04",
+--         default_cwd = "~",
+--       },
+--     }
+--
+--     cfg.launch_menu:_concat_impure {
+--       {
+--         label = "SSH to dev desktop",
+--         args = { "ssh", "-t", "dev" },
+--         domain = { DomainName = "local" },
+--       },
+--     }
+--
+--     return cfg
 --   end
 -- }
 --
@@ -91,11 +91,6 @@ BasicTable = {
     return tbl
   end,
 
-  -- The array should have at least one index
-  _is_array = function(self)
-    return 0 ~= #self
-  end,
-
   -- Shallow copy
   _copy = function(self)
     local tmp = {}
@@ -105,8 +100,28 @@ BasicTable = {
     return tmp
   end,
 
+  -- Update keys and values and return a copy
+  _update = function(self, tbl)
+    return BasicTable:_new(BasicTable._copy(self)):_update_impure(tbl)
+  end,
+
+  -- Like `_update()' but alter the original table
+  _update_impure = function(self, tbl)
+    for k, v in pairs(tbl) do
+      self[k] = v
+    end
+    return self
+  end,
+
+  -- Methods when the table is used as an array
+
+  -- The list type should have at least one index
+  _is_array = function(self)
+    return 0 ~= #self
+  end,
+
   -- Shallow copy by index
-  _copy_array = function(self)
+  _copy_as_array = function(self)
     local tmp = {}
     for _, v in ipairs(self) do
       table.insert(tmp, v)
@@ -114,26 +129,13 @@ BasicTable = {
     return tmp
   end,
 
-  -- Update keys and values and return a copy
-  _update = function(self, tbl)
-    return BasicTable:_new(BasicTable._copy(self)):_updateAlt(tbl)
+  -- Concatenate and return a copy
+  _concat = function(self, arr)
+    return BasicTable:_new(BasicTable._copy_as_array(self)):_concat_impure(arr)
   end,
 
-  -- Append to the last and return a copy
-  _append = function(self, arr)
-    return BasicTable:_new(BasicTable._copy_array(self)):_appendAlt(arr)
-  end,
-
-  -- Like `_update()' but alter the original table
-  _updateAlt = function(self, tbl)
-    for k, v in pairs(tbl) do
-      self[k] = v
-    end
-    return self
-  end,
-
-  -- Like `_append()' but alter the original array
-  _appendAlt = function(self, arr)
+  -- Like `_concat()' but alter the original array
+  _concat_impure = function(self, arr)
     for _, v in ipairs(arr) do
       table.insert(self, v)
     end
@@ -386,9 +388,14 @@ local config = BasicTable:_new {
 }
 
 --- Apply the overlay ----------------------------------------------------------
-local ok, m = pcall(require, "wezterm-overlay")
+local ok, m = pcall(require, "wezterm-custom")
 if ok then
-  -- For the sake of performance use the impure method here
-  return config:_updateAlt(m.overlay(config))
+  -- The custom config has two ways to put its customizations.
+  -- 1. Returns a plain table of configurations which will be merged with this
+  --    config eventually.
+  -- 2. Returns a table that has a function "override" which takes this config
+  --    as its argument and returns a final config table (other attributes in
+  --    the table will be ignored if the override function presents).
+  return m["override"] ~= nil and m.override(config) or config:_update_impure(m)
 end
 return config
