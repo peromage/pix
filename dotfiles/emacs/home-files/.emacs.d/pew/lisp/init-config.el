@@ -436,7 +436,7 @@
   (shell-mode-hook . pewlib::editor::as-terminal-mode)
 
   ;; Don't save trailing spaces
-  (after-save-hook . pewlib::editor::delete-trailing-whitespaces)
+  (before-save-hook . pewlib::editor::delete-trailing-whitespaces)
 
   ;; Don't move cursor to the minibuffer prompt
   (minibuffer-setup-hook . cursor-intangible-mode)
