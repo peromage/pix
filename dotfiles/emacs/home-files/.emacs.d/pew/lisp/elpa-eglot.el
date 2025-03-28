@@ -61,10 +61,10 @@
                                            "--header-insertion-decorators")))
                                      ;; Default builtins
                                      eglot-server-programs))
-  (with-eval-after-load 'jsonrpc
-    ;; Avoid chatty logging which slows down typing
-    ;; https://www.reddit.com/r/emacs/comments/1447fy2/looking_for_help_in_improving_typescript_eglot/
-    (fset #'jsonrpc--log-event #'ignore)))
+  (pewcfg :eval-after (jsonrpc
+                       ;; Avoid chatty logging which slows down typing
+                       ;; https://www.reddit.com/r/emacs/comments/1447fy2/looking_for_help_in_improving_typescript_eglot/
+                       (fset #'jsonrpc--log-event #'ignore))))
 
 (use-package eldoc
   :ensure nil
