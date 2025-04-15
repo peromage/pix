@@ -9,7 +9,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    hardware.pulseaudio.enable = false; # Use pipewire
+    services.pulseaudio.enable = false; # Use pipewire
     security.rtkit.enable = true;
 
     services.pipewire = {
