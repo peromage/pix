@@ -51,7 +51,7 @@
     firmware.enable = true;
     peripherals = {
       enable = true;
-      devices = [ "printer" "zsa-keyboard" "xbox-controller"];
+      devices = [ "printer" "zsa-keyboard" "xbox-controller" "smart-card" ];
     };
     audio.enable = true;
     power = {
