@@ -24,44 +24,44 @@ function join_str {
 }
 
 function set_env {
-    for i in "$@"; do "env__$i"; done
+    for i in "$@"; do "__env_$i"; done
 }
 
 ## Env functions
-function env__editor-mg {
+function __env_editor-mg {
     export EDITOR="mg"
 }
 
-function env__editor-vim {
+function __env_editor-vim {
     export EDITOR="vim"
 }
 
-function env__fcitx {
+function __env_fcitx {
     export GTK_IM_MODULE="fcitx"
     export QT_IM_MODULE="fcitx"
     export XMODIFIERS="@im=fcitx"
 }
 
-function env__firefox-wayland {
+function __env_firefox-wayland {
     export MOZ_ENABLE_WAYLAND=1
 }
 
-function env__firefox-x11 {
+function __env_firefox-x11 {
     ## Fix touchpad kinetic scrolling
     export MOZ_USE_XINPUT2=1
 }
 
-function env__gpg-agent {
+function __env_gpg-agent {
     export "GPG_TTY=$(tty)"
     gpg-connect-agent updatestartuptty /bye >/dev/null;
 }
 
-function env__gpg-agent-ssh {
+function __env_gpg-agent-ssh {
     unset SSH_AGENT_PID
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 }
 
-function env__path {
+function __env_path {
     export PATH="\
 ${HOME}/bin\
 :${HOME}/.local/bin\
@@ -69,26 +69,26 @@ ${HOME}/bin\
 :$PATH"
 }
 
-function env__prompt-classic {
+function __env_prompt-classic {
     case "$(id -u)" in
         0) PS1='\[\e[1;30m\][\[\e[0;1;31m\]\u\[\e[1;30m\]@\[\e[0;1;31m\]\h \[\e[0;1;31m\]\w\[\e[1;30m\]]#\[\e[0m\] ';;
         *) PS1='\[\e[1;30m\][\[\e[0;1;34m\]\u\[\e[1;30m\]@\[\e[0;1;34m\]\h \[\e[0;1;36m\]\w\[\e[1;30m\]]$\[\e[0m\] ';;
     esac
 }
 
-function env__shell-bash {
+function __env_shell-bash {
     export SHELL="/usr/bin/bash"
 }
 
-function env__shell-fish {
+function __env_shell-fish {
     export SHELL="/usr/bin/fish"
 }
 
-function env__shell-pwsh {
+function __env_shell-pwsh {
     export SHELL="/usr/bin/pwsh"
 }
 
-function env__xdg {
+function __env_xdg {
     export XDG_DATA_HOME="$HOME/.local/share"
     export XDG_STATE_HOME="$HOME/.local/state"
     export XDG_CONFIG_HOME="$HOME/.config"
