@@ -33,6 +33,7 @@ EOF
         exec cat <<EOF
 GPG_TTY=\$(tty) && export GPG_TTY;
 export PINENTRY_USER_DATA=${CLI_FLAG};
+export SSH_AUTH_SOCK="\$(gpgconf --list-dirs agent-ssh-socket)";
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 EOF
         ;;
@@ -41,6 +42,7 @@ EOF
         exec cat <<EOF
 set -gx GPG_TTY (tty);
 set -gx PINENTRY_USER_DATA ${CLI_FLAG};
+set -gx SSH_AUTH_SOCK "\$(gpgconf --list-dirs agent-ssh-socket)";
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 EOF
         ;;
@@ -49,6 +51,7 @@ EOF
         exec cat <<EOF
 \$env:GPG_TTY = (tty);
 \$env:PINENTRY_USER_DATA = "${CLI_FLAG}";
+\$env:SSH_AUTH_SOCK = "\$(gpgconf --list-dirs agent-ssh-socket)";
 gpg-connect-agent updatestartuptty /bye >/dev/null;
 EOF
         ;;
