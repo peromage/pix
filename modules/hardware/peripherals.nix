@@ -13,6 +13,7 @@ in {
         "printer"
         "zsa-keyboard"
         "xbox-controller"
+        "smart-card"
       ]);
       default = [];
       description = "A list of devices to support.";
@@ -33,6 +34,13 @@ in {
 
     (mkDeviceConfig "xbox-controller" {
       hardware.xpadneo.enable = true;
+    })
+
+    (mkDeviceConfig "smart-card" {
+      services.pcscd.enable = true;
+      environment.systemPackages = with pkgs; [
+        yubikey-manager
+      ];
     })
   ]);
 }
