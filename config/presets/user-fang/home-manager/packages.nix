@@ -55,6 +55,7 @@
     shellcheck
     nixd
     pixPkgs.build-essential
+    unrestrictedPkgs.android-studio
 
     ## Devices
     android-tools
