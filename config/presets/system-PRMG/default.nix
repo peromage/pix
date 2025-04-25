@@ -17,7 +17,6 @@ with lib; {
     nix.enable = true;
     ime.fcitx.enable = true;
     virtmanager.enable = true;
-    waydroid.enable = true;
     flatpak.enable = true;
   };
 
