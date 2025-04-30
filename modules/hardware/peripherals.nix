@@ -14,6 +14,7 @@ in {
         "zsa-keyboard"
         "xbox-controller"
         "smart-card"
+        "adb"
       ]);
       default = [];
       description = "A list of devices to support.";
@@ -21,6 +22,10 @@ in {
   };
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
+    ({
+      services.udev.enable = true;
+    })
+
     (mkDeviceConfig "printer" {
       services.printing.enable = true;
     })
@@ -40,6 +45,12 @@ in {
       services.pcscd.enable = true;
       environment.systemPackages = with pkgs; [
         yubikey-manager
+      ];
+    })
+
+    (mkDeviceConfig "adb" {
+      services.udev.packages = [
+        pkgs.android-udev-rules
       ];
     })
   ]);
