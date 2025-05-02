@@ -56,6 +56,8 @@
     nixd
     pixPkgs.build-essential
     unrestrictedPkgs.android-studio
+    qtscrcpy
+    scrcpy
 
     ## Devices
     android-tools
