@@ -16,7 +16,7 @@
 --     cfg.font_size = 16
 --     cfg.default_prog = { "fish", "-i" }
 --
---     cfg.ssh_domains:_concat_impure {
+--     cfg.ssh_domains:_iconcat {
 --       {
 --         name = "Dev Domain",
 --         remote_address = "dev",
@@ -24,7 +24,7 @@
 --       },
 --     }
 --
---     cfg.wsl_domains:_concat_impure {
+--     cfg.wsl_domains:_iconcat {
 --       {
 --         name = "WSL::Ubuntu-20.04",
 --         distribution = "Ubuntu-20.04",
@@ -32,7 +32,7 @@
 --       },
 --     }
 --
---     cfg.launch_menu:_concat_impure {
+--     cfg.launch_menu:_iconcat {
 --       {
 --         label = "SSH to dev desktop",
 --         args = { "ssh", "-t", "dev" },
@@ -100,13 +100,13 @@ BasicTable = {
     return tmp
   end,
 
-  -- Update keys and values and return a copy
-  _update = function(self, tbl)
-    return BasicTable:_new(BasicTable._copy(self)):_update_impure(tbl)
+  -- Merge keys and values from the given table and return a copy
+  _merge = function(self, tbl)
+    return BasicTable:_new(BasicTable._copy(self)):_imerge(tbl)
   end,
 
-  -- Like `_update()' but alter the original table
-  _update_impure = function(self, tbl)
+  -- Like `_merge()' but alter the original table
+  _imerge = function(self, tbl)
     for k, v in pairs(tbl) do
       self[k] = v
     end
@@ -129,13 +129,13 @@ BasicTable = {
     return tmp
   end,
 
-  -- Concatenate and return a copy
+  -- Concatenate the given array and return a copy
   _concat = function(self, arr)
-    return BasicTable:_new(BasicTable._copy_as_array(self)):_concat_impure(arr)
+    return BasicTable:_new(BasicTable._copy_as_array(self)):_iconcat(arr)
   end,
 
   -- Like `_concat()' but alter the original array
-  _concat_impure = function(self, arr)
+  _iconcat = function(self, arr)
     for _, v in ipairs(arr) do
       table.insert(self, v)
     end
@@ -396,6 +396,6 @@ if ok then
   -- 2. Returns a table that has a function "override" which takes this config
   --    as its argument and returns a final config table (other attributes in
   --    the table will be ignored if the override function presents).
-  return m["override"] ~= nil and m.override(config) or config:_update_impure(m)
+  return m["override"] ~= nil and m.override(config) or config:_imerge(m)
 end
 return config
