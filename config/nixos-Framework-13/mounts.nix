@@ -9,38 +9,23 @@
    For directories that wish no CoW, use file attributes.
 */
 
-let
-  withDefaultSubvolOptions =
-    { vol
-    , optionOverrides ? []
-    }: {
-      device = "/dev/disk/by-uuid/35154f6e-27aa-49f8-b1b6-6472127cb524";
-      fsType = "btrfs";
-      options = if [] != optionOverrides then optionOverrides else [
-        "subvol=${vol}"
-        "ssd"
-        "noatime"
-        "autodefrag"
-        "compress=zstd:3"
-      ];
-    };
+{
+  boot.initrd.luks.devices."nixos_root".device = "/dev/disk/by-uuid/ad552a04-8962-42bd-90b5-a7eb09d9862c";
 
-in {
-  fileSystems."/" = withDefaultSubvolOptions { vol = "@nixos"; };
-  fileSystems."/nix" = withDefaultSubvolOptions { vol = "@nix"; };
-  fileSystems."/home" = withDefaultSubvolOptions { vol = "@home"; };
-  fileSystems."/vol/swap" = withDefaultSubvolOptions { vol = "@swap"; };
-  fileSystems."/vol/vm" = withDefaultSubvolOptions { vol = "@vm"; };
-  fileSystems."/vol/snapshot" = withDefaultSubvolOptions { vol = "@snapshot"; };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/6f50d190-f695-4019-83e6-950226839e9f";
+    fsType = "ext4";
+  };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/8F86-D998";
+    device = "/dev/disk/by-uuid/6D48-AED8";
     fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
   };
 
   swapDevices = [
     {
-      device = "/vol/swap/32gb.img";
+      device = "/.swapfile";
     }
   ];
 

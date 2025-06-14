@@ -9,13 +9,13 @@
   boot = {
     initrd = {
       systemd.enable = true;
-      luks.devices."ffroot".device = "/dev/disk/by-uuid/d698d7a5-125f-46ad-bc1d-47f9807afdef";
 
       availableKernelModules = [
         "xhci_pci"
         "thunderbolt"
         "nvme"
         "usb_storage"
+        "usbhid"
         "sd_mod"
       ];
 
