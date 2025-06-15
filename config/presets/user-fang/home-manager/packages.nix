@@ -7,6 +7,7 @@
   pix.dotfiles = {
     bash.enable = true;
     emacs.enable = true;
+    spelling.enable = true;
     fcitx5.enable = true;
     fish.enable = true;
     git = {

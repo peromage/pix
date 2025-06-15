@@ -7,6 +7,7 @@ let
 
   myHunspell = pkgs.hunspellWithDicts (with pkgs.hunspellDicts; [
     en_US
+    en_CA
   ]);
 
 in pkgs.buildEnv {
