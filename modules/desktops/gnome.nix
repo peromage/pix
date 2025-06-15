@@ -13,7 +13,7 @@ in {
   config = lib.mkIf cfg.enable (lib.mkMerge [
     ## For both Wayland and X11
     {
-      services.xserver = {
+      services = {
         desktopManager.gnome.enable = true;
         displayManager.gdm.enable = cfg.enableGDM;
         displayManager.gdm.wayland = cfgOverall.enableWayland;
