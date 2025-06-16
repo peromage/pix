@@ -8,6 +8,7 @@ let
 in {
   options.pix.hardware.peripherals = {
     enable = lib.mkEnableOption "peripheral management";
+
     devices = lib.mkOption {
       type = with lib.types; listOf (enum [
         "printer"
@@ -18,6 +19,12 @@ in {
       ]);
       default = [];
       description = "A list of devices to support.";
+    };
+
+    keyboardLayout = lib.mkOption {
+      type = lib.types.str;
+      default = "us";
+      description = "X keyboard layout, or multiple keyboard layouts separated by commas.";
     };
   };
 
@@ -52,6 +59,10 @@ in {
       services.udev.packages = [
         pkgs.android-udev-rules
       ];
+    })
+
+    ({
+      services.xserver.xkb.layout = cfg.keyboardLayout;
     })
   ]);
 }
