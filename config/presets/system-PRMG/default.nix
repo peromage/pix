@@ -15,7 +15,6 @@ with lib; {
     };
     documentation.enable = true;
     nix.enable = true;
-    ime.fcitx.enable = true;
     virtmanager.enable = true;
     flatpak.enable = true;
   };
