@@ -5,13 +5,6 @@ let
   srcFcitx5Config = ./home-files/.config/fcitx5;
   srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
 
-  srcRimeIce = pkgs.fetchFromGitHub {
-    owner = "iDvel";
-    repo = "rime-ice";
-    rev = "2024.12.12";
-    hash = "sha256-2QZdlLGZwWIesbjYTE/2yhM1hHGVVp7jR02bR0oqxV0=";
-  };
-
 in {
   options.pix.dotfiles.fcitx5 = {
     enable = lib.mkEnableOption "Pot Fcitx5";
@@ -41,13 +34,8 @@ in {
       source = srcFcitx5Config;
       recursive = true;
     };
-
-    /*
-       To rebuild, cd to this directory and execute:
-         rime_deployer --build
-    */
-    xdg.dataFile."fcitx5/rime" = {
-      source = srcRimeIce.outPath;
+    xdg.dataFile."fcitx5" = {
+      source = srcFcitx5PluginConfig;
       recursive = true;
     };
   };
