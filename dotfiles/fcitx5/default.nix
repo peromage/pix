@@ -18,27 +18,24 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    /*
-       Temporarily disabled since this is problematic in user space.
-       Instead, the IME module should be enabled in NixOS config.
+    i18n.inputMethod = {
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; [
+        fcitx5-rime
+        fcitx5-configtool
+        fcitx5-chinese-addons
+        fcitx5-gtk
+      ];
+    };
 
-       FIXME: May be enabled in the future.
-    */
-    # i18n.inputMethod = {
-    #   enabled = "fcitx5";
-    #   fcitx5.addons = with pkgs; [
-    #     fcitx5-rime
-    #     fcitx5-configtool
-    #     fcitx5-chinese-addons
-    #     fcitx5-gtk
-    #   ];
-    # };
-
-    # home.packages = with pkgs; [
-    #   librime
-    #   rime-cli
-    #   rime-data
-    # ];
+    home.packages = with pkgs; [
+      librime
+      librime-lua
+      librime-octagram
+      rime-cli
+      rime-data
+    ];
 
     xdg.configFile."fcitx5" = {
       source = srcFcitx5Config;
