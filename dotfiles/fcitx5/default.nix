@@ -15,19 +15,15 @@ in {
       enable = true;
       type = "fcitx5";
       fcitx5.addons = with pkgs; [
-        fcitx5-rime
+        (fcitx5-rime.override { rimeDataPkgs = []; })
         fcitx5-configtool
-        fcitx5-chinese-addons
         fcitx5-gtk
       ];
     };
 
     home.packages = with pkgs; [
-      librime
-      librime-lua
-      librime-octagram
+      (librime.override { plugins = [ librime-lua librime-octagram ];})
       rime-cli
-      rime-data
     ];
 
     xdg.configFile."fcitx5" = {
