@@ -5,6 +5,8 @@ let
   srcFcitx5Config = ./home-files/.config/fcitx5;
   srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
 
+  rimeDefault = pkgs.callPackage ./pkgs/rime-default-config.nix {};
+
 in {
   options.pix.dotfiles.fcitx5 = {
     enable = lib.mkEnableOption "Pot Fcitx5";
@@ -24,6 +26,7 @@ in {
     home.packages = with pkgs; [
       (librime.override { plugins = [ librime-lua librime-octagram ];})
       rime-cli
+      rimeDefault
     ];
 
     xdg.configFile."fcitx5" = {
