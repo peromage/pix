@@ -6,7 +6,7 @@ let
 
 in {
   imports = [
-    ./fcitx.nix
+    ./fcitx5.nix
     ./ibus.nix
   ];
 
