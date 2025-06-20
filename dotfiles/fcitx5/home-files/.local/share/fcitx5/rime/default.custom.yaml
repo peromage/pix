@@ -1,6 +1,2 @@
-# Default Rime config
 patch:
-  schema_list:
-    # Ziranma scheme
-    - schema: double_pinyin
-    - schema: bopomofo
+  __include: wanxiang_pro_suggested_default:/
