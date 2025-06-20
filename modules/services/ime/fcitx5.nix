@@ -31,7 +31,6 @@ in {
     environment.systemPackages = with pkgs; [
       (librime.override { plugins = [ librime-lua librime-octagram ];})
       rime-cli
-      pkgs.pixPkgs.rime-default-config
     ]
     ++ lib.optional gnomeCfg.enable gnomeExtensions.kimpanel;
   };
