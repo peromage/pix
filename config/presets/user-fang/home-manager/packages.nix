@@ -76,6 +76,7 @@
     ffmpeg
     exiftool
     imagemagick
+    localsend
 
     ## Drawing
     libwacom
