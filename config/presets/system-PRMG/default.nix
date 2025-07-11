@@ -7,7 +7,12 @@ with lib; {
   pix.system.hostName = "PRMG";
   pix.services = {
     i18n.enable = true;
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        53317 # localsend
+      ];
+    };
     vconsole.enable = true;
     sshd = {
       enable = true;
