@@ -75,8 +75,9 @@
     zbar
     ffmpeg
     exiftool
-    imagemagick
-    localsend
+    imagemagick # Image processing, used with ghostscript
+    ghostscript # PDF tools
+    localsend # Airdrop alternative
 
     ## Drawing
     libwacom
