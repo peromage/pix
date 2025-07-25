@@ -8,12 +8,12 @@
 let
   baseDictRelease = {
     url = "https://api.github.com/repos/amzxyz/rime_wanxiang/releases/tags/dict-nightly";
-    fileMatch = "base-zh-dicts.zip";
+    fileMatch = "base-dicts.zip";
   };
 
   proDictRelease = {
     url = "https://api.github.com/repos/amzxyz/rime_wanxiang/releases/tags/dict-nightly";
-    fileMatch = "pro-all-zh-dicts.zip";
+    fileMatch = "pro-all-dicts.zip";
   };
 
   grammarModelRelease = {
@@ -39,14 +39,14 @@ writeShellApplication {
     BASE_DICT_FILE_MATCH="${baseDictRelease.fileMatch}"
     BASE_DICT_RELEASE_JSON="base.json"
     BASE_DICT_EXTRACTED_DIR="base_extracted"
-    BASE_DICT_STAGING_DIR="$COMMON_STAGING_DIR/zh_dicts"
+    BASE_DICT_STAGING_DIR="$COMMON_STAGING_DIR/dicts"
 
     PRO_DICT_JOB_NAME="Pro Dictionaries"
     PRO_DICT_RELEASE_URL="${proDictRelease.url}"
     PRO_DICT_FILE_MATCH="${proDictRelease.fileMatch}"
     PRO_DICT_RELEASE_JSON="pro.json"
     PRO_DICT_EXTRACTED_DIR="pro_extracted"
-    PRO_DICT_STAGING_DIR="$COMMON_STAGING_DIR/zh_dicts_pro"
+    PRO_DICT_STAGING_DIR="$COMMON_STAGING_DIR/dicts"
 
     GRAMMAR_JOB_NAME="Grammar Model"
     GRAMMAR_RELEASE_URL="${grammarModelRelease.url}"
@@ -112,6 +112,10 @@ writeShellApplication {
         cat "$1" >> "$VERSION_FILE"
     }
 
+    move_files() {
+        find "$2" -name "$1" -exec mv {} "$3" \;
+    }
+
     update_base_dict() {
         do_download "$BASE_DICT_JOB_NAME" \
                     "$BASE_DICT_RELEASE_URL" \
@@ -124,7 +128,7 @@ writeShellApplication {
         unzip -q -d "$BASE_DICT_EXTRACTED_DIR" "$current_file"
 
         mkdir -p "$BASE_DICT_STAGING_DIR"
-        mv "$BASE_DICT_EXTRACTED_DIR"/**/*.yaml "$BASE_DICT_STAGING_DIR"
+        move_files '*.yaml' "BASE_DICT_EXTRACTED_DIR" "BASE_DICT_STAGING_DIR"
 
         do_log_version "$BASE_DICT_RELEASE_JSON"
 
@@ -143,7 +147,7 @@ writeShellApplication {
         unzip -q -d "$PRO_DICT_EXTRACTED_DIR" "$current_file"
 
         mkdir -p "$PRO_DICT_STAGING_DIR"
-        mv "$PRO_DICT_EXTRACTED_DIR"/**/*.yaml "$PRO_DICT_STAGING_DIR"
+        move_files '*.yaml' "$PRO_DICT_EXTRACTED_DIR" "$PRO_DICT_STAGING_DIR"
 
         do_log_version "$PRO_DICT_RELEASE_JSON"
 
