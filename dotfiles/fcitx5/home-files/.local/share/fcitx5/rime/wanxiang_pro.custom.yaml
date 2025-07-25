@@ -1,0 +1,6 @@
+patch:
+  speller/algebra:
+    __patch:
+      - wanxiang_pro.schema:/自然码
+      - wanxiang_pro.schema:/fuzhu_zrm
+      - wanxiang_pro.schema:/直接辅助

@@ -1,2 +1,4 @@
 patch:
   __include: wanxiang_suggested_default:/
+  schema_list:
+    - schema: wanxiang_pro
