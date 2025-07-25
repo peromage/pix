@@ -17,5 +17,6 @@
     ./vconsole.nix
     ./virtmanager.nix
     ./waydroid.nix
+    ./docker.nix
   ];
 }
