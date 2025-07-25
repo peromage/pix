@@ -30,6 +30,8 @@ in {
         dconf2nix
         gnome-terminal ## Provides more functionalities than default gnome-console
       ]) ++ extensions;
+
+      security.pam.services.gdm.enableGnomeKeyring = true;
     }
 
     ## X11 utilities
