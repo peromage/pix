@@ -12,7 +12,7 @@ let
 
   emacsAspell = pkgs.aspellWithDicts (aspellDicts: myAspellDicts);
 
-  emacsHunspell = pkgs.hunspellWithDicts myHunspellDicts;
+  emacsHunspell = pkgs.hunspell.withDicts (hunspellDicts: myHunspellDicts);
 
 in pkgs.buildEnv {
   name = "my-spelling";
