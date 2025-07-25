@@ -15,8 +15,8 @@
 
 (use-package copilot
   :ensure nil
+  :vc (:url "https://github.com/copilot-emacs/copilot.el" :branch "main")
   :commands (copilot-mode global-copilot-mode)
-  :init (pewcfg :vcpkg ("copilot-emacs/copilot.el" "main"))
   :bind ( :map copilot-completion-map
           ;; Avoid conflict with regular completion
           ("M-n" . copilot-next-completion)
