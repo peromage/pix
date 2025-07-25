@@ -6,6 +6,7 @@ let
   srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
 
   rimeDefault = pkgs.callPackage ./pkgs/rime-default-config.nix {};
+  rimeWanxiangDataUpdater = pkgs.callPackage ./pkgs/rime-wanxiang-data-updater.nix {};
 
 in {
   options.pix.dotfiles.fcitx5 = {
@@ -35,6 +36,7 @@ in {
         ];
       })
       rime-cli
+      rimeWanxiangDataUpdater
     ];
 
     xdg.configFile."fcitx5" = {
