@@ -22,6 +22,7 @@ with lib; {
     nix.enable = true;
     virtmanager.enable = true;
     flatpak.enable = true;
+    docker.enable = true;
   };
 
   pix.desktops.env.gnome.enable = true;
