@@ -21,3 +21,6 @@
 
 ## Cached package bundle
 !/elpa-*.tar.gz
+
+## Utility scripts
+!/*.sh
