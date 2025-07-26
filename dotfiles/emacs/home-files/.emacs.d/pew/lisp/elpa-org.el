@@ -188,23 +188,30 @@ Otherwise the cursor is placed at the beginning of the heading."
                                                   (:hlines . "no")
                                                   (:tangle . "no"))))) ;; End org
 
-(use-package org-tempo
-  :ensure nil
-  :after org)
+(pewcfg :eval-after (org
+                     (use-package org-contrib
+                       :ensure t)
+                     ;; Included in org-contrib
+                     (use-package ox-extra
+                       :ensure nil)
 
-(use-package org-bullets
-  :ensure t
-  :after org
-  :hook (org-mode . pew::org-bullets::on-enter)
-  :preface
-  (defun pew::org-bullets::on-enter ()
-    "`org-bullets' initialization."
-    (org-bullets-mode 1)))
+                     (use-package org-tempo
+                       :ensure nil)
 
-;; Org to Markdown for Hugo
-(use-package ox-hugo :ensure t :defer t)
-;; Export backend for GitHub flavored Markdown
-(use-package ox-gfm :ensure t :defer t)
+                     (use-package org-bullets
+                       :ensure t
+                       :hook (org-mode . pew::org-bullets::on-enter)
+                       :preface
+                       (defun pew::org-bullets::on-enter ()
+                         "`org-bullets' initialization."
+                         (org-bullets-mode 1)))
+
+                     ;; Org to Markdown for Hugo
+                     (use-package ox-hugo
+                       :ensure t)
+                     ;; Export backend for GitHub flavored Markdown
+                     (use-package ox-gfm
+                       :ensure t)))
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
