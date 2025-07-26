@@ -55,7 +55,7 @@
 ;; Grammar pack
 (use-package treesit-langs
   :ensure nil ;; Install from repo instead
-  :vc (:url "emacs-tree-sitter/treesit-langs" :branch "main")
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-langs" :branch "main")
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars))
 
 
@@ -63,7 +63,7 @@
 
 (use-package treesit-fold
   :ensure nil
-  :vc (:url "emacs-tree-sitter/treesit-fold" :branch "master")
+  :vc (:url "https://github.com/emacs-tree-sitter/treesit-fold" :branch "master")
   :config
   ;; (global-treesit-fold-indicators-mode) ;; Not working in terminal
   (global-treesit-fold-mode 1)) ;; Automatically adds folding functions to `evil-fold-list'.
@@ -115,7 +115,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 
 (use-package kdl-ts-mode
   :ensure nil
-  :vc (:url "dataphract/kdl-ts-mode" :branch "main")
+  :vc (:url "https://github.com/dataphract/kdl-ts-mode" :branch "main")
   :mode ("\\.kdl\\'" . kdl-ts-mode)
   :custom
   (kdl-ts-mode-indent-offset 2))
