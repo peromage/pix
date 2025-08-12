@@ -29,5 +29,9 @@
     }
   ];
 
-  boot.tmp.useTmpfs = true;
+  boot.tmp = {
+    useTmpfs = true;
+    tmpfsSize = "50%"; ## 16GB
+    tmpfsHugeMemoryPages = "never"; ## Huge pages may waste memory
+  };
 }
