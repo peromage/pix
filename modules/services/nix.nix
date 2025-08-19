@@ -6,7 +6,7 @@ let
 in {
   options.pix.services.nix = {
     enable = lib.mkEnableOption "Nix settings";
-    enableOptimization = lib.mkEnableOption "Nix optimization" // { default = true; };
+    enableGC = lib.mkEnableOption "Nix store garbage collection";
   };
 
   config = lib.mkMerge [
@@ -29,6 +29,8 @@ in {
         channel.enable = true;
 
         settings = {
+          auto-optimise-store = true; ## Use hard links to save space
+
           sandbox = true;
           experimental-features = [ "nix-command" "flakes" ];
           trusted-users = [
@@ -50,25 +52,23 @@ in {
         package = pkgs.nixVersions.stable;
 
         nixPath = [ "nixpkgs=${pix.inputs.nixpkgs}" ];
-      };
-    })
-
-    (lib.mkIf (cfg.enable && cfg.enableOptimization) {
-      nix = {
-        settings.auto-optimise-store = true; ## Use hard links to save space
 
         optimise = {
           automatic = true;
-          dates = [ "weekly" ];
-        };
-
-        gc = {
-          automatic = true;
           persistent = true;
-          dates = "weekly";
-          options = ""; ## Use "nix-collect-garbage --delete-older-than 30d" to purge old system profiles
-          randomizedDelaySec = "0";
+          dates = [ "weekly" ];
+          randomizedDelaySec = "1min";
         };
+      };
+    })
+
+    (lib.mkIf (cfg.enable && cfg.enableGC) {
+      nix.gc = {
+        automatic = true;
+        persistent = true;
+        dates = [ "weekly" ];
+        options = ""; ## Use "nix-collect-garbage --delete-older-than 30d" to purge old system profiles
+        randomizedDelaySec = "1min";
       };
     })
   ];
