@@ -1,29 +1,5 @@
 ;; -*- lexical-binding: t; -*-
 
-;; Rules:
-;;
-;; Each headline shall have only one type of CV_HEADLINE_TYPE set.
-;;
-;; * Level 1 headline (mandatory)
-;; As CV section (default).
-;; Property CV_HEADLINE_TYPE may be set.  If it is unspecified, contents are output as
-;; unchanged.  If it is set but not an environment type (compared with command
-;; type), contents are ignored.  Otherwise, format the environment after section.
-;;
-;; ** Level 2 headline (optional)
-;; As CV subsection (default).
-;; Same CV_HEADLINE_TYPE rules as level 1 above.
-;;
-;; *** Level 3 headline and deeper (optional)
-;; Can be CV entry type, CV subentry environment, etc. depending on the CV_HEADLINE_TYPE type.
-;; Property CV_HEADLINE_TYPE must be set.  If it is unspecified or invalid, contents are ignored.
-;;
-;; - Ordered / unordered list
-;; CV items.
-;;
-;; - Description :: list
-;; CV skill items.
-
 (require 'org)
 (require 'subr-x)
 

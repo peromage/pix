@@ -1,0 +1,168 @@
+#+title: CV/Resume Format Example
+
+* Overall
+This document demonstrates the format that complies with the exporters defined in this package.
+
+All exporters should have consistent behaviors based on the format rules.
+
+* Formats
+See [[./oxcv.el][definitions]] for available properties/keywords.
+
+Note: Results may vary depending on different backends.
+
+** Common
+Each headline shall have only one type of =CV_HEADLINE_TYPE= set.
+
+The headline text may or may not be parsed depending on the type specified in =CV_HEADLINE_TYPE= (it decides whether to use it or not).
+
+** Level 1 Headline - Mandatory
+This headline is *ALWAYS* treated as CV section.
+
+Additionally, property =CV_HEADLINE_TYPE= may be set.  If it is unspecified, contents are output as unchanged.  If it is set but not an environment type (compared with command type), contents are ignored.  Otherwise, format the environment after CV section.
+
+** Level 2 Headline - Optional
+This headline is *ALWAYS* treated as CV subsection.
+
+Same =CV_HEADLINE_TYPE= rules as level 1 headline above.
+
+** Level 3+ Headline - Optional
+Level 3 and deeper headlines are used as specific entry types.
+
+If used, the property =CV_HEADLINE_TYPE= must be set with either environment type or command type.
+
+If used but the property =CV_HEADLINE_TYPE= is missing, all contents under the headline are totally ignored.
+
+** Ordered/Unordered List
+Treated as CV items.
+
+** Description List
+Treated as CV skill sets.
+
+* Example
+Given the following org document:
+
+#+begin_src org
+,* Introduction
+:PROPERTIES:
+:CV_HEADLINE_TYPE: cvparagraph
+:END:
+A cool guy.
+
+,* What I Can Make
+- Food :: Hot Dog, Hamburger, French Fries
+- Drinks :: Coke, Beer, Sparkling Water
+
+,* Jobs
+
+,** Asia
+:PROPERTIES:
+:CV_HEADLINE_TYPE: cventries
+:END:
+
+,*** Cook
+:PROPERTIES:
+:CV_HEADLINE_TYPE: cventry
+:CV_ENTRY_ORGANIZATION: New East
+:CV_ENTRY_LOCATION: Beijing
+:CV_ENTRY_TIME: 2005 - Present
+:END:
+I cook delicious dishes.
+
+,** America
+:PROPERTIES:
+:CV_HEADLINE_TYPE: cventries
+:END:
+
+,*** Bartender
+:PROPERTIES:
+:CV_HEADLINE_TYPE: cventry
+:CV_ENTRY_ORGANIZATION: Central Perk
+:CV_ENTRY_LOCATION: New York
+:CV_ENTRY_TIME: 1994 - 2004
+:END:
+I met a lot of friends here.
+
+- Ross Geller
+- Monica Geller
+- Chandler Bing
+- Phoebe Buffay
+- Rachel Green
+- Joey Tribbiani
+
+,* New Page
+:PROPERTIES:
+:CV_HEADLINE_TYPE: pagebreak
+:END:
+A new page starts after this headline.  This text will be discarded since it doesn't mean anything for a pagebreak.
+
+,* Useless Section
+,*** This is Ignored
+Anything under this headline will be ignored since it doesn't have a type specified in its property.
+#+end_src
+
+Will be translated into the corresponding backend format (some context has been removed for simplicity).  [[https://github.com/posquit0/Awesome-CV][AwesomeCV]] in this case.
+
+#+begin_src latex
+\cvsection{Introduction}
+
+\begin{cvparagraph}
+
+A cool guy
+
+\end{cvparagraph}
+
+\cvsection{What I Can Make}
+
+\begin{cvskills}
+
+\cvskill
+{Food}
+{Hot Dog, Hamburger, French Fries}
+
+\cvskill
+{Drinks}
+{Coke, Beer, Sparkling Water}
+
+\end{cvskills}
+
+\cvsection{Jobs}
+
+\cvsubsection{Asia}
+
+\begin{cventries}
+
+\cventry
+{Cook}
+{New East}
+{Beijing}
+{2005 - Present}
+{I cook delicious dishes.}
+
+\end{cventries}
+
+\cvsubsection{America}
+
+\begin{cventries}
+
+\cventry
+{Bartender}
+{Central Perk}
+{New York}
+{1994 - 2004}
+{I met a lot of friends here.
+\begin{cvitems}
+\item{Ross Geller}
+\item{Monica Geller}
+\item{Chandler Bing}
+\item{Phoebe Buffay}
+\item{Rachel Green}
+\item{Joey Tribbiani}
+\end{cvitems}
+}
+
+\end{cventries}
+
+\clearpage
+
+\cvsection{Useless Section}
+#+end_src
