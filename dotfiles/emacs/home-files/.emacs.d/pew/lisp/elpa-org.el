@@ -211,7 +211,11 @@ Otherwise the cursor is placed at the beginning of the heading."
                        :ensure t)
                      ;; Export backend for GitHub flavored Markdown
                      (use-package ox-gfm
-                       :ensure t)))
+                       :ensure t)
+
+                     ;; My own backends
+                     (use-package ox-awesomecv
+                       :ensure nil)))
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
