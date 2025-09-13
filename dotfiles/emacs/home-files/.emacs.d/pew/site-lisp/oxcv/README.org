@@ -42,6 +42,20 @@ Treated as CV skill sets.
 Given the following org document:
 
 #+begin_src org
+,#+cv_title: Professional Cook
+,#+cv_author: John Doe
+,#+cv_email: johndoe@gmail.com
+,#+cv_mobile: 123-456-7890
+,#+cv_linkedin: johndoe
+,#+cv_github: johndoe
+
+,#+cv_footer_left: \monthyeardate
+,#+cv_footer_middle: John Doe~~~·~~~Résumé
+,#+cv_footer_right: \thepage
+,#+cv_preamble: ./preambles/awesome-cv.tex
+
+,#+export_file_name: john-doe-resume.tex
+
 ,* Introduction
 :PROPERTIES:
 :CV_HEADLINE_TYPE: cvparagraph
@@ -103,12 +117,23 @@ Anything under this headline will be ignored since it doesn't have a type specif
 Will be translated into the corresponding backend format (some context has been removed for simplicity).  [[https://github.com/posquit0/Awesome-CV][AwesomeCV]] in this case.
 
 #+begin_src latex
+\name{John}{Doe}
+\position{Professional Cook}
+\mobile{123-456-7890}
+\email{johndoe@gmail.com}
+\linkedin{johndoe}
+\github{johndoe}
+
+\begin{document}
+
+\makecvheader[C]
+\makecvfooter{\monthyeardate}{John Doe~~~·~~~Résumé}{\thepage}
+
 \cvsection{Introduction}
 
 \begin{cvparagraph}
 
 A cool guy
-
 \end{cvparagraph}
 
 \cvsection{What I Can Make}
@@ -165,4 +190,6 @@ A cool guy
 \clearpage
 
 \cvsection{Useless Section}
+
+\end{document}
 #+end_src
