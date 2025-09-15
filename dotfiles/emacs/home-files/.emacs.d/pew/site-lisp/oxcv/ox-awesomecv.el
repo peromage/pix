@@ -38,6 +38,7 @@
     (let ((name (split-string (plist-get info :cv_author) " ")))
       (format "\\name{%s}{%s}" (car name) (cadr name)))
     (format "\\position{%s}" (plist-get info :cv_title))
+    (format "\\address{%s}" (plist-get info :cv_address))
     (format "\\mobile{%s}" (plist-get info :cv_mobile))
     (format "\\email{%s}" (plist-get info :cv_email))
     (format "\\linkedin{%s}" (plist-get info :cv_linkedin))

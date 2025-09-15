@@ -5,6 +5,7 @@
 
 (defconst oxcv-backend-options-alist '((:cv_title "CV_TITLE" nil "" t)
                                        (:cv_author "CV_AUTHOR" nil "" t)
+                                       (:cv_address "CV_ADDRESS" nil "" t)
                                        (:cv_email "CV_EMAIL" nil "" t)
                                        (:cv_mobile "CV_MOBILE" nil "" t)
                                        (:cv_linkedin "CV_LINKEDIN" nil "" t)
