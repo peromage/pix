@@ -79,13 +79,11 @@
           modules = [ fn ];
         });
 
-        makeHomeWithHomeManager = home-manager: system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
+        makeHome = system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
           pkgs = final.makePkgs system;
           extraSpecialArgs = { inherit pix; };
           modules = [ self.outputs.nixosModules.dotfiles fn ];
         });
-
-        makeHome = makeHomeWithHomeManager home-manager;
       });
 
     in with lib; {
