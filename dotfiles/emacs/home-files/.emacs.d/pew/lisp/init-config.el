@@ -276,15 +276,15 @@
 ;;;; Repeat
    ("C-r" . pewkey-repeat)
 
-;;;; Windows
-   ("q" . pewlib::workspace::close-window)
+;;;; Windows/Buffers
+   ("w" . pewlib::workspace::close-window)
    ("1" . delete-other-windows)
    ("2" . pewlib::workspace::split-window-below)
    ("3" . pewlib::workspace::split-window-right)
    ("9" . window-toggle-side-windows)
    ("0" . pewlib::workspace::close-window)
-   ("o" . pewlib::workspace::next-window)
-   ("O" . pewlib::workspace::prev-window)
+   ("]" . pewlib::workspace::next-window)
+   ("[" . pewlib::workspace::prev-window)
    ("h" . windmove-left)
    ("j" . windmove-down)
    ("k" . windmove-up)
@@ -293,38 +293,36 @@
    ("C-<down>"  . shrink-window)
    ("C-<up>"    . enlarge-window)
    ("C-<right>" . enlarge-window-horizontally)
+   ("R" . rename-buffer)
+   ("s" . save-buffer)
+   ("n" . pewlib::workspace::next-editing-buffer)
+   ("p" . pewlib::workspace::previous-editing-buffer)
+   ("i" . pewlib::debug::display-buffer-file-name)
+   ("B" . display-buffer)
+   ("g" . revert-buffer-quick)
 
 ;;;; Layout
-   ("y" . winner-undo)
-   ("Y" . winner-redo)
+   ("m" . winner-undo)
+   ("M" . winner-redo)
 
 ;;;; Other window
-   ("C-v" . pewlib::workspace::scroll-other-window-page-down)
-   ("M-v" . pewlib::workspace::scroll-other-window-page-up)
-   ("C-n" . pewlib::workspace::scroll-other-window-line-down)
-   ("C-p" . pewlib::workspace::scroll-other-window-line-up)
-   ("C-l" . pewlib::workspace::recenter-other-window)
+   ("M-V" . pewlib::workspace::scroll-other-window-page-down)
+   ("M-C" . pewlib::workspace::scroll-other-window-page-up)
+   ("M-N" . pewlib::workspace::scroll-other-window-line-down)
+   ("M-P" . pewlib::workspace::scroll-other-window-line-up)
+   ("M-L" . pewlib::workspace::recenter-other-window)
 
-;;;; Tabbar
-   ("Q"   . tab-bar-close-tab)
-   ("R"   . tab-bar-rename-tab)
+;;;; Tab
+   ("q"   . tab-bar-close-tab)
+   ("r"   . tab-bar-rename-tab)
    ("f"   . tab-bar-switch-to-next-tab)
    ("F"   . tab-bar-select-tab-by-name)
    ("b"   . tab-bar-switch-to-prev-tab)
    ("t"   . tab-bar-new-tab)
    ("T"   . pewlib::workspace::pop-window-in-new-tab)
    ("C-t" . pewlib::workspace::pop-window-in-new-tab-persist)
-   ("m"   . pewlib::workspace::move-tab-next)
-   ("M"   . pewlib::workspace::move-tab-prev)
-
-;;;; Buffers
-   ("r" . rename-buffer)
-   ("w" . save-buffer)
-   ("n" . pewlib::workspace::next-editing-buffer)
-   ("p" . pewlib::workspace::previous-editing-buffer)
-   ("i" . pewlib::debug::display-buffer-file-name)
-   ("B" . display-buffer)
-   ("g" . revert-buffer-quick)
+   ("."   . pewlib::workspace::move-tab-next)
+   (","   . pewlib::workspace::move-tab-prev)
 
 ;;;; Jump
    ("C-o"   . pop-global-mark)
@@ -345,9 +343,9 @@
    ("U" . undo-redo)
    (";" . comment-line)
    ("/" . isearch-forward-regexp)
-   ("." . isearch-query-replace-regexp)
-   ("=" . what-cursor-position)
-   ("-" . ispell-word)
+   ("?" . isearch-query-replace-regexp)
+   ("+" . what-cursor-position)
+   ("=" . ispell-word)
 
 ;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
    ("C-=" . text-scale-adjust)
