@@ -167,11 +167,11 @@ local keys = BasicTable:_new {
   -- Most of the less used commands can be accessed from the palette or the launcher
   { mods = "CTRL|SHIFT",  key = "P",      action = act.ActivateCommandPalette },
   { mods = "CTRL|SHIFT",  key = "L",      action = act.ShowLauncher },
+  { mods = "CTRL|SHIFT",  key = "O",      action = act.ShowDebugOverlay },
   { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
   -- Mode shift
   { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable { name = "transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
-  { mods = "CTRL|SHIFT",  key = "F",      action = act.ActivateCopyMode },
-  { mods = "CTRL|SHIFT",  key = "?",      action = act.ShowDebugOverlay },
+  { mods = "CTRL|SHIFT",  key = "X",      action = act.ActivateCopyMode },
 }
 
 local key_tables = BasicTable:_new {
