@@ -302,8 +302,8 @@
    ("g" . revert-buffer-quick)
 
 ;;;; Layout
-   ("m" . winner-undo)
-   ("M" . winner-redo)
+   ("o" . winner-undo)
+   ("O" . winner-redo)
 
 ;;;; Other window
    ("M-V" . pewlib::workspace::scroll-other-window-page-down)

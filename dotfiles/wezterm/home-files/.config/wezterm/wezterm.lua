@@ -171,7 +171,7 @@ local keys = BasicTable:_new {
   { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
   -- Mode shift
   { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable { name = "transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
-  { mods = "CTRL|SHIFT",  key = "X",      action = act.ActivateCopyMode },
+  { mods = "CTRL|SHIFT",  key = "O",      action = act.ActivateCopyMode },
 }
 
 local key_tables = BasicTable:_new {
