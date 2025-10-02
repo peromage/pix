@@ -295,8 +295,8 @@ with lib.hm.gvariant;
       move-to-monitor-up = [];
       move-to-workspace-1 = [];
       move-to-workspace-last = [];
-      move-to-workspace-left = [ "<Shift><Super>m" ];
-      move-to-workspace-right = [ "<Super>m" ];
+      move-to-workspace-left = [ "<Super>comma" ];
+      move-to-workspace-right = [ "<Super>period" ];
       panel-run-dialog = [ "<Super>r" ];
       switch-applications = [];
       switch-applications-backward = [];
@@ -450,8 +450,8 @@ with lib.hm.gvariant;
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
       binding = "<Super>t";
-      command = "gnome-terminal";
-      name = "Gnome Terminal";
+      command = "kitty";
+      name = "Kitty";
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
