@@ -17,6 +17,7 @@
       ];
     };
     gpg.enable = true;
+    kitty.enable = true;
     password-store.enable = true;
     pwsh.enable = true;
     tmux.enable = true;
