@@ -46,7 +46,7 @@
     [
         {
             "id": null,
-            "keys": "enter"
+            "keys": "ctrl+shift+w"
         },
         {
             "id": "Terminal.ClosePane",
@@ -54,15 +54,15 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+w"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+minus"
+            "keys": "enter"
         },
         {
             "id": null,
             "keys": "ctrl+plus"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+minus"
         },
         {
             "id": "Terminal.DuplicatePaneRight",
@@ -70,11 +70,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+7"
+            "keys": "ctrl+alt+4"
         },
         {
             "id": null,
-            "keys": "ctrl+alt+4"
+            "keys": "ctrl+alt+7"
         },
         {
             "id": "Terminal.DecreaseFontSize",
@@ -82,19 +82,31 @@
         },
         {
             "id": null,
+            "keys": "ctrl+insert"
+        },
+        {
+            "id": null,
             "keys": "ctrl+shift+6"
         },
         {
             "id": null,
-            "keys": "ctrl+insert"
+            "keys": "ctrl+numpad_minus"
         },
         {
             "id": null,
             "keys": "alt+right"
         },
         {
+            "id": "User.openNewTabDropdown",
+            "keys": "ctrl+shift+g"
+        },
+        {
             "id": null,
-            "keys": "ctrl+numpad_minus"
+            "keys": "ctrl+shift+5"
+        },
+        {
+            "id": "Terminal.DuplicatePaneDown",
+            "keys": "ctrl+shift+2"
         },
         {
             "id": null,
@@ -103,14 +115,6 @@
         {
             "id": null,
             "keys": "ctrl+shift+comma"
-        },
-        {
-            "id": "Terminal.DuplicatePaneDown",
-            "keys": "ctrl+shift+2"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+5"
         },
         {
             "id": null,
@@ -138,15 +142,15 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+1"
-        },
-        {
-            "id": null,
             "keys": "alt+shift+left"
         },
         {
             "id": "Terminal.IncreaseFontSize",
             "keys": "ctrl+shift+plus"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+alt+1"
         },
         {
             "id": null,
@@ -162,11 +166,11 @@
         },
         {
             "id": null,
-            "keys": "alt+down"
+            "keys": "ctrl+shift+4"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+4"
+            "keys": "alt+down"
         },
         {
             "id": null,
@@ -189,6 +193,10 @@
             "keys": "ctrl+shift+j"
         },
         {
+            "id": null,
+            "keys": "ctrl+alt+2"
+        },
+        {
             "id": "Terminal.MoveFocusPrevious",
             "keys": "ctrl+shift+["
         },
@@ -198,15 +206,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+2"
+            "keys": "ctrl+alt+3"
         },
         {
             "id": "Terminal.ScrollDown",
             "keys": "ctrl+shift+e"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+3"
         },
         {
             "id": null,
@@ -221,6 +225,10 @@
             "keys": "ctrl+alt+6"
         },
         {
+            "id": null,
+            "keys": "shift+insert"
+        },
+        {
             "id": "Terminal.ScrollUp",
             "keys": "ctrl+shift+y"
         },
@@ -230,15 +238,11 @@
         },
         {
             "id": null,
-            "keys": "shift+insert"
+            "keys": "ctrl+comma"
         },
         {
             "id": "User.nextTab.0",
             "keys": "ctrl+shift+f"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+comma"
         },
         {
             "id": null,
@@ -250,23 +254,23 @@
         },
         {
             "id": null,
-            "keys": "ctrl+numpad0"
+            "keys": "f11"
         },
         {
             "id": null,
-            "keys": "f11"
+            "keys": "ctrl+numpad0"
         },
         {
             "id": null,
             "keys": "ctrl+shift+period"
         },
         {
-            "id": "Terminal.ResizePaneRight",
-            "keys": "ctrl+shift+right"
-        },
-        {
             "id": "Terminal.ResetFontSize",
             "keys": "ctrl+shift+backspace"
+        },
+        {
+            "id": "Terminal.ResizePaneRight",
+            "keys": "ctrl+shift+right"
         },
         {
             "id": "Terminal.ToggleFullscreen",
@@ -318,19 +322,11 @@
         },
         {
             "id": "Terminal.ToggleMarkMode",
-            "keys": "ctrl+shift+x"
-        },
-        {
-            "id": null,
             "keys": "ctrl+shift+m"
         },
         {
             "id": "User.toggleFullscreen",
             "keys": "alt+enter"
-        },
-        {
-            "id": "User.openNewTabDropdown",
-            "keys": "ctrl+shift+o"
         }
     ],
     "newTabMenu": 
