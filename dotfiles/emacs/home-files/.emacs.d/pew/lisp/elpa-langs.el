@@ -86,19 +86,7 @@
 
 (use-package mermaid-mode
   :ensure t
-  :mode ("\\.mmd\\'" . mermaid-mode)
-  :custom
-  (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
-
-  :preface
-  (defun pew::mermaid-mode::install-cli ()
-    "Install Mermaid CLI tool in user Emacs folder."
-    (interactive)
-    (let ((default-directory (substring mermaid-mmdc-location 0 (string-match-p "node_modules" mermaid-mmdc-location))))
-      (message "Installing mermaid-cli...")
-      (mkdir default-directory t)
-      (call-process "npm" nil nil nil "install" "@mermaid-js/mermaid-cli")
-      (message "Installing mermaid-cli... done"))))
+  :mode ("\\.mmd\\'" . mermaid-mode))
 
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
