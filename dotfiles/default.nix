@@ -9,6 +9,7 @@
     ./git
     ./gnome
     ./gnupg
+    ./kitty
     ./mc
     ./nodejs
     ./password-store
