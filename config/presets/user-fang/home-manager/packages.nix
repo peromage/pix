@@ -65,7 +65,7 @@
     android-tools
 
     ## Productivity
-    graphviz
+    mermaid-cli
     hugo
     libreoffice-fresh
     gimp
@@ -79,6 +79,7 @@
     imagemagick # Image processing, used with ghostscript
     ghostscript # PDF tools
     localsend # Airdrop alternative
+    qrencode
 
     ## Drawing
     libwacom
