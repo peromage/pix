@@ -6,7 +6,7 @@
 --
 -- The override function should return a final config table.
 --
--- Example: wezterm-custom.lua
+-- Example: wezterm.custom.lua
 --
 -- local gnome_fix = require "mymodules.wayland-gnome-fix"
 -- return {
@@ -388,7 +388,7 @@ local config = BasicTable:_new {
 }
 
 --- Apply the overlay ----------------------------------------------------------
-local ok, m = pcall(require, "wezterm-custom")
+local ok, m = pcall(require, "wezterm.custom")
 if ok then
   -- The custom config has two ways to put its customizations.
   -- 1. Returns a plain table of configurations which will be merged with this

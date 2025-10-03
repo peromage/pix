@@ -11,7 +11,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ## Global variables
 $MYENV = @{}
 $MYENV.root_dir = Get-Item "$PSScriptRoot"
-$MYENV.custom = (Join-Path $MYENV.root_dir "profile-custom.ps1")
+$MYENV.custom = (Join-Path $MYENV.root_dir "profile.custom.ps1")
 
 ### Set it up
 ## Readline settings

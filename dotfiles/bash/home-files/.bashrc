@@ -11,7 +11,7 @@
 ## Global variables
 declare -A MYENV
 MYENV[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-MYENV[custom]="${MYENV[root_dir]}/.bashrc-custom"
+MYENV[custom]="${MYENV[root_dir]}/.bashrc.custom"
 MYENV[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ## Functions
