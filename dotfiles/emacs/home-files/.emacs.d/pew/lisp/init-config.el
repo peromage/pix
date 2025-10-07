@@ -208,6 +208,9 @@
   (eshell-hist-ignoredups nil)
   (eshell-last-dir-ring-size 64)
 
+;;;; Shell & Term
+  (shell-kill-buffer-on-exit t)
+
 ;;;; ibuffer
   (ibuffer-movement-cycle nil)
   ;; Check `ibuffer-filtering-alist' for quilifiers.
