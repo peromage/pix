@@ -11,12 +11,12 @@
             "id": "User.nextTab.0"
         },
         {
-            "command": "toggleFullscreen",
-            "id": "User.toggleFullscreen"
-        },
-        {
             "command": "toggleFocusMode",
             "id": "User.toggleFocusMode"
+        },
+        {
+            "command": "toggleFullscreen",
+            "id": "User.toggleFullscreen"
         },
         {
             "command": "find",
@@ -30,12 +30,23 @@
             "id": "User.prevTab.0"
         },
         {
+            "command": 
+            {
+                "action": "closeTab"
+            },
+            "id": "User.closeTab.0"
+        },
+        {
             "command": "experimental.openScratchpad",
             "id": "User.experimental.openScratchpad"
         },
         {
             "command": "openNewTabDropdown",
             "id": "User.openNewTabDropdown"
+        },
+        {
+            "command": "openTabRenamer",
+            "id": "User.openTabRenamer"
         }
     ],
     "copyFormatting": "none",
@@ -45,7 +56,7 @@
     "keybindings": 
     [
         {
-            "id": null,
+            "id": "User.closeTab.0",
             "keys": "ctrl+shift+w"
         },
         {
@@ -177,6 +188,10 @@
             "keys": "ctrl+shift+7"
         },
         {
+            "id": "User.openTabRenamer",
+            "keys": "ctrl+shift+r"
+        },
+        {
             "id": null,
             "keys": "ctrl+shift+8"
         },
@@ -195,10 +210,6 @@
         {
             "id": null,
             "keys": "ctrl+alt+2"
-        },
-        {
-            "id": "Terminal.MoveFocusPrevious",
-            "keys": "ctrl+shift+["
         },
         {
             "id": null,
@@ -327,6 +338,10 @@
         {
             "id": "User.toggleFullscreen",
             "keys": "alt+enter"
+        },
+        {
+            "id": "Terminal.MoveFocusPrevious",
+            "keys": "ctrl+shift+o"
         }
     ],
     "newTabMenu": 
