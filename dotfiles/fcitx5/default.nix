@@ -5,9 +5,6 @@ let
   srcFcitx5Config = ./home-files/.config/fcitx5;
   srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
 
-  rimeDefault = pkgs.callPackage ./pkgs/rime-default-config.nix {};
-  rimeWanxiangDataUpdater = pkgs.callPackage ./pkgs/rime-wanxiang-data-updater.nix {};
-
 in {
   options.pix.dotfiles.fcitx5 = {
     enable = lib.mkEnableOption "Pot Fcitx5";
@@ -20,7 +17,7 @@ in {
       fcitx5.addons = with pkgs; [
         (fcitx5-rime.override {
           rimeDataPkgs = [
-            rime-wanxiang
+            rime-ice
           ];
         })
         fcitx5-configtool
@@ -36,7 +33,6 @@ in {
         ];
       })
       rime-cli
-      rimeWanxiangDataUpdater
     ];
 
     xdg.configFile."fcitx5" = {
