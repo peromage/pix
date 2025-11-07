@@ -81,9 +81,11 @@
     localsend # Airdrop alternative
     qrencode
 
-    ## Drawing
+    ## Note taking
     libwacom
     krita
+    rnote
+    xournalpp
 
     ## GUI
     ## Some apps like browser and steam prefer to be installed via flatpak since
