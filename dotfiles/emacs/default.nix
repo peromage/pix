@@ -4,18 +4,23 @@ let
   emacsCfg = config.pix.dotfiles.emacs;
   spellingCfg = config.pix.dotfiles.spelling;
   src = ./home-files/.emacs.d;
-  myEmacs = pkgs.callPackage ./pkgs/emacs.nix {};
-  mySpelling = pkgs.callPackage ./pkgs/spelling.nix {};
 
 in {
   options.pix.dotfiles = {
-    emacs.enable = lib.mkEnableOption "Pot Emacs";
-    spelling.enable = lib.mkEnableOption "Pot Spelling";
+    emacs = {
+      enable = lib.mkEnableOption "Pot Emacs";
+      package = lib.mkPackageOption pkgs.pixPkgs "emacs" {};
+    };
+
+    spelling = {
+      enable = lib.mkEnableOption "Pot Spelling";
+      package = lib.mkPackageOption pkgs.pixPkgs "spelling" {};
+    };
   };
 
   config = lib.mkMerge [
     (lib.mkIf emacsCfg.enable {
-      home.packages = [ myEmacs ];
+      home.packages = [ emacsCfg.package ];
 
       home.file.".emacs.d" = {
         source = src;
@@ -24,7 +29,7 @@ in {
     })
 
     (lib.mkIf spellingCfg.enable {
-      home.packages = [ mySpelling ];
+      home.packages = [ spellingCfg.package ];
     })
   ];
 }

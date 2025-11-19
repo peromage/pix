@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.vscode;
@@ -7,10 +7,14 @@ let
 in {
   options.pix.dotfiles.vscode = {
     enable = lib.mkEnableOption "Pot Visual Studio Code";
+    package = lib.mkPackageOption pkgs "vscode" {};
   };
 
   config = lib.mkIf cfg.enable {
-    programs.vscode.enable = true;
+    programs.vscode = {
+      enable = true;
+      package = cfg.package;
+    };
 
     xdg.configFile."Code" = {
       source = src;

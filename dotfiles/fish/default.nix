@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   cfg = config.pix.dotfiles.fish;
@@ -7,11 +7,13 @@ let
 in {
   options.pix.dotfiles.fish = {
     enable = lib.mkEnableOption "Pot Fish";
+    package = lib.mkPackageOption pkgs "fish" {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.fish = {
       enable = true;
+      package = cfg.package;
       shellInit = "";
       loginShellInit = "";
       interactiveShellInit = ''
