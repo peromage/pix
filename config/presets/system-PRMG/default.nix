@@ -117,7 +117,6 @@ with lib; {
     git
     git-lfs
     coreutils
-    pinentry
     tmux
     zstd
     tree

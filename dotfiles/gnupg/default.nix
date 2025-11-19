@@ -7,6 +7,7 @@ let
 in {
   options.pix.dotfiles.gpg = {
     enable = lib.mkEnableOption "Pot GNUPG";
+    pinentryPackage = lib.mkPackageOption pkgs "pinentry-gtk2" { nullable = true; };
   };
 
   config = lib.mkIf cfg.enable {
@@ -21,12 +22,10 @@ in {
       enableSshSupport = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
-      # pinentryPackage = pkgs.pinentry-gnome3;
+      pinentry.package = cfg.pinentryPackage;
     };
 
-    home.packages = with pkgs; [
-      pinentry-gnome3 # Only one pinentry package at a time, conflicts otherwise
-    ];
+    home.packages = lib.optional (cfg.pinentryPackage != null) cfg.pinentryPackage;
 
     ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
     ## Ref: https://wiki.archlinux.org/title/GNOME/Keyring#Disabling
