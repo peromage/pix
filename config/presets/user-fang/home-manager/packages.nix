@@ -13,7 +13,7 @@
     git = {
       enable = true;
       includes = [
-        { path = "${pix.outPath}/dotfiles/git/home-files/.config/git/user-fang"; }
+        "${pix.outPath}/dotfiles/git/home-files/.config/git/user-fang"
       ];
     };
     gpg.enable = true;
