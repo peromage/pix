@@ -12,7 +12,7 @@
     fish.enable = true;
     git = {
       enable = true;
-      extraIncludes = [
+      includes = [
         { path = "${pix.outPath}/dotfiles/git/home-files/.config/git/user-fang"; }
       ];
     };

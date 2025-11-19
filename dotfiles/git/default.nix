@@ -8,7 +8,7 @@ in {
   options.pix.dotfiles.git = {
     enable = lib.mkEnableOption "Pot Git";
 
-    extraIncludes = lib.mkOption {
+    includes = lib.mkOption {
       type = with lib.types; listOf attrs;
       default = [];
       description = ''
@@ -24,7 +24,7 @@ in {
       lfs.enable = true;
       includes = [
         { path = "${src}/config"; }
-      ] ++ cfg.extraIncludes;
+      ] ++ cfg.includes;
     };
   };
 }
