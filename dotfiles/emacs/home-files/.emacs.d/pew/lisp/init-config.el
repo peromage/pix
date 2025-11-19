@@ -193,7 +193,7 @@
   (repeat-mode t)
 
 ;;;; Dired
-  (dired-listing-switches (if (eq 'darwin system-type) "-lah" "-lahD --group-directories-first"))
+  (dired-listing-switches "-lah")
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
   (dired-recursive-deletes 'always)
