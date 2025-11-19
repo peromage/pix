@@ -18,7 +18,6 @@
     };
     gpg.enable = true;
     kitty.enable = true;
-    password-store.enable = true;
     pwsh.enable = true;
     tmux.enable = true;
     vim.enable = true;
@@ -29,11 +28,11 @@
     };
     python.enable = true;
     nodejs.enable = true;
+    pot-utils.enable = true;
   };
 
   home.packages = with pkgs; [
     ## Daily
-    pixPkgs.pot-utils
     ripgrep
     stow
 
