@@ -15,6 +15,12 @@
   (inhibit-startup-message t)
   (initial-scratch-message "")
 
+;;; Mac specific
+  (mac-control-modifier 'control)
+  (mac-option-modifier 'meta)
+  (mac-command-modifier 'meta) ;; Super is not used anyway
+  (mac-function-modifier 'none)
+
 ;;;; Windows and frames
   ;; When 3 side windows present `window-toggle-side-windows' may cause problem
   ;; Use `winner-undo' to revert the mess
