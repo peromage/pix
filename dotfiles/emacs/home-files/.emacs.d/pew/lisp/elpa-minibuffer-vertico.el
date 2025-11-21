@@ -81,6 +81,8 @@
 --line-number \
 --search-zip \
 --hidden \
+--follow \
+--no-messages \
 --glob !.git")
 
   :config
