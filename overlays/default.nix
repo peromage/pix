@@ -1,4 +1,4 @@
-{ pix }:
+{ pix, nixpkgs }:
 
 {
   unrestrictedPkgs = final: prev: {
@@ -15,7 +15,8 @@
     pixPkgs = pix.packages.${final.system};
   };
 
-  callPackageNewScope = final: prev: {
+  callPackageHelpers = final: prev: {
     callPackage = prev.newScope { inherit pix; };
+    callPackageAttrs = nixpkgs.lib.mapAttrs (_: file: final.callPackage file {});
   };
 }

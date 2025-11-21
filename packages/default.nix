@@ -1,8 +1,6 @@
 { pix, pkgs }:
 
 let
-  callPackages = pkgs.lib.mapAttrs (_: file: pkgs.callPackage file {});
-
   pkgsCommon = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;
@@ -21,4 +19,4 @@ let
     };
   };
 
-in callPackages (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {}))
+in pkgs.callPackageAttrs (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {}))

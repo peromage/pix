@@ -46,7 +46,7 @@
         pkgsOverlays = with self.outputs.overlays; [
           unrestrictedPkgs
           pixPkgs
-          callPackageNewScope
+          callPackageHelpers
         ];
 
         supportedSystems = [
