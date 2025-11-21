@@ -17,6 +17,10 @@
 
   callPackageHelpers = final: prev: {
     callPackage = prev.newScope { inherit pix; };
-    callPackageAttrs = pix.inputs.nixpkgs.lib.mapAttrs (_: file: final.callPackage file {});
+
+    callPackageAttrs = autoArgs: let
+      callPackage = prev.newScope ({ inherit pix; } // autoArgs);
+    in pix.inputs.nixpkgs.lib.mapAttrs
+      (_: file: callPackage file {});
   };
 }

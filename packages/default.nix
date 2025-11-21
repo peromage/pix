@@ -19,4 +19,4 @@ let
     };
   };
 
-in pkgs.callPackageAttrs (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {}))
+in pkgs.callPackageAttrs {} (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.system} or {}))
