@@ -1,8 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, stdenvNoCC, ... }:
 
 let
   cfg = config.pix.dotfiles.gpg;
   src = ./home-files/.gnupg;
+  homeDir = config.home.homeDirectory;
 
 in {
   options.pix.dotfiles.gpg = {
@@ -38,7 +39,20 @@ in {
 
     ## Override with my own settings
     home.file.".gnupg" = {
-      source = src;
+      source = pkgs.stdenvNoCC.mkDerivation {
+        pname = "my-gnupg-config";
+        version = "0.0.1";
+        src = src;
+        sourceRoot = ".";
+        dontPatchShebangs = true;
+        installPhase = ''
+          cd .gnupg
+          sed -i'''''' -e 's#/home/fang#${homeDir}#' gpg-agent.conf
+          chmod u+x pinentry-auto.sh
+          mkdir $out
+          cp * $out/
+        '';
+      };
       recursive = true;
     };
   };
