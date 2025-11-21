@@ -41,8 +41,6 @@
          Lib with additional functions
       */
       lib = (import ./lib { inherit nixpkgs; }).extend (final: prev: {
-        callPixSub = final.autoCall { inherit nixpkgs pix; };
-
         pkgsOverlays = with self.outputs.overlays; [
           unrestrictedPkgs
           pixPkgs
@@ -128,7 +126,7 @@
          which keeps `nix flake show` on Nixpkgs reasonably fast, though less
          information rich.
       */
-      packages = forEachSupportedSystems (system: callPixSub ./packages { pkgs = makePkgs system; });
+      packages = forEachSupportedSystems (system: import ./packages { inherit pix; pkgs = makePkgs system; });
 
       /*
          Development Shells
@@ -136,7 +134,7 @@
          Related commands:
            nix develop .#SHELL_NAME
       */
-      devShells = forEachSupportedSystems (system: callPixSub ./devshells { pkgs = makePkgs system; });
+      devShells = forEachSupportedSystems (system: import ./devshells { inherit pix; pkgs = makePkgs system; });
 
       /*
          Code Formatter
@@ -153,7 +151,7 @@
 
          Imported by other flakes
       */
-      overlays = callPixSub ./overlays {};
+      overlays = import ./overlays { inherit pix; };
 
       /*
          Templates
@@ -161,7 +159,7 @@
          Related commands:
            nix flake init -t /path/to/this_config#TEMPLATE_NAME
       */
-      templates = callPixSub ./templates {};
+      templates = import ./templates {};
 
       /*
          NixOS Configurations
