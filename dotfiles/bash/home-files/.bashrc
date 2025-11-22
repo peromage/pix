@@ -96,13 +96,7 @@ function __env_xdg {
 }
 
 ### Set it up
-## The first argument is a string of flags separated by `:' (supposedly).
-[[ "$1" == *noenv* ]] || {
-    set_env path
-    set_env gpg-agent
-    set_env gpg-agent-ssh
-    set_env prompt-classic
-}
+set_env "$@"
 
 ## History
 shopt -s histappend
