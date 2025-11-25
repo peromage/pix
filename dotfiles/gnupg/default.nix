@@ -5,6 +5,21 @@ let
   src = ./home-files/.gnupg;
   homeDir = config.home.homeDirectory;
 
+  gnuConfigPackage = pkgs.stdenvNoCC.mkDerivation {
+    pname = "my-gnupg-config";
+    version = "0.0.1";
+    src = src;
+    sourceRoot = ".";
+    dontPatchShebangs = true;
+    installPhase = ''
+      cd .gnupg
+      sed -i'''''' -e 's#/home/fang#${homeDir}#' gpg-agent.conf
+      chmod u+x pinentry-auto.sh
+      mkdir $out
+      cp * $out/
+    '';
+  };
+
 in {
   options.pix.dotfiles.gpg = {
     enable = lib.mkEnableOption "Pot GNUPG";
@@ -39,20 +54,7 @@ in {
 
     ## Override with my own settings
     home.file.".gnupg" = {
-      source = pkgs.stdenvNoCC.mkDerivation {
-        pname = "my-gnupg-config";
-        version = "0.0.1";
-        src = src;
-        sourceRoot = ".";
-        dontPatchShebangs = true;
-        installPhase = ''
-          cd .gnupg
-          sed -i'''''' -e 's#/home/fang#${homeDir}#' gpg-agent.conf
-          chmod u+x pinentry-auto.sh
-          mkdir $out
-          cp * $out/
-        '';
-      };
+      source = gnuConfigPackage;
       recursive = true;
     };
   };
