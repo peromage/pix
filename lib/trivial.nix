@@ -8,7 +8,7 @@ in with self; {
      Join a list of strings/paths with separaters.
 
      Type:
-       joinStrs :: String -> [Any] -> String
+       join :: String -> [Any] -> String
   */
   join = sep: list: lib.foldl (a: i: a + "${sep}${i}") (lib.head list) (lib.tail list);
 
