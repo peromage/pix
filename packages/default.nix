@@ -10,6 +10,7 @@ let
     nodejs = ../dotfiles/nodejs/pkgs/nodejs.nix;
     python = ../dotfiles/python/pkgs/python.nix;
     rime-default-config = ../dotfiles/fcitx5/pkgs/rime-default-config.nix;
+    pot-emacs-config = ../dotfiles/emacs/pkgs/pot-emacs-config.nix;
   };
 
   pkgsPlatformSpecialized = {
