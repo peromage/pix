@@ -23,7 +23,7 @@ in {
       home.packages = [ emacsCfg.package  emacsCfg.configPackage ];
 
       home.file.".emacs.d" = {
-        source = "${emacsCfg.configPackage}/dot-emacs-d";
+        source = "${emacsCfg.configPackage}/etc/pot-emacs-config";
         recursive = true;
       };
     })

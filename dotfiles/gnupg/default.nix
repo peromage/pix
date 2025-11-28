@@ -43,7 +43,7 @@ in {
 
     ## Override with my own settings
     home.file.".gnupg" = {
-      source = gnupgConfigPackage;
+      source = "${gnupgConfigPackage}/etc/pot-gnupg-config";
       recursive = true;
     };
   };
