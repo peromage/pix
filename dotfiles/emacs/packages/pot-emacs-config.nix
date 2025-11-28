@@ -30,7 +30,7 @@ in stdenvNoCC.mkDerivation {
   '';
 
   installPhase = ''
-    mkdir $out
-    cp -a * $out
+    mkdir -p $out/dot-emacs-d
+    cp -a * $out/dot-emacs-d
   '';
 }

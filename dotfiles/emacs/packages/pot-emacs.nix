@@ -20,7 +20,7 @@ let
 
   ## May omit buildEnv?
 in pkgs.buildEnv {
-  name = "my-emacs";
+  name = "pot-emacs";
   paths = with pkgs; [
     myEmacs
     mySpell

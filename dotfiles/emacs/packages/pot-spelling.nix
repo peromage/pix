@@ -15,7 +15,7 @@ let
   emacsHunspell = pkgs.hunspell.withDicts (hunspellDicts: myHunspellDicts);
 
 in pkgs.buildEnv {
-  name = "my-spelling";
+  name = "pot-spelling";
   paths =
     # For Emacs enclosure
     (with pkgs; [
