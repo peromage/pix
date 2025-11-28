@@ -8,7 +8,7 @@
 { pkgs, writeScriptBin }:
 
 let
-  python = let p = pkgs.pixPkgs.python; in p.override {
+  python = let p = pkgs.pixPkgs.pot-python; in p.override {
     userPyenvDir = ''''${XDG_DATA_HOME:-$HOME/.local/share}/${p.userPyenvDir}'';
   };
 

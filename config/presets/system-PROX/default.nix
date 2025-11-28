@@ -24,7 +24,7 @@ with lib; {
     wget
     rsync
     tree
-    pixPkgs.emacs
+    pixPkgs.pot-emacs
 
     ## Filesystems
     ntfs3g

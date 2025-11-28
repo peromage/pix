@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.python;
-  myPython = let python = pkgs.pixPkgs.python; in python.override {
+  myPython = let python = pkgs.pixPkgs.pot-python; in python.override {
     userPyenvDir = "${config.xdg.dataHome}/${python.userPyenvDir}";
   };
 

@@ -2,7 +2,7 @@
 
 let
   cfg = config.pix.dotfiles.nodejs;
-  myNodejs = let nodejs = pkgs.pixPkgs.nodejs; in nodejs.override {
+  myNodejs = let nodejs = pkgs.pixPkgs.pot-nodejs; in nodejs.override {
     userNpmDir = "${config.xdg.dataHome}/${nodejs.userNpmDir}";
   };
 
