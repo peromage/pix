@@ -6,7 +6,7 @@ let
 
 in {
   options.pix.dotfiles.kitty = {
-    enable = lib.mkEnableOption "Kitty";
+    enable = lib.mkEnableOption "Pot Kitty";
     package = lib.mkPackageOption pkgs "kitty" {};
   };
 

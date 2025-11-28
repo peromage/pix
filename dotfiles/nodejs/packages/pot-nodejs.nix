@@ -4,7 +4,7 @@ let
   myNodeJs = pkgs.nodejs_latest;
 
 in pkgs.buildEnv {
-  name = "my-nodejs";
+  name = "pot-nodejs";
   paths = [ myNodeJs ];
 
   passthru = {

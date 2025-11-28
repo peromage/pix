@@ -8,7 +8,7 @@ let
 
 in {
   options.pix.dotfiles.python = {
-    enable = lib.mkEnableOption "Pot Python3";
+    enable = lib.mkEnableOption "Pot Python";
   };
 
   config = lib.mkIf cfg.enable {

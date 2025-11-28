@@ -54,7 +54,7 @@ let
   ]);
 
 in pkgs.buildEnv {
-  name = "my-python3";
+  name = "pot-python";
   paths = [
     myPython
     pkgs.poetry
