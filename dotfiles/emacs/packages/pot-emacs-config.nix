@@ -17,6 +17,7 @@ in stdenvNoCC.mkDerivation {
   version = "0.0.1";
   src = ../home-files/.emacs.d;
   sourceRoot = ".emacs.d";
+  dontPatchShebangs = true;
   buildInputs = [ loadFilesBundle ];
 
   buildPhase = ''
@@ -30,7 +31,8 @@ in stdenvNoCC.mkDerivation {
   '';
 
   installPhase = ''
-    mkdir -p $out/dot-emacs-d
-    cp -a * $out/dot-emacs-d
+    DIR="$out/etc/pot-emacs-config"
+    mkdir -p "$DIR"
+    cp -a * "$DIR"
   '';
 }
