@@ -8,6 +8,7 @@ let
     pot-emacs = ../dotfiles/emacs/packages/pot-emacs.nix;
     pot-emacs-config = ../dotfiles/emacs/packages/pot-emacs-config.nix;
     pot-spelling = ../dotfiles/emacs/packages/pot-spelling.nix;
+    pot-gnupg-config = ../dotfiles/gnupg/packages/pot-gnupg-config.nix;
     pot-nodejs = ../dotfiles/nodejs/packages/pot-nodejs.nix;
     pot-python = ../dotfiles/python/packages/pot-python.nix;
     rime-default-config = ../dotfiles/fcitx5/packages/rime-default-config.nix;

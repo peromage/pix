@@ -3,21 +3,8 @@
 let
   cfg = config.pix.dotfiles.gpg;
   src = ./home-files/.gnupg;
-  homeDir = config.home.homeDirectory;
-
-  gnuConfigPackage = pkgs.stdenvNoCC.mkDerivation {
-    pname = "my-gnupg-config";
-    version = "0.0.1";
-    src = src;
-    sourceRoot = ".";
-    dontPatchShebangs = true;
-    installPhase = ''
-      cd .gnupg
-      sed -i'''''' -e 's#/home/fang#${homeDir}#' gpg-agent.conf
-      chmod u+x pinentry-auto.sh
-      mkdir $out
-      cp * $out/
-    '';
+  gnupgConfigPackage = pkgs.pixPkgs.pot-gnupg-config.override {
+    homeDir = config.home.homeDirectory;
   };
 
 in {
@@ -41,7 +28,9 @@ in {
       pinentry.package = cfg.pinentryPackage;
     };
 
-    home.packages = lib.optional (cfg.pinentryPackage != null) cfg.pinentryPackage;
+    home.packages = [
+      gnupgConfigPackage
+    ] ++ lib.optional (cfg.pinentryPackage != null) cfg.pinentryPackage;
 
     ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
     ## Ref: https://wiki.archlinux.org/title/GNOME/Keyring#Disabling
@@ -54,7 +43,7 @@ in {
 
     ## Override with my own settings
     home.file.".gnupg" = {
-      source = gnuConfigPackage;
+      source = gnupgConfigPackage;
       recursive = true;
     };
   };
