@@ -14,7 +14,7 @@ in {
 
     spelling = {
       enable = lib.mkEnableOption "Pot Spelling";
-      package = lib.mkPackageOption pkgs.pixPkgs "spelling" {};
+      package = lib.mkPackageOption pkgs.pixPkgs "pot-spelling" {};
     };
   };
 
