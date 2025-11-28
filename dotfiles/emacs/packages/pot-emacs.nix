@@ -16,14 +16,12 @@ let
     vterm # Since vterm cannot be compiled in user environment, use this instead
   ]);
 
-  mySpell = pkgs.callPackage ./spelling.nix {};
-
   ## May omit buildEnv?
 in pkgs.buildEnv {
   name = "pot-emacs";
   paths = with pkgs; [
     myEmacs
-    mySpell
+    pkgs.pixPkgs.pot-spelling
     ripgrep
     libvterm-neovim # libvterm is not maintained, use this instead
   ];
