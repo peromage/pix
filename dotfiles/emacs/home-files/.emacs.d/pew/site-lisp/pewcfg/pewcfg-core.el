@@ -25,7 +25,7 @@
                            :bind
                            :map
                            :transient
-                           :switch
+                           :toggle
                            :face
                            :property
                            :hook
@@ -49,7 +49,7 @@ List of each keyword's form signature:
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
   :map          (KEYMAP [(KEY . DEFINITION) ...])
   :transient    (COMMAND [(KEY . DEFINITION) ...])
-  :switch       (VARIABLE [. (VALUE VALUE ...)])
+  :toggle       (VARIABLE [. (VALUE VALUE ...)])
   :face         (FACE [:KEYWORD VALUE ...])
   :property     (SYMBOL [(PROPERTY . VALUE) ...])
   :hook         (NAME . FUNCTION)
@@ -292,35 +292,35 @@ If prefix ARG is given the map will be activated in a repeatable manner." comman
         (interactive)
         (,command :repeat)))))
 
-;;; :switch
-(defun pewcfg-normalize--:switch (forms)
-  "Normalize function for ':switch'."
+;;; :toggle
+(defun pewcfg-normalize--:toggle (forms)
+  "Normalize function for ':toggle'."
   (mapcar #'pewcfg-normalize-pair forms))
 
-(defun pewcfg-generate--:switch (variable &optional values)
-  "Create an interactive command to switch variable from a list of values.
+(defun pewcfg-generate--:toggle (variable &optional values)
+  "Create an interactive command to toggle variable from a list of values.
 VARIABLE is a symbol of the variable.
 VALUES is a list of values that the VARIABLE can be possibly set to.
-If VALUES is nil, the VARIABLE will be switch between (t nil) by default.
-A new command `switch-VARIABLE' and variable `switch-VARIABLE' will be created.
+If VALUES is nil, the VARIABLE will be toggled between (t nil) by default.
+A new command `pew-toggle-VARIABLE' and variable `pew-toggle-VARIABLE' will be created.
 The variable is used for multiple purposes.  The car of the variable stores the
 current index of the list of values that is stored in the cdr."
   (declare (indent 0))
-  (let ((switch-symbol (intern (format "switch-%s" variable))))
-    `((defvar ,switch-symbol ',(if values
+  (let ((toggle-symbol (intern (format "pew-toggle-%s" variable))))
+    `((defvar ,toggle-symbol ',(if values
                                    (cons -1 values)
                                  (cons -1 '(t nil)))
         ,(format  "A list of values used by `%s' command.
 The first element is the index which points to the current value.  The index
-cycles through the list each the switch command is called." switch-symbol))
-      (defun ,switch-symbol ()
-        ,(format "Switch the value of variable `%s'.
-The values are read from the list `%s'." variable switch-symbol)
+cycles through the list each the toggle command is called." toggle-symbol))
+      (defun ,toggle-symbol ()
+        ,(format "toggle the value of variable `%s'.
+The values are read from the list `%s'." variable toggle-symbol)
         (interactive)
-        (setq ,variable (nth (setcar ,switch-symbol
-                                     (mod (1+ (car ,switch-symbol))
-                                          (length (cdr ,switch-symbol))))
-                             (cdr ,switch-symbol)))
+        (setq ,variable (nth (setcar ,toggle-symbol
+                                     (mod (1+ (car ,toggle-symbol))
+                                          (length (cdr ,toggle-symbol))))
+                             (cdr ,toggle-symbol)))
         (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face

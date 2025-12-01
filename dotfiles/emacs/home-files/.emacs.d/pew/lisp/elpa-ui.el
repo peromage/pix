@@ -31,7 +31,7 @@
   (doom-modeline-unicode-fallback nil)
   :config
   (doom-modeline-mode 1)
-  (pewcfg :switch
+  (pewcfg :toggle
           (doom-modeline-unicode-fallback)))
 
 (use-package prot-modeline

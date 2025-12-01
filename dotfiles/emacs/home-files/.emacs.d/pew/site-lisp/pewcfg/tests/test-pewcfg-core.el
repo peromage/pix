@@ -230,22 +230,22 @@
                              '("a" . func1)
                              '("b" . func2))))
 
-;;; Test :switch
-  (expect-equal "Test :switch: Normalize"
+;;; Test :toggle
+  (expect-equal "Test :toggle: Normalize"
     '((foo foovalue)
       (bar barvalue))
-    (pewcfg-normalize--:switch '((foo . foovalue)
+    (pewcfg-normalize--:toggle '((foo . foovalue)
                                   (bar . barvalue))))
 
-  (expect-equal "Test :switch: Generate"
-    '((defvar switch-foo '(-1 v1 v2 v3))
-      (defun switch-foo ()))
-    (trim-form-recursively (pewcfg-generate--:switch 'foo '(v1 v2 v3))))
+  (expect-equal "Test :toggle: Generate"
+    '((defvar pew-toggle-foo '(-1 v1 v2 v3))
+      (defun pew-toggle-foo ()))
+    (trim-form-recursively (pewcfg-generate--:toggle 'foo '(v1 v2 v3))))
 
-  (expect-equal "Test :switch: Generate default"
-    '((defvar switch-foo '(-1 t nil))
-      (defun switch-foo ()))
-    (trim-form-recursively (pewcfg-generate--:switch 'foo)))
+  (expect-equal "Test :toggle: Generate default"
+    '((defvar pew-toggle-foo '(-1 t nil))
+      (defun pew-toggle-foo ()))
+    (trim-form-recursively (pewcfg-generate--:toggle 'foo)))
 
 ;;; Test :face
   (expect-equal "Test :face: Normalize"

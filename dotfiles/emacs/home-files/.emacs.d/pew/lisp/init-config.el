@@ -267,8 +267,8 @@
   (winner-mode t)
   (winner-dont-bind-my-keys t)
 
-;;; Switch commands
-  :switch
+;;; Toggle commands
+  :toggle
   (indent-tabs-mode)
   (show-trailing-whitespace)
   (line-move-visual)

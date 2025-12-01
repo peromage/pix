@@ -48,7 +48,7 @@
      (python-mode . python-ts-mode)))
 
   :config
-  (pewcfg :switch
+  (pewcfg :toggle
           ;; Debug indent rules when `treesit-explore-mode' is on
           (treesit--indent-verbose)))
 
