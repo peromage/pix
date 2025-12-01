@@ -55,21 +55,21 @@ This keymap can be activated via =pewkey= command as well.  When it is activated
 Some of the meta bindings are replaced and reserved for my personal use.  They are bound with prefix command keymaps.  See [[./pew/lisp/init-config.el][init-config.el]] for details.
 
 ** A Brief List of Keybindings
-| Key       | Command / Keymap  | Context                  | Notes               | Definition                                |
-|-----------+-------------------+--------------------------+---------------------+-------------------------------------------|
+| Key       | Command / Keymap  | Context                  | Notes               | Definition                                    |
+|-----------+-------------------+--------------------------+---------------------+-----------------------------------------------|
 | =C-z=     | =pewkey=          | Any                      | My major keymap     | [[./pew/lisp/init-config.el][init-config.el]] |
 | =C-z C-r= | =pewkey-repeat=   | Any                      |                     | [[./pew/lisp/init-config.el][init-config.el]] |
 | =RET=     | Evil leader       | Evil Normal/Motion State |                     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]     |
 | =DEL=     | Evil local leader | Evil Normal/Motion State |                     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]     |
 | =SPC=     | =pewkey=          | Evil Normal/Motion State |                     | [[./pew/lisp/elpa-evil.el][elpa-evil.el]]     |
-| =M-o=     | =pew::M-o-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-t=     | =pew::M-t-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-c=     | =pew::M-c-map=    | Any                      | Used for completion | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-u=     | =pew::M-u-map=    | Any                      | Used for utilities  | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-l=     | =pew::M-l-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-z=     | =pew::M-z-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-q=     | =pew::M-q-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
-| =M-h=     | =pew::M-h-map=    | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-o=     | =pew-M-o-map=     | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-t=     | =pew-M-t-map=     | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-c=     | =pew-M-c-map=     | Any                      | Used for completion | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-u=     | =pew-M-u-map=     | Any                      | Used for utilities  | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-l=     | =pew-M-l-map=     | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-z=     | =pew-M-z-map=     | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-q=     | =pew-M-q-map=     | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
+| =M-h=     | =pew-M-h-map=     | Any                      | Reserved            | [[./pew/lisp/init-config.el][init-config.el]] |
 
 * Fonts and Icons
 For the display font I recommend [[https://github.com/be5invis/Iosevka][Iosevka]] which is also the default font used by this configuration.

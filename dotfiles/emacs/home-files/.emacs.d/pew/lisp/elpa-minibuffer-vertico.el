@@ -22,11 +22,11 @@
   ;; NOTE: `vertico-multiform-commands' takes precedence over `vertico-multiform-categories'
   (vertico-multiform-commands '((consult-imenu buffer indexed)
                                 (consult-outline buffer)))
-  (vertico-multiform-categories '((file (vertico-sort-function . pew::vertico::sort-directories-first))))
+  (vertico-multiform-categories '((file (vertico-sort-function . pew-vertico-sort-directories-first))))
 
   :preface
   ;; File sorting
-  (defun pew::vertico::sort-directories-first (files)
+  (defun pew-vertico-sort-directories-first (files)
     "Sort directories before files."
     (let ((files (vertico-sort-history-length-alpha files)))
       (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files)
@@ -59,13 +59,13 @@
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
-  (completion-in-region-function #'pew::consult::completion-in-region)
+  (completion-in-region-function #'pew-consult-completion-in-region)
   (consult-async-min-input 2)
   ;; Disable all auto previews
   (consult-preview-key '("<up>" "<down>"))
   (consult-narrow-key "<")
   ;; Don't display special buffers
-  (consult-buffer-filter (pewlib::workspace::map-buffer-regex pewlib::workspace::hidden-buffer-keywords))
+  (consult-buffer-filter (pewlib-map-buffer-regex pewlib-hidden-buffer-keywords))
   ;; Find hidden directory
   (consult-find-args "find . ! -path '*/.git/*'")
   ;; Don't skip hidden directories/files except .git
@@ -97,7 +97,7 @@
    :preview-key 'any)
 
   ;; Customized search
-  (defun pew::consult::rg (dir args)
+  (defun pew-consult-rg (dir args)
     "Like `consult-ripgrep' but with additional arguments.
 Search directory DIR will be selected by a prompt.
 ARGS should be a string of arguments passed to ripgrep."
@@ -106,12 +106,12 @@ ARGS should be a string of arguments passed to ripgrep."
       (consult-ripgrep dir)))
 
   ;; Completion in region replacement
-  (defun pew::consult::completion-in-region (&rest args)
+  (defun pew-consult-completion-in-region (&rest args)
     "Use consult for region completion."
     (apply (if vertico-mode #'consult-completion-in-region #'completion--in-region) args))
 
   ;; CRM indicator
-  (define-advice completing-read-multiple (:filter-args (args) pew::consult::crm-indicator)
+  (define-advice completing-read-multiple (:filter-args (args) pew-consult-crm-indicator)
     "Add an indicator for multi-occur mode."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
@@ -141,9 +141,9 @@ ARGS should be a string of arguments passed to ripgrep."
 
 (use-package embark
   :ensure t
-  :hook (embark-collect-mode . pew::embark::on-enter-collect-mode)
+  :hook (embark-collect-mode . pew-embark-on-enter-collect-mode)
   :bind ( ([remap describe-bindings] . embark-bindings)
-          :map pew::M-u-map
+          :map pew-M-u-map
           ("e a" . embark-act)
           ("e d" . embark-dwim)
           ("e e" . embark-export)
@@ -152,9 +152,9 @@ ARGS should be a string of arguments passed to ripgrep."
   (prefix-help-command #'embark-prefix-help-command)
 
   :preface
-  (defun pew::embark::on-enter-collect-mode ()
+  (defun pew-embark-on-enter-collect-mode ()
     "`embark-collect-mode' initialization."
-    (pewlib::workspace::reuse-window-in-buffer)
+    (pewlib-reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
 (use-package embark-consult

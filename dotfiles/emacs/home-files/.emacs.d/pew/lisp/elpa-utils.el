@@ -31,14 +31,14 @@
 (use-package yasnippet
   :ensure t
   :custom
-  (yas-snippet-dirs (list (expand-file-name "pew/yasnippet" pew::toplevel-dir)))
+  (yas-snippet-dirs (list (expand-file-name "pew/yasnippet" pew-toplevel-dir)))
   (yas-indent-line 'fixed)
   :config
   (yas-global-mode 1))
 
 (use-package separedit
   :ensure t
-  :bind ( :map pew::M-u-map
+  :bind ( :map pew-M-u-map
           ("'" . separedit-dwim)) )
 
 (use-package paredit
@@ -49,13 +49,13 @@
 
 (use-package avy
   :ensure t
-  :bind ( :map pew::M-u-map
+  :bind ( :map pew-M-u-map
           ("f"   . avy-goto-char)
           ("M-f" . avy-goto-line)) )
 
 (use-package ace-window
   :ensure t
-  :bind ( :map pew::M-u-map
+  :bind ( :map pew-M-u-map
           ("w" . ace-window)
           ("W" . ace-swap-window)) )
 
@@ -64,7 +64,7 @@
 (use-package magit
   :ensure t
   :commands magit-status
-  :bind ( :map pew::M-u-map
+  :bind ( :map pew-M-u-map
           ("g"   . magit-status)
           ("M-g" . magit-file-dispatch) )
   :custom
@@ -100,7 +100,7 @@
   :ensure t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pewlib::editor::as-terminal-mode)
+  :hook (vterm-mode . pewlib-as-terminal-mode)
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
@@ -110,7 +110,7 @@
                         ("plink" "/bin/bash")))
 
   :preface
-  (defun pew::vterm::new (shell)
+  (defun pew-vterm-new (shell)
     "Create a new vterm window.
 ARG is a prefix argument.  If it is non-nill, a prompt will pop up to allow
 users to specify the shell to start with."
@@ -123,7 +123,7 @@ users to specify the shell to start with."
 (use-package treemacs
   :ensure t
   :commands treemacs
-  :hook (treemacs-mode . pew::treemacs::on-enter)
+  :hook (treemacs-mode . pew-treemacs-on-enter)
   :bind ( :map treemacs-mode-map
           ("j" . treemacs-find-file) )
   :custom
@@ -133,7 +133,7 @@ users to specify the shell to start with."
   (treemacs-hide-dot-git-directory nil)
 
   :preface
-  (defun pew::treemacs::on-enter ()
+  (defun pew-treemacs-on-enter ()
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1))
 

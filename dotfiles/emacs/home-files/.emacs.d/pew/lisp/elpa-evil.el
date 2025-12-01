@@ -53,7 +53,7 @@
   ;; This is to implement a more flexible state dispatcher other than using Evil
   ;; built-in matchers.
 
-  (defvar pew::evil::initial-state-plist
+  (defvar pew-evil-initial-state-plist
     `( :override nil
        :minor ((view-mode . motion)
                (magit-blame-mode . motion)
@@ -71,8 +71,8 @@
                (git-rebase-mode . emacs))
        :derive ((text-mode . normal)
                 (prog-mode . normal))
-       :name ((,(pewlib::workspace::map-buffer-regex '(:scratch :edit-indirect :org-src :org-export) 'concat) . normal)
-              (,(pewlib::workspace::map-buffer-regex '(:eldoc :tree-sitter-explorer :org-babel) 'concat) . motion)))
+       :name ((,(pewlib-map-buffer-regex '(:scratch :edit-indirect :org-src :org-export) 'concat) . normal)
+              (,(pewlib-map-buffer-regex '(:eldoc :tree-sitter-explorer :org-babel) 'concat) . motion)))
     "A plist to determine buffer initial state by different conditions.
 Each property should have the following values.  The precedence is from highest
 to lowest.
@@ -100,10 +100,10 @@ legit Evil state immediately upon different conditions."
     :tag "<PEW>"
     :message "-- PEWINIT --"
     (if (evil-pewinit-state-p)
-        (add-hook 'post-command-hook #'pew::evil::set-initial-state nil t)
-      (remove-hook 'post-command-hook #'pew::evil::set-initial-state t)))
+        (add-hook 'post-command-hook #'pew-evil-set-initial-state nil t)
+      (remove-hook 'post-command-hook #'pew-evil-set-initial-state t)))
 
-  (defun pew::evil::set-initial-state (&optional command)
+  (defun pew-evil-set-initial-state (&optional command)
     "Advice to alter `evil-pewinitial-state' toggle behavior.  This advice works
 in conjunction with the toggle to decide a buffer's initial Evil state.
 This is an advanced method to determine initial state rather than using
@@ -111,7 +111,7 @@ This is an advanced method to determine initial state rather than using
     (if (evil-pewinit-state-p)
         (let ((state (or
                       ;; Check override
-                      (save-excursion (named-let check ((list (plist-get pew::evil::initial-state-plist :override)))
+                      (save-excursion (named-let check ((list (plist-get pew-evil-initial-state-plist :override)))
                                         (let ((f (car list)))
                                           (if f (or (funcall f) (check (cdr list)))))))
                       ;; Check minor mode
@@ -119,16 +119,16 @@ This is an advanced method to determine initial state rather than using
                       (cdr (seq-find (lambda (cons) (let ((symbol (car cons)))
                                                       (and (boundp symbol)
                                                            (symbol-value symbol))))
-                                     (plist-get pew::evil::initial-state-plist :minor)))
+                                     (plist-get pew-evil-initial-state-plist :minor)))
                       ;; Check major mode
                       (cdr (seq-find (lambda (cons) (eq major-mode (car cons)))
-                                     (plist-get pew::evil::initial-state-plist :major)))
+                                     (plist-get pew-evil-initial-state-plist :major)))
                       ;; Check derived major mode
                       (cdr (seq-find (lambda (cons) (derived-mode-p (car cons)))
-                                     (plist-get pew::evil::initial-state-plist :derive)))
+                                     (plist-get pew-evil-initial-state-plist :derive)))
                       ;; Check buffer name
                       (cdr (seq-find (lambda (cons) (string-match-p (car cons) (buffer-name)))
-                                     (plist-get pew::evil::initial-state-plist :name))))))
+                                     (plist-get pew-evil-initial-state-plist :name))))))
           (cond
            ;; Matched by rules
            (state
@@ -169,7 +169,7 @@ This is an advanced method to determine initial state rather than using
 
 ;;; Utility functions
   ;; Key binding function
-  (defun pew::evil::set-key (state map leader bindings)
+  (defun pew-evil-set-key (state map leader bindings)
     "A function to bind Evil keys.
 This is basically a wrapper of `evil-define-key*'.
 STATE is a Evil state symbol of a list of symbols.
@@ -188,33 +188,33 @@ See `evil-define-key*'."
 
   ;; This search action searches words selected in visual mode, escaping any special
   ;; characters. Also it provides a quick way to substitute the words just searched.
-  (defun pew::evil::escape-pattern (pattern)
+  (defun pew-evil-escape-pattern (pattern)
     "Escape special characters in PATTERN which is used by evil search."
     (if (zerop (length pattern)) pattern
       ;; `regexp-quote' does not escape /
       (replace-regexp-in-string "/" "\\\\/" (regexp-quote pattern))))
 
-  (defun pew::evil::search-region-text (beg end)
+  (defun pew-evil-search-region-text (beg end)
     "Use evil-search for text in the region from BEG to END."
     ;; Copy region text
-    (setq evil-ex-search-pattern (evil-ex-make-pattern (pew::evil::escape-pattern (buffer-substring-no-properties beg end))
+    (setq evil-ex-search-pattern (evil-ex-make-pattern (pew-evil-escape-pattern (buffer-substring-no-properties beg end))
                                                        'sensitive
                                                        t))
     (evil-yank beg end)
     (ignore-error 'search-failed
       (evil-ex-search-next)))
 
-  (defun pew::evil::visual-search-region-text ()
+  (defun pew-evil-visual-search-region-text ()
     "Search the text selected in visual state."
     (interactive)
     (when (evil-visual-state-p)
       (setq evil-ex-search-count 1
             evil-ex-search-direction 'forward)
-      (when (pew::evil::search-region-text (region-beginning) (region-end))
+      (when (pew-evil-search-region-text (region-beginning) (region-end))
         (evil-ex-search-previous))
       (evil-normal-state)))
 
-  (defun pew::evil::replace-last-search ()
+  (defun pew-evil-replace-last-search ()
     "Replace the last Evil EX search."
     (interactive)
     (if (not evil-ex-search-pattern)
@@ -227,7 +227,7 @@ See `evil-define-key*'."
      (read-string (concat (car evil-ex-search-pattern) " -> "))
      (list ?g ?c)))
 
-  (defun pew::evil::search-word ()
+  (defun pew-evil-search-word ()
     "Search and highlight the word under cursor but don't jumpt to the next."
     (interactive)
     (evil-ex-search-word-forward)
@@ -243,12 +243,12 @@ See `evil-define-key*'."
   (evil-set-leader '(normal motion visual) (kbd "DEL") :localleader) ;; <localleader>
 
   ;; Normal and motion state bindings with leader key
-  (pew::evil::set-key '(normal motion visual) 'global :leader
+  (pew-evil-set-key '(normal motion visual) 'global :leader
     ;; Search and substitution
-    '(("cs" . pew::evil::replace-last-search)))
+    '(("cs" . pew-evil-replace-last-search)))
 
   ;; Command state bindings
-  (pew::evil::set-key '(normal motion visual) 'global nil
+  (pew-evil-set-key '(normal motion visual) 'global nil
     '(("SPC" . pewkey-map)
       ;; Search
       ("#" . evil-ex-nohighlight)
@@ -256,17 +256,17 @@ See `evil-define-key*'."
       ("C-M-o" . evil-jump-forward)))
 
   ;; Normal and motion state specific
-  (pew::evil::set-key '(normal motion) 'global nil
-    '(("*" . pew::evil::search-word)))
+  (pew-evil-set-key '(normal motion) 'global nil
+    '(("*" . pew-evil-search-word)))
 
   ;; Visual state specific
-  (pew::evil::set-key 'visual 'global nil
+  (pew-evil-set-key 'visual 'global nil
     ;; Search
-    '(("*" . pew::evil::visual-search-region-text)))
+    '(("*" . pew-evil-visual-search-region-text)))
 
   ;; Elisp with leader
   (pewcfg :eval-after (elisp-mode
-                       (pew::evil::set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
+                       (pew-evil-set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
                          ;; Quick eval
                          '(("eb" . eval-buffer)
                            ("er" . eval-region)
@@ -277,7 +277,7 @@ See `evil-define-key*'."
   ;; Evil X settings
   ;; Don't allow Evil to kill selected region when yanking
   ;; See: https://emacs.stackexchange.com/questions/14940/evil-mode-visual-selection-copies-text-to-clipboard-automatically/15054#15054
-  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew::evil::visual-update-x-selection))
+  (define-advice evil-visual-update-x-selection (:override (&rest _args) pew-evil-visual-update-x-selection))
 
 ;;; Enable Evil mode last to ensure most of the settings work
   (evil-mode 1)) ;; End evil

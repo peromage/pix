@@ -8,7 +8,7 @@
 
 ;;; Code:
 ;;; Paths
-(defun /ns/normalize-path (base &optional component follow)
+(defun /p/normalize-path (base &optional component follow)
   "Normalize path BASE by removing relative representations.
 If BASE is a relative path the result will be a path which is relative to the
 current path.
@@ -19,14 +19,14 @@ resolved."
     (if follow (file-truename result) result)))
 
 ;;; String functions
-(defun /ns/file-to-string (path)
+(defun /p/file-to-string (path)
   "Read the file content at PATH and return a string.
 From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
   (with-temp-buffer
     (insert-file-contents path)
     (buffer-string)))
 
-(defun /ns/file-to-string-lines (path)
+(defun /p/file-to-string-lines (path)
   "Read the file content at PATH and return a list of lines.
 From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
   (with-temp-buffer
@@ -34,35 +34,35 @@ From: http://xahlee.info/emacs/emacs/elisp_read_file_content.html"
     (split-string (buffer-string) "\n" t)))
 
 ;;; Number functions
-(defun /ns/evenp (num)
+(defun /p/evenp (num)
   "Determine if NUM is odd."
   (zerop (mod num 2)))
 
-(defun /ns/oddp (num)
+(defun /p/oddp (num)
   "Determine if NUM is odd."
-  (not (/ns/evenp num)))
+  (not (/p/evenp num)))
 
 ;;; Data functions
-(defun /ns/concat (strings &optional separator)
+(defun /p/concat (strings &optional separator)
   "Joing a list of STRINGS with SEPARATOR delimited."
   (mapconcat #'identity strings separator))
 
-(defun /ns/tolist (x)
+(defun /p/tolist (x)
   "Wrap input X in a list.
 If X is a list already, it is returned as is."
   (if (listp x) x (list x)))
 
-(defun /ns/gethash (table &rest keys)
+(defun /p/gethash (table &rest keys)
   "Access a hashtable TABLE recursively with a list of KEYS.
 This functions is similar to `gethash' but it allows user to specify a list of
 keys in one go.
 Especially useful when accessing a JSON object."
   (if (= 1 (length keys))
       (gethash (car keys) table)
-    (apply #'/ns/gethash (gethash (car keys) table) (cdr keys))))
+    (apply #'/p/gethash (gethash (car keys) table) (cdr keys))))
 
 ;;; Macro helpers
-(defmacro /ns/swap (a b)
+(defmacro /p/swap (a b)
   "Swap values in A and B.
 NOTE: A and B must be lvalues."
   `(setq ,a (prog1 ,b (setq ,b ,a))))
@@ -71,5 +71,5 @@ NOTE: A and B must be lvalues."
 ;;; pewlib-trivial.el ends here
 
 ;; Local Variables:
-;; read-symbol-shorthands: (("/ns/" . "pewlib::trivial::"))
+;; read-symbol-shorthands: (("/p/" . "pewlib-"))
 ;; End:

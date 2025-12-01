@@ -79,13 +79,13 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 ;; Setup functions for convenience
-(defun pew::install-fonts ()
+(defun pew-install-fonts ()
   (interactive)
   (all-the-icons-install-fonts :silent)
   (nerd-icons-install-fonts :silent))
 
 ;; Default looking
-(pewlib::debug::load-theme 'modus-vivendi)
+(pewlib-load-theme 'modus-vivendi)
 
 (provide 'elpa-ui)
 ;;; elpa-ui.el ends here

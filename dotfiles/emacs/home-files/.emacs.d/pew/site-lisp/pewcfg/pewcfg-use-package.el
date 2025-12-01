@@ -13,8 +13,8 @@
 (require 'use-package nil :noerror)
 
 ;;; Helper functions
-(defun pewcfg::use-package::translate-pewcfg-keyword (keyword)
-  "Translate a KEYWORD used in `pewcfg::use-package' to `pewcfg'.
+(defun pewcfg-use-package-translate-pewcfg-keyword (keyword)
+  "Translate a KEYWORD used in `pewcfg-use-package' to `pewcfg'.
 Currently keywords that start with ':init' or ':config' are checked since
 `pewcfg' needs to be evaluated and only makes sense to be put in those blocks.
 Return a cons where the car is the `use-package' section keyword and cdr is the
@@ -27,12 +27,12 @@ Otherwise return nil."
       nil)))
 
 ;;; Facility macros
-(defmacro pewcfg::use-package (name &rest args)
+(defmacro pewcfg-use-package (name &rest args)
   "A simple wrapper of `use-package'.
 Used like `use-package'.  However, if a keyword starts with ':init/' or
 ':config/' then it will be translated to use `pewcfg'.
 For example:
-  (pewcfg::use-package emacs
+  (pewcfg-use-package emacs
     :custom
     (foo bar)
     :config/custom
@@ -48,11 +48,11 @@ will be translated to:
   (declare (indent 1))
   `(use-package ,name
      ,@(mapcan (lambda (seg)
-                 (let ((matched (pewcfg::use-package::translate-pewcfg-keyword (car seg))))
+                 (let ((matched (pewcfg-use-package-translate-pewcfg-keyword (car seg))))
                    (if matched
                        `(,(car matched) ,(macroexpand `(pewcfg ,(cdr matched) ,@(cdr seg))))
                      seg)))
-               (pewcfg::slice-keyword-segments args))))
+               (pewcfg-slice-keyword-segments args))))
 
 (provide 'pewcfg-use-package)
 ;;; pewcfg-use-package.el ends here

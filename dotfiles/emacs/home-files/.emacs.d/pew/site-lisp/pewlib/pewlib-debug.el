@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Themes
-(defun /ns/load-theme (theme)
+(defun /p/load-theme (theme)
   "Load THEME but make sure it is the only one active."
   (interactive (list '__PEW_LOAD_THEME__))
   (if (eq '__PEW_LOAD_THEME__ theme)
@@ -17,21 +17,21 @@
       (dolist (theme (cdr custom-enabled-themes))
         (disable-theme theme))))
 
-(defun /ns/find-font (&rest args)
+(defun /p/find-font (&rest args)
   "Return a font object is it's found on the current system.
 ARGS is the same as the ones defined in `font-spec'.
 Return nil if no match."
   (find-font (apply 'font-spec args)))
 
 ;;; Lisp data file
-(defun /ns/load-data-file (file)
+(defun /p/load-data-file (file)
   "Read the FILE and return a Lisp data object.
 Only the first list will be read."
   (read (with-temp-buffer
           (insert-file-contents file)
           (buffer-string))))
 
-(defun /ns/save-data-file (file obj)
+(defun /p/save-data-file (file obj)
   "Save a Lisp data OBJ to the FILE.
 Existing content will be overwritten."
   (with-temp-file file
@@ -39,33 +39,33 @@ Existing content will be overwritten."
     (pp obj (current-buffer))))
 
 ;;; Debugging
-(defun /ns/reload-init-file ()
+(defun /p/reload-init-file ()
   "Reload the config file."
   (interactive)
   (load-file user-init-file))
 
-(defun /ns/open-init-file ()
+(defun /p/open-init-file ()
   "Open the config file."
   (interactive)
   (find-file user-init-file))
 
-(defmacro /ns/inhibit-message (&rest body)
+(defmacro /p/inhibit-message (&rest body)
   "Inhibit all message output when executing BODY."
   `(let ((inhibit-message t)
          (message-log-max nil))
      ,@body))
 
-(defun /ns/display-keycode (keycode)
+(defun /p/display-keycode (keycode)
   "Echo corresponding key name from KEYCODE."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
-(defun /ns/display-buffer-file-name ()
+(defun /p/display-buffer-file-name ()
   "Echo current buffer file name."
   (interactive)
   (message "%s [%s]" (buffer-file-name) buffer-file-coding-system))
 
-(defun /ns/display-mode-inheritance (mode)
+(defun /p/display-mode-inheritance (mode)
   "Echo current major mode inheritance.
 If prefix argument is given, a mode name can be manually typed in.
 If MODE is any non-nill value other than '(4), that mode name will be used."
@@ -81,7 +81,7 @@ If MODE is any non-nill value other than '(4), that mode name will be used."
             (message "Inheritance: [ %s ]" (mapconcat (lambda (m) (format "%S" m)) results " <= "))
           (find-parent parent-major-mode (cons parent-major-mode results)))))))
 
-(defmacro /ns/expand-macro (form &optional step no-echo)
+(defmacro /p/expand-macro (form &optional step no-echo)
   "Expand the macro in FORM and print the expanded results.
 Possible value for STEP:
   nil              - call `macroexpand'
@@ -106,5 +106,5 @@ out in the message buffer."
 ;;; pewlib-debug.el ends here
 
 ;; Local Variables:
-;; read-symbol-shorthands: (("/ns/" . "pewlib::debug::"))
+;; read-symbol-shorthands: (("/p/" . "pewlib-"))
 ;; End:

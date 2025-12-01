@@ -30,11 +30,11 @@
 
 (use-package cc-mode
   :ensure nil
-  :hook ((c-mode . pew::cc-mode::on-enter)
-         (c++-mode . pew::cc-mode::on-enter))
+  :hook ((c-mode . pew-cc-mode-on-enter)
+         (c++-mode . pew-cc-mode-on-enter))
   :preface
   ;; Setup functions
-  (defun pew::cc-mode::on-enter ()
+  (defun pew-cc-mode-on-enter ()
     "Common CC mode setup."
     (c-set-offset 'substatement-open 0)
     (c-set-offset 'innamespace 0)
@@ -67,8 +67,8 @@
   (pewcfg :eval-after (org
                        (setq org-plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
                        (setq org-plantuml-exec-mode 'jar)
-                       (pew::org::add-src-lang-modes '(("plantuml" . plantuml)))
-                       (pew::org::add-babel-load-languages '((plantuml . t))))))
+                       (pew-org-add-src-lang-modes '(("plantuml" . plantuml)))
+                       (pew-org-add-babel-load-languages '((plantuml . t))))))
 
 (use-package graphviz-dot-mode
   :ensure t
@@ -80,9 +80,9 @@
   :init
   ;; Graphviz `org-mode' support
   (pewcfg :eval-after (org
-                       (pew::org::add-src-lang-modes '(("dot" . graphviz-dot)
+                       (pew-org-add-src-lang-modes '(("dot" . graphviz-dot)
                                                        ("gv" . graphviz-dot)))
-                       (pew::org::add-babel-load-languages '((dot . t))))))
+                       (pew-org-add-babel-load-languages '((dot . t))))))
 
 (use-package mermaid-mode
   :ensure t
@@ -95,8 +95,8 @@
 
   :init
   (pewcfg :eval-after (org
-                       (pew::org::add-src-lang-modes '(("mermaid" . mermaid)))
-                       (pew::org::add-babel-load-languages '((mermaid . t))))))
+                       (pew-org-add-src-lang-modes '(("mermaid" . mermaid)))
+                       (pew-org-add-babel-load-languages '((mermaid . t))))))
 
 (provide 'elpa-langs)
 ;;; elpa-langs.el ends here

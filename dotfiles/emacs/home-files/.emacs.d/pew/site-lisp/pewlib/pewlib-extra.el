@@ -6,12 +6,12 @@
 ;;; Code:
 
 ;;; Dired
-(defun /ns/dired-go-to ()
+(defun /p/dired-go-to ()
   "Go into the target under the cursor without creating a new buffer."
   (interactive)
   (dired-find-alternate-file))
 
-(defun /ns/dired-go-up ()
+(defun /p/dired-go-up ()
   "Go to the parent directory without creating a new buffer."
   (interactive)
   ;; Create a new buffer of the parent path
@@ -21,17 +21,17 @@
   ;; Go up and close the current path buffer then the cursor will be on the current path
   (find-alternate-file ".."))
 
-(defun /ns/dired-close-others ()
+(defun /p/dired-close-others ()
   "Close other Dired buffers but this one."
   (interactive)
-  (/wksp/close-other-buffers-in-major-mode 'dired-mode))
+  (/p/close-other-buffers-in-major-mode 'dired-mode))
 
-(defun /ns/dired-buffer-p (name)
+(defun /p/dired-buffer-p (name)
   "Check if the given buffer NAME is a Dired buffer."
   (eq 'dired-mode (buffer-local-value 'major-mode (get-buffer name))))
 
 ;;; Eshell
-(defun /ns/eshell-clear-buffer ()
+(defun /p/eshell-clear-buffer ()
   "Clear eshell buffer."
   (interactive)
   (if (eq 'eshell-mode major-mode)
@@ -44,5 +44,5 @@
 ;;; pewlib-extra.el ends here
 
 ;; Local Variables:
-;; read-symbol-shorthands: (("/ns/" . "pewlib::extra::") ("/wksp/" . "pewlib::workspace::"))
+;; read-symbol-shorthands: (("/p/" . "pewlib-"))
 ;; End:

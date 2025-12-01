@@ -55,7 +55,7 @@
                              "--all-scopes-completion"))
 
   :preface
-  (defmacro pew::lsp::define-remote (server modes)
+  (defmacro pew-lsp-define-remote (server modes)
     "A shortcut to define LSP remote client.
 SERVER is the base name of the server executable.
 MODES is a list of major mode symbols."
@@ -71,7 +71,7 @@ MODES is a list of major mode symbols."
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
-  :hook (lsp-mode . pew::lsp-ui::on-enter)
+  :hook (lsp-mode . pew-lsp-ui-on-enter)
   :bind ( :map lsp-ui-mode-map
           ([remap xref-find-references] . lsp-ui-peek-find-references)
           ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
@@ -109,7 +109,7 @@ MODES is a list of major mode symbols."
   (lsp-ui-imenu-kind-position 'top)
 
   :preface
-  (defun pew::lsp-ui::on-enter ()
+  (defun pew-lsp-ui-on-enter ()
     "`lsp-ui-mode' initialization."
     (lsp-ui-mode 1)
     ;; Disabled since it occupies 'q'
@@ -129,11 +129,11 @@ MODES is a list of major mode symbols."
 
 (use-package lsp-pyright
   :ensure t
-  :hook (python-mode . pew::python-mode::on-enter-lsp-mode)
+  :hook (python-mode . pew-python-mode-on-enter-lsp-mode)
   :custom
   (lsp-pyright-python-executable-cmd "python3")
   :preface
-  (defun pew::python-mode::on-enter-lsp-mode ()
+  (defun pew-python-mode-on-enter-lsp-mode ()
     "`python-mode' initialization."
     (require 'lsp-pyright)
     (require 'dap-python)))

@@ -8,7 +8,7 @@
 (use-package org
   :ensure t ;; Keep the package up-to-date
   :commands org-mode
-  :hook (org-babel-after-execute . pew::org::refresh-images)
+  :hook (org-babel-after-execute . pew-org-refresh-images)
   :custom
   ;; Visual on startup
   (org-indent-mode-turns-on-hiding-stars nil)
@@ -20,11 +20,11 @@
   (org-hide-block-startup nil)
   ;; Default marker visibility
   (org-ellipsis " ...")
-  (org-hide-emphasis-markers pew::org::marker--hidden)
-  (org-hide-leading-stars pew::org::marker--hidden)
-  (org-hide-macro-markers pew::org::marker--hidden)
-  (org-link-descriptive pew::org::marker--hidden)
-  (org-pretty-entities pew::org::marker--hidden)
+  (org-hide-emphasis-markers pew-org--marker-hidden)
+  (org-hide-leading-stars pew-org--marker-hidden)
+  (org-hide-macro-markers pew-org--marker-hidden)
+  (org-link-descriptive pew-org--marker-hidden)
+  (org-pretty-entities pew-org--marker-hidden)
 
   ;; Image displaying
   (org-display-remote-inline-images 'skip)
@@ -79,59 +79,59 @@
   (org-use-fast-todo-selection 'expert) ;; No popup window
   ;; Omit selection characters after the first general sequence to let Org
   ;; generate them automatically
-  (org-todo-keywords (pewlib::debug::load-data-file (expand-file-name "pew/org-templates/todo.eld" pew::toplevel-dir)))
+  (org-todo-keywords (pewlib-load-data-file (expand-file-name "pew/org-templates/todo.eld" pew-toplevel-dir)))
   (org-enforce-todo-dependencies nil)
   (org-enforce-todo-checkbox-dependencies nil)
 
   ;; Agenda and capture
   ;; Org files
-  (org-directory (expand-file-name "my-org-notes" pew::toplevel-dir))
+  (org-directory (expand-file-name "my-org-notes" pew-toplevel-dir))
   (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
   ;; Take every org files under `org-directory'
   (org-agenda-files (list (expand-file-name "agenda.org" org-directory)))
   ;; Templates
-  (org-capture-templates (pewlib::debug::load-data-file (expand-file-name "pew/org-templates/capture.eld" pew::toplevel-dir)))
+  (org-capture-templates (pewlib-load-data-file (expand-file-name "pew/org-templates/capture.eld" pew-toplevel-dir)))
 
   :preface
-  (defvar pew::org::marker--hidden nil
+  (defvar pew-org--marker-hidden nil
     "`org-mode' marker visibility.")
 
-  (defun pew::org::refresh-images ()
+  (defun pew-org-refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
     (interactive)
     (if org-inline-image-overlays
         (org-redisplay-inline-images)))
 
-  (defun pew::org::add-src-lang-modes (alist)
+  (defun pew-org-add-src-lang-modes (alist)
     "Add modes defined in ALIST to `org-src-lang-modes'.
 Duplicated pairs will be removed."
     (mapc (lambda (x) (assoc-delete-all (car x) org-src-lang-modes)) alist)
     (setq org-src-lang-modes (nconc alist org-src-lang-modes)))
 
-  (defun pew::org::add-babel-load-languages (alist)
+  (defun pew-org-add-babel-load-languages (alist)
     "Add languages defined in ALIST to `org-babel-load-languages'.
 `org-babel-do-load-languages' will be called underneath."
     (org-babel-do-load-languages 'org-babel-load-languages
                                  (nconc alist org-babel-load-languages)))
 
   :config
-  (defun pew::org::toggle-marker (&optional show no-restart)
+  (defun pew-org-toggle-marker (&optional show no-restart)
     "Pass SHOW with 1 or -1 to show or hide markers or anything else to toggle.
 Non-nil NO-RESTART to suppress `org-mode-restart'."
     (interactive)
-    (setq pew::org::marker--hidden (pcase show
+    (setq pew-org--marker-hidden (pcase show
                                      (1 nil)
                                      (-1 t)
-                                     (_  (not pew::org::marker--hidden))))
+                                     (_  (not pew-org--marker-hidden))))
     ;; Those variables are global
-    (setq-default org-hide-emphasis-markers pew::org::marker--hidden
-                  org-hide-leading-stars pew::org::marker--hidden
-                  org-hide-macro-markers pew::org::marker--hidden
-                  org-link-descriptive pew::org::marker--hidden
-                  org-pretty-entities pew::org::marker--hidden)
+    (setq-default org-hide-emphasis-markers pew-org--marker-hidden
+                  org-hide-leading-stars pew-org--marker-hidden
+                  org-hide-macro-markers pew-org--marker-hidden
+                  org-link-descriptive pew-org--marker-hidden
+                  org-pretty-entities pew-org--marker-hidden)
     (unless no-restart (org-mode-restart)))
 
-  (defun pew::org::goto-heading (level &optional to-end)
+  (defun pew-org-goto-heading (level &optional to-end)
     "Move cursor to the selected heading in the current `org-mode' buffer.
 Minibuffer will show up with the specified LEVEL of headings and move cursor to
 it once the choice is confirmed.
@@ -162,7 +162,7 @@ Otherwise the cursor is placed at the beginning of the heading."
                     (if to-end :end :begin)
                     selected)))))
 
-  (defun pew::org::find-file ()
+  (defun pew-org-find-file ()
     "Find files under `org-directory'."
     (interactive)
     (let ((default-directory (file-name-as-directory org-directory)))
@@ -200,9 +200,9 @@ Otherwise the cursor is placed at the beginning of the heading."
 
                      (use-package org-bullets
                        :ensure t
-                       :hook (org-mode . pew::org-bullets::on-enter)
+                       :hook (org-mode . pew-org-bullets-on-enter)
                        :preface
-                       (defun pew::org-bullets::on-enter ()
+                       (defun pew-org-bullets-on-enter ()
                          "`org-bullets' initialization."
                          (org-bullets-mode 1)))
 

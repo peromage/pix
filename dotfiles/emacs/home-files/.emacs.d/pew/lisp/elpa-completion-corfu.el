@@ -16,7 +16,7 @@
           ("C-c"      . corfu-insert)
           ("C-s"      . corfu-insert-separator)
           ("C-k"      . corfu-reset)
-          ("C-j"      . pew::corfu::move-to-minibuffer)
+          ("C-j"      . pew-corfu-move-to-minibuffer)
           ("C-h"      . corfu-popupinfo-documentation)
           ("C-w"      . corfu-popupinfo-location)
           ("M-n"      . corfu-popupinfo-scroll-up)
@@ -37,7 +37,7 @@
   (corfu-echo-delay '(0.5 . 0.2))
 
   :config
-  (defun pew::corfu::move-to-minibuffer ()
+  (defun pew-corfu-move-to-minibuffer ()
     (interactive)
     (pcase completion-in-region--data
       (`(,beg ,end ,table ,pred ,extras)
@@ -46,7 +46,7 @@
          (consult-completion-in-region beg end table pred)))))
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
 
-  (define-advice pewlib::editor::as-terminal-mode (:after () pew::corfu::in-terminal)
+  (define-advice pewlib-as-terminal-mode (:after () pew-corfu-in-terminal)
     (setq-local corfu-auto nil))
 
   (global-corfu-mode 1)
@@ -67,11 +67,11 @@
 (use-package cape
   :ensure t
   :after corfu
-  :hook ((lisp-interaction-mode . pew::cape::on-elisp-mode)
-         (emacs-lisp-mode . pew::cape::on-elisp-mode)
-         (lisp-data-mode . pew::cape::on-elisp-mode)
-         (eshell-mode . pew::cape::on-eshell-mode))
-  :bind ( :map pew::M-c-map
+  :hook ((lisp-interaction-mode . pew-cape-on-elisp-mode)
+         (emacs-lisp-mode . pew-cape-on-elisp-mode)
+         (lisp-data-mode . pew-cape-on-elisp-mode)
+         (eshell-mode . pew-cape-on-eshell-mode))
+  :bind ( :map pew-M-c-map
           ("i"  . completion-at-point)
           ("t"  . complete-tag)
           ("d"  . cape-dabbrev)
@@ -87,7 +87,7 @@
           ("r"  . cape-rfc1345) )
 
   :preface
-  (defun pew::cape::on-elisp-mode ()
+  (defun pew-cape-on-elisp-mode ()
     "Set completion style for ELisp mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     ;; Combined completion style
@@ -95,7 +95,7 @@
                                                      #'elisp-completion-at-point
                                                      #'cape-dabbrev))))
 
-  (defun pew::cape::on-eshell-mode ()
+  (defun pew-cape-on-eshell-mode ()
     "Set completion style for Eshell mode."
     (setq-local completion-at-point-functions (list #'cape-file
                                                     #'pcomplete-completions-at-point

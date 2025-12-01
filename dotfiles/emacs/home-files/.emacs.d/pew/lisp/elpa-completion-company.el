@@ -12,7 +12,7 @@
           ("C-k"   . company-abort)
           ;; ("RET"   . nil)
           ;; ("<return>"   . nil)
-          :map pew::M-c-map
+          :map pew-M-c-map
           ("i"     . company-complete)
           ("f"     . company-files)
           ("t"     . company-gtags)
@@ -37,7 +37,7 @@
 
   :config
   (pewcfg :eval-after (orderless
-                       (define-advice company-capf (:around (capf-fn &rest args) pew::company::completion-style)
+                       (define-advice company-capf (:around (capf-fn &rest args) pew-company-completion-style)
                          (let ((completion-styles '(basic partial-completion orderless)))
                            (apply capf-fn args)))))
 

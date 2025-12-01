@@ -6,7 +6,7 @@
 ;;; Code:
 
 ;;; Buffers
-(defvar /ns/buffer-regex-plist
+(defvar /p/buffer-regex-plist
   (let ((star "^ *\\*%s\\*.*$"))
     ;; Align regex  :[a-z-]+\(\s-*\)\((\|"\)
     (list
@@ -43,26 +43,26 @@
      :flymake-diagnostics  (format star "[Ff]lymake [Dd]iagnostics ?.*")))
   "Buffer name patterns.")
 
-(defvar /ns/hidden-buffer-keywords
+(defvar /p/hidden-buffer-keywords
   '(:starred
     :with-leading-star
     :with-leading-space
     :magit)
   "Buffers that are treated as hidden.")
 
-(defun /ns/buffer-regex (keyword)
-  "Get KEYWORD corresponded buffer regex from `pewlib::workspace::buffer-regex-plist'."
-  (or (plist-get /ns/buffer-regex-plist keyword)
+(defun /p/buffer-regex (keyword)
+  "Get KEYWORD corresponded buffer regex from `pewlib-buffer-regex-plist'."
+  (or (plist-get /p/buffer-regex-plist keyword)
       (error "Invalid keyword: %S" keyword)))
 
-(defun /ns/map-buffer-regex (keywords &optional concat)
-  "Return a list of buffer regex from `pewlib::workspace::buffer-regex-plist' given KEYWORDS.
+(defun /p/map-buffer-regex (keywords &optional concat)
+  "Return a list of buffer regex from `pewlib-buffer-regex-plist' given KEYWORDS.
 If CONCAT is non-nil the return value is a single regex string."
   (if concat
-      (mapconcat #'/ns/buffer-regex keywords "\\|")
-    (mapcar #'/ns/buffer-regex keywords)))
+      (mapconcat #'/p/buffer-regex keywords "\\|")
+    (mapcar #'/p/buffer-regex keywords)))
 
-(defun /ns/next-editing-buffer (&optional backwards)
+(defun /p/next-editing-buffer (&optional backwards)
   "Switch to the next editing buffer.
 If BACKWARDS is non-nil switch to the previous one."
   (interactive "P")
@@ -70,16 +70,16 @@ If BACKWARDS is non-nil switch to the previous one."
         (switch-func (if backwards #'previous-buffer #'next-buffer)))
     (funcall switch-func)
     (while (and (not (eq current-buffer (current-buffer)))
-                (or (string-match-p (/ns/map-buffer-regex /ns/hidden-buffer-keywords t) (buffer-name))
-                    (/extra/dired-buffer-p (buffer-name))))
+                (or (string-match-p (/p/map-buffer-regex /p/hidden-buffer-keywords t) (buffer-name))
+                    (/p/dired-buffer-p (buffer-name))))
       (funcall switch-func))))
 
-(defun /ns/previous-editing-buffer ()
+(defun /p/previous-editing-buffer ()
   "Switch editing buffer backwards."
   (interactive)
-  (/ns/next-editing-buffer :previous))
+  (/p/next-editing-buffer :previous))
 
-(defun /ns/close-other-buffers-in-major-mode (mode)
+(defun /p/close-other-buffers-in-major-mode (mode)
   "Close all other buffers in major MODE but this one."
   (interactive "SMajor mode: ")
   (let ((this-buffer (current-buffer)))
@@ -89,14 +89,14 @@ If BACKWARDS is non-nil switch to the previous one."
           (kill-buffer buffer)))))
 
 ;;; Windows
-(defun /ns/reuse-window-in-buffer ()
+(defun /p/reuse-window-in-buffer ()
   "Make new spawned windows atttempt to reuse current ones.
 This is usually useful in some major modes like `grep-mode'."
   (setq-local display-buffer-base-action '((display-buffer-reuse-window
                                             display-buffer-use-some-window))
               display-buffer-alist nil))
 
-(defun /ns/side-window-actions (side slot)
+(defun /p/side-window-actions (side slot)
   "Return a list of pre-configured side window actions.
 See `display-buffer' for property SIDE, SLOT."
   `((display-buffer-reuse-window display-buffer-in-side-window)
@@ -106,127 +106,127 @@ See `display-buffer' for property SIDE, SLOT."
     (side . ,side)
     (slot . ,slot)))
 
-(defun /ns/side-window-p (window)
+(defun /p/side-window-p (window)
   "Return non-nil if WINDOW is a side window."
   (window-parameter window 'window-side))
 
-(defun /ns/side-window-exists-p (&optional side)
+(defun /p/side-window-exists-p (&optional side)
   "Return the first side window if there is any, otherwise nil.
 If SIDE is given and is one of 'top' 'bottom' 'left' and 'right', check for that
 specified side.  If SIDE is nil it means check all sides."
   (window-with-parameter 'window-side side))
 
-(defun /ns/normal-window-p (window)
+(defun /p/normal-window-p (window)
   "Return t if WINDOW is a normal window."
-  (not (/ns/side-window-p window)))
+  (not (/p/side-window-p window)))
 
-(defun /ns/last-normal-window-p (window)
+(defun /p/last-normal-window-p (window)
   "Return t if WINDOW is the last normal window."
-  (and (/ns/normal-window-p window)
-       (= 1 (length (/ns/list-normal-windows)))))
+  (and (/p/normal-window-p window)
+       (= 1 (length (/p/list-normal-windows)))))
 
-(defun /ns/list-side-windows ()
+(defun /p/list-side-windows ()
   "Return a list of side windows."
   (seq-filter
-   (lambda (x) (/ns/side-window-p x))
+   (lambda (x) (/p/side-window-p x))
    (window-list)))
 
-(defun /ns/list-normal-windows ()
+(defun /p/list-normal-windows ()
   "Return a list of normal (non-side) windows."
   (seq-filter
-   (lambda (x) (/ns/normal-window-p x))
+   (lambda (x) (/p/normal-window-p x))
    (window-list)))
 
-(defun /ns/pop-window-in-new-tab (arg)
+(defun /p/pop-window-in-new-tab (arg)
   "Pop the current window into a new tab.
 If prefix ARG is presented, pop the window without deleting it from the original
 place."
   (interactive "P")
   (let ((current-buffer (current-buffer)))
-    (if (and (null arg) (not (/ns/last-normal-window-p (selected-window))))
+    (if (and (null arg) (not (/p/last-normal-window-p (selected-window))))
         (delete-window))
     (tab-bar-new-tab) ;; Duplicate current layout
-    (select-window (car (/ns/list-normal-windows)))
+    (select-window (car (/p/list-normal-windows)))
     (switch-to-buffer current-buffer)
     (delete-other-windows)))
 
-(defun /ns/pop-window-in-new-tab-persist ()
+(defun /p/pop-window-in-new-tab-persist ()
   "Pop the current window and keep it in the original tab."
   (interactive)
-  (/ns/pop-window-in-new-tab :persist))
+  (/p/pop-window-in-new-tab :persist))
 
-(defun /ns/next-window ()
+(defun /p/next-window ()
   "Switch to the next window."
   (interactive)
   (other-window 1))
 
-(defun /ns/prev-window ()
+(defun /p/prev-window ()
   "Switch to the previous window."
   (interactive)
   (other-window -1))
 
-(defun /ns/close-window ()
+(defun /p/close-window ()
   "Close the current window, or the tab if it is the last normal window."
   (interactive)
-  (if (/ns/last-normal-window-p (selected-window))
+  (if (/p/last-normal-window-p (selected-window))
       ;; If there is only one normal window left, close the tab, regardless even
       ;; side windows exist
       (tab-bar-close-tab)
     (delete-window)))
 
-(defun /ns/scroll-other-window-page-down ()
+(defun /p/scroll-other-window-page-down ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window))
 
-(defun /ns/scroll-other-window-page-up ()
+(defun /p/scroll-other-window-page-up ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window-down))
 
-(defun /ns/scroll-other-window-line-down ()
+(defun /p/scroll-other-window-line-down ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window 1))
 
-(defun /ns/scroll-other-window-line-up ()
+(defun /p/scroll-other-window-line-up ()
   "Scroll other window one page down."
   (interactive)
   (scroll-other-window -1))
 
-(defun /ns/recenter-other-window ()
+(defun /p/recenter-other-window ()
   "Scroll other window one page down."
   (interactive)
   (recenter-other-window))
 
-(defun /ns/split-window-below ()
+(defun /p/split-window-below ()
   "Split windows and switch focus to the new one."
   (interactive)
   (split-window-below)
   (other-window 1))
 
-(defun /ns/split-window-right ()
+(defun /p/split-window-right ()
   "Split windows and switch focus to the new one."
   (interactive)
   (split-window-right)
   (other-window 1))
 
 ;;; Tabs
-(defun /ns/move-tab-next ()
+(defun /p/move-tab-next ()
   "Move current tab to the next."
   (interactive)
   (tab-bar-move-tab 1))
 
-(defun /ns/move-tab-prev ()
+(defun /p/move-tab-prev ()
   "Move current tab to the previous."
   (interactive)
   (tab-bar-move-tab -1))
 
 ;;; Frames
-(defvar /ns/frame-opacity-adjust-step 5
+(defvar /p/frame-opacity-adjust-step 5
   "The amount of opacity changed each time.")
 
-(defun /ns/set-frame-opacity (val)
+(defun /p/set-frame-opacity (val)
   "Set the opacity of the current frame.
 VAL is a number between 0 and 100.  0=transparent/100=opaque"
   (interactive "nFrame Opacity [transparent(0) - opaque(100)]: ")
@@ -236,38 +236,38 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
     (message "Set Frame opacity: %d%%" value)
     (set-frame-parameter (selected-frame) 'alpha (cons value value))))
 
-(defun /ns/increase-frame-opacity ()
+(defun /p/increase-frame-opacity ()
   "Increase frame opacity."
   (interactive)
-  (/ns/set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                                /ns/frame-opacity-adjust-step)))
+  (/p/set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
+                                /p/frame-opacity-adjust-step)))
 
-(defun /ns/decrease-frame-opacity ()
+(defun /p/decrease-frame-opacity ()
   "Decrease frame opacity."
   (interactive)
-  (/ns/set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                                /ns/frame-opacity-adjust-step)))
+  (/p/set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
+                                /p/frame-opacity-adjust-step)))
 
-(defun /ns/pop-window-in-new-frame (arg)
+(defun /p/pop-window-in-new-frame (arg)
   "Pop the current window into a new frame.
 If prefix ARG is presented, pop the window without deleting it from the original
 place."
   (interactive "P")
   (let ((current-buffer (current-buffer)))
-    (if (and (null arg) (not (/ns/last-normal-window-p (selected-window))))
+    (if (and (null arg) (not (/p/last-normal-window-p (selected-window))))
         (delete-window))
     (select-frame (make-frame-command))
     (switch-to-buffer current-buffer)
     (delete-other-windows)))
 
-(defun /ns/pop-window-in-new-frame-persist ()
+(defun /p/pop-window-in-new-frame-persist ()
   "Pop the current window and keep it in the original frame."
   (interactive)
-  (/ns/pop-window-in-new-frame :persist))
+  (/p/pop-window-in-new-frame :persist))
 
 (provide 'pewlib-workspace)
 ;;; pewlib-workspace.el ends here
 
 ;; Local Variables:
-;; read-symbol-shorthands: (("/ns/" . "pewlib::workspace::") ("/extra/" . "pewlib::extra::"))
+;; read-symbol-shorthands: (("/p/" . "pewlib-"))
 ;; End:

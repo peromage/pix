@@ -6,29 +6,29 @@
 ;;; Code:
 
 ;;; Test dummy handlers
-(add-to-list 'pewcfg::keywords :unittest)
+(add-to-list 'pewcfg-keywords :unittest)
 
-(defun pewcfg::normalize--:unittest (forms)
+(defun pewcfg-normalize--:unittest (forms)
   forms)
 
-(defun pewcfg::generate--:unittest (&rest args)
+(defun pewcfg-generate--:unittest (&rest args)
   (list args))
 
 ;;; Test suite
 (define-test-suite test-pewcfg-use-package
   (expect-equal "Test translate-pewcfg-keyword: None matching 1"
     nil
-    (pewcfg::use-package::translate-pewcfg-keyword :init))
+    (pewcfg-use-package-translate-pewcfg-keyword :init))
 
   (expect-equal "Test translate-pewcfg-keyword: None matching 2"
     nil
-    (pewcfg::use-package::translate-pewcfg-keyword :config/))
+    (pewcfg-use-package-translate-pewcfg-keyword :config/))
 
   (expect-equal "Test translate-pewcfg-keyword: Matched"
     '(:config . :something)
-    (pewcfg::use-package::translate-pewcfg-keyword :config/something))
+    (pewcfg-use-package-translate-pewcfg-keyword :config/something))
 
-  (expect-equal "Test pewcfg::use-package: Normal expand"
+  (expect-equal "Test pewcfg-use-package: Normal expand"
     '(use-package emacs
        :custom
        (aaa val)
@@ -41,7 +41,7 @@
        :init
        (progn (foo 666)
               (bar 888)))
-    (macroexpand-1 '(pewcfg::use-package emacs
+    (macroexpand-1 '(pewcfg-use-package emacs
                       :custom
                       (aaa val)
                       :config

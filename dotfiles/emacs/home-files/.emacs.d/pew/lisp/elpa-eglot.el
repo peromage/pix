@@ -10,8 +10,8 @@
 (use-package eglot
   :ensure nil
   :commands (eglot eglot-ensure)
-  :hook (eglot-managed-mode . pew::eglot::on-enter-managed-buffer)
-  :bind ( :map pew::M-u-map
+  :hook (eglot-managed-mode . pew-eglot-on-enter-managed-buffer)
+  :bind ( :map pew-M-u-map
           ("M-l" . eglot)
           :map eglot-mode-map
           ("C-c l f" . eglot-format)
@@ -28,7 +28,7 @@
   (eglot-confirm-server-initiated-edits 'confirm)
 
   :preface
-  (defun pew::eglot::on-enter-managed-buffer ()
+  (defun pew-eglot-on-enter-managed-buffer ()
     (eglot-inlay-hints-mode -1)
     ;; Make Eldoc show flymake errors first
     (let ((f 'flymake-eldoc-function))

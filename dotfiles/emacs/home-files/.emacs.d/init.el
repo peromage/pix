@@ -10,7 +10,7 @@
 ;;; Path setup
 (let ((default-directory (file-name-directory load-file-name))) ;; Directory where this init.el resides
   ;; Pew config home
-  (defvar pew::toplevel-dir default-directory)
+  (defvar pew-toplevel-dir default-directory)
   ;; Configurations from the interactive `customize' interfaces.
   (setq custom-file (expand-file-name "custom.el"))
   ;; All Pew modules
