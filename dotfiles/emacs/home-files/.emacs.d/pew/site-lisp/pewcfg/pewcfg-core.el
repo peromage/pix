@@ -5,11 +5,11 @@
 ;;; Commentary:
 
 ;; How to add new keyword supports:
-;; 1. Define a function named 'pewcfg-normalize--:KEYWORD', which takes a list
+;; 1. Define a function named 'pewcfg--normalize-:KEYWORD', which takes a list
 ;; of forms specified after the keyword in `pewcfg', and returns a list of forms.
 ;; Each form in the list contains arguments for the generate function in the
 ;; next step.
-;; 2. Define a function named 'pewcfg-generate--:KEYWORD', which takes arguments
+;; 2. Define a function named 'pewcfg--generate-:KEYWORD', which takes arguments
 ;; from the previous step, and returns a list of forms that can be evaluated at
 ;; execution time.
 
@@ -65,12 +65,12 @@ implemented with `customize-set-variable' to set variables directly.
 Both methods are very similar.  They are all capable of keeping the
 `custom-file' clean.  ':custom' may be slightly faster than ':customize'.")
 
-(defvar pewcfg-keyword-normalize-function-format "pewcfg-normalize--%s"
+(defvar pewcfg-keyword-normalize-function-format "pewcfg--normalize-%s"
   "The keyword normalize function format.
 A normalize functions should take a list of forms and make each of them in a
 format that can be applied to the generate function by `apply'.")
 
-(defvar pewcfg-keyword-generate-function-format "pewcfg-generate--%s"
+(defvar pewcfg-keyword-generate-function-format "pewcfg--generate-%s"
   "The keyword generate function format.
 Each generate function can have different signatures but it should always return
 a list of forms.")
@@ -170,26 +170,26 @@ Typical usage is as follow:
     (error "Not start with a keyword")))
 
 ;;; :custom
-(defun pewcfg-normalize--:custom (forms)
+(defun pewcfg--normalize-:custom (forms)
   "Normalize function for ':custom'."
   (list (mapcar (lambda (form)
                   `'(,(elt form 0) ,(elt form 1) nil nil ,(let ((comment (elt form 2)))
                                                             (if comment comment "Set by pewcfg:custom"))))
                 forms)))
 
-(defun pewcfg-generate--:custom (&rest args)
+(defun pewcfg--generate-:custom (&rest args)
   "Bind variable values to a custom theme `pewcfg-custom-theme'."
   `((let ((custom--inhibit-theme-enable nil))
       (custom-theme-set-variables ',pewcfg-custom-theme ,@args))))
 
 ;;; :customize
-(defun pewcfg-normalize--:customize (forms)
+(defun pewcfg--normalize-:customize (forms)
   "Normalize function for ':customize'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:customize (variable value &optional comment)
+(defun pewcfg--generate-:customize (variable value &optional comment)
   "Bind a VARIABLE with the VALUE.
-Similar to `pewcfg-generate--:custom' while this does not use a custom theme.
+Similar to `pewcfg--generate-:custom' while this does not use a custom theme.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
 COMMENT is the optional commentary shown in the `customize' interface."
@@ -197,11 +197,11 @@ COMMENT is the optional commentary shown in the `customize' interface."
   `((customize-set-variable ',variable ,value ,(if comment comment "Set by pewcfg:customize"))))
 
 ;;; :setq
-(defun pewcfg-normalize--:setq (forms)
+(defun pewcfg--normalize-:setq (forms)
   "Normalize function for ':setq'."
   (list (mapcan #'pewcfg-normalize-first-two forms)))
 
-(defun pewcfg-generate--:setq (variable value &rest pairs)
+(defun pewcfg--generate-:setq (variable value &rest pairs)
   "Simple wrapper of `setq'.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
@@ -210,11 +210,11 @@ PAIRS is the rest of the var-val pairs"
   `((setq ,variable ,value ,@pairs)))
 
 ;;; :setq-default
-(defun pewcfg-normalize--:setq-default (forms)
+(defun pewcfg--normalize-:setq-default (forms)
   "Normalize function for ':setq-default'."
   (list (mapcan #'pewcfg-normalize-first-two forms)))
 
-(defun pewcfg-generate--:setq-default (variable value &rest pairs)
+(defun pewcfg--generate-:setq-default (variable value &rest pairs)
   "Simple wrapper of `setq-default'.
 VARIABLE is a symbol of the variable.
 VALUE will not be evaluate until the expanded form is executed.
@@ -223,17 +223,17 @@ PAIRS is the rest of the var-val pairs"
   `((setq-default ,variable ,value ,@pairs)))
 
 ;;; :bind
-(defun pewcfg-normalize--:bind (forms)
+(defun pewcfg--normalize-:bind (forms)
   "Normalize function for ':bind'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:bind (keymap &rest bindings)
+(defun pewcfg--generate-:bind (keymap &rest bindings)
   "Bind keys in an existing KEYMAP.
 KEYMAP is a symbol of the keymap.
 BINDINGS is an alist whose element is:
   (KEY . DEF)
 For DEF's definition see `define-key'.
-NOTE: Unlike `pewcfg-generate--:map' this macro does not create a new map.  It sets
+NOTE: Unlike `pewcfg--generate-:map' this macro does not create a new map.  It sets
 keybindings in a existing map instead."
   (declare (indent 1))
   `(,@(mapcar (lambda (binding)
@@ -242,29 +242,29 @@ keybindings in a existing map instead."
     ,keymap))
 
 ;;; :map
-(defun pewcfg-normalize--:map (forms)
+(defun pewcfg--normalize-:map (forms)
   "Normalize function for ':map'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:map (keymap &rest bindings)
+(defun pewcfg--generate-:map (keymap &rest bindings)
   "Create a new KEYMAP and bind keys in it.
 KEYMAP is a symbol of the keymap.
-BINDINGS is in the same form as in `pewcfg-generate--:bind'.
-NOTE: Unlike `pewcfg-generate--:bind' this macro creates a new map.  It will not be
+BINDINGS is in the same form as in `pewcfg--generate-:bind'.
+NOTE: Unlike `pewcfg--generate-:bind' this macro creates a new map.  It will not be
 effective if the map already exists."
   (declare (indent 1))
   `((define-prefix-command ',keymap)
-    ,@(apply 'pewcfg-generate--:bind keymap bindings)))
+    ,@(apply 'pewcfg--generate-:bind keymap bindings)))
 
 ;;; :transient
-(defun pewcfg-normalize--:transient (forms)
+(defun pewcfg--normalize-:transient (forms)
   "Normalize function for ':transient'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:transient (command &rest bindings)
+(defun pewcfg--generate-:transient (command &rest bindings)
   "Create an interactive COMMAND that enters transient mode when invoked.
 COMMAND is a symbol of the command.
-BINDINGS is the same with `pewcfg-generate--:bind'.
+BINDINGS is the same with `pewcfg--generate-:bind'.
 A map 'COMMAND-map' and interactive commands 'COMMAND' and 'COMMAND-repeat' will
 be created.  See `set-transient-map'.
 NOTE: \\`C-g' and \\`C-h' should be preserved.
@@ -275,7 +275,7 @@ enabled and put the following code for the keymap.
   (declare (indent 1))
   (let ((command-map (intern (format "%s-map" command)))
         (command-repeat (intern (format "%s-repeat" command))))
-    `(,@(apply 'pewcfg-generate--:map command-map bindings)
+    `(,@(apply 'pewcfg--generate-:map command-map bindings)
       (define-key ,command-map ,(kbd "C-g") #'keyboard-quit) ;; Necessary to exit transient mode
       (defun ,command (arg)
         ,(format "Activate map `%s' temporarily.
@@ -293,11 +293,11 @@ If prefix ARG is given the map will be activated in a repeatable manner." comman
         (,command :repeat)))))
 
 ;;; :toggle
-(defun pewcfg-normalize--:toggle (forms)
+(defun pewcfg--normalize-:toggle (forms)
   "Normalize function for ':toggle'."
   (mapcar #'pewcfg-normalize-pair forms))
 
-(defun pewcfg-generate--:toggle (variable &optional values)
+(defun pewcfg--generate-:toggle (variable &optional values)
   "Create an interactive command to toggle variable from a list of values.
 VARIABLE is a symbol of the variable.
 VALUES is a list of values that the VARIABLE can be possibly set to.
@@ -324,11 +324,11 @@ The values are read from the list `%s'." variable toggle-symbol)
         (message "Set %s: %s" ',variable ,variable)))))
 
 ;;; :face
-(defun pewcfg-normalize--:face (forms)
+(defun pewcfg--normalize-:face (forms)
   "Normalize function for ':face'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:face (face &rest args)
+(defun pewcfg--generate-:face (face &rest args)
   "Set FACE attributes.
 FACE is a symbol of the face.
 ARGS is a plist consists with ATTRIBUTE VALUE pairs.
@@ -342,11 +342,11 @@ See `set-face-attribute'."
                                   args))))
 
 ;;; :property
-(defun pewcfg-normalize--:property (forms)
+(defun pewcfg--normalize-:property (forms)
   "Normalize function for ':property'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:property (symbol &rest properties)
+(defun pewcfg--generate-:property (symbol &rest properties)
   "Set SYMBOL's PROPERTIES.
 Where SYMBOL is the name of the symbol and PROPS is an alist whose element is of
 the form:
@@ -358,22 +358,22 @@ PROP is the symbol of the property and VAL is the value to set with."
               properties)))
 
 ;;; :hook
-(defun pewcfg-normalize--:hook (forms)
+(defun pewcfg--normalize-:hook (forms)
   "Normalize function for ':hook'."
   (mapcar #'pewcfg-normalize-pair forms))
 
-(defun pewcfg-generate--:hook (name function)
+(defun pewcfg--generate-:hook (name function)
   "Set a FUNCTION to a hook NAME.
 NOTE: NAME does not imply suffix '-hook'."
   (declare (indent 0))
   `((add-hook ',name #',function)))
 
 ;;; :automode
-(defun pewcfg-normalize--:automode (forms)
+(defun pewcfg--normalize-:automode (forms)
   "Normalize function for ':automode'."
   (mapcar #'pewcfg-normalize-pair forms))
 
-(defun pewcfg-generate--:automode (matcher mode)
+(defun pewcfg--generate-:automode (matcher mode)
   "Set `auto-mode-alist'.
 MATCHER is usually a string of regex.
 MODE is a symbol of the mode."
@@ -381,31 +381,31 @@ MODE is a symbol of the mode."
   `((add-to-list 'auto-mode-alist ',(cons matcher mode))))
 
 ;;; :eval
-(defun pewcfg-normalize--:eval (forms)
+(defun pewcfg--normalize-:eval (forms)
   "Normalize function for ':eval'."
   (mapcar #'pewcfg-normalize-single forms))
 
-(defun pewcfg-generate--:eval (form)
+(defun pewcfg--generate-:eval (form)
   "Simply return the FORM."
   (declare (indent 0))
   `(,form))
 
 ;;; :eval-after
-(defun pewcfg-normalize--:eval-after (forms)
+(defun pewcfg--normalize-:eval-after (forms)
   "Normalize function for ':eval-after'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:eval-after (feature &rest forms)
+(defun pewcfg--generate-:eval-after (feature &rest forms)
   "Evaluate FORMS after a FEATURE is loaded."
   (declare (indent 1))
   `((with-eval-after-load ',feature ,@forms)))
 
 ;;; :vcpkgs
-(defun pewcfg-normalize--:vcpkg (forms)
+(defun pewcfg--normalize-:vcpkg (forms)
   "Normalize function for ':vcpkg'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg-generate--:vcpkg (repo rev &optional fetcher name backend)
+(defun pewcfg--generate-:vcpkg (repo rev &optional fetcher name backend)
   "Install package from a VC source.
 This is a wrapper of `package-vc-install'.
 REPO is the name of the repository including owner, e.g. \"peromage/rice\".

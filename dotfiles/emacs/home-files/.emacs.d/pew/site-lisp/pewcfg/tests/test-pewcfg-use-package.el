@@ -8,10 +8,10 @@
 ;;; Test dummy handlers
 (add-to-list 'pewcfg-keywords :unittest)
 
-(defun pewcfg-normalize--:unittest (forms)
+(defun pewcfg--normalize-:unittest (forms)
   forms)
 
-(defun pewcfg-generate--:unittest (&rest args)
+(defun pewcfg--generate-:unittest (&rest args)
   (list args))
 
 ;;; Test suite

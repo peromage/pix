@@ -10,14 +10,14 @@
       read-process-output-max 1000000) ;; 1mb
 
 ;; Daemon
-(defun pew-start--daemon ()
+(defun pew--start-daemon ()
   "Start Emacs daemon if not running."
   (require 'server)
   (if (server-running-p)
       (message "[pew] Started in foreground mode")
     (message "[pew] Started in daemon mode")
     (server-start)))
-(add-hook 'after-init-hook #'pew-start--daemon)
+(add-hook 'after-init-hook #'pew--start-daemon)
 
 (provide 'init-boot)
 ;;; init-boot.el ends here

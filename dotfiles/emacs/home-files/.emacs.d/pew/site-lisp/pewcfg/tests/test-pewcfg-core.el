@@ -8,10 +8,10 @@
 ;;; Test dummies
 (add-to-list 'pewcfg-keywords :unittest)
 
-(defun pewcfg-normalize--:unittest (forms)
+(defun pewcfg--normalize-:unittest (forms)
   forms)
 
-(defun pewcfg-generate--:unittest (&rest args)
+(defun pewcfg--generate-:unittest (&rest args)
   (list args))
 
 (defcustom unittest-var nil "Dummy variable for testing.")
@@ -128,7 +128,7 @@
   (expect-equal "Test :custom: Normalize"
     '(('(foo foovalue nil nil "foodoc")
        '(bar barvalue nil nil "Set by pewcfg:custom")))
-    (pewcfg-normalize--:custom '((foo foovalue "foodoc")
+    (pewcfg--normalize-:custom '((foo foovalue "foodoc")
                                   (bar barvalue))))
 
   (expect-equal "Test :custom: Generate"
@@ -137,50 +137,50 @@
          ',pewcfg-custom-theme
          '(foo foovalue nil nil "foodoc")
          '(bar barvalue nil nil nil))))
-    (pewcfg-generate--:custom `'(foo foovalue nil nil "foodoc")
+    (pewcfg--generate-:custom `'(foo foovalue nil nil "foodoc")
                                `'(bar barvalue nil nil nil)))
 
 ;;; Test :customize
   (expect-equal "Test :customize: Normalize"
     '((foo foovalue "foodoc")
       (bar barvalue "bardoc"))
-    (pewcfg-normalize--:customize '((foo foovalue "foodoc")
+    (pewcfg--normalize-:customize '((foo foovalue "foodoc")
                                      (bar barvalue "bardoc"))))
 
   (expect-equal "Test :customize: Generate"
     '((customize-set-variable 'foo foovalue "comment"))
-    (pewcfg-generate--:customize 'foo 'foovalue "comment"))
+    (pewcfg--generate-:customize 'foo 'foovalue "comment"))
 
   (expect-equal "Test :customize: Generate with default comment"
     '((customize-set-variable 'foo foovalue "Set by pewcfg:customize"))
-    (pewcfg-generate--:customize 'foo 'foovalue))
+    (pewcfg--generate-:customize 'foo 'foovalue))
 
 ;;; Test :setq
   (expect-equal "Test :setq: Normalize"
     '((foo foovalue bar barvalue))
-    (pewcfg-normalize--:setq '((foo foovalue "foodoc")
+    (pewcfg--normalize-:setq '((foo foovalue "foodoc")
                                 (bar barvalue "bardoc"))))
 
   (expect-equal "Test :setq: Generate"
     '((setq foo foovalue bar barvalue))
-    (pewcfg-generate--:setq 'foo 'foovalue 'bar 'barvalue))
+    (pewcfg--generate-:setq 'foo 'foovalue 'bar 'barvalue))
 
 ;;; Test :setq-default
   (expect-equal "Test :setq-default: Normalize"
     '((foo foovalue bar barvalue))
-    (pewcfg-normalize--:setq '((foo foovalue "foodoc")
+    (pewcfg--normalize-:setq '((foo foovalue "foodoc")
                                 (bar barvalue "bardoc"))))
 
   (expect-equal "Test :setq-default: Generate"
     '((setq-default foo foovalue bar barvalue))
-    (pewcfg-generate--:setq-default 'foo 'foovalue 'bar 'barvalue))
+    (pewcfg--generate-:setq-default 'foo 'foovalue 'bar 'barvalue))
 
 ;;; Test :bind
   (expect-equal "Test :bind: Normalize"
     '((foo-map
        ("a" . func1)
        ("b" . func2)))
-    (pewcfg-normalize--:bind '((foo-map
+    (pewcfg--normalize-:bind '((foo-map
                                  ("a" . func1)
                                  ("b" . func2)))))
 
@@ -188,45 +188,45 @@
     '((define-key foo-map "a" #'func1)
       (define-key foo-map "b" #'func2)
       foo-map)
-    (pewcfg-generate--:bind 'foo-map
+    (pewcfg--generate-:bind 'foo-map
       '("a" . func1)
       '("b" . func2)))
 
   (expect-equal "Test :bind: Generate with no definitions"
     '(foo-map)
-    (pewcfg-generate--:bind 'foo-map))
+    (pewcfg--generate-:bind 'foo-map))
 
 ;;; Test :map
   (expect-equal "Test :map: Normalize"
     '((foo-map
        ("a" . func1)
        ("b" . func2)))
-    (pewcfg-normalize--:map '((foo-map
+    (pewcfg--normalize-:map '((foo-map
                                 ("a" . func1)
                                 ("b" . func2)))))
 
   (expect-equal "Test :map: Generate"
     (nconc '((define-prefix-command 'foo-map))
-           (pewcfg-generate--:bind 'foo-map
+           (pewcfg--generate-:bind 'foo-map
              '("a" . func1)
              '("b" . func2)))
-    (pewcfg-generate--:map 'foo-map
+    (pewcfg--generate-:map 'foo-map
       '("a" . func1)
       '("b" . func2)))
 
 ;;; Test :transient
   (expect-equal "Test :transient: Normalize"
     '((command "key" ("a" . func1) ("b" . func2)))
-    (pewcfg-normalize--:map '((command "key" ("a" . func1) ("b" . func2)))))
+    (pewcfg--normalize-:map '((command "key" ("a" . func1) ("b" . func2)))))
 
   (expect-equal "Test :transient: Generate"
-    (nconc (pewcfg-generate--:map 'command-map
+    (nconc (pewcfg--generate-:map 'command-map
              '("a" . func1)
              '("b" . func2))
            `((define-key command-map ,(kbd "C-g") #'keyboard-quit)
              (defun command (arg))
              (defun command-repeat ())))
-    (trim-form-recursively (pewcfg-generate--:transient 'command
+    (trim-form-recursively (pewcfg--generate-:transient 'command
                              '("a" . func1)
                              '("b" . func2))))
 
@@ -234,18 +234,18 @@
   (expect-equal "Test :toggle: Normalize"
     '((foo foovalue)
       (bar barvalue))
-    (pewcfg-normalize--:toggle '((foo . foovalue)
+    (pewcfg--normalize-:toggle '((foo . foovalue)
                                   (bar . barvalue))))
 
   (expect-equal "Test :toggle: Generate"
     '((defvar pew-toggle-foo '(-1 v1 v2 v3))
       (defun pew-toggle-foo ()))
-    (trim-form-recursively (pewcfg-generate--:toggle 'foo '(v1 v2 v3))))
+    (trim-form-recursively (pewcfg--generate-:toggle 'foo '(v1 v2 v3))))
 
   (expect-equal "Test :toggle: Generate default"
     '((defvar pew-toggle-foo '(-1 t nil))
       (defun pew-toggle-foo ()))
-    (trim-form-recursively (pewcfg-generate--:toggle 'foo)))
+    (trim-form-recursively (pewcfg--generate-:toggle 'foo)))
 
 ;;; Test :face
   (expect-equal "Test :face: Normalize"
@@ -254,7 +254,7 @@
        :weight normal
        :height 120
        :width normal))
-    (pewcfg-normalize--:face '((foo
+    (pewcfg--normalize-:face '((foo
                                  :family "bar"
                                  :weight normal
                                  :height 120
@@ -266,7 +266,7 @@
                           :weight 'normal
                           :height 120
                           :width 'normal))
-    (pewcfg-generate--:face 'foo
+    (pewcfg--generate-:face 'foo
       :family "bar"
       :weight 'normal
       :height 120
@@ -275,57 +275,57 @@
 ;;; Test :property
   (expect-equal "Test :property: Normalize"
     '((foo (p1 . v1) (p2 . v2)))
-    (pewcfg-normalize--:property '((foo (p1 . v1) (p2 . v2)))))
+    (pewcfg--normalize-:property '((foo (p1 . v1) (p2 . v2)))))
 
   (expect-equal "Test :property: Generate"
     '((put 'foo 'p1 v1)
       (put 'foo 'p2 v2))
-    (pewcfg-generate--:property 'foo '(p1 . v1) '(p2 . v2)))
+    (pewcfg--generate-:property 'foo '(p1 . v1) '(p2 . v2)))
 
 ;;; Test :hook
   (expect-equal "Test :hook: Normalize"
     '((foo-hook func))
-    (pewcfg-normalize--:hook '((foo-hook . func))))
+    (pewcfg--normalize-:hook '((foo-hook . func))))
 
   (expect-equal "Test :hook: Generate"
     '((add-hook 'foo-hook #'func))
-    (pewcfg-generate--:hook 'foo-hook 'func))
+    (pewcfg--generate-:hook 'foo-hook 'func))
 
 ;;; Test :automode
   (expect-equal "Test :automode: Normalize"
     '(("matcher regex" foo-mode))
-    (pewcfg-normalize--:automode '(("matcher regex" . foo-mode))))
+    (pewcfg--normalize-:automode '(("matcher regex" . foo-mode))))
 
   (expect-equal "Test :automode: Generate"
     '((add-to-list 'auto-mode-alist '("matcher regex" . foo-mode)))
-    (pewcfg-generate--:automode "matcher regex" 'foo-mode))
+    (pewcfg--generate-:automode "matcher regex" 'foo-mode))
 
 ;;; Test :eval
   (expect-equal "Test :eval: Normalize"
     '(((foo bar)))
-    (pewcfg-normalize--:eval '((foo bar))))
+    (pewcfg--normalize-:eval '((foo bar))))
 
   (expect-equal "Test :eval: Generate"
     '((foo bar))
-    (pewcfg-generate--:eval '(foo bar)))
+    (pewcfg--generate-:eval '(foo bar)))
 
 ;;; Test :eval-after
   (expect-equal "Test :eval-after: Normalize"
     '((foo (bar a) (baz b)))
-    (pewcfg-normalize--:eval-after '((foo (bar a) (baz b)))))
+    (pewcfg--normalize-:eval-after '((foo (bar a) (baz b)))))
 
   (expect-equal "Test :eval-after: Generate"
     '((with-eval-after-load 'foo (bar a) (baz b)))
-    (pewcfg-generate--:eval-after 'foo '(bar a) '(baz b)))
+    (pewcfg--generate-:eval-after 'foo '(bar a) '(baz b)))
 
   (expect-equal "Test :vcpkg: Normalize"
     '(("foobar/foo" "master"))
-    (pewcfg-normalize--:vcpkg '(("foobar/foo" "master"))))
+    (pewcfg--normalize-:vcpkg '(("foobar/foo" "master"))))
 
   (expect-equal "Test :vcpkg: Generate"
     '((unless (package-installed-p 'foo)
         (package-vc-install (list 'foo :url "https://www.github.com/foobar/foo" :branch "master" :vc-backend 'Git))))
-    (pewcfg-generate--:vcpkg "foobar/foo" "master")))
+    (pewcfg--generate-:vcpkg "foobar/foo" "master")))
 
 (provide 'test-pewcfg-core)
 ;;; test-pewcfg-core.el ends here
