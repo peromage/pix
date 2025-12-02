@@ -45,9 +45,13 @@
 ;; (require 'elpa-lsp) ;; LSP is the dependency of language modules
 (require 'elpa-eglot)
 
+;; ANCHOR-PRE-CUSTOM-EL
+
 ;; Load custom configuration which takes the highest precedence
 (load custom-file :noerror)
 (message "[pew] Normal init finished")
+
+;; ANCHOR-POST-CUSTOM-EL
 
 (provide 'init)
 ;;; init.el ends here
