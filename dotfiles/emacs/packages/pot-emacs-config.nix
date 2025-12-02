@@ -1,4 +1,4 @@
-{ stdenvNoCC, runCommand, perl, loadFiles ? [] }:
+{ stdenvNoCC, runCommand, loadFiles ? [] }:
 
 let
   loadFilesSourceStr = with builtins; concatStringsSep
@@ -23,7 +23,6 @@ in stdenvNoCC.mkDerivation {
   sourceRoot = ".emacs.d";
   dontPatchShebangs = true;
   buildInputs = [ loadFilesBundle ];
-  nativeBuildIputs = [ perl ];
 
   buildPhase = ''
     SOURCE="${loadFilesBundle}/.load-files"
