@@ -42,17 +42,17 @@
        (progn (foo 666)
               (bar 888)))
     (macroexpand-1 '(pewcfg-use-package emacs
-                      :custom
-                      (aaa val)
-                      :config
-                      (bbb)
-                      (ccc)
-                      :config/unittest
-                      (ddd 123)
-                      (eee 321)
-                      :init/unittest
-                      (foo 666)
-                      (bar 888)))))
+                                        :custom
+                                        (aaa val)
+                                        :config
+                                        (bbb)
+                                        (ccc)
+                                        :config/unittest
+                                        (ddd 123)
+                                        (eee 321)
+                                        :init/unittest
+                                        (foo 666)
+                                        (bar 888)))))
 
 (provide 'test-pewcfg-use-package)
 ;;; test-pewcfg-use-package.el ends here

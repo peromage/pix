@@ -240,13 +240,13 @@ VAL is a number between 0 and 100.  0=transparent/100=opaque"
   "Increase frame opacity."
   (interactive)
   (/p/set-frame-opacity (+ (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                                /p/frame-opacity-adjust-step)))
+                           /p/frame-opacity-adjust-step)))
 
 (defun /p/decrease-frame-opacity ()
   "Decrease frame opacity."
   (interactive)
   (/p/set-frame-opacity (- (car (or (frame-parameter (selected-frame) 'alpha) '(100 . nil)))
-                                /p/frame-opacity-adjust-step)))
+                           /p/frame-opacity-adjust-step)))
 
 (defun /p/pop-window-in-new-frame (arg)
   "Pop the current window into a new frame.

@@ -81,7 +81,7 @@
   ;; Graphviz `org-mode' support
   (pewcfg :eval-after (org
                        (pew-org-add-src-lang-modes '(("dot" . graphviz-dot)
-                                                       ("gv" . graphviz-dot)))
+                                                     ("gv" . graphviz-dot)))
                        (pew-org-add-babel-load-languages '((dot . t))))))
 
 (use-package mermaid-mode

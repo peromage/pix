@@ -95,8 +95,8 @@
     '((foo foovalue)
       (bar barvalue))
     (pewcfg-apply-keyword :unittest
-                           '(foo foovalue)
-                           '(bar barvalue)))
+                          '(foo foovalue)
+                          '(bar barvalue)))
 
   (expect-equal "Test apply-keyword: Invalid keyword"
     '(error "Invalid keyword :foo")
@@ -129,7 +129,7 @@
     '(('(foo foovalue nil nil "foodoc")
        '(bar barvalue nil nil "Set by pewcfg:custom")))
     (pewcfg--normalize-:custom '((foo foovalue "foodoc")
-                                  (bar barvalue))))
+                                 (bar barvalue))))
 
   (expect-equal "Test :custom: Generate"
     `((let ((custom--inhibit-theme-enable nil))
@@ -138,14 +138,14 @@
          '(foo foovalue nil nil "foodoc")
          '(bar barvalue nil nil nil))))
     (pewcfg--generate-:custom `'(foo foovalue nil nil "foodoc")
-                               `'(bar barvalue nil nil nil)))
+                              `'(bar barvalue nil nil nil)))
 
 ;;; Test :customize
   (expect-equal "Test :customize: Normalize"
     '((foo foovalue "foodoc")
       (bar barvalue "bardoc"))
     (pewcfg--normalize-:customize '((foo foovalue "foodoc")
-                                     (bar barvalue "bardoc"))))
+                                    (bar barvalue "bardoc"))))
 
   (expect-equal "Test :customize: Generate"
     '((customize-set-variable 'foo foovalue "comment"))
@@ -159,7 +159,7 @@
   (expect-equal "Test :setq: Normalize"
     '((foo foovalue bar barvalue))
     (pewcfg--normalize-:setq '((foo foovalue "foodoc")
-                                (bar barvalue "bardoc"))))
+                               (bar barvalue "bardoc"))))
 
   (expect-equal "Test :setq: Generate"
     '((setq foo foovalue bar barvalue))
@@ -169,7 +169,7 @@
   (expect-equal "Test :setq-default: Normalize"
     '((foo foovalue bar barvalue))
     (pewcfg--normalize-:setq '((foo foovalue "foodoc")
-                                (bar barvalue "bardoc"))))
+                               (bar barvalue "bardoc"))))
 
   (expect-equal "Test :setq-default: Generate"
     '((setq-default foo foovalue bar barvalue))
@@ -181,16 +181,16 @@
        ("a" . func1)
        ("b" . func2)))
     (pewcfg--normalize-:bind '((foo-map
-                                 ("a" . func1)
-                                 ("b" . func2)))))
+                                ("a" . func1)
+                                ("b" . func2)))))
 
   (expect-equal "Test :bind: Generate"
     '((define-key foo-map "a" #'func1)
       (define-key foo-map "b" #'func2)
       foo-map)
     (pewcfg--generate-:bind 'foo-map
-      '("a" . func1)
-      '("b" . func2)))
+                            '("a" . func1)
+                            '("b" . func2)))
 
   (expect-equal "Test :bind: Generate with no definitions"
     '(foo-map)
@@ -202,17 +202,17 @@
        ("a" . func1)
        ("b" . func2)))
     (pewcfg--normalize-:map '((foo-map
-                                ("a" . func1)
-                                ("b" . func2)))))
+                               ("a" . func1)
+                               ("b" . func2)))))
 
   (expect-equal "Test :map: Generate"
     (nconc '((define-prefix-command 'foo-map))
            (pewcfg--generate-:bind 'foo-map
-             '("a" . func1)
-             '("b" . func2)))
+                                   '("a" . func1)
+                                   '("b" . func2)))
     (pewcfg--generate-:map 'foo-map
-      '("a" . func1)
-      '("b" . func2)))
+                           '("a" . func1)
+                           '("b" . func2)))
 
 ;;; Test :transient
   (expect-equal "Test :transient: Normalize"
@@ -221,21 +221,21 @@
 
   (expect-equal "Test :transient: Generate"
     (nconc (pewcfg--generate-:map 'command-map
-             '("a" . func1)
-             '("b" . func2))
+                                  '("a" . func1)
+                                  '("b" . func2))
            `((define-key command-map ,(kbd "C-g") #'keyboard-quit)
              (defun command (arg))
              (defun command-repeat ())))
     (trim-form-recursively (pewcfg--generate-:transient 'command
-                             '("a" . func1)
-                             '("b" . func2))))
+                                                        '("a" . func1)
+                                                        '("b" . func2))))
 
 ;;; Test :toggle
   (expect-equal "Test :toggle: Normalize"
     '((foo foovalue)
       (bar barvalue))
     (pewcfg--normalize-:toggle '((foo . foovalue)
-                                  (bar . barvalue))))
+                                 (bar . barvalue))))
 
   (expect-equal "Test :toggle: Generate"
     '((defvar pew-toggle-foo '(-1 v1 v2 v3))
@@ -255,10 +255,10 @@
        :height 120
        :width normal))
     (pewcfg--normalize-:face '((foo
-                                 :family "bar"
-                                 :weight normal
-                                 :height 120
-                                 :width normal))))
+                                :family "bar"
+                                :weight normal
+                                :height 120
+                                :width normal))))
 
   (expect-equal "Test :face: Generate"
     '((set-face-attribute 'foo nil
@@ -267,10 +267,10 @@
                           :height 120
                           :width 'normal))
     (pewcfg--generate-:face 'foo
-      :family "bar"
-      :weight 'normal
-      :height 120
-      :width 'normal))
+                            :family "bar"
+                            :weight 'normal
+                            :height 120
+                            :width 'normal))
 
 ;;; Test :property
   (expect-equal "Test :property: Normalize"

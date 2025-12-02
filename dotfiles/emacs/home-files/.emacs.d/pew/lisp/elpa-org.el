@@ -120,9 +120,9 @@ Duplicated pairs will be removed."
 Non-nil NO-RESTART to suppress `org-mode-restart'."
     (interactive)
     (setq pew-org--marker-hidden (pcase show
-                                     (1 nil)
-                                     (-1 t)
-                                     (_  (not pew-org--marker-hidden))))
+                                   (1 nil)
+                                   (-1 t)
+                                   (_  (not pew-org--marker-hidden))))
     ;; Those variables are global
     (setq-default org-hide-emphasis-markers pew-org--marker-hidden
                   org-hide-leading-stars pew-org--marker-hidden

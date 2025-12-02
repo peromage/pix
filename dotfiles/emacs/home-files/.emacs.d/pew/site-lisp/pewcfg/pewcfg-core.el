@@ -19,20 +19,20 @@
 
 ;;; Variable definitions
 (defvar pewcfg-keywords '(:custom
-                           :customize
-                           :setq
-                           :setq-default
-                           :bind
-                           :map
-                           :transient
-                           :toggle
-                           :face
-                           :property
-                           :hook
-                           :automode
-                           :eval
-                           :eval-after
-                           :vcpkg)
+                          :customize
+                          :setq
+                          :setq-default
+                          :bind
+                          :map
+                          :transient
+                          :toggle
+                          :face
+                          :property
+                          :hook
+                          :automode
+                          :eval
+                          :eval-after
+                          :vcpkg)
   "An alist of keywords used by `pewcfg' to specify sections.
 Each entry is in the form of
   (KEYWORD . PARTIALLY-APPLIED-FORM)
