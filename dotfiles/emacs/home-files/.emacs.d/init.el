@@ -49,9 +49,10 @@
 
 ;; Load custom configuration which takes the highest precedence
 (load custom-file :noerror)
-(message "[pew] Normal init finished")
 
 ;; ANCHOR-POST-CUSTOM-EL
+
+(message "[pew] init.el finished")
 
 (provide 'init)
 ;;; init.el ends here

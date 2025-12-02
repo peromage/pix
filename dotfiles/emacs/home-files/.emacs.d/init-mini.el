@@ -24,7 +24,7 @@
   :customize
   (icomplete-vertical-mode t))
 
-(message "[pew] Minimal init finished")
+(message "[pew] init-mini.el finished")
 
 (provide 'init-mini)
 ;;; init-mini.el ends here
