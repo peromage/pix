@@ -200,9 +200,9 @@ Otherwise the cursor is placed at the beginning of the heading."
 
                      (use-package org-bullets
                        :ensure t
-                       :hook (org-mode . pew-org-bullets-on-enter)
+                       :hook (org-mode . pew-org-bullets-setup)
                        :preface
-                       (defun pew-org-bullets-on-enter ()
+                       (defun pew-org-bullets-setup ()
                          "`org-bullets' initialization."
                          (org-bullets-mode 1)))
 

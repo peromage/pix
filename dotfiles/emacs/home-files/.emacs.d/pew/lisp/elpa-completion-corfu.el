@@ -46,7 +46,7 @@
          (consult-completion-in-region beg end table pred)))))
   (add-to-list 'corfu-continue-commands #'corfu-move-to-minibuffer)
 
-  (define-advice pewlib-as-terminal-mode (:after () pew-corfu-in-terminal)
+  (define-advice pewlib-terminal-mode-setup (:after () pew-corfu-in-terminal)
     (setq-local corfu-auto nil))
 
   (global-corfu-mode 1)

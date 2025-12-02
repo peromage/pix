@@ -436,12 +436,12 @@
 ;;; Mode hooks
   :hook
   ;; Basic modes
-  (prog-mode-hook . pewlib-as-prog-mode)
-  (text-mode-hook . pewlib-as-text-mode)
+  (prog-mode-hook . pewlib-prog-mode-setup)
+  (text-mode-hook . pewlib-text-mode-setup)
 
   ;; Make shell clean
-  (eshell-mode-hook . pewlib-as-terminal-mode)
-  (shell-mode-hook . pewlib-as-terminal-mode)
+  (eshell-mode-hook . pewlib-terminal-mode-setup)
+  (shell-mode-hook  . pewlib-terminal-mode-setup)
 
   ;; Don't save trailing spaces
   (before-save-hook . pewlib-delete-trailing-whitespaces)

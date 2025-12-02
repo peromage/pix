@@ -73,8 +73,8 @@
 
 (use-package c-ts-mode
   :ensure nil
-  :hook ((c-ts-mode . pew-c-ts-mode-on-enter)
-         (c++-ts-mode . pew-c-ts-mode-on-enter))
+  :hook ((c-ts-mode . pew-cc-ts-mode-setup)
+         (c++-ts-mode . pew-cc-ts-mode-setup))
   :custom
   (c-ts-mode-indent-offset 4)
   (c-ts-mode-indent-style #'pew-c-ts-mode-indent-style)
@@ -90,7 +90,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
            ;; Base rule
            (alist-get 'k&r (c-ts-mode--indent-styles 'cpp))))
 
-  (defun pew-c-ts-mode-on-enter ()
+  (defun pew-cc-ts-mode-setup ()
     "Common C/C++ TS mode preference."
     (setq-local indent-tabs-mode nil
                 tab-width 4

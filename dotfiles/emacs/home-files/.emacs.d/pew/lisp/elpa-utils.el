@@ -100,7 +100,7 @@
   :ensure t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . pewlib-as-terminal-mode)
+  :hook (vterm-mode . pewlib-terminal-mode-setup)
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
@@ -123,7 +123,7 @@ users to specify the shell to start with."
 (use-package treemacs
   :ensure t
   :commands treemacs
-  :hook (treemacs-mode . pew-treemacs-on-enter)
+  :hook (treemacs-mode . pew-treemacs-mode-setup)
   :bind ( :map treemacs-mode-map
           ("j" . treemacs-find-file) )
   :custom
@@ -133,7 +133,7 @@ users to specify the shell to start with."
   (treemacs-hide-dot-git-directory nil)
 
   :preface
-  (defun pew-treemacs-on-enter ()
+  (defun pew-treemacs-mode-setup ()
     "`treemacs-mode' initialization."
     (display-line-numbers-mode -1))
 

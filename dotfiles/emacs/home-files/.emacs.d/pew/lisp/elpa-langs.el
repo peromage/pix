@@ -30,11 +30,11 @@
 
 (use-package cc-mode
   :ensure nil
-  :hook ((c-mode . pew-cc-mode-on-enter)
-         (c++-mode . pew-cc-mode-on-enter))
+  :hook ((c-mode . pew-cc-mode-setup)
+         (c++-mode . pew-cc-mode-setup))
   :preface
   ;; Setup functions
-  (defun pew-cc-mode-on-enter ()
+  (defun pew-cc-mode-setup ()
     "Common CC mode setup."
     (c-set-offset 'substatement-open 0)
     (c-set-offset 'innamespace 0)

@@ -15,7 +15,7 @@
   (setq-local indent-tabs-mode nil
               tab-width 4))
 
-(defun /p/as-terminal-mode ()
+(defun /p/terminal-mode-setup ()
   "Common setup for terminal/shell modes."
   (setq-local word-wrap nil
               truncate-lines nil
@@ -26,7 +26,7 @@
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun /p/as-text-mode ()
+(defun /p/text-mode-setup ()
   "Common setup for text processing modes."
   (setq-local line-move-visual t)
   (visual-line-mode 1)
@@ -35,7 +35,7 @@
   (display-line-numbers-mode -1)
   (display-fill-column-indicator-mode -1))
 
-(defun /p/as-prog-mode ()
+(defun /p/prog-mode-setup ()
   "Common setup for programming modes."
   (electric-indent-local-mode 1)
   (electric-pair-local-mode 1)
