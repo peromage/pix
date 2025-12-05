@@ -50,9 +50,10 @@
      (python-mode . python-ts-mode)))
 
   :config
-  (pewcfg :toggle
-          ;; Debug indent rules when `treesit-explore-mode' is on
-          (treesit--indent-verbose)))
+  (pewcfg
+    :toggle
+    ;; Debug indent rules when `treesit-explore-mode' is on
+    (treesit--indent-verbose)))
 
 ;; Grammar pack
 (use-package treesit-langs
@@ -181,11 +182,13 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
   (plantuml-default-exec-mode 'jar)
   :init
   ;; `org-mode' support
-  (pewcfg :eval-after (org
-                       (setq org-plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
-                       (setq org-plantuml-exec-mode 'jar)
-                       (pew-org-add-src-lang-modes '(("plantuml" . plantuml)))
-                       (pew-org-add-babel-load-languages '((plantuml . t))))))
+  (pewcfg
+    :eval-after
+    (org
+     (setq org-plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
+     (setq org-plantuml-exec-mode 'jar)
+     (pew-org-add-src-lang-modes '(("plantuml" . plantuml)))
+     (pew-org-add-babel-load-languages '((plantuml . t))))))
 
 (use-package graphviz-dot-mode
   :mode (("\\.dot\\'" . graphviz-dot-mode)
@@ -194,10 +197,12 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
   (graphviz-dot-indent-width 4)
   :init
   ;; Graphviz `org-mode' support
-  (pewcfg :eval-after (org
-                       (pew-org-add-src-lang-modes '(("dot" . graphviz-dot)
-                                                     ("gv" . graphviz-dot)))
-                       (pew-org-add-babel-load-languages '((dot . t))))))
+  (pewcfg
+    :eval-after
+    (org
+     (pew-org-add-src-lang-modes '(("dot" . graphviz-dot)
+                                   ("gv" . graphviz-dot)))
+     (pew-org-add-babel-load-languages '((dot . t))))))
 
 (use-package mermaid-mode
   :mode ("\\.mmd\\'" . mermaid-mode))
@@ -206,9 +211,11 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 (use-package ob-mermaid
   :defer t
   :init
-  (pewcfg :eval-after (org
-                       (pew-org-add-src-lang-modes '(("mermaid" . mermaid)))
-                       (pew-org-add-babel-load-languages '((mermaid . t))))))
+  (pewcfg
+    :eval-after
+    (org
+     (pew-org-add-src-lang-modes '(("mermaid" . mermaid)))
+     (pew-org-add-babel-load-languages '((mermaid . t))))))
 
 ;; } UML
 

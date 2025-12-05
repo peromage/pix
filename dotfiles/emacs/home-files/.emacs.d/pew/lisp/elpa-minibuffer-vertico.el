@@ -132,8 +132,9 @@ ARGS should be a string of arguments passed to ripgrep."
                                     (?= . orderless-literal)
                                     (?? . orderless-flex)))
   :config
-  (pewcfg :customize
-          (completion-styles (nconc '(orderless) completion-styles))))
+  (pewcfg
+    :customize
+    (completion-styles (nconc '(orderless) completion-styles))))
 
 (use-package embark
   :hook (embark-collect-mode . pew-embark-collect-mode-setup)

@@ -81,12 +81,13 @@
   :config
   (global-git-gutter-mode 1)
 
-  (pewcfg :face
-          (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
-          (git-gutter:added      :foreground  "green"        :background  "unspecified")
-          (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
-          (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
-          (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")))
+  (pewcfg
+    :face
+    (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
+    (git-gutter:added      :foreground  "green"        :background  "unspecified")
+    (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
+    (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
+    (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")))
 
 ;;; Panels
 

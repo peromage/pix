@@ -30,8 +30,9 @@
   (doom-modeline-unicode-fallback nil)
   :config
   (doom-modeline-mode 1)
-  (pewcfg :toggle
-          (doom-modeline-unicode-fallback)))
+  (pewcfg
+    :toggle
+    (doom-modeline-unicode-fallback)))
 
 (use-package prot-modeline
   :ensure nil ;; site-lisp
