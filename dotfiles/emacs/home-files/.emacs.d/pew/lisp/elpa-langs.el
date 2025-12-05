@@ -80,7 +80,6 @@
 (use-package fish-mode :ensure t :defer t)
 (use-package csharp-mode :ensure t :defer t)
 (use-package powershell :ensure t :defer t)
-(use-package python-mode :ensure t :defer t)
 (use-package markdown-mode :ensure t :defer t)
 
 ;; } Oneliners
@@ -140,6 +139,19 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
                 adaptive-fill-mode nil)))
 
 ;; } C/C++
+
+;; Python{
+
+;; TS mode included already
+(use-package python-mode
+  :ensure t
+  :defer t
+  :hook (python-ts-mode . pew-python-ts-mode-setup))
+  :preface
+  (defun pew-python-ts-mode-setup ()
+    (setq-local python-indent-offset 4))
+
+;; } Python
 
 ;; Nix {
 
