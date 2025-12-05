@@ -52,7 +52,7 @@
   "Faces for my custom modeline."
   :group 'prot-modeline)
 
-(defcustom prot-modeline-string-truncate-length 9
+(defcustom prot-modeline-string-truncate-length 18
   "String length after which truncation should be done in small windows."
   :type 'natnum)
 
