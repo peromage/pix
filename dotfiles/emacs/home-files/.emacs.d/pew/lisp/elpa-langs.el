@@ -74,13 +74,13 @@
 
 ;; Oneliners {
 
-(use-package vimrc-mode :ensure t :defer t)
-(use-package yaml-mode :ensure t :defer t)
-(use-package json-mode :ensure t :defer t)
-(use-package fish-mode :ensure t :defer t)
-(use-package csharp-mode :ensure t :defer t)
-(use-package powershell :ensure t :defer t)
-(use-package markdown-mode :ensure t :defer t)
+(use-package vimrc-mode :defer t)
+(use-package yaml-mode :defer t)
+(use-package json-mode :defer t)
+(use-package fish-mode :defer t)
+(use-package csharp-mode :defer t)
+(use-package powershell :defer t)
+(use-package markdown-mode :defer t)
 
 ;; } Oneliners
 
@@ -142,21 +142,19 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 
 ;; TS mode included already
 (use-package python-mode
-  :ensure t
   :defer t
-  :hook (python-ts-mode . pew-python-ts-mode-setup))
+  :hook (python-ts-mode . pew-python-ts-mode-setup)
   :preface
   (defun pew-python-ts-mode-setup ()
-    (setq-local python-indent-offset 4))
+    (setq-local python-indent-offset 4)))
 
 ;; } Python
 
 ;; Nix {
 
-(use-package nix-mode :ensure t :defer t)
+(use-package nix-mode :defer t)
 
 (use-package nix-ts-mode
-  :ensure t
   :mode ("\\.nix\\'" . nix-ts-mode)
   :custom
   (nix-ts-mode-indent-offset 2)
@@ -176,7 +174,6 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 ;; UML {
 
 (use-package plantuml-mode
-  :ensure t
   :mode (("\\.puml\\'" . plantuml-mode)
          ("\\.plantuml\\'" . plantuml-mode))
   :custom
@@ -191,7 +188,6 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
                        (pew-org-add-babel-load-languages '((plantuml . t))))))
 
 (use-package graphviz-dot-mode
-  :ensure t
   :mode (("\\.dot\\'" . graphviz-dot-mode)
          ("\\.gv\\'" . graphviz-dot-mode))
   :custom
@@ -204,12 +200,10 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
                        (pew-org-add-babel-load-languages '((dot . t))))))
 
 (use-package mermaid-mode
-  :ensure t
   :mode ("\\.mmd\\'" . mermaid-mode))
 
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
-  :ensure t
   :defer t
   :init
   (pewcfg :eval-after (org
@@ -221,13 +215,11 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 ;; Misc {
 
 (use-package cmake-mode
-  :ensure t
   :defer t
   :custom
   cmake-tab-width 4)
 
 (use-package lua-mode
-  :ensure t
   :defer t
   :custom
   (lua-indent-level 2))

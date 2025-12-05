@@ -6,7 +6,6 @@
 ;;; Code:
 
 (use-package org
-  :ensure t ;; Keep the package up-to-date
   :commands org-mode
   :hook (org-babel-after-execute . pew-org-refresh-images)
   :custom
@@ -199,7 +198,6 @@ Otherwise the cursor is placed at the beginning of the heading."
                        :ensure nil)
 
                      (use-package org-bullets
-                       :ensure t
                        :hook (org-mode . pew-org-bullets-setup)
                        :preface
                        (defun pew-org-bullets-setup ()

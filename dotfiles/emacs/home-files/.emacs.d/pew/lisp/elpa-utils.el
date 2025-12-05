@@ -5,33 +5,31 @@
 ;;; Lazy loading for these packages
 
 ;; Search
-(use-package rg :ensure t :defer t)
+(use-package rg :defer t)
 ;; Focused view
-(use-package olivetti :ensure t :defer t)
+(use-package olivetti :defer t)
 ;; Cats!!!
-(use-package nyan-mode :ensure t :defer t)
-(use-package zone-nyan :ensure t :defer t)
+(use-package nyan-mode :defer t)
+(use-package zone-nyan :defer t)
 ;; Colorful parenthesises
-(use-package rainbow-delimiters :ensure t :defer t)
+(use-package rainbow-delimiters :defer t)
 ;; Colorize color code
-(use-package rainbow-mode :ensure t :defer t)
+(use-package rainbow-mode :defer t)
 ;; Highlight current line
-(use-package beacon :ensure t :defer t)
+(use-package beacon :defer t)
 ;; Hyperbole
-(use-package hyperbole :ensure t :defer t)
+(use-package hyperbole :defer t)
 ;; Useful commands
-(use-package crux :ensure t :defer t)
+(use-package crux :defer t)
 
 ;;; Editing
 
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
-  :ensure t
   :commands (global-flycheck-mode flycheck-mode))
 
 ;; TODO: Maybe use tempel?
 (use-package yasnippet
-  :ensure t
   :custom
   (yas-snippet-dirs (list (expand-file-name "pew/yasnippet" pew-toplevel-dir)))
   (yas-indent-line 'fixed)
@@ -39,24 +37,20 @@
   (yas-global-mode 1))
 
 (use-package separedit
-  :ensure t
   :bind ( :map pew-M-u-map
           ("'" . separedit-dwim)) )
 
 (use-package paredit
-  :ensure t
   :hook ((lisp-interaction-mode . paredit-mode)
          (emacs-lisp-mode . paredit-mode)
          (lisp-data-mode . paredit-mode)))
 
 (use-package avy
-  :ensure t
   :bind ( :map pew-M-u-map
           ("f"   . avy-goto-char)
           ("M-f" . avy-goto-line)) )
 
 (use-package ace-window
-  :ensure t
   :bind ( :map pew-M-u-map
           ("w" . ace-window)
           ("W" . ace-swap-window)) )
@@ -64,7 +58,6 @@
 ;;; Git
 
 (use-package magit
-  :ensure t
   :commands magit-status
   :bind ( :map pew-M-u-map
           ("g"   . magit-status)
@@ -74,7 +67,6 @@
   (magit-define-global-key-bindings nil))
 
 (use-package git-gutter
-  :ensure t
   :custom
   (git-gutter:modified-sign "**")
   (git-gutter:added-sign "++")
@@ -99,7 +91,6 @@
 ;;; Panels
 
 (use-package vterm
-  :ensure t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib-terminal-mode-setup)
@@ -123,7 +114,6 @@ users to specify the shell to start with."
       (vterm :new))))
 
 (use-package treemacs
-  :ensure t
   :commands treemacs
   :hook (treemacs-mode . pew-treemacs-mode-setup)
   :bind ( :map treemacs-mode-map
@@ -158,7 +148,6 @@ users to specify the shell to start with."
 ;;; Interactive
 
 (use-package keycast
-  :ensure t
   :commands (keycast-log-mode
              keycast-tab-bar-mode
              keycast-header-line-mode
@@ -181,7 +170,6 @@ users to specify the shell to start with."
                                         keycast-substitute-alist)))
 
 (use-package which-key
-  :ensure t
   :commands which-key-mode
   :custom
   (which-key-popup-type 'side-window)

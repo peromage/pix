@@ -16,7 +16,6 @@
 ;;; Code:
 
 (use-package evil
-  :ensure t
   :demand t
   :custom
   ;; Default evil-want behavior
@@ -244,34 +243,36 @@ See `evil-define-key*'."
 
   ;; Normal and motion state bindings with leader key
   (pew-evil-set-key '(normal motion visual) 'global :leader
-                    ;; Search and substitution
-                    '(("cs" . pew-evil-replace-last-search)))
+    ;; Search and substitution
+    '(("cs" . pew-evil-replace-last-search)))
 
   ;; Command state bindings
   (pew-evil-set-key '(normal motion visual) 'global nil
-                    '(("SPC" . pewkey-map)
-                      ;; Search
-                      ("#" . evil-ex-nohighlight)
-                      ;; Default jump forward is C-i which is bad in terminal environment
-                      ("C-M-o" . evil-jump-forward)))
+    '(("SPC" . pewkey-map)
+      ;; Search
+      ("#" . evil-ex-nohighlight)
+      ;; Default jump forward is C-i which is bad in terminal environment
+      ("C-M-o" . evil-jump-forward)))
 
   ;; Normal and motion state specific
   (pew-evil-set-key '(normal motion) 'global nil
-                    '(("*" . pew-evil-search-word)))
+    '(("*" . pew-evil-search-word)))
 
   ;; Visual state specific
   (pew-evil-set-key 'visual 'global nil
-                    ;; Search
-                    '(("*" . pew-evil-visual-search-region-text)))
+    ;; Search
+    '(("*" . pew-evil-visual-search-region-text)))
 
   ;; Elisp with leader
-  (pewcfg :eval-after (elisp-mode
-                       (pew-evil-set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
-                                         ;; Quick eval
-                                         '(("eb" . eval-buffer)
-                                           ("er" . eval-region)
-                                           ("ef" . eval-defun)
-                                           ("ee" . eval-last-sexp)))))
+  (pewcfg
+    :eval-after
+    (elisp-mode
+     (pew-evil-set-key '(normal motion visual) (list emacs-lisp-mode-map lisp-interaction-mode-map) :leader
+       ;; Quick eval
+       '(("eb" . eval-buffer)
+         ("er" . eval-region)
+         ("ef" . eval-defun)
+         ("ee" . eval-last-sexp)))))
 
 ;;; Workaround
   ;; Evil X settings
@@ -283,7 +284,6 @@ See `evil-define-key*'."
   (evil-mode 1)) ;; End evil
 
 (use-package evil-surround
-  :ensure t
   :after evil
   :config
   (global-evil-surround-mode 1))

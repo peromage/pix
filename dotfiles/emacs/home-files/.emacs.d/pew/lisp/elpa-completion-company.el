@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package company
-  :ensure t
   :demand t
   :bind ( :map company-mode-map
           ("C-M-i" . company-complete)
