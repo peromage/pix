@@ -386,8 +386,8 @@
   (pew-M-t-map)
   (pew-M-c-map)
   (pew-M-u-map
-   ("M-t" . org-capture)
-   ("t"   . org-agenda)
+   ("t"   . org-capture)
+   ("M-t" . org-agenda)
    ("d"   . flymake-show-buffer-diagnostics)
    ("D"   . flymake-show-project-diagnostics)
    ("M-d" . flymake-mode))
