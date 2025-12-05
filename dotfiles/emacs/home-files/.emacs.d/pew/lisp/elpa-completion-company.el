@@ -35,6 +35,15 @@
   (company-search-filtering t)
   (company-inhibit-inside-symbols nil)
 
+  ;; Dabbrev tweaks
+  ;; For case issue, see: https://www.reddit.com/r/emacs/comments/10a1lss/sane_company_completion_setup/
+  (company-dabbrev-code-other-buffers t)
+  (company-dabbrev-code-everywhere t)
+  (company-dabbrev-code-ignore-case nil)
+  (company-dabbrev-other-buffers 'all)
+  (company-dabbrev-ignore-case nil)
+  (company-dabbrev-downcase nil)
+
   :config
   (pewcfg :eval-after (orderless
                        (define-advice company-capf (:around (capf-fn &rest args) pew-company-completion-style)
