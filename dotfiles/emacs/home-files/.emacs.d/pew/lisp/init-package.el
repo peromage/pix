@@ -1,47 +1,38 @@
 ;;; init-package.el --- package management -*- lexical-binding: t; -*-
 ;;; Commentary:
 
-;; This ELPA initialization configuration should be loaded as early as possible.
-
 ;;; Code:
 
-;; Builtin package manager
-(require 'package)
-(require 'package-vc)
 (require 'use-package)
 
-;; Config
-(setq
- ;; Package contents
- package-enable-at-startup nil
- ;; Install into separate package dirs for each Emacs version, to prevent bytecode incompatibility
- package-user-dir (locate-user-emacs-file (format "elpa-%s.%s" emacs-major-version emacs-minor-version))
- ;; Package repositories
- package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                    ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                    ("melpa" . "https://melpa.org/packages/")
-                    ("melpa-stable" . "https://stable.melpa.org/packages/"))
- package-archive-priorities '(("melpa" . 100)
-                              ("gnu" . 99)
-                              ("nongnu" . 98)))
+;; Use straight.el for package management
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-;; Fire up `package.el'
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
+(setq straight-use-package-by-default t)
 
-;; `package-vc.el' config
-(setq package-vc-default-backend 'Git)
+;; Use use-package.el for configuration
+(setq use-package-always-ensure nil)
+(setq use-package-always-defer nil)
+(setq use-package-always-demand nil)
+(setq use-package-always-pin nil)
+(setq use-package-compute-statistics nil)
+(setq use-package-verbose nil)
 
-;; `use-package.el' config
-(setq use-package-always-ensure nil
-      use-package-always-defer nil
-      use-package-always-demand nil
-      use-package-always-pin nil
-      use-package-compute-statistics nil
-      use-package-verbose nil)
-
-;; A convenient function to enable custom values from the synthetic theme
+;; Workaround
 (defun pew--reload-use-package-custom-theme ()
   "A quick way to enable all the settings from the `use-package' theme.
 After enabling, remove the synthetic theme from the enabled themes, so iterating
