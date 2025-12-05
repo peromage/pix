@@ -19,6 +19,8 @@
 (use-package beacon :ensure t :defer t)
 ;; Hyperbole
 (use-package hyperbole :ensure t :defer t)
+;; Useful commands
+(use-package crux :ensure t :defer t)
 
 ;;; Editing
 
