@@ -184,7 +184,6 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
   :custom
   (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
   (plantuml-default-exec-mode 'jar)
-
   :init
   ;; `org-mode' support
   (pewcfg :eval-after (org
@@ -199,7 +198,6 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
          ("\\.gv\\'" . graphviz-dot-mode))
   :custom
   (graphviz-dot-indent-width 4)
-
   :init
   ;; Graphviz `org-mode' support
   (pewcfg :eval-after (org
@@ -215,7 +213,6 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 (use-package ob-mermaid
   :ensure t
   :defer t
-
   :init
   (pewcfg :eval-after (org
                        (pew-org-add-src-lang-modes '(("mermaid" . mermaid)))
