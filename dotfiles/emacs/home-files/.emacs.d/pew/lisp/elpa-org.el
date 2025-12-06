@@ -191,14 +191,11 @@ Otherwise the cursor is placed at the beginning of the heading."
 (pewcfg
   :eval-after
   (org
-   (use-package org-contrib
-     :ensure t)
+   (use-package org-contrib)
    ;; Included in org-contrib
-   (use-package ox-extra
-     :ensure nil)
+   (use-package ox-extra :straight nil)
 
-   (use-package org-tempo
-     :ensure nil)
+   (use-package org-tempo :straight nil)
 
    (use-package org-bullets
      :hook (org-mode . pew-org-bullets-setup)
@@ -208,15 +205,12 @@ Otherwise the cursor is placed at the beginning of the heading."
        (org-bullets-mode 1)))
 
    ;; Org to Markdown for Hugo
-   (use-package ox-hugo
-     :ensure t)
+   (use-package ox-hugo)
    ;; Export backend for GitHub flavored Markdown
-   (use-package ox-gfm
-     :ensure t)
+   (use-package ox-gfm)
 
    ;; My own backends
-   (use-package ox-awesomecv
-     :ensure nil)))
+   (use-package ox-awesomecv :straight nil)))
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here

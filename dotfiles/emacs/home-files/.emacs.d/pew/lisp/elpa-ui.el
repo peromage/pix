@@ -35,7 +35,7 @@
     (doom-modeline-unicode-fallback)))
 
 (use-package prot-modeline
-  :ensure nil ;; site-lisp
+  :straight nil ;; site-lisp
   :demand t)
 
 ;;; Misc

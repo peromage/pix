@@ -8,7 +8,7 @@
 ;;; Code:
 
 (use-package eglot
-  :ensure nil
+  :straight nil
   :commands (eglot eglot-ensure)
   :hook (eglot-managed-mode . pew-eglot-managed-mode-setup)
   :bind ( :map pew-M-u-map
@@ -69,7 +69,7 @@
      (fset #'jsonrpc--log-event #'ignore))))
 
 (use-package eldoc
-  :ensure nil
+  :straight nil
   :custom
   (eldoc-echo-area-use-multiline-p 1) ;; Single line so that minibuffer is not bouncing
   (eldoc-echo-area-prefer-doc-buffer nil) ;; Always display in minibuffer

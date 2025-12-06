@@ -26,7 +26,7 @@
 
 ;; Emacs builtin tree-sitter
 (use-package treesit
-  :ensure nil
+  :straight nil
   :custom
   (treesit-font-lock-level 4) ;; Maximize font rendering
 
@@ -57,7 +57,7 @@
 
 ;; Grammar pack
 (use-package treesit-langs
-  :ensure nil ;; Install from repo instead
+  :straight nil ;; Install from repo instead
   :vc (:url "https://github.com/emacs-tree-sitter/treesit-langs" :branch "main")
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars))
 
@@ -65,7 +65,7 @@
 ;;; Auxiliary packages
 
 (use-package treesit-fold
-  :ensure nil
+  :straight nil
   :vc (:url "https://github.com/emacs-tree-sitter/treesit-fold" :branch "master")
   :config
   ;; (global-treesit-fold-indicators-mode) ;; Not working in terminal
@@ -88,7 +88,7 @@
 ;; C/C++ {
 
 (use-package cc-mode
-  :ensure nil
+  :straight nil
   :hook ((c-mode . pew-cc-mode-setup)
          (c++-mode . pew-cc-mode-setup))
   :preface
@@ -114,7 +114,7 @@
     (setq-local c-auto-align-backslashes t)))
 
 (use-package c-ts-mode
-  :ensure nil
+  :straight nil
   :hook ((c-ts-mode . pew-cc-ts-mode-setup)
          (c++-ts-mode . pew-cc-ts-mode-setup))
   :preface
@@ -232,7 +232,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
   (lua-indent-level 2))
 
 (use-package kdl-ts-mode
-  :ensure nil
+  :straight nil
   :vc (:url "https://github.com/dataphract/kdl-ts-mode" :branch "main")
   :mode ("\\.kdl\\'" . kdl-ts-mode)
   :custom

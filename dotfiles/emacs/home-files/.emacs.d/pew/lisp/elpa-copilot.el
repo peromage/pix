@@ -14,7 +14,7 @@
 ;;; Code:
 
 (use-package copilot
-  :ensure nil
+  :straight nil
   :vc (:url "https://github.com/copilot-emacs/copilot.el" :branch "main")
   :commands (copilot-mode global-copilot-mode)
   :bind ( :map copilot-completion-map
