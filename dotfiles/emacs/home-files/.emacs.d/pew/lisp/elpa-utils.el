@@ -77,17 +77,14 @@
   (git-gutter:visual-line nil)
   (git-gutter:hide-gutter nil)
   (git-gutter:verbosity 0)
-
+  :custom-face
+  (git-gutter:modified   ((t (:foreground  "yellow"       :background  "unspecified"))))
+  (git-gutter:added      ((t (:foreground  "green"        :background  "unspecified"))))
+  (git-gutter:deleted    ((t (:foreground  "red"          :background  "unspecified"))))
+  (git-gutter:unchanged  ((t (:foreground  "unspecified"  :background  "unspecified"))))
+  (git-gutter:separator  ((t (:foreground  "unspecified"  :background  "unspecified"))))
   :config
-  (global-git-gutter-mode 1)
-
-  (pewcfg
-    :face
-    (git-gutter:modified   :foreground  "yellow"       :background  "unspecified")
-    (git-gutter:added      :foreground  "green"        :background  "unspecified")
-    (git-gutter:deleted    :foreground  "red"          :background  "unspecified")
-    (git-gutter:unchanged  :foreground  "unspecified"  :background  "unspecified")
-    (git-gutter:separator  :foreground  "unspecified"  :background  "unspecified")))
+  (global-git-gutter-mode 1))
 
 ;;; Panels
 
