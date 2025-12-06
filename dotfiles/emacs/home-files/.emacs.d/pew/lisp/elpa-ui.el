@@ -23,16 +23,19 @@
 (use-package doom-modeline
   :disabled
   :demand t
+
   :custom
   (doom-modeline-height 1)
   (doom-modeline-modal t)
   (doom-modeline-modal-icon nil)
   (doom-modeline-unicode-fallback nil)
+
   :config
   (doom-modeline-mode 1)
   (pewcfg
     :toggle
     (doom-modeline-unicode-fallback)))
+
 
 (use-package prot-modeline
   :straight nil ;; site-lisp
@@ -42,6 +45,7 @@
 
 (use-package spacious-padding
   :demand t
+
   :custom
   (spacious-padding-subtle-mode-line t)
   (spacious-padding-widths '( :internal-border-width 3
@@ -51,27 +55,36 @@
                               :right-divider-width 15
                               :scroll-bar-width 6
                               :fringe-width 9 ))
+
   :config
   (spacious-padding-mode 1))
+
 
 (use-package nerd-icons-completion
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
 
+
 (use-package nerd-icons-dired
   :hook (dired-mode . nerd-icons-dired-mode))
 
+
 (use-package nerd-icons-corfu
   :after corfu
+
   :config
   (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
 
 (use-package kind-icon
   :disabled
   :after corfu
+
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 
 ;; Setup functions for convenience
 (defun pew-install-fonts ()

@@ -30,32 +30,42 @@
 (use-package flycheck
   :commands (global-flycheck-mode flycheck-mode))
 
+
 ;; TODO: Maybe use tempel?
 (use-package yasnippet
   :custom
   (yas-snippet-dirs (list (expand-file-name "pew/yasnippet" pew-toplevel-dir)))
   (yas-indent-line 'fixed)
+
   :config
   (yas-global-mode 1))
 
+
 (use-package separedit
-  :bind ( :map pew-M-u-map
-          ("'" . separedit-dwim)) )
+  :bind
+  ( :map pew-M-u-map
+    ("'" . separedit-dwim)) )
+
 
 (use-package paredit
-  :hook ((lisp-interaction-mode . paredit-mode)
-         (emacs-lisp-mode . paredit-mode)
-         (lisp-data-mode . paredit-mode)))
+  :hook
+  ((lisp-interaction-mode . paredit-mode)
+   (emacs-lisp-mode . paredit-mode)
+   (lisp-data-mode . paredit-mode)))
+
 
 (use-package avy
-  :bind ( :map pew-M-u-map
-          ("f"   . avy-goto-char)
-          ("M-f" . avy-goto-line)) )
+  :bind
+  ( :map pew-M-u-map
+    ("f"   . avy-goto-char)
+    ("M-f" . avy-goto-line)) )
+
 
 (use-package ace-window
-  :bind ( :map pew-M-u-map
-          ("w" . ace-window)
-          ("W" . ace-swap-window)) )
+  :bind
+  ( :map pew-M-u-map
+    ("w" . ace-window)
+    ("W" . ace-swap-window)) )
 
 ;; } Editing
 
@@ -63,12 +73,16 @@
 
 (use-package magit
   :commands magit-status
-  :bind ( :map pew-M-u-map
-          ("g"   . magit-status)
-          ("M-g" . magit-file-dispatch) )
+
+  :bind
+  ( :map pew-M-u-map
+    ("g"   . magit-status)
+    ("M-g" . magit-file-dispatch) )
+
   :custom
   ;; Don't use the default bindings under "C-x" prefix
   (magit-define-global-key-bindings nil))
+
 
 (use-package git-gutter
   :custom
@@ -81,12 +95,14 @@
   (git-gutter:visual-line nil)
   (git-gutter:hide-gutter nil)
   (git-gutter:verbosity 0)
+
   :custom-face
   (git-gutter:modified   ((t (:foreground  "yellow"       :background  "unspecified"))))
   (git-gutter:added      ((t (:foreground  "green"        :background  "unspecified"))))
   (git-gutter:deleted    ((t (:foreground  "red"          :background  "unspecified"))))
   (git-gutter:unchanged  ((t (:foreground  "unspecified"  :background  "unspecified"))))
   (git-gutter:separator  ((t (:foreground  "unspecified"  :background  "unspecified"))))
+
   :config
   (global-git-gutter-mode 1))
 
@@ -98,6 +114,7 @@
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib-terminal-mode-setup)
+
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
@@ -120,8 +137,11 @@ users to specify the shell to start with."
 (use-package treemacs
   :commands treemacs
   :hook (treemacs-mode . pew-treemacs-mode-setup)
-  :bind ( :map treemacs-mode-map
-          ("j" . treemacs-find-file) )
+
+  :bind
+  ( :map treemacs-mode-map
+    ("j" . treemacs-find-file) )
+
   :custom
   (treemacs-wrap-around nil)
   (treemacs-eldoc-display 'detailed)
@@ -154,10 +174,12 @@ users to specify the shell to start with."
 ;; Typing helpers {
 
 (use-package keycast
-  :commands (keycast-log-mode
-             keycast-tab-bar-mode
-             keycast-header-line-mode
-             keycast-mode-line-mode)
+  :commands
+  (keycast-log-mode
+   keycast-tab-bar-mode
+   keycast-header-line-mode
+   keycast-mode-line-mode)
+
   :custom
   (keycast-mode-line-format "%2s%k%c%R")
   (keycast-mode-line-window-predicate 'mode-line-window-selected-p) ;; Show in current window
@@ -165,6 +187,7 @@ users to specify the shell to start with."
   (keycast-tab-bar-format "%k%c%R")
   (keycast-header-line-format "%k%c%R")
   (keycast-header-line-remove-tail-elements nil)
+
   :config
   (setq keycast-substitute-alist (nconc '((self-insert-command "." "Typing...")
                                           (mouse-event-p nil)
@@ -175,12 +198,15 @@ users to specify the shell to start with."
                                           (handle-select-window nil))
                                         keycast-substitute-alist)))
 
+
 (use-package which-key
   :commands which-key-mode
+
   :custom
   (which-key-popup-type 'side-window)
   (which-key-show-early-on-C-h nil)
   (which-key-idle-delay 1.0)
+
   :config
   (which-key-mode 1)
   ;; Minibuffer usually causes display problems

@@ -4,21 +4,24 @@
 
 (use-package company
   :demand t
-  :bind ( :map company-mode-map
-          ("C-M-i" . company-complete)
-          :map company-active-map
-          ("C-c"   . company-complete-selection)
-          ("C-k"   . company-abort)
-          ;; ("RET"   . nil)
-          ;; ("<return>"   . nil)
-          :map pew-M-c-map
-          ("i"     . company-complete)
-          ("f"     . company-files)
-          ("t"     . company-gtags)
-          ("T"     . company-etags)
-          ("d"     . company-dabbrev)
-          ("D"     . company-dabbrev-code)
-          ("a"     . company-abbrev) )
+
+  :bind
+  ( :map company-mode-map
+    ("C-M-i" . company-complete)
+    :map company-active-map
+    ("C-c"   . company-complete-selection)
+    ("C-k"   . company-abort)
+    ;; ("RET"   . nil)
+    ;; ("<return>"   . nil)
+    :map pew-M-c-map
+    ("i"     . company-complete)
+    ("f"     . company-files)
+    ("t"     . company-gtags)
+    ("T"     . company-etags)
+    ("d"     . company-dabbrev)
+    ("D"     . company-dabbrev-code)
+    ("a"     . company-abbrev) )
+
   :custom
   (company-minimum-prefix-length 2)
   (company-idle-delay 0.0)

@@ -7,21 +7,24 @@
 
 (use-package corfu
   :demand t
-  :bind ( :map corfu-map
-          ("TAB"      . corfu-complete)
-          ("<tab>"    . corfu-complete)
-          ("RET"      . corfu-insert)
-          ("<return>" . corfu-insert)
-          ("C-c"      . corfu-insert)
-          ("C-s"      . corfu-insert-separator)
-          ("C-k"      . corfu-reset)
-          ("C-j"      . pew-corfu-move-to-minibuffer)
-          ("C-h"      . corfu-popupinfo-documentation)
-          ("C-w"      . corfu-popupinfo-location)
-          ("M-n"      . corfu-popupinfo-scroll-up)
-          ("M-p"      . corfu-popupinfo-scroll-down)
-          ("M-<"      . corfu-popupinfo-beginning)
-          ("M->"      . corfu-popupinfo-end) )
+
+  :bind
+  ( :map corfu-map
+    ("TAB"      . corfu-complete)
+    ("<tab>"    . corfu-complete)
+    ("RET"      . corfu-insert)
+    ("<return>" . corfu-insert)
+    ("C-c"      . corfu-insert)
+    ("C-s"      . corfu-insert-separator)
+    ("C-k"      . corfu-reset)
+    ("C-j"      . pew-corfu-move-to-minibuffer)
+    ("C-h"      . corfu-popupinfo-documentation)
+    ("C-w"      . corfu-popupinfo-location)
+    ("M-n"      . corfu-popupinfo-scroll-up)
+    ("M-p"      . corfu-popupinfo-scroll-down)
+    ("M-<"      . corfu-popupinfo-beginning)
+    ("M->"      . corfu-popupinfo-end) )
+
   :custom
   (corfu-auto t)
   (corfu-auto-prefix 2)
@@ -53,35 +56,43 @@
   (corfu-popupinfo-mode 1)
   (corfu-echo-mode 1)) ;; End corfu
 
+
 (use-package corfu-terminal
   :after corfu
+
   :custom
   (corfu-terminal-disable-on-gui t)
   (corfu-terminal-resize-minibuffer nil)
   (corfu-terminal-enable-on-minibuffer nil)
+
   :config
   (corfu-terminal-mode 1))
 
+
 (use-package cape
   :after corfu
-  :hook ((lisp-interaction-mode . pew-cape-on-elisp-mode)
-         (emacs-lisp-mode . pew-cape-on-elisp-mode)
-         (lisp-data-mode . pew-cape-on-elisp-mode)
-         (eshell-mode . pew-cape-on-eshell-mode))
-  :bind ( :map pew-M-c-map
-          ("i"  . completion-at-point)
-          ("t"  . complete-tag)
-          ("d"  . cape-dabbrev)
-          ("h"  . cape-history)
-          ("f"  . cape-file)
-          ("k"  . cape-keyword)
-          ("s"  . cape-symbol)
-          ("a"  . cape-abbrev)
-          ("l"  . cape-line)
-          ("w"  . cape-dict)
-          ("\\" . cape-tex)
-          ("&"  . cape-sgml)
-          ("r"  . cape-rfc1345) )
+
+  :hook
+  ((lisp-interaction-mode . pew-cape-on-elisp-mode)
+   (emacs-lisp-mode . pew-cape-on-elisp-mode)
+   (lisp-data-mode . pew-cape-on-elisp-mode)
+   (eshell-mode . pew-cape-on-eshell-mode))
+
+  :bind
+  ( :map pew-M-c-map
+    ("i"  . completion-at-point)
+    ("t"  . complete-tag)
+    ("d"  . cape-dabbrev)
+    ("h"  . cape-history)
+    ("f"  . cape-file)
+    ("k"  . cape-keyword)
+    ("s"  . cape-symbol)
+    ("a"  . cape-abbrev)
+    ("l"  . cape-line)
+    ("w"  . cape-dict)
+    ("\\" . cape-tex)
+    ("&"  . cape-sgml)
+    ("r"  . cape-rfc1345) )
 
   :preface
   (defun pew-cape-on-elisp-mode ()

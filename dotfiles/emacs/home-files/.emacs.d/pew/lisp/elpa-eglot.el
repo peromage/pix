@@ -11,15 +11,18 @@
   :straight nil
   :commands (eglot eglot-ensure)
   :hook (eglot-managed-mode . pew-eglot-managed-mode-setup)
-  :bind ( :map pew-M-u-map
-          ("M-l" . eglot)
-          :map eglot-mode-map
-          ("C-c l f" . eglot-format)
-          ("C-c l F" . eglot-format-buffer)
-          ("C-c l r" . eglot-rename)
-          ("C-c l a" . eglot-code-actions)
-          ("C-c l q" . eglot-code-action-quickfix)
-          ("C-c l l" . imenu) )
+
+  :bind
+  ( :map pew-M-u-map
+    ("M-l" . eglot)
+    :map eglot-mode-map
+    ("C-c l f" . eglot-format)
+    ("C-c l F" . eglot-format-buffer)
+    ("C-c l r" . eglot-rename)
+    ("C-c l a" . eglot-code-actions)
+    ("C-c l q" . eglot-code-action-quickfix)
+    ("C-c l l" . imenu) )
+
   :custom
   (eglot-strict-mode nil)
   (eglot-autoshutdown nil) ;; Reverting buffer causes auto shutdown so turn it off
@@ -61,6 +64,7 @@
                                            "--header-insertion-decorators")))
                                      ;; Default builtins
                                      eglot-server-programs))
+
   (pewcfg
     :eval-after
     (jsonrpc
@@ -68,8 +72,10 @@
      ;; https://www.reddit.com/r/emacs/comments/1447fy2/looking_for_help_in_improving_typescript_eglot/
      (fset #'jsonrpc--log-event #'ignore))))
 
+
 (use-package eldoc
   :straight nil
+
   :custom
   (eldoc-echo-area-use-multiline-p 1) ;; Single line so that minibuffer is not bouncing
   (eldoc-echo-area-prefer-doc-buffer nil) ;; Always display in minibuffer

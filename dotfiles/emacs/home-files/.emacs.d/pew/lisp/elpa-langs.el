@@ -27,6 +27,7 @@
 ;; Emacs builtin tree-sitter
 (use-package treesit
   :straight nil
+
   :custom
   (treesit-font-lock-level 4) ;; Maximize font rendering
 
@@ -55,16 +56,17 @@
     ;; Debug indent rules when `treesit-explore-mode' is on
     (treesit--indent-verbose)))
 
+
 ;; Grammar pack
 (use-package treesit-langs
   :straight (:type git :host github :repo "emacs-tree-sitter/treesit-langs" :branch "main")
   :commands (treesit-langs-major-mode-setup treesit-langs-install-grammars))
 
-
 ;;; Auxiliary packages
 
 (use-package treesit-fold
   :straight (:type git :host github :repo "emacs-tree-sitter/treesit-fold" :branch "master")
+
   :config
   ;; (global-treesit-fold-indicators-mode) ;; Not working in terminal
   (global-treesit-fold-mode 1)) ;; Automatically adds folding functions to `evil-fold-list'.
@@ -87,8 +89,10 @@
 
 (use-package cc-mode
   :straight nil
-  :hook ((c-mode . pew-cc-mode-setup)
-         (c++-mode . pew-cc-mode-setup))
+
+  :hook
+  ((c-mode . pew-cc-mode-setup)
+   (c++-mode . pew-cc-mode-setup))
 
   :preface
   ;; Setup functions
@@ -112,10 +116,13 @@
     (setq-local c-backslash-max-column 160)
     (setq-local c-auto-align-backslashes t)))
 
+
 (use-package c-ts-mode
   :straight nil
-  :hook ((c-ts-mode . pew-cc-ts-mode-setup)
-         (c++-ts-mode . pew-cc-ts-mode-setup))
+
+  :hook
+  ((c-ts-mode . pew-cc-ts-mode-setup)
+   (c++-ts-mode . pew-cc-ts-mode-setup))
 
   :preface
   (defun pew-c-ts-mode-indent-style ()
@@ -156,10 +163,13 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 
 (use-package nix-mode :defer t)
 
+
 (use-package nix-ts-mode
   :mode ("\\.nix\\'" . nix-ts-mode)
+
   :custom
   (nix-ts-mode-indent-offset 2)
+
   :config
   (setf (alist-get 'nix nix-ts-mode-indent-rules)
         (nconc '(;; NOTE: query only takes 2 nodes (parent and child) and the node
@@ -176,11 +186,14 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 ;; UML {
 
 (use-package plantuml-mode
-  :mode (("\\.puml\\'" . plantuml-mode)
-         ("\\.plantuml\\'" . plantuml-mode))
+  :mode
+  (("\\.puml\\'" . plantuml-mode)
+   ("\\.plantuml\\'" . plantuml-mode))
+
   :custom
   (plantuml-jar-path (locate-user-emacs-file ".cache/plantuml.jar"))
   (plantuml-default-exec-mode 'jar)
+
   :init
   ;; `org-mode' support
   (pewcfg
@@ -191,9 +204,12 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
      (pew-org-add-src-lang-modes '(("plantuml" . plantuml)))
      (pew-org-add-babel-load-languages '((plantuml . t))))))
 
+
 (use-package graphviz-dot-mode
-  :mode (("\\.dot\\'" . graphviz-dot-mode)
-         ("\\.gv\\'" . graphviz-dot-mode))
+  :mode
+  (("\\.dot\\'" . graphviz-dot-mode)
+   ("\\.gv\\'" . graphviz-dot-mode))
+
   :custom
   (graphviz-dot-indent-width 4)
 
@@ -206,8 +222,10 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
                                    ("gv" . graphviz-dot)))
      (pew-org-add-babel-load-languages '((dot . t))))))
 
+
 (use-package mermaid-mode
   :mode ("\\.mmd\\'" . mermaid-mode))
+
 
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
@@ -226,17 +244,22 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 
 (use-package cmake-mode
   :defer t
+
   :custom
   cmake-tab-width 4)
 
+
 (use-package lua-mode
   :defer t
+
   :custom
   (lua-indent-level 2))
+
 
 (use-package kdl-ts-mode
   :straight (:type git :host github :repo "dataphract/kdl-ts-mode" :branch "main")
   :mode ("\\.kdl\\'" . kdl-ts-mode)
+
   :custom
   (kdl-ts-mode-indent-offset 2))
 

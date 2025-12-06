@@ -8,6 +8,7 @@
 (use-package org
   :commands org-mode
   :hook (org-babel-after-execute . pew-org-refresh-images)
+
   :custom
   ;; Visual on startup
   (org-indent-mode-turns-on-hiding-stars nil)
@@ -185,6 +186,7 @@ Otherwise the cursor is placed at the beginning of the heading."
                                                (:noweb . "yes")
                                                (:hlines . "no")
                                                (:tangle . "no")))) ;; End org
+
 
 (use-package org-bullets
   :hook (org-mode . pew-org-bullets-setup)

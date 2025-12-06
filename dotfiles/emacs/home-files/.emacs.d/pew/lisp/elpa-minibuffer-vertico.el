@@ -7,15 +7,18 @@
 
 (use-package vertico
   :demand t
-  :bind ( :map vertico-map
-          ("RET" . vertico-directory-enter)
-          ("DEL" . vertico-directory-delete-char)
-          ("M-DEL" . vertico-directory-delete-word)
-          ("M-1" . vertico-multiform-vertical)
-          ("M-2" . vertico-multiform-grid)
-          ("M-3" . vertico-multiform-flat)
-          ("M-4" . vertico-multiform-reverse)
-          ("M-5" . vertico-multiform-unobtrusive) )
+
+  :bind
+  ( :map vertico-map
+    ("RET" . vertico-directory-enter)
+    ("DEL" . vertico-directory-delete-char)
+    ("M-DEL" . vertico-directory-delete-word)
+    ("M-1" . vertico-multiform-vertical)
+    ("M-2" . vertico-multiform-grid)
+    ("M-3" . vertico-multiform-flat)
+    ("M-4" . vertico-multiform-reverse)
+    ("M-5" . vertico-multiform-unobtrusive) )
+
   :custom
   ;; Default views for different commands/results
   ;; NOTE: `vertico-multiform-commands' takes precedence over `vertico-multiform-categories'
@@ -35,24 +38,28 @@
   (vertico-mode 1)
   (vertico-multiform-mode 1))
 
+
 (use-package consult
   :demand t
-  :bind ( ("C-s"   . consult-line)
-          ("C-x b" . consult-buffer)
-          ("C-x B" . consult-buffer-other-window)
-          ("C-x F" . consult-find)
-          ("C-x g" . consult-ripgrep)
-          ("C-x G" . consult-grep)
-          ("C-x l" . consult-outline)
-          ("C-x j" . consult-imenu)
-          ("C-x J" . consult-flymake)
-          ([remap imenu] . consult-imenu)
-          ([remap goto-line] . consult-goto-line)
-          ([remap bookmark-jump] . consult-bookmark)
-          ([remap recentf-open-files] . consult-recent-file)
-          ([remap evil-show-marks] . consult-mark)
-          :map minibuffer-local-map
-          ("M-h" . consult-history) )
+
+  :bind
+  ( ("C-s"   . consult-line)
+    ("C-x b" . consult-buffer)
+    ("C-x B" . consult-buffer-other-window)
+    ("C-x F" . consult-find)
+    ("C-x g" . consult-ripgrep)
+    ("C-x G" . consult-grep)
+    ("C-x l" . consult-outline)
+    ("C-x j" . consult-imenu)
+    ("C-x J" . consult-flymake)
+    ([remap imenu] . consult-imenu)
+    ([remap goto-line] . consult-goto-line)
+    ([remap bookmark-jump] . consult-bookmark)
+    ([remap recentf-open-files] . consult-recent-file)
+    ([remap evil-show-marks] . consult-mark)
+    :map minibuffer-local-map
+    ("M-h" . consult-history) )
+
   :custom
   (register-preview-function #'consult-register-format)
   (xref-show-xrefs-function #'consult-xref)
@@ -113,15 +120,21 @@ ARGS should be a string of arguments passed to ripgrep."
     "Add an indicator for multi-occur mode."
     (cons (format "[CRM '%s'] %s" crm-separator (car args)) (cdr args)))) ;; End consult
 
+
 (use-package marginalia
   :demand t ;; :bind would cause lazy loading which is not we expect
-  :bind ( :map vertico-map
-          ("M-m" . marginalia-cycle) )
+
+  :bind
+  ( :map vertico-map
+    ("M-m" . marginalia-cycle) )
+
   :config
   (marginalia-mode 1))
 
+
 (use-package orderless
   :demand t
+
   :custom
   ;; (completion-category-overrides nil) ;; To use orderless exclusively
   ;; (completion-category-defaults nil)  ;; Together with above
@@ -131,19 +144,24 @@ ARGS should be a string of arguments passed to ripgrep."
                                     (?^ . orderless-initialism)
                                     (?= . orderless-literal)
                                     (?? . orderless-flex)))
+
   :config
   (pewcfg
     :customize
     (completion-styles (nconc '(orderless) completion-styles))))
 
+
 (use-package embark
   :hook (embark-collect-mode . pew-embark-collect-mode-setup)
-  :bind ( ([remap describe-bindings] . embark-bindings)
-          :map pew-M-u-map
-          ("e a" . embark-act)
-          ("e d" . embark-dwim)
-          ("e e" . embark-export)
-          ("e c" . embark-collect) )
+
+  :bind
+  ( ([remap describe-bindings] . embark-bindings)
+    :map pew-M-u-map
+    ("e a" . embark-act)
+    ("e d" . embark-dwim)
+    ("e e" . embark-export)
+    ("e c" . embark-collect) )
+
   :custom
   (prefix-help-command #'embark-prefix-help-command)
 
@@ -153,11 +171,9 @@ ARGS should be a string of arguments passed to ripgrep."
     (pewlib-reuse-window-in-buffer)
     (setq-local show-trailing-whitespace nil)))
 
-(use-package embark-consult
-  :after (:all consult embark))
 
-(use-package wgrep
-  :after (:all consult embark))
+(use-package embark-consult :after (:all consult embark))
+(use-package wgrep :after (:all consult embark))
 
 (provide 'elpa-minibuffer-vertico)
 ;;; elpa-minibuffer-vertico.el ends here

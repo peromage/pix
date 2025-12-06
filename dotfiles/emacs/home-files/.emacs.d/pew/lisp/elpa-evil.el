@@ -17,6 +17,7 @@
 
 (use-package evil
   :demand t
+
   :custom
   ;; Default evil-want behavior
   (evil-want-integration t)
@@ -283,8 +284,10 @@ See `evil-define-key*'."
 ;;; Enable Evil mode last to ensure most of the settings work
   (evil-mode 1)) ;; End evil
 
+
 (use-package evil-surround
   :after evil
+
   :config
   (global-evil-surround-mode 1))
 

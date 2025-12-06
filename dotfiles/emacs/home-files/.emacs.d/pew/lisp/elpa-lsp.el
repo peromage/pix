@@ -4,6 +4,7 @@
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
+
   :custom
   (lsp-keymap-prefix "C-c l")
   ;; Features
@@ -67,9 +68,11 @@ MODES is a list of major mode symbols."
            :remote? t
            :server-id ',server-id)))))) ;; End lsp-mode
 
+
 (use-package lsp-ui
   :commands lsp-ui-mode
   :hook (lsp-mode . pew-lsp-ui-setup)
+
   :bind ( :map lsp-ui-mode-map
           ([remap xref-find-references] . lsp-ui-peek-find-references)
           ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
@@ -77,6 +80,7 @@ MODES is a list of major mode symbols."
           ("C-c l l" . lsp-ui-doc-glance)
           ("C-c l L" . lsp-ui-doc-show)
           ("C-c l j" . lsp-ui-doc-focus-frame) )
+
   :custom
   ;; Sideline
   (lsp-ui-sideline-enable t)
@@ -113,8 +117,10 @@ MODES is a list of major mode symbols."
     ;; Disabled since it occupies 'q'
     (lsp-ui-doc-frame-mode -1))) ;; End lsp-ui
 
+
 (use-package dap-mode
   :defer t
+
   :custom
   (dap-python-executable "python3"))
 
@@ -123,10 +129,13 @@ MODES is a list of major mode symbols."
 (use-package lsp-java
   :defer t)
 
+
 (use-package lsp-pyright
   :hook (python-mode . pew-python-mode-lsp-mode-setup)
+
   :custom
   (lsp-pyright-python-executable-cmd "python3")
+
   :preface
   (defun pew-python-mode-lsp-mode-setup ()
     "`python-mode' initialization."
