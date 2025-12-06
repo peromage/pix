@@ -89,6 +89,7 @@
   :straight nil
   :hook ((c-mode . pew-cc-mode-setup)
          (c++-mode . pew-cc-mode-setup))
+
   :preface
   ;; Setup functions
   (defun pew-cc-mode-setup ()
@@ -115,6 +116,7 @@
   :straight nil
   :hook ((c-ts-mode . pew-cc-ts-mode-setup)
          (c++-ts-mode . pew-cc-ts-mode-setup))
+
   :preface
   (defun pew-c-ts-mode-indent-style ()
     "Customized indentation rules.
@@ -143,6 +145,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 (use-package python-mode
   :defer t
   :hook (python-ts-mode . pew-python-ts-mode-setup)
+
   :preface
   (defun pew-python-ts-mode-setup ()
     (setq-local python-indent-offset 4)))
@@ -193,6 +196,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
          ("\\.gv\\'" . graphviz-dot-mode))
   :custom
   (graphviz-dot-indent-width 4)
+
   :init
   ;; Graphviz `org-mode' support
   (pewcfg
@@ -208,6 +212,7 @@ See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentatio
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
   :defer t
+
   :init
   (pewcfg
     :eval-after
