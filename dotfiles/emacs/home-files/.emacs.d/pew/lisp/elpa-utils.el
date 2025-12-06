@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;;; Lazy loading for these packages
+;; Oneliners {
 
 ;; Search
 (use-package rg :defer t)
@@ -22,7 +22,9 @@
 ;; Useful commands
 (use-package crux :defer t)
 
-;;; Editing
+;; } Oneliners
+
+;; Editing {
 
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
@@ -55,7 +57,9 @@
           ("w" . ace-window)
           ("W" . ace-swap-window)) )
 
-;;; Git
+;; } Editing
+
+;; Git {
 
 (use-package magit
   :commands magit-status
@@ -86,7 +90,9 @@
   :config
   (global-git-gutter-mode 1))
 
-;;; Panels
+;; } Git
+
+;; Side panels {
 
 (use-package vterm
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
@@ -143,7 +149,9 @@ users to specify the shell to start with."
     (`(t . _)
      (treemacs-git-mode 'simple))))
 
-;;; Interactive
+;; } Side panels
+
+;; Typing helpers {
 
 (use-package keycast
   :commands (keycast-log-mode
@@ -178,6 +186,8 @@ users to specify the shell to start with."
   ;; Minibuffer usually causes display problems
   ;;(which-key-setup-minibuffer)
   (which-key-setup-side-window-bottom))
+
+;; } Typing helpers
 
 (provide 'elpa-utils)
 ;;; elpa-utils.el ends here
