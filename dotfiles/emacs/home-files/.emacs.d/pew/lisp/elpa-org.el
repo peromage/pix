@@ -167,50 +167,48 @@ Otherwise the cursor is placed at the beginning of the heading."
     (let ((default-directory (file-name-as-directory org-directory)))
       (call-interactively #'find-file)))
 
-  (pewcfg
-    :setq
-    ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
-    (org-babel-default-header-args '((:session . "none")
-                                     (:results . "output replace")
-                                     ;; (:wrap . "example") ;; Might be problematic for pictures
-                                     (:exports . "both")
-                                     (:eval . "never-export")
-                                     (:cache . "no")
-                                     (:noweb . "yes")
-                                     (:hlines . "no")
-                                     (:tangle . "no")))
-    (org-babel-default-inline-header-args '((:session . "none")
-                                            (:results . "output replace")
-                                            (:exports . "results")
-                                            (:eval . "never-export")
-                                            (:cache . "no")
-                                            (:noweb . "yes")
-                                            (:hlines . "no")
-                                            (:tangle . "no"))))) ;; End org
+  ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
+  (setq org-babel-default-header-args '((:session . "none")
+                                        (:results . "output replace")
+                                        ;; (:wrap . "example") ;; Might be problematic for pictures
+                                        (:exports . "both")
+                                        (:eval . "never-export")
+                                        (:cache . "no")
+                                        (:noweb . "yes")
+                                        (:hlines . "no")
+                                        (:tangle . "no")))
+  (setq org-babel-default-inline-header-args '((:session . "none")
+                                               (:results . "output replace")
+                                               (:exports . "results")
+                                               (:eval . "never-export")
+                                               (:cache . "no")
+                                               (:noweb . "yes")
+                                               (:hlines . "no")
+                                               (:tangle . "no")))) ;; End org
 
-(pewcfg
-  :eval-after
-  (org
-   (use-package org-contrib)
-   ;; Included in org-contrib
-   (use-package ox-extra :straight nil)
+(use-package org-bullets
+  :hook (org-mode . pew-org-bullets-setup)
 
-   (use-package org-tempo :straight nil)
+  :preface
+  (defun pew-org-bullets-setup ()
+    "`org-bullets' initialization."
+    (org-bullets-mode 1)))
 
-   (use-package org-bullets
-     :hook (org-mode . pew-org-bullets-setup)
-     :preface
-     (defun pew-org-bullets-setup ()
-       "`org-bullets' initialization."
-       (org-bullets-mode 1)))
+;; Org contrib {
 
-   ;; Org to Markdown for Hugo
-   (use-package ox-hugo)
-   ;; Export backend for GitHub flavored Markdown
-   (use-package ox-gfm)
+(use-package org-contrib :after org)
+;; Included in org-contrib
+(use-package ox-extra :straight nil :after org)
+(use-package org-tempo :straight nil :after org)
 
-   ;; My own backends
-   (use-package ox-awesomecv :straight nil)))
+;; } Org contrib
+
+;; Org to Markdown for Hugo
+(use-package ox-hugo :after org)
+;; Export backend for GitHub flavored Markdown
+(use-package ox-gfm :after org)
+;; My own backends
+(use-package ox-awesomecv :straight nil :after org)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here
