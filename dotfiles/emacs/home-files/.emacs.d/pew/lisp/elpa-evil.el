@@ -144,27 +144,27 @@ This is an advanced method to determine initial state rather than using
             (evil-change-state 'emacs))))))
 
   ;; Clear Evil built-in rules
-  (setq evil-default-state 'pewinit
-        evil-emacs-state-modes nil
-        evil-motion-state-modes nil
-        evil-normal-state-modes nil
-        evil-insert-state-modes nil
-        evil-visual-state-modes nil
-        evil-replace-state-modes nil
-        evil-operator-state-modes nil
-        evil-buffer-regexps nil)
+  (setq evil-default-state 'pewinit)
+  (setq evil-emacs-state-modes nil)
+  (setq evil-motion-state-modes nil)
+  (setq evil-normal-state-modes nil)
+  (setq evil-insert-state-modes nil)
+  (setq evil-visual-state-modes nil)
+  (setq evil-replace-state-modes nil)
+  (setq evil-operator-state-modes nil)
+  (setq evil-buffer-regexps nil)
 
   ;; State tags
-  (setq evil-emacs-state-tag         "[EM]"
-        evil-normal-state-tag        "[NO]"
-        evil-insert-state-tag        "[IN]"
-        evil-replace-state-tag       "[RE]"
-        evil-visual-char-tag         "[VI]"
-        evil-visual-line-tag         "[VL]"
-        evil-visual-block-tag        "[VB]"
-        evil-visual-screen-line-tag  "[VS]"
-        evil-motion-state-tag        "[MO]"
-        evil-operator-state-tag      "[..]")
+  (setq evil-emacs-state-tag         "[EM]")
+  (setq evil-normal-state-tag        "[NO]")
+  (setq evil-insert-state-tag        "[IN]")
+  (setq evil-replace-state-tag       "[RE]")
+  (setq evil-visual-char-tag         "[VI]")
+  (setq evil-visual-line-tag         "[VL]")
+  (setq evil-visual-block-tag        "[VB]")
+  (setq evil-visual-screen-line-tag  "[VS]")
+  (setq evil-motion-state-tag        "[MO]")
+  (setq evil-operator-state-tag      "[..]")
 
 ;;; Utility functions
   ;; Key binding function
