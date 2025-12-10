@@ -50,6 +50,17 @@
      (json-mode . json-ts-mode)
      (python-mode . python-ts-mode)))
 
+  :preface
+  (defun pew-treesit-add-indent-rules (lang rules)
+    "Add a list of RULES for specific LANG.
+Treesit seems to change the way how it indents in recent updates.  It used to be
+managed by a specific major mode, for example `c-ts-mode-indent-style' but now
+it doesn't seem to work any more. Instead, we need to update
+`treesit-simple-indent-rules'.
+NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled."
+    (setf (alist-get lang treesit-simple-indent-rules)
+          (nonc rules (alist-get lang treesit-simple-indent-rules))))
+
   :config
   (pewcfg
     :toggle
