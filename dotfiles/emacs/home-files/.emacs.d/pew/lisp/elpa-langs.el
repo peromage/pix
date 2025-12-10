@@ -58,6 +58,7 @@ managed by a specific major mode, for example `c-ts-mode-indent-style' but now
 it doesn't seem to work any more. Instead, we need to update
 `treesit-simple-indent-rules'.
 NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled."
+    (declare (indent 1))
     (when (assq lang treesit-simple-indent-rules)
       (setf (alist-get lang treesit-simple-indent-rules)
             (nconc rules (alist-get lang treesit-simple-indent-rules)))))
@@ -152,12 +153,11 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
     ;; For C++
     ;; See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode
-    (pew-treesit-add-indent-rules
-     'cpp
-     '(;; Do not indent preprocessor directives
-       ((node-is "preproc") column-0 0)
-       ;; Do not indent namespace children
-       ((n-p-gp nil nil "namespace_definition") grand-parent 0)))))
+    (pew-treesit-add-indent-rules 'cpp
+      '(;; Do not indent preprocessor directives
+        ((node-is "preproc") column-0 0)
+        ;; Do not indent namespace children
+        ((n-p-gp nil nil "namespace_definition") grand-parent 0)))))
 
 ;; } C/C++
 
