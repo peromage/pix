@@ -181,20 +181,21 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 (use-package nix-ts-mode
   :mode ("\\.nix\\'" . nix-ts-mode)
+  :hook (nix-ts-mode . pew-nix-ts-mode-setup)
 
   :custom
   (nix-ts-mode-indent-offset 2)
 
-  :config
-  (setf (alist-get 'nix nix-ts-mode-indent-rules)
-        (nconc '(;; NOTE: query only takes 2 nodes (parent and child) and the node
-                 ;; to be indented needs to be captured.
-                 ((query ((inherited_attrs) @attr)) parent-bol nix-ts-mode-indent-offset)
-                 ((query ((inherited_attrs (_) @attr))) grand-parent nix-ts-mode-indent-offset)
-                 ((query ((if_expression ["then" "else"] @branch))) parent 0)
-                 ((query ((let_expression "in" body: (_) @body))) prev-line nix-ts-mode-indent-offset)
-                 ((query ((let_expression "in" @in))) parent-bol 0))
-               (alist-get 'nix nix-ts-mode-indent-rules))))
+  :preface
+  (defun pew-nix-ts-mode-setup ()
+    (pew-treesit-add-indent-rules 'nix
+      '(;; NOTE: query only takes 2 nodes (parent and child) and the node
+        ;; to be indented needs to be captured.
+        ((query ((inherited_attrs) @attr)) parent-bol nix-ts-mode-indent-offset)
+        ((query ((inherited_attrs (_) @attr))) grand-parent nix-ts-mode-indent-offset)
+        ((query ((if_expression ["then" "else"] @branch))) parent 0)
+        ((query ((let_expression "in" body: (_) @body))) prev-line nix-ts-mode-indent-offset)
+        ((query ((let_expression "in" @in))) parent-bol 0)))))
 
 ;; } Nix
 
