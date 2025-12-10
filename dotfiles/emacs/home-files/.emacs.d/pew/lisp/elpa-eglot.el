@@ -41,29 +41,29 @@
               (cons f (delq f eldoc-documentation-functions))))))
 
   :config
-  (setq eglot-server-programs (nconc '(;; Nix
-                                       (((nix-mode :language-id "nix")
-                                         (nix-ts-mode :language-id "nix"))
-                                        . ("nixd"))
-                                       ;; C/C++
-                                       ((c-mode c-ts-mode c++-mode c++-ts-mode)
-                                        . ("clangd"
-                                           ;; Performance
-                                           "-j=8"
-                                           "--background-index"
-                                           "--background-index-priority=normal"
-                                           "--pch-storage=memory"
-                                           ;; Formatting
-                                           "--fallback-style=Google"
-                                           ;; Completion
-                                           "--clang-tidy"
-                                           "--all-scopes-completion"
-                                           "--completion-style=detailed"
-                                           "--function-arg-placeholders"
-                                           "--header-insertion=never"
-                                           "--header-insertion-decorators")))
-                                     ;; Default builtins
-                                     eglot-server-programs))
+  (setq eglot-server-programs `(;; Nix
+                                (((nix-mode :language-id "nix")
+                                  (nix-ts-mode :language-id "nix"))
+                                 . ("nixd"))
+                                ;; C/C++
+                                ((c-mode c-ts-mode c++-mode c++-ts-mode)
+                                 . ("clangd"
+                                    ;; Performance
+                                    "-j=8"
+                                    "--background-index"
+                                    "--background-index-priority=normal"
+                                    "--pch-storage=memory"
+                                    ;; Formatting
+                                    "--fallback-style=Google"
+                                    ;; Completion
+                                    "--clang-tidy"
+                                    "--all-scopes-completion"
+                                    "--completion-style=detailed"
+                                    "--function-arg-placeholders"
+                                    "--header-insertion=never"
+                                    "--header-insertion-decorators"))
+                                ;; Default builtins
+                                ,@eglot-server-programs))
 
   (pewcfg
     :eval-after

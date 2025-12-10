@@ -148,7 +148,7 @@ ARGS should be a string of arguments passed to ripgrep."
   :config
   (pewcfg
     :customize
-    (completion-styles (nconc '(orderless) completion-styles))))
+    (completion-styles `(orderless ,@completion-styles))))
 
 
 (use-package embark
