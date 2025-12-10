@@ -63,8 +63,9 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
       (setf (alist-get lang treesit-simple-indent-rules)
             (nconc (mapcar (lambda (rule)
                              ;; Compile query in rules
-                             (when (and (listp (car rule)) (eq 'query (caar rule)))
-                               `((query ,(treesit-query-compile lang (cdar rule))) ,@(cdr rule))))
+                             (if (and (listp (car rule)) (eq 'query (caar rule)))
+                                 `((query ,(treesit-query-compile lang (cdar rule))) ,@(cdr rule))
+                               rule))
                            rules)
                    (alist-get lang treesit-simple-indent-rules)))))
 
