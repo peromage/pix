@@ -58,8 +58,9 @@ managed by a specific major mode, for example `c-ts-mode-indent-style' but now
 it doesn't seem to work any more. Instead, we need to update
 `treesit-simple-indent-rules'.
 NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled."
-    (setf (alist-get lang treesit-simple-indent-rules)
-          (nonc rules (alist-get lang treesit-simple-indent-rules))))
+    (when (assq lang treesit-simple-indent-rules)
+      (setf (alist-get lang treesit-simple-indent-rules)
+            (nonc rules (alist-get lang treesit-simple-indent-rules)))))
 
   (defun pew-treesit-indent ()
     "Same as `treesit-indent' but make it interactive."
@@ -141,24 +142,22 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
    (c++-ts-mode . pew-cc-ts-mode-setup))
 
   :preface
-  (defun pew-c-ts-mode-indent-style ()
-    "Customized indentation rules.
-See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode"
-    (nconc '(;; Do not indent preprocessor directives
-             ((node-is "preproc") column-0 0)
-             ;; Do not indent namespace children
-             ((n-p-gp nil nil "namespace_definition") grand-parent 0))
-           ;; Base rule
-           (alist-get 'k&r (c-ts-mode--indent-styles 'cpp))))
-
   (defun pew-cc-ts-mode-setup ()
     "Common C/C++ TS mode preference."
     (setq-local c-ts-mode-indent-offset 4)
-    (setq-local c-ts-mode-indent-style #'pew-c-ts-mode-indent-style)
     (setq-local indent-tabs-mode nil)
     (setq-local tab-width 4)
     (setq-local tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60))
-    (setq-local adaptive-fill-mode nil)))
+    (setq-local adaptive-fill-mode nil)
+
+    ;; For C++
+    ;; See: https://www.reddit.com/r/emacs/comments/1bgdw0y/custom_namespace_indentation_in_ctsmode
+    (pew-treesit-add-indent-rules
+     'cpp
+     '(;; Do not indent preprocessor directives
+       ((node-is "preproc") column-0 0)
+       ;; Do not indent namespace children
+       ((n-p-gp nil nil "namespace_definition") grand-parent 0)))))
 
 ;; } C/C++
 
