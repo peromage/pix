@@ -60,6 +60,13 @@ it doesn't seem to work any more. Instead, we need to update
 NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled."
     (declare (indent 1))
     (when (assq lang treesit-simple-indent-rules)
+      ;; Compile query
+      (mapcar
+       (lambda (rule)
+         (when (eq 'query (caar rule))
+           (setf (cdar rule) (treesit-query-compile lang (cdar rule)))))
+       rules)
+      ;; Prepend to the list so take the highest precedence
       (setf (alist-get lang treesit-simple-indent-rules)
             (nconc rules (alist-get lang treesit-simple-indent-rules)))))
 
