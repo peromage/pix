@@ -60,7 +60,7 @@ it doesn't seem to work any more. Instead, we need to update
 NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled."
     (when (assq lang treesit-simple-indent-rules)
       (setf (alist-get lang treesit-simple-indent-rules)
-            (nonc rules (alist-get lang treesit-simple-indent-rules)))))
+            (nconc rules (alist-get lang treesit-simple-indent-rules)))))
 
   (defun pew-treesit-indent ()
     "Same as `treesit-indent' but make it interactive."
