@@ -61,6 +61,11 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
     (setf (alist-get lang treesit-simple-indent-rules)
           (nonc rules (alist-get lang treesit-simple-indent-rules))))
 
+  (defun pew-treesit-indent ()
+    "Same as `treesit-indent' but make it interactive."
+    (interactive)
+    (treesit-indent))
+
   :config
   (pewcfg
     :toggle
