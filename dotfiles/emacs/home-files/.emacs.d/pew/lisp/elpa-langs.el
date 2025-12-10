@@ -63,7 +63,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
       ;; Compile query
       (mapcar
        (lambda (rule)
-         (when (eq 'query (caar rule))
+         (when (and (listp (car rule)) (eq 'query (caar rule)))
            (setf (cdar rule) (treesit-query-compile lang (cdar rule)))))
        rules)
       ;; Prepend to the list so take the highest precedence
