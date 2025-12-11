@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: author
-# key: author
+# name: Author
+# key: ;;author
 # --
 ;; Author: Fang Deng <fang@elfang.com>

@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: New POSIX compliant script
-# key: newsh
+# key: #sh
 # --
 #!/bin/sh
 ### `(file-name-nondirectory (buffer-file-name))` --- $1

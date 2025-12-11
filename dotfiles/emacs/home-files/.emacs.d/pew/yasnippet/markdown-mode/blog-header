@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: My blog header
-# key: blogheader
+# key: #blogheader
 # --
 ---
 title: $1

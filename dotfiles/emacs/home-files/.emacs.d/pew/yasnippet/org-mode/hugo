@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Hugo new article
-# key: hugonew
+# key: #hugo
 # --
 #+title: ${1:`(capitalize (replace-regexp-in-string "[_-]" " " (string-trim (file-name-nondirectory (buffer-file-name)) "[0-9]\\{4\\}-[0-9]\\{1,2\\}-[0-9]\\{1,2\\}-" "\.org")))`}
 #+date: ${2:`(format-time-string (cdr org-time-stamp-formats))`}

@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Commentary section
-# key: section
+# key: ;;section
 # --
 ;;------------------------------------------------------------------------------
 ;; $1

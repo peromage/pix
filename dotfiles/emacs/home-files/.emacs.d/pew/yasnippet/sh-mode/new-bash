@@ -1,8 +1,8 @@
 # -*- mode: snippet -*-
 # name: New Bash script
-# key: newbash
+# key: #bash
 # --
-#!/usr/bin/bash
+#!/usr/bin/env bash
 ### `(file-name-nondirectory (buffer-file-name))` --- $1
 
 $0

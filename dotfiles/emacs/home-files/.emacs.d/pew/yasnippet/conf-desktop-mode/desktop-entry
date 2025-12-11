@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Desktop entry
-# key: desktopentry
+# key: #entry
 # --
 ## 1. Save to: $HOME/.local/share/applications/NAME.desktop
 ## 2. Refresh: update-desktop-database

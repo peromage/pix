@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: New Pwsh script
-# key: new
+# key: #new
 # --
 #!/usr/bin/pwsh
 ### `(file-name-nondirectory (buffer-file-name))` --- $1

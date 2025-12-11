@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Lisp data header
-# key: new
+# key: ;;new
 # --
 ;;; -*- coding: utf-8; mode: lisp-data; -*-
 

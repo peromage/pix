@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: Document comment
-# key: doc
+# key: #doc
 # --
 /*
    $1
