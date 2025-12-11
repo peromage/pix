@@ -37,7 +37,13 @@ in stdenvNoCC.mkDerivation {
     chmod u+w .emacs.d
 
     for s in $srcs; do
-      cp -r "$s" "./.emacs.d/''${s#*-}"
+      # s could be:
+      # - /nix/store/<hash>-file-name
+      # - /nix/store/<hash>-dir/subdir/file-name
+
+      name="''${s#/nix/store/*-}"
+      name="''${name##*/}"
+      cp -r "$s" "./.emacs.d/$name"
     done
   '';
 
