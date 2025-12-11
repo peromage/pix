@@ -31,14 +31,15 @@
   :commands (global-flycheck-mode flycheck-mode))
 
 
-;; TODO: Maybe use tempel?
 (use-package yasnippet
   :custom
-  (yas-snippet-dirs (cons (expand-file-name "pew/yasnippet" pew-toplevel-dir)
-                          (yas-snippet-dirs)))
   (yas-indent-line 'fixed)
 
   :config
+  (pewcfg
+    :customize
+    (yas-snippet-dirs (cons (expand-file-name "pew/yasnippet" pew-toplevel-dir)
+                            (yas-snippet-dirs))))
   (yas-global-mode 1))
 
 
