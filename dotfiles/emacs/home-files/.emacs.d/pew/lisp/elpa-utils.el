@@ -34,7 +34,8 @@
 ;; TODO: Maybe use tempel?
 (use-package yasnippet
   :custom
-  (yas-snippet-dirs (list (expand-file-name "pew/yasnippet" pew-toplevel-dir)))
+  (yas-snippet-dirs (cons (expand-file-name "pew/yasnippet" pew-toplevel-dir)
+                          (yas-snippet-dirs)))
   (yas-indent-line 'fixed)
 
   :config
