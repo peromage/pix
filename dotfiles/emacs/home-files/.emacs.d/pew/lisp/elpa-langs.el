@@ -171,7 +171,12 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
       '(;; Do not indent preprocessor directives
         ((node-is "preproc") column-0 0)
         ;; Do not indent namespace children
-        ((n-p-gp nil nil "namespace_definition") grand-parent 0)))))
+        ((n-p-gp nil nil "namespace_definition") grand-parent 0)
+        ((node-is "access_specifier") parent-bol 0)
+        ((parent-is "argument_list") parent-bol c-ts-mode-indent-offset)
+        ((parent-is "init_declarator") parent-bol c-ts-mode-indent-offset)
+        ((match "parameter_declaration" "parameter_list" nil 1 1) parent-bol c-ts-mode-indent-offset)
+        ((match "parameter_declaration" "parameter_list" nil nil nil) (nth-sibling 1)  0)))))
 
 ;; } C/C++
 
