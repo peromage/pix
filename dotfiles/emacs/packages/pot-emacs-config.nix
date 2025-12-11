@@ -1,18 +1,25 @@
-{ stdenvNoCC, runCommand, loadFiles ? [] }:
+{ stdenvNoCC ,
+  runCommand,
+  # Extra .el files to be loaded in init.el
+  load ? [],
+  # Extra files/directories included with this config
+  include ? []
+}:
 
 let
-  loadFilesSourceStr = with builtins; concatStringsSep
+  loadFiles = with builtins; concatStringsSep
     " "
-    (map (f: assert readFileType f == "regular"; toString f) loadFiles);
+    (map (f: assert readFileType f == "regular"; toString f) load);
 
-  loadFilesBundle = runCommand "load-files-bundles" {} ''
-    TARGET="$out/.load-files"
-    mkdir "$out"
+  loadBundlePackage = runCommand "load-bundle" {} ''
+    DIR="$out/etc/pot-emacs-config-load-bundle"
+    LOAD_EL="$DIR/.load.el"
+    mkdir -p "$DIR"
 
-    for f in ${loadFilesSourceStr}; do
-      cp "$f" "$out"
+    for f in ${loadFiles}; do
+      cp "$f" "$DIR"
       # Keep the passed-in order
-      printf "(load \"$out/%s\")\n" "$(basename "$f")" >>"$TARGET"
+      printf "(load \"$DIR/%s\")\n" "$(basename "$f")" >>"$LOAD_EL"
     done
   '';
 
@@ -20,12 +27,22 @@ in stdenvNoCC.mkDerivation {
   pname = "pot-emacs-config";
   version = "0.0.1";
   src = ../home-files/.emacs.d;
+  srcs = include;
   sourceRoot = ".emacs.d";
   dontPatchShebangs = true;
-  buildInputs = [ loadFilesBundle ];
+  buildInputs = [ loadBundlePackage ];
+
+  unpackPhase = ''
+    cp -r "$src" .emacs.d
+    chmod u+w .emacs.d
+
+    for s in $srcs; do
+      cp -r "$s" "./.emacs.d/''${s#*-}"
+    done
+  '';
 
   buildPhase = ''
-    SOURCE="${loadFilesBundle}/.load-files"
+    SOURCE="${loadBundlePackage}/etc/pot-emacs-config-load-bundle/.load.el"
     if ! [ -f "$SOURCE" ]; then
       # Nothing to do
       return 0
