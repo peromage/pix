@@ -83,12 +83,6 @@
   (org-enforce-todo-dependencies nil)
   (org-enforce-todo-checkbox-dependencies nil)
 
-  ;; Agenda and capture
-  ;; Org files
-  (org-directory (expand-file-name "my-org-notes" pew-toplevel-dir))
-  (org-default-notes-file (expand-file-name "default-notes.org" org-directory))
-  ;; Take every org files under `org-directory'
-  (org-agenda-files (list (expand-file-name "agenda.org" org-directory)))
   ;; Templates
   (org-capture-templates (pewlib-load-data-file (expand-file-name "pew/org-templates/capture.eld" pew-toplevel-dir)))
 
@@ -114,7 +108,12 @@ Duplicated pairs will be removed."
     (org-babel-do-load-languages 'org-babel-load-languages
                                  (nconc alist org-babel-load-languages)))
 
-  :config
+  (defun pew-org-set-directory (dir)
+    "Update `org-directory' and related paths with given DIR."
+    (setq org-directory dir)
+    (setq org-default-notes-file (expand-file-name "default.org" org-directory))
+    (setq org-agenda-files (list (expand-file-name "agenda.org" org-directory))))
+
   (defun pew-org-toggle-marker (&optional show no-restart)
     "Pass SHOW with 1 or -1 to show or hide markers or anything else to toggle.
 Non-nil NO-RESTART to suppress `org-mode-restart'."
@@ -168,6 +167,7 @@ Otherwise the cursor is placed at the beginning of the heading."
     (let ((default-directory (file-name-as-directory org-directory)))
       (call-interactively #'find-file)))
 
+  :config
   ;; Refer to: https://org-babel.readthedocs.io/en/latest/header-args/
   (setq org-babel-default-header-args '((:session . "none")
                                         (:results . "output replace")
@@ -185,7 +185,10 @@ Otherwise the cursor is placed at the beginning of the heading."
                                                (:cache . "no")
                                                (:noweb . "yes")
                                                (:hlines . "no")
-                                               (:tangle . "no")))) ;; End org
+                                               (:tangle . "no")))
+
+  ;; Agenda and capture
+  (pew-org-set-directory (expand-file-name "orgfiles" pew-toplevel-dir))) ;; End org
 
 
 (use-package org-bullets
