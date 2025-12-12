@@ -77,7 +77,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
   (define-minor-mode pew-treesit-debug-mode
     "Turn on treesit inspect and explor mode for current buffer."
     :lighter nil
-    (when (not (local-variable-p 'treesit--indent-verbose))
+    (when (not (local-variable-if-set-p 'treesit--indent-verbose))
       (make-variable-buffer-local 'treesit--indent-verbose))
     (cond (pew-treesit-debug-mode
            (setq-local treesit--indent-verbose t)
