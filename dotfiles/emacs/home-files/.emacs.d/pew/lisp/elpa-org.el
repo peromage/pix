@@ -87,28 +87,24 @@
   (org-capture-templates (pewlib-load-data-file (expand-file-name "pew/org-templates/capture.eld" pew-toplevel-dir)))
 
   :preface
-  (define-minor-mode pew-org-show-marker-mode
+  (define-minor-mode pew-org-hide-marker-mode
     "Minor mode to toggle marker visibility."
     :lighter nil
-    (when (not (local-variable-if-set-p 'org-hide-emphasis-markers))
-      (make-variable-buffer-local 'org-hide-emphasis-markers)
-      (make-variable-buffer-local 'org-hide-leading-stars)
-      (make-variable-buffer-local 'org-hide-macro-markers)
-      (make-variable-buffer-local 'org-link-descriptive)
-      (make-variable-buffer-local 'org-pretty-entities))
-    (cond (pew-org-show-marker-mode
-           (setq-local org-hide-emphasis-markers t)
-           (setq-local org-hide-leading-stars t)
-           (setq-local org-hide-macro-markers t)
-           (setq-local org-link-descriptive t)
-           (setq-local org-pretty-entities t))
+    :global t
+    (cond (pew-org-hide-marker-mode
+           (setq-default org-hide-emphasis-markers t)
+           (setq-default org-hide-leading-stars t)
+           (setq-default org-hide-macro-markers t)
+           (setq-default org-link-descriptive t)
+           (setq-default org-pretty-entities t))
           (t
-           (setq-local org-hide-emphasis-markers nil)
-           (setq-local org-hide-leading-stars nil)
-           (setq-local org-hide-macro-markers nil)
-           (setq-local org-link-descriptive nil)
-           (setq-local org-pretty-entities nil)))
-    (org-mode-restart))
+           (setq-default org-hide-emphasis-markers nil)
+           (setq-default org-hide-leading-stars nil)
+           (setq-default org-hide-macro-markers nil)
+           (setq-default org-link-descriptive nil)
+           (setq-default org-pretty-entities nil)))
+    ;; (org-mode-restart)
+    (revert-buffer-quick))
 
   (defun pew-org-refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
