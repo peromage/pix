@@ -20,11 +20,11 @@
   (org-hide-block-startup nil)
   ;; Default marker visibility
   (org-ellipsis " ...")
-  (org-hide-emphasis-markers pew-org--marker-hidden)
-  (org-hide-leading-stars pew-org--marker-hidden)
-  (org-hide-macro-markers pew-org--marker-hidden)
-  (org-link-descriptive pew-org--marker-hidden)
-  (org-pretty-entities pew-org--marker-hidden)
+  (org-hide-emphasis-markers nil)
+  (org-hide-leading-stars nil)
+  (org-hide-macro-markers nil)
+  (org-link-descriptive nil)
+  (org-pretty-entities nil)
 
   ;; Image displaying
   (org-display-remote-inline-images 'skip)
@@ -87,8 +87,28 @@
   (org-capture-templates (pewlib-load-data-file (expand-file-name "pew/org-templates/capture.eld" pew-toplevel-dir)))
 
   :preface
-  (defvar pew-org--marker-hidden nil
-    "`org-mode' marker visibility.")
+  (define-minor-mode pew-org-show-marker-mode
+    "Minor mode to toggle marker visibility."
+    :lighter nil
+    (when (not (local-variable-if-set-p 'org-hide-emphasis-markers))
+      (make-variable-buffer-local 'org-hide-emphasis-markers)
+      (make-variable-buffer-local 'org-hide-leading-stars)
+      (make-variable-buffer-local 'org-hide-macro-markers)
+      (make-variable-buffer-local 'org-link-descriptive)
+      (make-variable-buffer-local 'org-pretty-entities))
+    (cond (pew-org-show-marker-mode
+           (setq-local org-hide-emphasis-markers t)
+           (setq-local org-hide-leading-stars t)
+           (setq-local org-hide-macro-markers t)
+           (setq-local org-link-descriptive t)
+           (setq-local org-pretty-entities t))
+          (t
+           (setq-local org-hide-emphasis-markers nil)
+           (setq-local org-hide-leading-stars nil)
+           (setq-local org-hide-macro-markers nil)
+           (setq-local org-link-descriptive nil)
+           (setq-local org-pretty-entities nil)))
+    (org-mode-restart))
 
   (defun pew-org-refresh-images ()
     "Redisplay inline images if they exist in the current buffer."
@@ -113,22 +133,6 @@ Duplicated pairs will be removed."
     (setq org-directory dir)
     (setq org-default-notes-file (expand-file-name "default.org" org-directory))
     (setq org-agenda-files (list (expand-file-name "agenda.org" org-directory))))
-
-  (defun pew-org-toggle-marker (&optional show no-restart)
-    "Pass SHOW with 1 or -1 to show or hide markers or anything else to toggle.
-Non-nil NO-RESTART to suppress `org-mode-restart'."
-    (interactive)
-    (setq pew-org--marker-hidden (pcase show
-                                   (1 nil)
-                                   (-1 t)
-                                   (_  (not pew-org--marker-hidden))))
-    ;; Those variables are global
-    (setq-default org-hide-emphasis-markers pew-org--marker-hidden
-                  org-hide-leading-stars pew-org--marker-hidden
-                  org-hide-macro-markers pew-org--marker-hidden
-                  org-link-descriptive pew-org--marker-hidden
-                  org-pretty-entities pew-org--marker-hidden)
-    (unless no-restart (org-mode-restart)))
 
   (defun pew-org-goto-heading (level &optional to-end)
     "Move cursor to the selected heading in the current `org-mode' buffer.
