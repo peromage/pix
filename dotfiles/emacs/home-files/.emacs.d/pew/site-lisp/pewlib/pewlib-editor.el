@@ -37,10 +37,6 @@
 
 (defun /p/prog-mode-setup ()
   "Common setup for programming modes."
-  (electric-indent-local-mode 1)
-  (electric-pair-local-mode 1)
-  (electric-quote-local-mode -1)
-  (electric-layout-local-mode -1)
   (outline-minor-mode 1)
   (whitespace-mode 1)
   (display-line-numbers-mode 1)
