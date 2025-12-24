@@ -252,8 +252,9 @@
   (ediff-split-window-function 'split-window-vertically)
 
 ;;;; electric
-  (electric-pair-preserve-balance t)
-  (electric-pair-delete-adjacent-pairs t)
+  (electric-pair-preserve-balance nil)
+  (electric-pair-delete-adjacent-pairs nil)
+  (electric-pair-open-newline-between-pairs nil)
   (electric-indent-mode nil)
   (electric-pair-mode nil)
   (electric-quote-mode nil)
