@@ -1,23 +1,15 @@
-{
+let
+  followNixpkgs = url: { inherit url; inputs.nixpkgs.follows = "nixpkgs"; };
+in {
   description = "PIX - Peromage's nIX configuration";
 
   inputs = {
-    /*
-       Common flakes
-    */
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    lanzaboote.url = "github:nix-community/lanzaboote/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+
+    nixos-hardware = { url = "github:nixos/nixos-hardware/master"; inputs.nixpkgs.follows = "nixpkgs"; };
+    lanzaboote = { url = "github:nix-community/lanzaboote/master"; inputs.nixpkgs.follows = "nixpkgs"; };
     home-manager = { url = "github:nix-community/home-manager/master"; inputs.nixpkgs.follows = "nixpkgs"; };
-
-    /*
-       Mac specialized
-    */
-    nix-darwin = { url = "github:LnL7/nix-darwin/master"; inputs.nixpkgs.follows = "nixpkgs"; };
-
-    /*
-       Some useful flakes
-    */
     # nix-colors = { url = "github:misterio77/nix-colors/main"; inputs.nixpkgs.follows = "nixpkgs"; };
     # nix-alien = { url = "github:thiagokokada/nix-alien/master"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
