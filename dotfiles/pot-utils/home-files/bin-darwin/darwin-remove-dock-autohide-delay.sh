@@ -12,10 +12,16 @@ while getopts "d" opt "$@"; do
 done
 
 if [[ $REVERT_TO_DEFAULT -gt 0 ]]; then
-    defaults delete com.apple.dock autohide-delay
-    defaults delete com.apple.dock autohide-time-modifier
+    options=(autohide-delay autohide-time-modifier)
+    for opt in "${options[@]}"; do
+        if defaults read com.apple.dock "$opt" 1>/dev/null 2>&1; then
+            defaults delete com.apple.dock "$opt"
+        fi
+    done
     killall Dock
+    echo "Reverted dock autohide delay to the default value"
 else
     defaults write com.apple.dock autohide-delay -float 0
     killall Dock
+    echo "Removed dock autohide delay"
 fi
