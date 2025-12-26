@@ -18,7 +18,7 @@ in {
     home.packages = [ pkgs.pixPkgs.pot-utils ];
 
     home.activation.fixMacOSApps = mkIfDarwin cfg.darwin.fixHomeManagerApps (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      run ${pkgs.pixPkgs.pot-utils}/bin/macos-fix-homemanager-apps.sh
+      run ${pkgs.pixPkgs.pot-utils}/bin/darwin-fix-homemanager-apps.sh
     '');
   };
 }
