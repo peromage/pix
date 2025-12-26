@@ -12,7 +12,7 @@
   };
 
   pixPkgs = final: prev: {
-    pixPkgs = pix.packages.${final.system};
+    pixPkgs = pix.packages.${final.stdenv.hostPlatform.system};
   };
 
   callPackageHelpers = final: prev: {
