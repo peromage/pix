@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-emacsclient -c -nw -a= "$@"
+# xterm-256color seems to show weird colors
+TERM=xterm-kitty emacsclient -c -nw -a= "$@"
