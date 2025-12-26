@@ -20,5 +20,12 @@ in {
     home.activation.fixMacOSApps = mkIfDarwin cfg.darwin.fixHomeManagerApps (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run ${pkgs.pixPkgs.pot-utils}/bin/darwin-fix-homemanager-apps.sh
     '');
+
+    assertions = [
+      {
+        assertion = !pkgs.stdenv.isDarwin -> lib.all (name: !cfg.darwin.${name}) (lib.attrNames cfg.darwin);
+        message = "pot-utils.darwin.* options can only be used on Darwin!";
+      }
+    ];
   };
 }
