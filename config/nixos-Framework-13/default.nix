@@ -10,6 +10,4 @@
     ../presets/user-fang
     ../presets/user-root
   ];
-
-  system.stateVersion = "24.05";
 }

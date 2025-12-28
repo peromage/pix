@@ -26,6 +26,4 @@
 
   ## Not using `nix.useDaemon' here as it removes daemon access from the user
   services.nix-daemon.enable = true;
-
-  system.stateVersion = 4;
 }

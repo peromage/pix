@@ -16,11 +16,11 @@ in {
 
   outputs = { self, nixpkgs, home-manager, nix-darwin, ... }:
     let
-      pix = self;
-
       /*
          Meta
       */
+      stateVersion = "25.11";
+      pix = self;
       license = nixpkgs.lib.licenses.gpl3Plus;
       maintainer = {
         name = "Fang Deng";
@@ -61,18 +61,38 @@ in {
         */
         makeNixOS = fn: final.makeConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
-          modules = [ self.outputs.nixosModules.nixos { nixpkgs.overlays = final.pkgsOverlays; } fn ];
+          modules = [
+            self.outputs.nixosModules.nixos
+            {
+              nixpkgs.overlays = final.pkgsOverlays;
+              system.stateVersion = stateVersion;
+            }
+            fn
+          ];
         });
 
         makeDarwin = fn: final.makeConfiguration nix-darwin.lib.darwinSystem (_: {
           specialArgs = { inherit pix; };
-          modules = [ fn ];
+          modules = [
+            {
+              # Different from NixOS stateVersion
+              # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
+              system.stateVersion = 4;
+            }
+            fn
+          ];
         });
 
         makeHome = system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
           pkgs = final.makePkgs system;
           extraSpecialArgs = { inherit pix; };
-          modules = [ self.outputs.homemanagerModules.default fn ];
+          modules = [
+            self.outputs.homemanagerModules.default
+            {
+              home.stateVersion = stateVersion;
+            }
+            fn
+          ];
         });
       });
 

@@ -24,8 +24,6 @@
     ./zellij
   ];
 
-  home.stateVersion = "24.05";
-
   /*
      Managed by Home Manager
   */
