@@ -1,13 +1,11 @@
-let
-  followNixpkgs = url: { inherit url; inputs.nixpkgs.follows = "nixpkgs"; };
-in {
+{
   description = "PIX - Peromage's nIX configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
+    nixos-hardware.url = "github:nixos/nixos-hardware/master";
 
-    nixos-hardware = { url = "github:nixos/nixos-hardware/master"; inputs.nixpkgs.follows = "nixpkgs"; };
     lanzaboote = { url = "github:nix-community/lanzaboote/master"; inputs.nixpkgs.follows = "nixpkgs"; };
     home-manager = { url = "github:nix-community/home-manager/master"; inputs.nixpkgs.follows = "nixpkgs"; };
     # nix-colors = { url = "github:misterio77/nix-colors/main"; inputs.nixpkgs.follows = "nixpkgs"; };
@@ -62,7 +60,7 @@ in {
         makeNixOS = fn: final.makeConfiguration nixpkgs.lib.nixosSystem (_: {
           specialArgs = { inherit pix; };
           modules = [
-            self.outputs.nixosModules.nixos
+            self.outputs.nixosModules.default
             {
               nixpkgs.overlays = final.pkgsOverlays;
               system.stateVersion = stateVersion;
