@@ -40,7 +40,8 @@
   (outline-minor-mode 1)
   (whitespace-mode 1)
   (display-line-numbers-mode 1)
-  (display-fill-column-indicator-mode 1))
+  (display-fill-column-indicator-mode 1)
+  (electric-indent-local-mode 1))
 
 (provide 'pewlib-editor)
 ;;; pewlib-editor.el ends here
