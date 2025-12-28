@@ -72,7 +72,7 @@ in {
         makeHome = system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
           pkgs = final.makePkgs system;
           extraSpecialArgs = { inherit pix; };
-          modules = [ self.outputs.nixosModules.dotfiles fn ];
+          modules = [ self.outputs.homemanagerModules.default fn ];
         });
       });
 
@@ -91,9 +91,11 @@ in {
          where these modules are written in self-contained way.
       */
       nixosModules = {
-        default = self.outputs.nixosModules.nixos;
-        nixos = import ./modules;
-        dotfiles = import ./dotfiles;
+        default = import ./modules;
+      };
+
+      homemanagerModules = {
+        default = import ./dotfiles;
       };
 
       /*
