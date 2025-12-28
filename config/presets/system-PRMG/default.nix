@@ -47,7 +47,7 @@ with lib; {
       emacs-all-the-icons-fonts
       liberation_ttf
       noto-fonts
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-lgc-plus
@@ -120,8 +120,6 @@ with lib; {
     tmux
     zstd
     tree
-    pinentry
-    gnupg
 
     ## Archive
     zip

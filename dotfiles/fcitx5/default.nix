@@ -20,7 +20,7 @@ in {
             rime-ice
           ];
         })
-        fcitx5-configtool
+        kdePackages.fcitx5-configtool
         fcitx5-gtk
       ];
     };

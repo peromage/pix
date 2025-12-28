@@ -4,11 +4,6 @@ let
   cfgOverall = config.pix.desktops;
   cfg = cfgOverall.env.gnome;
 
-  extensions = with pkgs.gnomeExtensions; [
-    tray-icons-reloaded
-    kimpanel
-  ];
-
 in {
   options.pix.desktops.env.gnome = {
     enable = lib.mkEnableOption "Gnome";
@@ -29,7 +24,11 @@ in {
         gnome-extension-manager
         dconf2nix
         gnome-terminal ## Provides more functionalities than default gnome-console
-      ]) ++ extensions;
+        pinentry-gnome3
+      ]) ++ (with pkgs.gnomeExtensions; [
+        tray-icons-reloaded
+        kimpanel
+      ]);
 
       security.pam.services.gdm.enableGnomeKeyring = true;
     }

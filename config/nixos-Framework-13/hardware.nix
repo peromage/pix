@@ -56,7 +56,6 @@
         "zsa-keyboard"
         "xbox-controller"
         "smart-card"
-        "adb"
       ];
     };
     audio.enable = true;

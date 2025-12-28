@@ -15,7 +15,6 @@ in {
         "zsa-keyboard"
         "xbox-controller"
         "smart-card"
-        "adb"
       ]);
       default = [];
       description = "A list of devices to support.";
@@ -52,12 +51,6 @@ in {
       services.pcscd.enable = true;
       environment.systemPackages = with pkgs; [
         yubikey-manager
-      ];
-    })
-
-    (mkDeviceConfig "adb" {
-      services.udev.packages = [
-        pkgs.android-udev-rules
       ];
     })
 
