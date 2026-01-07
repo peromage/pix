@@ -258,8 +258,21 @@
   (electric-layout-mode nil)
 
 ;;;; TRAMP
-  (tramp-default-method "scp")
-  (tramp-remote-path '(tramp-own-remote-path tramp-default-remote-path))
+  (tramp-default-method "ssh")
+  (tramp-use-connection-share t)
+  (tramp-remote-path
+   '(tramp-default-remote-path
+     "/bin" "/usr/bin" "/sbin" "/usr/sbin"
+     "/usr/local/bin" "/usr/local/sbin" "/local/bin"
+     "/local/freeware/bin" "/local/gnu/bin"
+     "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin"
+     "/opt/bin" "/opt/sbin" "/opt/local/bin"
+     "/opt/homebrew/bin" "/opt/homebrew/sbin"
+     tramp-own-remote-path))
+  (tramp-ssh-controlmaster-options
+   (format
+    "-o ControlMaster=auto -o ControlPath=%s -o ControlPersist=yes"
+    (locate-user-emacs-file "tramp-ssh-control.%%r@%%h:%%p")))
 
 ;;;; Winner mode
   (winner-mode t)
