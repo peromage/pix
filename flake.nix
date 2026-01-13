@@ -24,6 +24,13 @@
       # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
       darwinStateVersion = 6;
 
+      supportedSystems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
+
       pix = self;
       license = nixpkgs.lib.licenses.gpl3Plus;
       maintainer = {
@@ -37,17 +44,12 @@
          Lib with additional functions
       */
       lib = (import ./lib { inherit nixpkgs; }).extend (final: prev: {
+        inherit supportedSystems;
+
         pkgsOverlays = with self.outputs.overlays; [
           unrestrictedPkgs
           pixPkgs
           callPackageHelpers
-        ];
-
-        supportedSystems = [
-          "x86_64-linux"
-          "x86_64-darwin"
-          "aarch64-linux"
-          "aarch64-darwin"
         ];
 
         forEachSupportedSystems = nixpkgs.lib.genAttrs final.supportedSystems;
