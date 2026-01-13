@@ -59,4 +59,22 @@ in with self; {
        anyAttrs :: (String -> a -> Bool) -> Bool
   */
   anyAttrs = f: attrs: lib.any (name: f name attrs.${name}) (lib.attrNames attrs);
+
+  /*
+     Merge two package sets from flakes.
+
+     The package set should be like:
+
+     {
+       x86_64-linux = { ... };
+       aarch64-darwin = { ... };
+       ...
+     }
+
+     The second package set overwrites the same keys from the first one.
+
+     Type:
+       mergePackages :: AttrSet -> AttrSet -> AttrSet
+  */
+  mergePackages = pa: pb: builtins.mapAttrs (name: value: value // (pb.${name} or {})) pa;
 }
