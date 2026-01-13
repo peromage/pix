@@ -16,8 +16,12 @@ let
 
   pkgsPlatformSpecialized = {
     x86_64-darwin = {
-      bclm = ./x86_64-darwin/bclm.nix;
-      nix-darwin = ./x86_64-darwin/nix-darwin.nix;
+      bclm = ./darwin/bclm.nix;
+      nix-darwin = ./darwin/nix-darwin.nix;
+    };
+
+    aarch64-darwin = {
+      nix-darwin = ./darwin/nix-darwin.nix;
     };
   };
 
