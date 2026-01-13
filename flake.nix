@@ -17,7 +17,13 @@
       /*
          Meta
       */
+      # May not require change
+      # See: https://search.nixos.org/options?channel=unstable&show=system.stateVersion&query=stateVersion
       stateVersion = "25.11";
+      # Different from NixOS stateVersion
+      # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
+      darwinStateVersion = 6;
+
       pix = self;
       license = nixpkgs.lib.licenses.gpl3Plus;
       maintainer = {
@@ -73,9 +79,7 @@
           specialArgs = { inherit pix; };
           modules = [
             {
-              # Different from NixOS stateVersion
-              # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
-              system.stateVersion = 4;
+              system.stateVersion = darwinStateVersion;
             }
             fn
           ];
