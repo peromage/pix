@@ -35,5 +35,8 @@ mkdir -p "$TARGET"
 
 cd "$SOURCE"
 for app in *.app; do
-    /usr/bin/osacompile -o "$TARGET/$app" -e "do shell script \". /etc/profile && open '$SOURCE/$app'\""
+    # Rename the original app to avoid name conflict when typing
+    orig="_$app"
+    mv "$app" "$orig"
+    /usr/bin/osacompile -o "$TARGET/$app" -e "do shell script \". /etc/profile && open '$SOURCE/$orig'\""
 done
