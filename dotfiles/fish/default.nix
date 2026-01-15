@@ -8,6 +8,12 @@ in {
   options.pix.dotfiles.fish = {
     enable = lib.mkEnableOption "Pot Fish";
     package = lib.mkPackageOption pkgs "fish" {};
+
+    init = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      description = "Additional interactive shell init code.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -18,7 +24,7 @@ in {
       loginShellInit = "";
       interactiveShellInit = ''
         source ${src}/config.fish
-      '';
+      '' + cfg.init;
     };
 
     xdg.configFile = {
