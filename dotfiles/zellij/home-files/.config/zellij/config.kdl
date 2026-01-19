@@ -13,10 +13,11 @@ keybinds clear-defaults=true {
     }
 
     normal {
+        bind "`" { SwitchToMode "locked"; }
         bind "l" { SwitchToMode "session"; }
         bind "h" { SwitchToMode "scroll"; }
 
-        bind "`" { WriteChars "`"; SwitchToMode "locked"; }
+        bind "~" { WriteChars "`"; }
         bind "d" { Detach; }
         bind "e" { EditScrollback; SwitchToMode "locked"; }
 
