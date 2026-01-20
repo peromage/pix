@@ -34,18 +34,18 @@ keybinds clear-defaults=true {
         // bind "4" { NewPane "Stacked"; SwitchToMode "locked"; } // Not working on v0.43.1
         bind "Enter" { NewPane; SwitchToMode "locked"; }
         // Panes move around
-        bind "j" { SwitchFocus; }
-        bind "k" { SwitchFocus; }
-        bind "Left" { MoveFocus "Left"; }
-        bind "Right" { MoveFocus "Right"; }
-        bind "Down" { MoveFocus "Down"; }
-        bind "Up" { MoveFocus "Up"; }
-        bind "Alt j" { SwitchFocus; SwitchToMode "locked"; }
-        bind "Alt k" { SwitchFocus; SwitchToMode "locked"; }
-        bind "Alt Left" { MoveFocus "Left"; SwitchToMode "locked"; }
-        bind "Alt Right" { MoveFocus "Right"; SwitchToMode "locked"; }
-        bind "Alt Down" { MoveFocus "Down"; SwitchToMode "locked"; }
-        bind "Alt Up" { MoveFocus "Up"; SwitchToMode "locked"; }
+        bind "j" { SwitchFocus; SwitchToMode "locked"; }
+        bind "k" { SwitchFocus; SwitchToMode "locked"; }
+        bind "Left" { MoveFocus "Left"; SwitchToMode "locked"; }
+        bind "Right" { MoveFocus "Right"; SwitchToMode "locked"; }
+        bind "Down" { MoveFocus "Down"; SwitchToMode "locked"; }
+        bind "Up" { MoveFocus "Up"; SwitchToMode "locked"; }
+        bind "Alt j" { SwitchFocus; }
+        bind "Alt k" { SwitchFocus; }
+        bind "Alt Left" { MoveFocus "Left"; }
+        bind "Alt Right" { MoveFocus "Right"; }
+        bind "Alt Down" { MoveFocus "Down"; }
+        bind "Alt Up" { MoveFocus "Up"; }
         // Panes swap
         bind "]" { MovePane; }
         bind "[" { MovePaneBackwards; }
