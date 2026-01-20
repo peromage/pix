@@ -382,7 +382,7 @@ mirror_session true
 // - "disabled" (do not allow web sharing and do not permit sessions started in the terminal to opt-in to it)
 // Default: "off"
 //
-// web_sharing "on"
+web_sharing "on"
 
 // The ip address the web server should listen on when it starts
 // Default: "127.0.0.1"
