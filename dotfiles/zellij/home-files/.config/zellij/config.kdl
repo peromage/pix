@@ -40,6 +40,12 @@ keybinds clear-defaults=true {
         bind "Right" { MoveFocus "Right"; }
         bind "Down" { MoveFocus "Down"; }
         bind "Up" { MoveFocus "Up"; }
+        bind "Alt j" { SwitchFocus; SwitchToMode "locked"; }
+        bind "Alt k" { SwitchFocus; SwitchToMode "locked"; }
+        bind "Alt Left" { MoveFocus "Left"; SwitchToMode "locked"; }
+        bind "Alt Right" { MoveFocus "Right"; SwitchToMode "locked"; }
+        bind "Alt Down" { MoveFocus "Down"; SwitchToMode "locked"; }
+        bind "Alt Up" { MoveFocus "Up"; SwitchToMode "locked"; }
         // Panes swap
         bind "]" { MovePane; }
         bind "[" { MovePaneBackwards; }
@@ -60,11 +66,15 @@ keybinds clear-defaults=true {
         bind "T" { BreakPane; SwitchToMode "locked"; }
         bind "w" { CloseTab; SwitchToMode "locked"; }
         // Tabs swap
-        bind "," { MoveTab "Left"; }
-        bind "." { MoveTab "Right"; }
+        bind "," { MoveTab "Left"; SwitchToMode "locked"; }
+        bind "." { MoveTab "Right"; SwitchToMode "locked"; }
+        bind "Alt ," { MoveTab "Left"; }
+        bind "Alt ." { MoveTab "Right"; }
         // Tabs move around
-        bind "b" { GoToPreviousTab; }
-        bind "f" { GoToNextTab; }
+        bind "b" { GoToPreviousTab; SwitchToMode "locked"; }
+        bind "f" { GoToNextTab; SwitchToMode "locked"; }
+        bind "Alt b" { GoToPreviousTab; }
+        bind "Alt f" { GoToNextTab; }
     }
 
     search {
