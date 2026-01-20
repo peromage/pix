@@ -20,6 +20,7 @@
     kitty.enable = true;
     pwsh.enable = true;
     tmux.enable = true;
+    zellij.enable = true;
     vim.enable = true;
     wezterm.enable = true;
     gnome = {
