@@ -60,11 +60,11 @@ keybinds clear-defaults=true {
         bind "T" { BreakPane; SwitchToMode "locked"; }
         bind "w" { CloseTab; SwitchToMode "locked"; }
         // Tabs swap
-        bind "," { MoveTab "Left"; SwitchToMode "locked"; }
-        bind "." { MoveTab "Right"; SwitchToMode "locked"; }
+        bind "," { MoveTab "Left"; }
+        bind "." { MoveTab "Right"; }
         // Tabs move around
-        bind "b" { GoToPreviousTab; SwitchToMode "locked"; }
-        bind "f" { GoToNextTab; SwitchToMode "locked"; }
+        bind "b" { GoToPreviousTab; }
+        bind "f" { GoToNextTab; }
     }
 
     search {
