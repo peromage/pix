@@ -9,10 +9,10 @@ keybinds clear-defaults=true {
     }
 
     locked {
-        bind "`" { SwitchToMode "normal"; }
+        bind "`" { SwitchToMode "tmux"; }
     }
 
-    normal {
+    tmux {
         bind "`" { SwitchToMode "locked"; }
         bind "l" { SwitchToMode "session"; }
         bind "h" { SwitchToMode "scroll"; }
@@ -75,7 +75,7 @@ keybinds clear-defaults=true {
         bind "o" { SearchToggleOption "WholeWord"; }
     }
 
-    shared_among "normal" "scroll" "search" {
+    shared_among "normal" "tmux" "scroll" "search" {
         bind "/" "Ctrl s" { SwitchToMode "entersearch"; SearchInput 0; }
     }
 
