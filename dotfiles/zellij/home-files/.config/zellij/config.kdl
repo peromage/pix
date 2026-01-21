@@ -452,5 +452,9 @@ show_startup_tips false
 
 
 web_client {
-    font "monospace"
+    font "Iosevka Term"
+    cursor_blink false
+    cursor_style "block"
+    cursor_inactive_style "outline"
+    mac_option_is_meta true
 }
