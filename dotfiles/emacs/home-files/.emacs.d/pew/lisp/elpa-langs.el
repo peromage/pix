@@ -52,6 +52,7 @@
      (js-mode . js-ts-mode)
      (javascript-mode . js-ts-mode)
      (html-mode . html-ts-mode)
+     (mhtml-mode . html-ts-mode)
      (css-mode . css-ts-mode)))
 
   :preface
