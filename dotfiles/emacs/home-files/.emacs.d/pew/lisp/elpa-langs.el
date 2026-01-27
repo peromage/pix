@@ -48,7 +48,10 @@
      (yaml-mode . yaml-ts-mode)
      (toml-mode . toml-ts-mode)
      (json-mode . json-ts-mode)
-     (python-mode . python-ts-mode)))
+     (python-mode . python-ts-mode)
+     (js-mode . js-ts-mode)
+     (html-mode . html-ts-mode)
+     (css-mode . css-ts-mode)))
 
   :preface
   (defun pew-treesit-add-indent-rules (lang rules)
