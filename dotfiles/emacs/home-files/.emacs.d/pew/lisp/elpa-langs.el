@@ -50,6 +50,7 @@
      (json-mode . json-ts-mode)
      (python-mode . python-ts-mode)
      (js-mode . js-ts-mode)
+     (javascript-mode . js-ts-mode)
      (html-mode . html-ts-mode)
      (css-mode . css-ts-mode)))
 
