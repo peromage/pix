@@ -190,7 +190,8 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 ;; TS mode included already
 (use-package python-mode
   :defer t
-  :hook (python-ts-mode . pew-python-ts-mode-setup)
+  :hook ((python-ts-mode . pew-python-ts-mode-setup)
+         (python-ts-mode . indent-bars-mode))
 
   :preface
   (defun pew-python-ts-mode-setup ()
