@@ -21,6 +21,8 @@
 (use-package hyperbole :defer t)
 ;; Useful commands
 (use-package crux :defer t)
+;; Indentation line
+(use-package indent-bars :defer t)
 
 ;; } Oneliners
 
