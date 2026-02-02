@@ -14,6 +14,7 @@
                             (vertical-scroll-bars . nil)
                             (horizontal-scroll-bars . nil)
                             (alpha . (100 . 100))
+                            (ns-transparent-titlebar . t)
                             ,@default-frame-alist))
 
 ;; Manually configure packages
