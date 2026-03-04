@@ -26,7 +26,7 @@
     ("M-e" . copilot-accept-completion-by-line) ))
 
 (use-package claude-code-ide
-  :staight (:type git :host github :repo "manzaltu/claude-code-ide.el")
+  :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
   :bind
   ( :map pew-M-l-map
     ("d" . claude-code-ide-menu)))
