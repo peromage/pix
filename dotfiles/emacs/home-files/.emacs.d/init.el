@@ -37,7 +37,7 @@
 (require 'elpa-minibuffer-vertico)
 (require 'elpa-utils)
 (require 'elpa-org)
-(require 'elpa-copilot)
+(require 'elpa-ai)
 
 ;; Language supports
 (require 'elpa-langs)

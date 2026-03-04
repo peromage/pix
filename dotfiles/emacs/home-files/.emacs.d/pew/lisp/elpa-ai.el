@@ -26,5 +26,11 @@
     ("M-f" . copilot-accept-completion-by-word)
     ("M-e" . copilot-accept-completion-by-line) ))
 
+(use-package claude-code-ide
+  :staight (:type git :host github :repo "manzaltu/claude-code-ide.el")
+  :bind
+  ( :map pew-M-l-map
+    ("d" . claude-code-ide-menu)))
+
 (provide 'elpa-copilot)
 ;;; elpa-copilot.el ends here
