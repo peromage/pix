@@ -13,8 +13,8 @@
   :hook (eglot-managed-mode . pew-eglot-managed-mode-setup)
 
   :bind
-  ( :map pew-M-u-map
-    ("M-l" . eglot)
+  ( :map pew-M-l-map
+    ("l" . eglot)
     :map eglot-mode-map
     ("C-c l f" . eglot-format)
     ("C-c l F" . eglot-format-buffer)

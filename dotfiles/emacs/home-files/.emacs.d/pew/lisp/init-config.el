@@ -398,11 +398,11 @@
   (pew-M-c-map)
   (pew-M-u-map
    ("t"   . org-capture)
-   ("M-t" . org-agenda)
-   ("d"   . flymake-show-buffer-diagnostics)
-   ("D"   . flymake-show-project-diagnostics)
-   ("M-d" . flymake-mode))
-  (pew-M-l-map)
+   ("M-t" . org-agenda))
+  (pew-M-l-map
+   ("f"   . flymake-show-buffer-diagnostics)
+   ("F"   . flymake-show-project-diagnostics)
+   ("M-f" . flymake-mode))
   (pew-M-z-map)
   (pew-M-q-map)
   (pew-M-h-map)
