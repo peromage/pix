@@ -1,5 +1,7 @@
-;;; elpa-copilot.el --- GitHub Copilot -*- lexical-binding: t; -*-
+;;; elpa-ai.el --- AI related packages -*- lexical-binding: t; -*-
 ;;; Commentary:
+
+;;; Code:
 
 ;; Based on the README, Node.js v18+ must be installed as a prerequisite.
 ;; For the first time installation, remember to invoke `copilot-install-server'
@@ -10,9 +12,6 @@
 ;; - Cursor sometimes jumps to the end of Copilot prompt instead of the
 ;; beginning.  As a result, the `copilot-completion-map' will not take effective.
 ;; Workaround: Type the first a few letters to move the cursor to the right position.
-
-;;; Code:
-
 (use-package copilot
   :commands (copilot-mode global-copilot-mode)
 
@@ -32,5 +31,5 @@
   ( :map pew-M-l-map
     ("d" . claude-code-ide-menu)))
 
-(provide 'elpa-copilot)
-;;; elpa-copilot.el ends here
+(provide 'elpa-ai)
+;;; elpa-ai.el ends here
