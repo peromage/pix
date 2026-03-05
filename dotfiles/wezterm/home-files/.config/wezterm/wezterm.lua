@@ -348,7 +348,7 @@ local config = BasicTable:_new {
   -- Appearance
   initial_cols = 100,
   initial_rows = 20,
-  window_decorations = "TITLE | RESIZE",
+  window_decorations = "INTEGRATED_BUTTONS | RESIZE",
   enable_tab_bar = true,
   use_fancy_tab_bar = true,
   hide_tab_bar_if_only_one_tab = true,
