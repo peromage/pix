@@ -23,6 +23,7 @@ in pkgs.buildEnv {
     myEmacs
     pkgs.pixPkgs.pot-spelling
     ripgrep
-    libvterm-neovim # libvterm is not maintained, use this instead
+    libvterm-neovim # libvterm doesn't support aarch64-darwin
+    mermaid-cli
   ];
 }
