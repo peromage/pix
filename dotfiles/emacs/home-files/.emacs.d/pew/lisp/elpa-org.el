@@ -106,11 +106,17 @@
     ;; (org-mode-restart)
     (revert-buffer-quick))
 
-  (defun pew-org-refresh-images ()
-    "Redisplay inline images if they exist in the current buffer."
-    (interactive)
-    (if org-inline-image-overlays
-        (org-redisplay-inline-images)))
+  (defun pew-org-refresh-images (hide)
+    "Redisplay inline images in the current buffer.
+A prefix HIDE argument can be given to hide image display.
+"
+    (interactive "P")
+    (cond ((and (not hide) org-inline-image-overlays)
+           (org-redisplay-inline-images))
+          ((and (not hide) (not org-inline-image-overlays))
+           (org-toggle-inline-images))
+          ((and hide org-inline-image-overlays)
+           (org-toggle-inline-images))))
 
   (defun pew-org-add-src-lang-modes (alist)
     "Add modes defined in ALIST to `org-src-lang-modes'.
