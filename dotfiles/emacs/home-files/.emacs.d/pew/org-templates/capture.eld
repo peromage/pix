@@ -2,10 +2,9 @@
 
 (;; General todo task
  ("t" "New todo item in agenda" entry
-  (file+olp+datetree "agenda.org")
-  "* TODO %?\n"
-  :empty-lines 1
-  :tree-type month)
+  (file "agenda.org")
+  "* TODO %T %?"
+  :empty-lines 1)
 
  ;; Note taking
  ("n" "New note" plain
