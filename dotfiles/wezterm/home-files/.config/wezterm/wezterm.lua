@@ -45,10 +45,14 @@
 -- }
 --
 
+local io = require "io"
+local os = require "os"
 local wezterm = require "wezterm"
 local act = wezterm.action
 
---- Utility --------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--- Utility
+--------------------------------------------------------------------------------
 local util
 util = {
   platform = wezterm.target_triple == "x86_64-pc-windows-msvc" and "win" or "*nix",
@@ -78,7 +82,9 @@ util = {
   end,
 }
 
---- Meta tables ----------------------------------------------------------------
+--------------------------------------------------------------------------------
+--- Meta tables
+--------------------------------------------------------------------------------
 -- This meta table provides methods to manipulate tables in functional ways as
 -- close as possible.
 --
@@ -143,104 +149,158 @@ BasicTable = {
   end,
 }
 
---- Events ---------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--- Custom actions
+--------------------------------------------------------------------------------
+local v_split_with_current = act.SplitVertical { domain = "CurrentPaneDomain" }
+local h_split_with_current = act.SplitHorizontal { domain = "CurrentPaneDomain" }
+local exit_copy_mode = act.Multiple {
+  act.ScrollToBottom,
+  act.CopyMode "Close",
+}
+
 local function adjust_window_opacity(step)
   return function(window, pane)
     local overrides = window:get_config_overrides() or {}
-    overrides.window_background_opacity = util.step_percentage(overrides.window_background_opacity and overrides.window_background_opacity or 1.0, step)
+    overrides.window_background_opacity =
+      util.step_percentage(overrides.window_background_opacity
+                           and overrides.window_background_opacity
+                           or 1.0,
+                           step)
     window:set_config_overrides(overrides)
   end
 end
 
-wezterm.on("my-increase-window-opacity", adjust_window_opacity(0.1))
-wezterm.on("my-decrease-window-opacity", adjust_window_opacity(-0.1))
+local function pane_auto_split(window, pane)
+  local dimensions = pane:get_dimensions()
+  -- As mono fonts usually have a width/height ratio in 1:2, we double the
+  -- number of row to make the pane dimension close to visual.
+  local width = dimensions.cols
+  local height = dimensions.viewport_rows * 2
+  if height >= width then
+    window:perform_action(v_split_with_current, pane)
+  else
+    window:perform_action(h_split_with_current, pane)
+  end
+end
 
---- Keybindings ----------------------------------------------------------------
+local function edit_scrollback(window, pane)
+  -- From: https://wezterm.org/config/lua/pane/get_lines_as_text.html?h=get_line
+  local tmpfile = os.tmpname()
+  local fh = io.open(tmpfile, "w+")
+  fh:write(pane:get_lines_as_text(pane:get_dimensions().scrollback_rows))
+  fh:flush()
+  fh:close()
+
+  window:perform_action(
+    act.SpawnCommandInNewTab {
+      args = {"vim", tmpfile }
+    },
+    pane
+  )
+
+  wezterm.sleep_ms(1000)
+  os.remove(tmpfile)
+end
+
+local function break_pane(window, pane)
+  pane:move_to_new_tab()
+  pane:activate()
+end
+
+--------------------------------------------------------------------------------
+--- Keybindings
+--------------------------------------------------------------------------------
 --conf.leader = { mods = "CTRL", key = "`" },
 local keys = BasicTable:_new {
+  -- Major
   { mods = "CTRL",        key = "Tab",    action = act.ActivateTabRelative(1) },
   { mods = "CTRL|SHIFT",  key = "Tab",    action = act.ActivateTabRelative(-1) },
-  { mods = "CTRL|SHIFT",  key = "C",      action = act.CopyTo "Clipboard" },
-  { mods = "CTRL|SHIFT",  key = "V",      action = act.PasteFrom "Clipboard" },
-  { mods = "CTRL|SHIFT",  key = "S",      action = act.QuickSelect },
-  { mods = "CTRL|SHIFT",  key = "U",      action = act.CharSelect { copy_on_select = true, copy_to = "ClipboardAndPrimarySelection" }},
-  -- Most of the less used commands can be accessed from the palette or the launcher
-  { mods = "CTRL|SHIFT",  key = "P",      action = act.ActivateCommandPalette },
-  { mods = "CTRL|SHIFT",  key = "L",      action = act.ShowLauncher },
-  { mods = "CTRL|SHIFT",  key = "O",      action = act.ShowDebugOverlay },
+  { mods = "CTRL|SHIFT",  key = "c",      action = act.CopyTo "Clipboard" },
+  { mods = "CTRL|SHIFT",  key = "v",      action = act.PasteFrom "Clipboard" },
+  { mods = "CTRL|SHIFT",  key = "u",      action = act.CharSelect { copy_on_select = true, copy_to = "ClipboardAndPrimarySelection" }},
+  { mods = "CTRL|SHIFT",  key = "p",      action = act.ActivateCommandPalette },
+  { mods = "CTRL|SHIFT",  key = "g",      action = act.ShowLauncher },
+  { mods = "CTRL|SHIFT",  key = "d",      action = act.ShowDebugOverlay },
   { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
+
   -- Mode shift
-  { mods = "CTRL|SHIFT",  key = "Space",  action = act.ActivateKeyTable { name = "transient_mode_table", one_shot = false, timeout_milliseconds = 1000 }},
-  { mods = "CTRL|SHIFT",  key = "O",      action = act.ActivateCopyMode },
+  { mods = "CTRL|SHIFT",  key = "x",  action = act.ActivateCopyMode },
+  { mods = "CTRL|SHIFT",  key = "s",  action = act.Search "CurrentSelectionOrEmptyString" },
+  { mods = "CTRL|SHIFT",  key = "z",  action = act.QuickSelect },
+  { mods = "CTRL|SHIFT",  key = "e",  action = wezterm.action_callback(edit_scrollback) },
+
+  -- Tabs
+  { mods = "CTRL|SHIFT",  key = "t",  action = act.SpawnTab "CurrentPaneDomain" },
+  { mods = "CTRL|SHIFT",  key = "w",  action = act.CloseCurrentTab { confirm = true }},
+  { mods = "CTRL|SHIFT",  key = "l",  action = act.ActivateTabRelative(1) },
+  { mods = "CTRL|SHIFT",  key = "h",  action = act.ActivateTabRelative(-1) },
+  { mods = "CTRL|SHIFT",  key = ".",  action = act.MoveTabRelative(1) },
+  { mods = "CTRL|SHIFT",  key = ",",  action = act.MoveTabRelative(-1) },
+
+  -- Panes
+  { mods = "CTRL|SHIFT",      key = "j",      action = act.ActivatePaneDirection "Next" },
+  { mods = "CTRL|SHIFT",      key = "k",      action = act.ActivatePaneDirection "Prev" },
+  { mods = "CTRL|SHIFT",      key = "1",      action = act.TogglePaneZoomState },
+  { mods = "CTRL|SHIFT",      key = "2",      action = v_split_with_current },
+  { mods = "CTRL|SHIFT",      key = "3",      action = h_split_with_current },
+  { mods = "CTRL|SHIFT",      key = "Enter",  action = wezterm.action_callback(pane_auto_split) },
+  { mods = "CTRL|SHIFT",      key = "o",      action = act.PaneSelect { mode =  "Activate" }},
+  { mods = "CTRL|SHIFT",      key = "m",      action = act.RotatePanes "Clockwise" },
+  { mods = "CTRL|SHIFT|ALT",  key = "m",      action = act.PaneSelect { mode =  "SwapWithActive" }},
+  { mods = "CTRL|SHIFT|ALT",  key = "t",      action = wezterm.action_callback(break_pane) },
+  { mods = "CTRL|SHIFT",      key = "q",      action = act.CloseCurrentPane { confirm = true }},
+
+  -- Workspace
+  { mods = "CTRL|SHIFT",  key = "]",  action = act.SwitchWorkspaceRelative(1) },
+  { mods = "CTRL|SHIFT",  key = "[",  action = act.SwitchWorkspaceRelative(-1) },
+
+  -- Window adjustment
+  -- Windows
+  { mods = "CTRL|SHIFT",      key = "n",  action = act.SpawnWindow },
+  { mods = "CTRL|SHIFT|ALT",  key = "+",  action = wezterm.action_callback(adjust_window_opacity(0.1)) },
+  { mods = "CTRL|SHIFT|ALT",  key = "_",  action = wezterm.action_callback(adjust_window_opacity(-0.1)) },
+  { mods = "CTRL|SHIFT",      key = "0",  action = act.ResetFontSize },
+  { mods = "CTRL|SHIFT",      key = "+",  action = act.IncreaseFontSize },
+  { mods = "CTRL|SHIFT",      key = "_",  action = act.DecreaseFontSize },
+
+  -- Pane adjustment
+  { mods = "CTRL|SHIFT",  key = "LeftArrow",   action = act.AdjustPaneSize { "Left",  1}},
+  { mods = "CTRL|SHIFT",  key = "DownArrow",   action = act.AdjustPaneSize { "Down",  1}},
+  { mods = "CTRL|SHIFT",  key = "UpArrow",     action = act.AdjustPaneSize { "Up",    1}},
+  { mods = "CTRL|SHIFT",  key = "RightArrow",  action = act.AdjustPaneSize { "Right", 1}},
 }
 
 local key_tables = BasicTable:_new {
-  transient_mode_table = BasicTable:_new {
-    -- Exit keys
-    { mods = "NONE",  key = "Escape",  action = act.PopKeyTable },
-    { mods = "CTRL",  key = "g",       action = act.PopKeyTable },
-
-    -- Tabs
-    { mods = "NONE",  key = "t",       action = act.SpawnTab "CurrentPaneDomain" },
-    { mods = "NONE",  key = "Q",       action = act.CloseCurrentTab { confirm = true }},
-    { mods = "NONE",  key = "f",       action = act.ActivateTabRelative(1) },
-    { mods = "NONE",  key = "b",       action = act.ActivateTabRelative(-1) },
-    { mods = "NONE",  key = "m",       action = act.MoveTabRelative(1) },
-    { mods = "NONE",  key = "M",       action = act.MoveTabRelative(-1) },
-
-    -- Panes
-    { mods = "NONE",  key = "2",       action = act.SplitVertical { domain = "CurrentPaneDomain" }},
-    { mods = "NONE",  key = "3",       action = act.SplitHorizontal { domain = "CurrentPaneDomain" }},
-    { mods = "NONE",  key = "z",       action = act.TogglePaneZoomState },
-    { mods = "NONE",  key = "o",       action = act.PaneSelect { mode =  "Activate" }},
-    { mods = "NONE",  key = "q",       action = act.CloseCurrentPane { confirm = true }},
-
-    -- Windows
-    { mods = "NONE",  key = "N",       action = act.SpawnWindow },
-
-    -- Workspace
-    { mods = "NONE",  key = "n",       action = act.SwitchWorkspaceRelative(1) },
-    { mods = "NONE",  key = "p",       action = act.SwitchWorkspaceRelative(-1) },
-
-    -- Keys that are used repeatedly most of the time
-    { mods = "ALT",   key = "=",           action = act.EmitEvent "my-increase-window-opacity" },
-    { mods = "ALT",   key = "-",           action = act.EmitEvent "my-decrease-window-opacity" },
-    { mods = "CTRL",  key = "0",           action = act.ResetFontSize },
-    { mods = "CTRL",  key = "=",           action = act.IncreaseFontSize },
-    { mods = "CTRL",  key = "-",           action = act.DecreaseFontSize },
-    { mods = "CTRL",  key = "LeftArrow",   action = act.AdjustPaneSize { "Left",  1}},
-    { mods = "CTRL",  key = "DownArrow",   action = act.AdjustPaneSize { "Down",  1}},
-    { mods = "CTRL",  key = "UpArrow",     action = act.AdjustPaneSize { "Up",    1}},
-    { mods = "CTRL",  key = "RightArrow",  action = act.AdjustPaneSize { "Right", 1}},
-    { mods = "CTRL",  key = "o",           action = act.RotatePanes "Clockwise" },
-  },
-
-  copy_mode_table = BasicTable:_new {
+  copy_mode = BasicTable:_new {
     -- Exit
-    { mods = "NONE",   key = "q",       action = act.CopyMode "Close" },
-    { mods = "CTRL" ,  key = "g",       action = act.CopyMode "Close" },
+    { mods = "NONE",   key = "q",  action = exit_copy_mode },
+    { mods = "CTRL" ,  key = "g",  action = exit_copy_mode },
 
     -- Cursor movement
-    { mods = "NONE",   key = "h",       action = act.CopyMode "MoveLeft" },
-    { mods = "NONE",   key = "j",       action = act.CopyMode "MoveDown" },
-    { mods = "NONE",   key = "k",       action = act.CopyMode "MoveUp" },
-    { mods = "NONE",   key = "l",       action = act.CopyMode "MoveRight" },
-    { mods = "NONE",   key = "w",       action = act.CopyMode "MoveForwardWord" },
-    -- { mods = "NONE",   key = "e",       action = act.CopyMode "MoveForwardWordEnd" },
-    { mods = "NONE",   key = "b",       action = act.CopyMode "MoveBackwardWord" },
-    { mods = "NONE",   key = "0",       action = act.CopyMode "MoveToStartOfLine" },
-    { mods = "SHIFT",  key = "^",       action = act.CopyMode "MoveToStartOfLine" },
-    { mods = "SHIFT",  key = "_",       action = act.CopyMode "MoveToStartOfLineContent" },
-    { mods = "SHIFT",  key = "$",       action = act.CopyMode "MoveToEndOfLineContent" },
-    { mods = "NONE",   key = "g",       action = act.CopyMode "MoveToScrollbackTop" },
-    { mods = "SHIFT",  key = "G",       action = act.CopyMode "MoveToScrollbackBottom" },
+    { mods = "NONE",  key = "h",  action = act.CopyMode "MoveLeft" },
+    { mods = "NONE",  key = "j",  action = act.CopyMode "MoveDown" },
+    { mods = "NONE",  key = "k",  action = act.CopyMode "MoveUp" },
+    { mods = "NONE",  key = "l",  action = act.CopyMode "MoveRight" },
+    { mods = "NONE",  key = "w",  action = act.CopyMode "MoveForwardWord" },
+    { mods = "NONE",  key = "e",  action = act.CopyMode "MoveForwardWordEnd" },
+    { mods = "NONE",  key = "b",  action = act.CopyMode "MoveBackwardWord" },
+    { mods = "NONE",  key = "0",  action = act.CopyMode "MoveToStartOfLine" },
+    { mods = "NONE",  key = "_",  action = act.CopyMode "MoveToStartOfLineContent" },
+    { mods = "NONE",  key = "$",  action = act.CopyMode "MoveToEndOfLineContent" },
+    { mods = "NONE",  key = "g",  action = act.CopyMode "MoveToScrollbackTop" },
+    { mods = "NONE",  key = "G",  action = act.CopyMode "MoveToScrollbackBottom" },
+    { mods = "NONE",  key = "f",  action = act.CopyMode { JumpForward = { prev_char = false }}},
+    { mods = "NONE",  key = "F",  action = act.CopyMode { JumpBackward = { prev_char = false }}},
+    { mods = "NONE",  key = "t",  action = act.CopyMode { JumpForward = { prev_char = true }}},
+    { mods = "SHIFT", key = "T",  action = act.CopyMode { JumpBackward = { prev_char = true }}},
 
-    -- Scroll
-    { mods = "CTRL",   key = "b",       action = act.CopyMode "PageUp" },
-    { mods = "CTRL",   key = "f",       action = act.CopyMode "PageDown" },
-    { mods = "CTRL",   key = "y",       action = act.CopyMode "MoveToViewportTop" },
-    { mods = "CTRL",   key = "e",       action = act.CopyMode "MoveToViewportBottom" },
-    { mods = "CTRL",   key = "l",       action = act.CopyMode "MoveToViewportMiddle" },
+    -- Scrolling
+    { mods = "CTRL",  key = "b",  action = act.CopyMode "PageUp" },
+    { mods = "CTRL",  key = "f",  action = act.CopyMode "PageDown" },
+    { mods = "CTRL",  key = "y",  action = act.CopyMode "MoveToViewportTop" },
+    { mods = "CTRL",  key = "e",  action = act.CopyMode "MoveToViewportBottom" },
+    { mods = "CTRL",  key = "l",  action = act.CopyMode "MoveToViewportMiddle" },
 
     -- Selection
     { mods = "NONE" ,  key = "v",       action = act.CopyMode { SetSelectionMode = "Cell" }},
@@ -250,35 +310,32 @@ local key_tables = BasicTable:_new {
     { mods = "NONE" ,  key = "u",       action = act.CopyMode "ClearSelectionMode" },
     { mods = "NONE" ,  key = "Escape",  action = act.CopyMode "ClearSelectionMode" },
 
-    -- Search
-    { mods = "NONE",   key = "f",       action = act.CopyMode { JumpForward = { prev_char = false }}},
-    { mods = "SHIFT",  key = "F",       action = act.CopyMode { JumpBackward = { prev_char = false }}},
-    { mods = "NONE",   key = "t",       action = act.CopyMode { JumpForward = { prev_char = true }}},
-    { mods = "SHIFT",  key = "T",       action = act.CopyMode { JumpBackward = { prev_char = true }}},
-    -- Switch to the search mode directly since the "EditPattern" has conflicts
-    -- with the CopyMode at this moment (Hope it will be fixed in the future)
-    { mods = "NONE",   key = "/",       action = act.Search "CurrentSelectionOrEmptyString" },
-    { mods = "SHIFT",  key = "#",       action = act.CopyMode "ClearPattern" },
-    { mods = "NONE",   key = "n",       action = act.CopyMode "NextMatch" },
-    { mods = "SHIFT",  key = "N",       action = act.CopyMode "PriorMatch" },
-    { mods = "NONE",   key = ",",       action = act.CopyMode "JumpReverse" },
-    { mods = "NONE",   key = ";",       action = act.CopyMode "JumpAgain" },
+    -- Searching
+    { mods = "NONE",   key = "/",  action = act.Search "CurrentSelectionOrEmptyString" },
+    { mods = "CTRL",   key = "n",  action = act.CopyMode "EditPattern" },
+    { mods = "SHIFT",  key = "#",  action = act.CopyMode "ClearPattern" },
+    { mods = "NONE",   key = "n",  action = act.CopyMode "NextMatch" },
+    { mods = "SHIFT",  key = "N",  action = act.CopyMode "PriorMatch" },
+    { mods = "NONE",   key = ",",  action = act.CopyMode "JumpReverse" },
+    { mods = "NONE",   key = ";",  action = act.CopyMode "JumpAgain" },
   },
 
-  search_mode_table = BasicTable:_new {
+  search_mode = BasicTable:_new {
     -- Switch back to the CopyMode when the search pattern is accepted or canceled
-    -- Avoid accidentally exiting the CopyMode
     { mods = "NONE",  key = "Enter",   action = act.ActivateCopyMode },
     { mods = "NONE",  key = "Escape",  action = act.ActivateCopyMode },
     { mods = "CTRL",  key = "g",       action = act.ActivateCopyMode },
     -- Emacs style
-    { mods = "CTRL",  key = "i",       action = act.CopyMode "CycleMatchType" },
-    { mods = "CTRL",  key = "s",       action = act.CopyMode "NextMatch" },
-    { mods = "CTRL",  key = "r",       action = act.CopyMode "PriorMatch" },
-    { mods = "CTRL",  key = "k",       action = act.CopyMode "ClearPattern" },
+    { mods = "CTRL",  key = "i",  action = act.CopyMode "CycleMatchType" },
+    { mods = "CTRL",  key = "s",  action = act.CopyMode "NextMatch" },
+    { mods = "CTRL",  key = "r",  action = act.CopyMode "PriorMatch" },
+    { mods = "CTRL",  key = "k",  action = act.CopyMode "ClearPattern" },
   },
 }
---- Launch menu ----------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+--- Launch menu
+--------------------------------------------------------------------------------
 local launch_menu = BasicTable:_new {
   {
     label = "Bash",
@@ -297,7 +354,9 @@ local launch_menu = BasicTable:_new {
   },
 }
 
---- Domains --------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--- Domains
+--------------------------------------------------------------------------------
 local ssh_domains = BasicTable:_new {}
 local unix_domains = BasicTable:_new {}
 
@@ -326,11 +385,13 @@ local wsl_domains = BasicTable:_new {
   },
 }
 
---- Config table ---------------------------------------------------------------
+--------------------------------------------------------------------------------
+--- Config table
+--------------------------------------------------------------------------------
 local config = BasicTable:_new {
   -- System
   check_for_updates = false,
-  automatically_reload_config = false,
+  automatically_reload_config = true,
   adjust_window_size_when_changing_font_size = false,
   audible_bell = "Disabled",
   -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually
@@ -351,8 +412,8 @@ local config = BasicTable:_new {
   window_decorations = "INTEGRATED_BUTTONS | RESIZE",
   enable_tab_bar = true,
   use_fancy_tab_bar = true,
-  hide_tab_bar_if_only_one_tab = true,
-  tab_bar_at_bottom = true,
+  hide_tab_bar_if_only_one_tab = false,
+  tab_bar_at_bottom = false,
   tab_max_width = 16,
   enable_scroll_bar = true,
   min_scroll_bar_height = "1cell",
@@ -387,7 +448,9 @@ local config = BasicTable:_new {
   unix_domains = unix_domains,
 }
 
---- Apply the overlay ----------------------------------------------------------
+--------------------------------------------------------------------------------
+--- Overlay
+--------------------------------------------------------------------------------
 local ok, m = pcall(require, "wezterm.custom")
 if ok then
   -- The custom config has two ways to put its customizations.
