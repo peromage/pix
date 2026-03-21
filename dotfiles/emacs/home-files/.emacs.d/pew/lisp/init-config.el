@@ -301,6 +301,8 @@
    ("1"         . delete-other-windows)
    ("2"         . pewlib-split-window-below)
    ("3"         . pewlib-split-window-right)
+   ("RET"       . pewlib-split-window-auto)
+   ("<return>"  . pewlib-split-window-auto)
    ("9"         . window-toggle-side-windows)
    ("0"         . pewlib-close-window)
    ("j"         . pewlib-next-window)

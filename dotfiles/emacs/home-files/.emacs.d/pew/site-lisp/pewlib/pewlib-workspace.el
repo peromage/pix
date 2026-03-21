@@ -211,6 +211,16 @@ place."
   (split-window-right)
   (other-window 1))
 
+(defun /p/split-window-auto ()
+  "Automatically split window based on the ratio of width and height."
+  (interactive)
+  (let* ((is-gui (display-graphic-p))
+         (width (if is-gui (window-pixel-width) (window-total-width)))
+         (height (if is-gui (window-pixel-height) (* 2 (window-total-height)))))
+    (if (>= height width)
+        (/p/split-window-below)
+      (/p/split-window-right))))
+
 ;;; Tabs
 (defun /p/move-tab-next ()
   "Move current tab to the next."
