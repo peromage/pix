@@ -389,13 +389,16 @@ local wsl_domains = BasicTable:_new {
 --- Config table
 --------------------------------------------------------------------------------
 local config = BasicTable:_new {
+  -- Defaults
+  term = "xterm-256color",
+  default_prog = { "sh", "-c", "command -v fish >/dev/null && exec fish -i || exec bash -i" },
+
   -- System
   check_for_updates = false,
   automatically_reload_config = true,
   adjust_window_size_when_changing_font_size = false,
   audible_bell = "Disabled",
-  -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually
-  -- close the window
+  -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually close the window
   exit_behavior = "Close",
   window_close_confirmation = 'AlwaysPrompt',
   hide_mouse_cursor_when_typing = true,
