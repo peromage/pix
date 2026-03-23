@@ -372,7 +372,7 @@ local config = BasicTable:_new {
 
   -- System
   check_for_updates = false,
-  automatically_reload_config = true,
+  automatically_reload_config = false,
   adjust_window_size_when_changing_font_size = false,
   audible_bell = "Disabled",
   -- Sometimes exiting SSH doesn't return 0 and it's annoying to manually close the window
