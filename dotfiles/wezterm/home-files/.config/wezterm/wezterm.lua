@@ -357,33 +357,9 @@ local launch_menu = BasicTable:_new {
 --------------------------------------------------------------------------------
 --- Domains
 --------------------------------------------------------------------------------
-local ssh_domains = BasicTable:_new {}
 local unix_domains = BasicTable:_new {}
-
-local wsl_domains = BasicTable:_new {
-  {
-    name = "WSL::Ubuntu-20.04",
-    distribution = "Ubuntu-20.04",
-    default_cwd = "~",
-  },
-  {
-    name = "WSL::Ubuntu-20.04-tmux",
-    distribution = "Ubuntu-20.04",
-    default_cwd = "~",
-    default_prog = {"sh", "-c", "tmux a || tmux"},
-  },
-  {
-    name = "WSL::Ubuntu-22.04",
-    distribution = "Ubuntu-22.04",
-    default_cwd = "~",
-  },
-  {
-    name = "WSL::Ubuntu-22.04-tmux",
-    distribution = "Ubuntu-22.04",
-    default_cwd = "~",
-    default_prog = {"sh", "-c", "tmux a || tmux"},
-  },
-}
+local ssh_domains = BasicTable:_new(wezterm.default_ssh_domains())
+local wsl_domains = BasicTable:_new(wezterm.default_wsl_domains())
 
 --------------------------------------------------------------------------------
 --- Config table
