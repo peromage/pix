@@ -222,6 +222,7 @@ local keys = BasicTable:_new {
   { mods = "CTRL|SHIFT",  key = "p",      action = act.ActivateCommandPalette },
   { mods = "CTRL|SHIFT",  key = "g",      action = act.ShowLauncher },
   { mods = "CTRL|SHIFT",  key = "d",      action = act.ShowDebugOverlay },
+  { mods = "CTRL|SHIFT",  key = "F5",     action = act.ReloadConfiguration },
   { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
 
   -- Mode shift
