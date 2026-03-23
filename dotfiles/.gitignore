@@ -6,7 +6,7 @@
 ## - wezterm
 ## - powershell
 
-*.override
-*.override.*
-*.local
-*.local.*
+*-override
+*-override.*
+*-local
+*-local.*

@@ -11,7 +11,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ## Global variables
 $MYENV = @{}
 $MYENV.root_dir = Get-Item "$PSScriptRoot"
-$MYENV.override = (Join-Path $MYENV.root_dir "profile.override.ps1")
+$MYENV.override = (Join-Path $MYENV.root_dir "profile-override.ps1")
 
 ### Set it up
 ## Readline settings
