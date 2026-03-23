@@ -1,5 +1,12 @@
 ## No local configs
-.bashrc.custom
-profile.custom.ps1
-wezterm.custom.lua
-tmux.custom.conf
+##
+## Current configs
+## - bash
+## - tmux
+## - wezterm
+## - powershell
+
+*.override
+*.override.*
+*.local
+*.local.*

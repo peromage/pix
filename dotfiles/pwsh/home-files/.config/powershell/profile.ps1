@@ -11,7 +11,7 @@ if ($PSVersionTable.PSVersion.Major -lt 7) {
 ## Global variables
 $MYENV = @{}
 $MYENV.root_dir = Get-Item "$PSScriptRoot"
-$MYENV.custom = (Join-Path $MYENV.root_dir "profile.custom.ps1")
+$MYENV.override = (Join-Path $MYENV.root_dir "profile.override.ps1")
 
 ### Set it up
 ## Readline settings
@@ -34,4 +34,4 @@ Import-Module minimal-prompt
 Import-Module win-to-unix
 
 ## Random stuff
-if (Test-Path -Type Leaf $MYENV.custom) { . $MYENV.custom }
+if (Test-Path -Type Leaf $MYENV.override) { . $MYENV.override }

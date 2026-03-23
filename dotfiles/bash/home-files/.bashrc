@@ -11,7 +11,7 @@
 ## Global variables
 declare -A MYENV
 MYENV[root_dir]="$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")" ## where this script is (no follow)
-MYENV[custom]="${MYENV[root_dir]}/.bashrc.custom"
+MYENV[override]="${MYENV[root_dir]}/.bashrc.override"
 MYENV[os_windows]=$([[ "$OS" =~ [Ww]indows ]] && echo 1)
 
 ## Functions
@@ -106,4 +106,4 @@ HISTSIZE=10000
 PROMPT_COMMAND="history -a" # Update history immediately
 
 ## Random stuff
-[[ -e "${MYENV[custom]}" ]] && source "${MYENV[custom]}"
+[[ -e "${MYENV[override]}" ]] && source "${MYENV[override]}"
