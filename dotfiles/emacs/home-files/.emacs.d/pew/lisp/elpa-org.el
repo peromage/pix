@@ -106,7 +106,7 @@
     ;; (org-mode-restart)
     (revert-buffer-quick))
 
-  (defun pew-org-refresh-images (hide)
+  (defun pew-org-refresh-images (&optional hide)
     "Redisplay inline images in the current buffer.
 A prefix HIDE argument can be given to hide image display.
 "
