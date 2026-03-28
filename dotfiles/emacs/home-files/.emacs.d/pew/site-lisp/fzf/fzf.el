@@ -16,7 +16,7 @@ Dependencies:
                        (delete-file cache)
                        (let ((result (string-trim (buffer-string))))
                          (when result
-                           (find-file result))))))
+                           (find-file (expand-file-name result directory)))))))
          (vterm-buffer (save-excursion
                          (let ((default-directory directory))
                            (vterm "fzf-find-file")))))
