@@ -119,11 +119,15 @@
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib-terminal-mode-setup)
 
+  :bind
+  ( :map vterm-mode-map
+    ("ESC ESC" . vterm-send-escape) )
+
   :custom
   (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000)
   (vterm-keymap-exceptions '("C-z" "C-c" "C-x" "C-u" "C-g" "C-h" "C-l" "M-x"
-                             "M-o" "C-y" "M-y"))
+                             "M-o" "C-y" "M-y" "M-:"))
   (vterm-tramp-shells '(("ssh" "/bin/bash")
                         ("plink" "/bin/bash")))
 
