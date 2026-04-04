@@ -102,13 +102,15 @@
    :preview-key 'any)
 
   ;; Customized search
-  (defun pew-consult-rg (dir args)
-    "Like `consult-ripgrep' but with additional arguments.
-Search directory DIR will be selected by a prompt.
-ARGS should be a string of arguments passed to ripgrep."
-    (interactive "DSearch directory: \nsAdditional rg args (-t/--type, -g/--glob, -./--hidden, --no-ignore ...): ")
-    (let ((consult-ripgrep-args (concat consult-ripgrep-args args)))
-      (consult-ripgrep dir)))
+  (define-advice consult-ripgrep (:around (fn prefix) pew-consult-ripgrep-prefix-wrapper)
+    "Override `consult-ripgrep' with additional arguments when called with prefix."
+    (if prefix
+        (let ((default-directory (read-directory-name "Rg Search directory: "))
+              (consult-ripgrep-args
+               (concat consult-ripgrep-args
+                       (read-string "Rg extra args (-t/--type, -g/--glob, -./--hidden, --no-ignore ...): "))))
+          (funcall fn default-directory))
+      (funcall fn prefix)))
 
   ;; Completion in region replacement
   (defun pew-consult-completion-in-region (&rest args)
