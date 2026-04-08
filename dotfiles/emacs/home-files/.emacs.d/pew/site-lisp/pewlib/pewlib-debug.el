@@ -60,10 +60,12 @@ Existing content will be overwritten."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
-(defun /p/display-buffer-file-name ()
-  "Echo current buffer file name."
+(defun /p/display-and-copy-buffer-file-name ()
+  "Echo current buffer file name and copy to kill ring."
   (interactive)
-  (message "%s [%s]" (buffer-file-name) buffer-file-coding-system))
+  (let ((name (buffer-file-name)))
+    (message "%s [%s]" name buffer-file-coding-system)
+    (kill-new name)))
 
 (defun /p/display-mode-inheritance (mode)
   "Echo current major mode inheritance.
