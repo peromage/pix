@@ -315,7 +315,7 @@
    ("s"         . save-buffer)
    ("]"         . pewlib-next-editing-buffer)
    ("["         . pewlib-previous-editing-buffer)
-   ("i"         . pewlib-display-buffer-file-name)
+   ("i"         . pewlib-display-and-copy-buffer-file-name)
    ("B"         . display-buffer)
    ("g"         . revert-buffer-quick)
    ("o"         . other-window)
