@@ -5,7 +5,7 @@
 
 (require 'use-package)
 
-;; Use straight.el for package management
+;; From https://github.com/radian-software/straight.el#getting-started
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -22,9 +22,12 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq straight-use-package-by-default t)
+;; straight.el related
+(setq straight-enable-package-integration t)
+(setq straight-enable-use-package-integration t)
+(setq straight-use-package-by-default nil)
 
-;; Use use-package.el for configuration
+;; package.el related
 (setq use-package-always-ensure nil)
 (setq use-package-always-defer nil)
 (setq use-package-always-demand nil)
