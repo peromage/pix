@@ -110,15 +110,35 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 ;; } Treesit
 
-;; Oneliners {
+;; Others {
 
-(use-package vimrc-mode :defer t)
-(use-package yaml-mode :defer t)
-(use-package json-mode :defer t)
-(use-package fish-mode :defer t)
-(use-package csharp-mode :defer t)
-(use-package powershell :defer t)
-(use-package markdown-mode :defer t)
+(use-package vimrc-mode
+  :straight t
+  :defer t)
+
+(use-package yaml-mode
+  :straight t
+  :defer t)
+
+(use-package json-mode
+  :straight t
+  :defer t)
+
+(use-package fish-mode
+  :straight t
+  :defer t)
+
+(use-package csharp-mode
+  :straight t
+  :defer t)
+
+(use-package powershell
+  :straight t
+  :defer t)
+
+(use-package markdown-mode
+  :straight t
+  :defer t)
 
 ;; } Oneliners
 
@@ -189,6 +209,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 ;; TS mode included already
 (use-package python-mode
+  :straight t
   :defer t
   :hook ((python-ts-mode . pew-python-ts-mode-setup)
          (python-ts-mode . indent-bars-mode))
@@ -201,10 +222,13 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 ;; Nix {
 
-(use-package nix-mode :defer t)
+(use-package nix-mode
+  :straight t
+  :defer t)
 
 
 (use-package nix-ts-mode
+  :straight t
   :mode ("\\.nix\\'" . nix-ts-mode)
   :hook (nix-ts-mode . pew-nix-ts-mode-setup)
 
@@ -227,6 +251,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 ;; UML {
 
 (use-package plantuml-mode
+  :straight t
   :mode
   (("\\.puml\\'" . plantuml-mode)
    ("\\.plantuml\\'" . plantuml-mode))
@@ -247,6 +272,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 
 (use-package graphviz-dot-mode
+  :straight t
   :mode
   (("\\.dot\\'" . graphviz-dot-mode)
    ("\\.gv\\'" . graphviz-dot-mode))
@@ -265,6 +291,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 
 (use-package mermaid-mode
+  :straight t
   :mode ("\\.mmd\\'" . mermaid-mode)
   :custom
   (mermaid-mmdc-location (expand-file-name ".cache/mermaid/node_modules/.bin/mmdc" user-emacs-directory))
@@ -282,6 +309,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 ;; Mermaid `org-mode' support
 (use-package ob-mermaid
+  :straight t
   :defer t
 
   :init
@@ -296,6 +324,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 ;; Misc {
 
 (use-package cmake-mode
+  :straight t
   :defer t
 
   :custom
@@ -303,6 +332,7 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
 
 
 (use-package lua-mode
+  :straight t
   :defer t
 
   :custom

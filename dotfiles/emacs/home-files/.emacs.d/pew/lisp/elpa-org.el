@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package org
+  :straight t
   :commands org-mode
   :hook (org-babel-after-execute . pew-org-refresh-images)
 
@@ -198,6 +199,7 @@ Otherwise the cursor is placed at the beginning of the heading."
 
 
 (use-package org-bullets
+  :straight t
   :hook (org-mode . pew-org-bullets-setup)
 
   :preface
@@ -207,19 +209,35 @@ Otherwise the cursor is placed at the beginning of the heading."
 
 ;; Org contrib {
 
-(use-package org-contrib :after org)
+(use-package org-contrib
+  :straight t
+  :after org)
+
 ;; Included in org-contrib
-(use-package ox-extra :straight nil :after org)
-(use-package org-tempo :straight nil :after org)
+(use-package ox-extra
+  :straight nil
+  :after org)
+
+(use-package org-tempo
+  :straight nil
+  :after org)
 
 ;; } Org contrib
 
 ;; Org to Markdown for Hugo
-(use-package ox-hugo :after org)
+(use-package ox-hugo
+  :straight t
+  :after org)
+
 ;; Export backend for GitHub flavored Markdown
-(use-package ox-gfm :after org)
+(use-package ox-gfm
+  :straight t
+  :after org)
+
 ;; My own backends
-(use-package ox-awesomecv :straight nil :after org)
+(use-package ox-awesomecv
+  :straight nil
+  :after org)
 
 (provide 'elpa-org)
 ;;; elpa-org.el ends here

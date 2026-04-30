@@ -5,22 +5,52 @@
 ;;; Lazy loading for these packages
 
 ;; Colors schemes
-(use-package doom-themes :defer t)
-(use-package spacemacs-theme :defer t)
-(use-package dracula-theme :defer t)
-(use-package moe-theme :defer t)
-(use-package catppuccin-theme :defer t)
-(use-package monokai-theme :defer t)
+(use-package doom-themes
+  :straight t
+  :defer t)
+
+(use-package spacemacs-theme
+  :straight t
+  :defer t)
+
+(use-package dracula-theme
+  :straight t
+  :defer t)
+
+(use-package moe-theme
+  :straight t
+  :defer t)
+
+(use-package catppuccin-theme
+  :straight t
+  :defer t)
+
+(use-package monokai-theme
+  :straight t
+  :defer t)
+
 ;; From https://protesilaos.com/
-(use-package modus-themes :defer t)
-(use-package ef-themes :defer t)
+(use-package modus-themes
+  :straight t
+  :defer t)
+
+(use-package ef-themes
+  :straight t
+  :defer t)
+
 ;; Fonts and icons
-(use-package all-the-icons :defer t)
-(use-package nerd-icons :defer t)
+(use-package all-the-icons
+  :straight t
+  :defer t)
+
+(use-package nerd-icons
+  :straight t
+  :defer t)
 
 ;;; Modelines
 
 (use-package doom-modeline
+  :straight t
   :disabled
   :demand t
 
@@ -44,6 +74,7 @@
 ;;; Misc
 
 (use-package spacious-padding
+  :straight t
   :demand t
 
   :custom
@@ -61,14 +92,17 @@
 
 
 (use-package nerd-icons-completion
+  :straight t
   :hook (marginalia-mode . nerd-icons-completion-marginalia-setup))
 
 
 (use-package nerd-icons-dired
+  :straight t
   :hook (dired-mode . nerd-icons-dired-mode))
 
 
 (use-package nerd-icons-corfu
+  :straight t
   :after corfu
 
   :config
@@ -76,6 +110,7 @@
 
 
 (use-package kind-icon
+  :straight t
   :disabled
   :after corfu
 

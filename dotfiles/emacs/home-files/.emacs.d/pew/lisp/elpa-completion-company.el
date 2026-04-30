@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package company
+  :straight t
   :demand t
 
   :bind

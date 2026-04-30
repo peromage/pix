@@ -5,24 +5,53 @@
 ;; Oneliners {
 
 ;; Search
-(use-package rg :defer t)
+(use-package rg
+  :straight t
+  :defer t)
+
 ;; Focused view
-(use-package olivetti :defer t)
+(use-package olivetti
+  :straight t
+  :defer t)
+
 ;; Cats!!!
-(use-package nyan-mode :defer t)
-(use-package zone-nyan :defer t)
+(use-package nyan-mode
+  :straight t
+  :defer t)
+
+(use-package zone-nyan
+  :straight t
+  :defer t)
+
 ;; Colorful parenthesises
-(use-package rainbow-delimiters :defer t)
+(use-package rainbow-delimiters
+  :straight t
+  :defer t)
+
 ;; Colorize color code
-(use-package rainbow-mode :defer t)
+(use-package rainbow-mode
+  :straight t
+  :defer t)
+
 ;; Highlight current line
-(use-package beacon :defer t)
+(use-package beacon
+  :straight t
+  :defer t)
+
 ;; Hyperbole
-(use-package hyperbole :defer t)
+(use-package hyperbole
+  :straight t
+  :defer t)
+
 ;; Useful commands
-(use-package crux :defer t)
+(use-package crux
+  :straight t
+  :defer t)
+
 ;; Indentation line
-(use-package indent-bars :defer t)
+(use-package indent-bars
+  :straight t
+  :defer t)
 
 ;; } Oneliners
 
@@ -30,10 +59,12 @@
 
 ;; Plan B.  In case `flymake' doesn't have checkers for certain languages
 (use-package flycheck
+  :straight t
   :commands (global-flycheck-mode flycheck-mode))
 
 
 (use-package yasnippet
+  :straight t
   :custom
   (yas-indent-line 'fixed)
 
@@ -46,12 +77,14 @@
 
 
 (use-package separedit
+  :straight t
   :bind
   ( :map pew-M-u-map
     ("'" . separedit-dwim)) )
 
 
 (use-package paredit
+  :straight t
   :hook
   ((lisp-interaction-mode . paredit-mode)
    (emacs-lisp-mode . paredit-mode)
@@ -59,6 +92,7 @@
 
 
 (use-package avy
+  :straight t
   :bind
   ( :map pew-M-u-map
     ("f"   . avy-goto-char)
@@ -66,6 +100,7 @@
 
 
 (use-package ace-window
+  :straight t
   :bind
   ( :map pew-M-u-map
     ("w" . ace-window)
@@ -76,6 +111,7 @@
 ;; Git {
 
 (use-package magit
+  :straight t
   :commands magit-status
 
   :bind
@@ -89,6 +125,7 @@
 
 
 (use-package git-gutter
+  :straight t
   :custom
   (git-gutter:modified-sign "**")
   (git-gutter:added-sign "++")
@@ -115,6 +152,7 @@
 ;; Side panels {
 
 (use-package vterm
+  :straight t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib-terminal-mode-setup)
@@ -143,6 +181,7 @@ users to specify the shell to start with."
       (vterm :new))))
 
 (use-package treemacs
+  :straight t
   :commands treemacs
   :hook (treemacs-mode . pew-treemacs-mode-setup)
 
@@ -182,6 +221,7 @@ users to specify the shell to start with."
 ;; Typing helpers {
 
 (use-package keycast
+  :straight t
   :commands
   (keycast-log-mode
    keycast-tab-bar-mode
@@ -208,6 +248,7 @@ users to specify the shell to start with."
 
 
 (use-package which-key
+  :straight t
   :commands which-key-mode
 
   :custom

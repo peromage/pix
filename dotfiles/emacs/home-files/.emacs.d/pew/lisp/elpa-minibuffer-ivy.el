@@ -7,6 +7,7 @@
 ;;; Code:
 
 (use-package counsel
+  :straight t
   :demand t
   :bind ( ("C-s" . swiper)
           ("C-x d" . counsel-dired)
@@ -34,6 +35,7 @@
   (mapcar (lambda (name) (add-to-list 'ivy-ignore-buffers name t)) (pewlib-map-buffer-regex pewlib-hidden-buffer-keywords)))
 
 (use-package ivy-rich
+  :straight t
   :after ivy
   :custom
   (ivy-rich-path-style 'abbrev)
@@ -58,6 +60,7 @@
                            (ivy-rich-minibuffer-width 0.3))) :align left)))))
 
 (use-package ivy-prescient
+  :straight t
   :after ivy
   :custom
   (ivy-prescient-enable-filtering nil)
@@ -68,6 +71,7 @@
   (ivy-prescient-mode 1))
 
 (use-package counsel-projectile
+  :straight t
   :after (:all ivy projectile)
   :custom
   (projectile-completion-system 'ivy)
@@ -75,6 +79,7 @@
   (counsel-projectile-mode 1))
 
 (use-package lsp-ivy
+  :straight t
   :after (:all ivy lsp)
   :commands lsp-ivy-workspace-symbol)
 

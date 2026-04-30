@@ -13,6 +13,7 @@
 ;; beginning.  As a result, the `copilot-completion-map' will not take effective.
 ;; Workaround: Type the first a few letters to move the cursor to the right position.
 (use-package copilot
+  :straight t
   :commands (copilot-mode global-copilot-mode)
 
   :bind

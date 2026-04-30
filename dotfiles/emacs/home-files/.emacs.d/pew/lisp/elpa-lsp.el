@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package lsp-mode
+  :straight t
   :commands (lsp lsp-deferred)
 
   :custom
@@ -70,6 +71,7 @@ MODES is a list of major mode symbols."
 
 
 (use-package lsp-ui
+  :straight t
   :commands lsp-ui-mode
   :hook (lsp-mode . pew-lsp-ui-setup)
 
@@ -119,6 +121,7 @@ MODES is a list of major mode symbols."
 
 
 (use-package dap-mode
+  :straight t
   :defer t
 
   :custom
@@ -127,10 +130,12 @@ MODES is a list of major mode symbols."
 ;;; Language supports
 
 (use-package lsp-java
+  :straight t
   :defer t)
 
 
 (use-package lsp-pyright
+  :straight t
   :hook (python-mode . pew-python-mode-lsp-mode-setup)
 
   :custom

@@ -16,6 +16,7 @@
 ;;; Code:
 
 (use-package evil
+  :straight t
   :demand t
 
   :custom
@@ -286,6 +287,7 @@ See `evil-define-key*'."
 
 
 (use-package evil-surround
+  :straight t
   :after evil
 
   :config

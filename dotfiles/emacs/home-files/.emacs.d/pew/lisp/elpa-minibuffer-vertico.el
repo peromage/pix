@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package vertico
+  :straight t
   :demand t
 
   :bind
@@ -40,6 +41,7 @@
 
 
 (use-package consult
+  :straight t
   :demand t
 
   :bind
@@ -124,6 +126,7 @@
 
 
 (use-package marginalia
+  :straight t
   :demand t ;; :bind would cause lazy loading which is not we expect
 
   :bind
@@ -135,6 +138,7 @@
 
 
 (use-package orderless
+  :straight t
   :demand t
 
   :custom
@@ -154,6 +158,7 @@
 
 
 (use-package embark
+  :straight t
   :hook (embark-collect-mode . pew-embark-collect-mode-setup)
 
   :bind
@@ -174,8 +179,13 @@
     (setq-local show-trailing-whitespace nil)))
 
 
-(use-package embark-consult :after (:all consult embark))
-(use-package wgrep :after (:all consult embark))
+(use-package embark-consult
+  :straight t
+  :after (:all consult embark))
+
+(use-package wgrep
+  :straight t
+  :after (:all consult embark))
 
 (provide 'elpa-minibuffer-vertico)
 ;;; elpa-minibuffer-vertico.el ends here

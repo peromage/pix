@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package corfu
+  :straight t
   :demand t
 
   :bind
@@ -58,6 +59,7 @@
 
 
 (use-package corfu-terminal
+  :straight t
   :after corfu
 
   :custom
@@ -70,6 +72,7 @@
 
 
 (use-package cape
+  :straight t
   :after corfu
 
   :hook
