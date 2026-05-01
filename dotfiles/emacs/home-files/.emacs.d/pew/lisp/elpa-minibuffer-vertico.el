@@ -133,6 +133,21 @@
   ( :map vertico-map
     ("M-m" . marginalia-cycle) )
 
+  :preface
+  (defun pew-marginalia-set-default-annotators (category-alist)
+    "Manipulate default annotators in `marginalia-annotators' for categories.
+CATEGORY-ALIST is of form (CATEGORY . USE-MARGINALIA).
+If USE-MARGINALIA is nil, the corresponding category will use builtin annotator
+instead of annotator provided by marginalia."
+    (mapc (lambda (entry)
+            (let ((cat (assq (car entry) category-alist))
+                  (purge (lambda (lst) (remq 'none (remq 'builtin lst)))))
+              (cond ((and cat (cdr cat))
+                     (setcdr entry (append (funcall purge (cdr entry)) '(builtin none))))
+                    ((and cat)
+                     (setcdr entry (append '(builtin) (funcall purge (cdr entry)) '(none)))))))
+          marginalia-annotators))
+
   :config
   (marginalia-mode 1))
 
