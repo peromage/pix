@@ -1,4 +1,4 @@
-;;; pewlib-editor.el --- Editting functions -*- lexical-binding: t; -*-
+;;; pewlib-editing.el --- Editting functions -*- lexical-binding: t; -*-
 
 ;; Author: Fang Deng <fang@elfang.com>
 
@@ -43,8 +43,8 @@
   (display-fill-column-indicator-mode 1)
   (electric-indent-local-mode 1))
 
-(provide 'pewlib-editor)
-;;; pewlib-editor.el ends here
+(provide 'pewlib-editing)
+;;; pewlib-editing.el ends here
 
 ;; Local Variables:
 ;; read-symbol-shorthands: (("/p/" . "pewlib-"))

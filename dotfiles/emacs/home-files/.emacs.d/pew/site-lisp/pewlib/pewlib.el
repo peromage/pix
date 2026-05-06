@@ -7,7 +7,7 @@
 
 (require 'pewlib-trivial)
 (require 'pewlib-workspace)
-(require 'pewlib-editor)
+(require 'pewlib-editing)
 (require 'pewlib-extra)
 (require 'pewlib-debug)
 
