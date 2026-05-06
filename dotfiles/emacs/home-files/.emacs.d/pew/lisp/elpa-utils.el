@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'cl-seq)
+
 ;; Oneliners {
 
 ;; Search
@@ -121,8 +123,44 @@
 
   :custom
   ;; Don't use the default bindings under "C-x" prefix
-  (magit-define-global-key-bindings nil))
+  (magit-define-global-key-bindings nil)
 
+  :preface
+  (defvar pew-magit-simple-hook-config
+    '((magit-refs-sections-hook (magit-insert-remote-branches
+                                 magit-insert-tags)))
+    "A list of configurations for magit hooks.
+
+Each element is of the form (HOOK-NAME HOOK-MASKS SAVED-HOOKS).
+
+HOOK-MASKS is a list of hook function symbols that will be disabled when
+`pew-magit-simple-mode' is active.
+
+SAVED-HOOKS is nil by default. When `pew-magit-simple-mode' is enabled, the
+corresponding hook value will be saved at this place if it is nil, before
+applying masks. When `pew-magit-simple-mode' is disabled, the corresponding
+hook value is restored from this place, if it is non-nil.")
+
+  (define-minor-mode pew-magit-simple-mode
+    "A minor mode to turn off some magit hooks to improve performance."
+    :lighter "pew-magit-simple"
+    :global t
+    (cond (pew-magit-simple-mode
+           (mapc (lambda (entry)
+                   (let* ((place (car entry))
+                          (place-value (symbol-value place)))
+                     ;; Save original value if not saved yet
+                     (if (null (cddr entry))
+                         (setf (cddr entry) (list (copy-sequence place-value))))
+                     (setf (symbol-value place) (cl-reduce (lambda (acc mask) (remq mask acc))
+                                                           (cadr entry)
+                                                           :initial-value place-value))))
+                 pew-magit-simple-hook-config))
+          (t
+           (mapc (lambda (entry)
+                   (unless (null (cddr entry))
+                     (setf (symbol-value (car entry)) (car (cddr entry)))))
+                 pew-magit-simple-hook-config)))))
 
 (use-package git-gutter
   :straight t
