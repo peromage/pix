@@ -226,9 +226,9 @@ local keys = BasicTable:_new {
   { mods = "ALT",         key = "Enter",  action = act.ToggleFullScreen },
 
   -- Mode shift
-  { mods = "CTRL|SHIFT",  key = "x",  action = act.ActivateCopyMode },
+  { mods = "CTRL|SHIFT",  key = "z",  action = act.ActivateCopyMode },
   { mods = "CTRL|SHIFT",  key = "s",  action = act.Search "CurrentSelectionOrEmptyString" },
-  { mods = "CTRL|SHIFT",  key = "z",  action = act.QuickSelect },
+  { mods = "CTRL|SHIFT",  key = "x",  action = act.QuickSelect },
   { mods = "CTRL|SHIFT",  key = "e",  action = wezterm.action_callback(edit_scrollback) },
 
   -- Tabs
