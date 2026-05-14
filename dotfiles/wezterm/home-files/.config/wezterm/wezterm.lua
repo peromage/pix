@@ -405,7 +405,7 @@ local config = BasicTable:_new {
   },
 
   -- Visual
-  font = wezterm.font("Iosevka", { weight = "Regular", italic = false }),
+  font = wezterm.font("Iosevka Term", { weight = "Medium", italic = false }),
   font_size = 12,
   -- Overwrites `color_scheme'
   colors = util.custom_color_scheme("Galaxy"),
