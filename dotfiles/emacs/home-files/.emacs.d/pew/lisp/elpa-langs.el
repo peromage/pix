@@ -140,6 +140,10 @@ NOTE: For 'query' matchers, the sexp 'query' won't work unless they are compiled
   :straight t
   :defer t)
 
+(use-package bazel
+  :straight t
+  :defer t)
+
 ;; } Oneliners
 
 ;; C/C++ {
