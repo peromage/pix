@@ -1,0 +1,14 @@
+diff --git a/planck_ez_glow_prmg01-comfy/planck_ez_glow_prmg01-comfy_source/config.h b/planck_ez_glow_prmg01-comfy/planck_ez_glow_prmg01-comfy_source/config.h
+index 4c001ae..f84be85 100644
+--- a/planck_ez_glow_prmg01-comfy/planck_ez_glow_prmg01-comfy_source/config.h
++++ b/planck_ez_glow_prmg01-comfy/planck_ez_glow_prmg01-comfy_source/config.h
+@@ -30,3 +30,9 @@
+ 
+ #define RGB_MATRIX_STARTUP_SPD 60
+ 
++/**
++ * Default is 500 mA.
++ * This is to reduce the power consumption required from the keyboard in order to
++ * work with some portable devices such as phones and Steam Deck.
++ */
++#define USB_MAX_POWER_CONSUMPTION 100

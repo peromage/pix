@@ -1,0 +1,57 @@
+#+title: Peromage's QMK Keyboard Layouts
+#+author: Peromage
+
+This repo contains my customized layouts for [[https://github.com/qmk/qmk_firmware][QMK]]/[[https://github.com/zsa/qmk_firmware][ZSA forked QMK]] compatible keyboards.
+
+* Previews
+[[https://configure.zsa.io/planck-ez/layouts/BPqo0/latest/0][planck_ez_glow_prmg01-comfy]]
+
+* Quick start
+** Setup environment
+The [[https://docs.qmk.fm][QMK official doc]] is a good start point.
+
+To make it simpler, install QMK tools first through =pip=.
+
+#+begin_src sh
+pip install --user qmk
+#+end_src
+
+Then initialize the firmware repo.  Located at =$HOME/qmk_firmware= by default.
+#+begin_src sh
+# If using ZSA keyboards with their firmware
+# e.g. Planck EZ
+qmk setup zsa/qmk_firmware -b firmware22
+
+# If using standard QMK firmware
+qmk setup
+#+end_src
+
+** Apply patches (optional)
+#+begin_src sh
+git apply patches/planck_ez_glow_reduced-power-consumption.patch
+#+end_src
+
+** Build firmware
+Here the [[./planck_ez_glow_prmg01-comfy][planck_ez_glow_prmg01-comfy]] is used as the example.
+
+#+begin_src sh
+# Copy the layout source code
+cp -r planck_ez_glow_prmg01-comfy/planck_ez_glow_prmg01-comfy_source $HOME/qmk_firmware/keyboards/planck/ez/glow/keymaps/prmg01-comfy
+
+# Compile
+qmk compile -kb planck/ez/glow -km prmg01-comfy
+#+end_src
+
+The firmware binary can be found at the root of the firmware repo, e.g. =$HOME/qmk_firmware/planck_ez_glow_prmg01-comfy.bin=.
+
+** Flash firmware
+For ZSA keyboards, use [[https://www.zsa.io/wally/][Wally]] (Linux/Windows/MacOS).
+
+For general QMK compatible keyboards, use [[https://github.com/qmk/qmk_toolbox][QMK Toolbox]] (Windows/MacOS).
+
+The more generic way is to flash through CLI (Linux/Windows/MacOS).
+#+begin_src sh
+qmk flash -kb planck/ez/glow -km prmg01-comfy
+#+end_src
+
+If the bootloader is not automatically detected, check out the [[https://docs.qmk.fm/#/flashing][QMK doc]].
