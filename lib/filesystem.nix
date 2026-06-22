@@ -1,11 +1,8 @@
-{ self, nixpkgs }:
+{ self, libnix }:
 
-let
-  lib = nixpkgs.lib;
-
-in with self; {
+with self; {
   /*
-     Simplified version of `nixpkgs.lib.callPackageWith'.
+     Simplified version of `libnix.callPackageWith'.
      This function doesn't add override attribute to the result.
 
      Type:
@@ -13,8 +10,8 @@ in with self; {
   */
   autoCall = autoArgs: fn: args:
     let
-      f = if lib.isFunction fn then fn else import fn;
-      passedArgs = lib.intersectAttrs (lib.functionArgs f) autoArgs // args;
+      f = if libnix.isFunction fn then fn else import fn;
+      passedArgs = libnix.intersectAttrs (libnix.functionArgs f) autoArgs // args;
     in
       f passedArgs;
 
@@ -25,10 +22,10 @@ in with self; {
      Type:
        listDir :: (String -> String -> Bool) -> Path -> [String]
   */
-  listDir = pred: dir: lib.attrNames
-    (lib.filterAttrs pred (lib.mapAttrs'
-      (name: type: lib.nameValuePair (lib.toString (dir + "/${name}")) type)
-      (lib.readDir dir)));
+  listDir = pred: dir: libnix.attrNames
+    (libnix.filterAttrs pred (libnix.mapAttrs'
+      (name: type: libnix.nameValuePair (libnix.toString (dir + "/${name}")) type)
+      (libnix.readDir dir)));
 
   /*
      Predications used for `listDir'.
@@ -40,10 +37,10 @@ in with self; {
   isDirectoryType = name: type: type == "directory";
   isRegularType = name: type: type == "regular";
   isSymbolicType = name: type: type == "symlink";
-  isDefaultNix = name: type: (lib.baseNameOf name) == "default.nix";
-  isNixFile = andPred isRegularType (name: type: lib.match ".+\\.nix$" name != null);
-  isDisabled = name: type: lib.match "^DISABLED_.*" name != null;
-  hasDefaultNix = andPred isDirectoryType (name: type: lib.hasAttr "default.nix"  (lib.readDir name));
+  isDefaultNix = name: type: (libnix.baseNameOf name) == "default.nix";
+  isNixFile = andPred isRegularType (name: type: libnix.match ".+\\.nix$" name != null);
+  isDisabled = name: type: libnix.match "^DISABLED_.*" name != null;
+  hasDefaultNix = andPred isDirectoryType (name: type: libnix.hasAttr "default.nix"  (libnix.readDir name));
 
   /*
      Return the basename without .nix extension
@@ -51,5 +48,5 @@ in with self; {
      Type:
        baseNameNoNixExt :: String -> String
   */
-  baseNameNoNixExt = name: lib.removeSuffix ".nix" (lib.baseNameOf name);
+  baseNameNoNixExt = name: libnix.removeSuffix ".nix" (libnix.baseNameOf name);
 }

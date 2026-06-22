@@ -1,10 +1,10 @@
-{ nixpkgs }:
+{ libnix }:
 
 let
-  lib = self: with nixpkgs.lib; foldl' (acc: x: acc // (callPackageWith { inherit nixpkgs self; } x {})) {} [
+  lib = self: libnix.foldl' (acc: x: acc // (libnix.callPackageWith { inherit libnix self; } x {})) {} [
     ./filesystem.nix
     ./modules.nix
     ./trivial.nix
   ];
 
-in nixpkgs.lib.makeExtensible lib
+in libnix.makeExtensible lib

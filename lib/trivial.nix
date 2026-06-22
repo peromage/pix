@@ -1,16 +1,13 @@
-{ self, nixpkgs }:
+{ self, libnix }:
 
-let
-  lib = nixpkgs.lib;
-
-in with self; {
+with self; {
   /*
      Join a list of strings/paths with separaters.
 
      Type:
        join :: String -> [Any] -> String
   */
-  join = sep: list: lib.foldl (a: i: a + "${sep}${i}") (lib.head list) (lib.tail list);
+  join = sep: list: libnix.foldl (a: i: a + "${sep}${i}") (libnix.head list) (libnix.tail list);
 
   /*
      Apply a list of arguments to the function.
@@ -18,7 +15,7 @@ in with self; {
      Type:
        apply :: (Any -> Any) -> [Any] -> Any
   */
-  apply = lib.foldl (f: x: f x);
+  apply = libnix.foldl (f: x: f x);
 
   /*
      Filter the return value of the original function.
@@ -62,13 +59,13 @@ in with self; {
   /*
      Fix point and override pattern.
      See: http://r6.ca/blog/20140422T142911Z.html
-     See also: `lib.makeExtensible'.  Better use `lib.makeExtensible' instead of
+     See also: `libnix.makeExtensible'.  Better use `libnix.makeExtensible' instead of
      this as this may encounter infinite recursion since it doesn't provide
      access to prev (only final).
   */
   fixOverridable = f: let x = f x; in x // {
     fixOverride = g: fixOverridable (self: f self // (
-      if lib.isFunction g
+      if libnix.isFunction g
       then g self
       else g
     ));

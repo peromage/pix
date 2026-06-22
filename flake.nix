@@ -43,7 +43,9 @@
       /*
          Lib with additional functions
       */
-      lib = (import ./lib { inherit nixpkgs; }).extend (final: prev: {
+      libnix = nixpkgs.lib;
+
+      lib = (import ./lib { inherit libnix; }).extend (final: prev: {
         inherit supportedSystems;
 
         pkgsOverlays = with self.outputs.overlays; [

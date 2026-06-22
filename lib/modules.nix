@@ -1,9 +1,6 @@
-{ self, nixpkgs }:
+{ self, libnix }:
 
-let
-  lib = nixpkgs.lib;
-
-in with self; {
+with self; {
   /*
      A thin wrapper for configuration.
      This function provides ability to override the original configuration by
@@ -18,8 +15,8 @@ in with self; {
      Type:
        makeConfiguration :: (a -> a) -> (a -> a)
   */
-  makeConfiguration = f: fp: f (lib.fix fp) // {
-    extend = overlay: makeConfiguration f (lib.extends overlay fp);
+  makeConfiguration = f: fp: f (libnix.fix fp) // {
+    extend = overlay: makeConfiguration f (libnix.extends overlay fp);
   };
 
   /*
@@ -35,10 +32,10 @@ in with self; {
        mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    lib.getAttrs firstLevelNames
-      (lib.mapAttrs
-        (n: v: lib.mkMerge v)
-        (lib.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    libnix.getAttrs firstLevelNames
+      (libnix.mapAttrs
+        (n: v: libnix.mkMerge v)
+        (libnix.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   /*
      Merge multiple module block conditonally.
@@ -49,7 +46,7 @@ in with self; {
      Type:
        mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: lib.mkMerge (map (x: lib.mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: libnix.mkMerge (map (x: libnix.mkIf x.cond x.as) listOfAttrs);
 
   /*
      Apply predicate `f' on each attribute and return true if at least one is true.
@@ -58,7 +55,7 @@ in with self; {
      Type:
        anyAttrs :: (String -> a -> Bool) -> Bool
   */
-  anyAttrs = f: attrs: lib.any (name: f name attrs.${name}) (lib.attrNames attrs);
+  anyAttrs = f: attrs: libnix.any (name: f name attrs.${name}) (libnix.attrNames attrs);
 
   /*
      Merge two package sets from flakes.
