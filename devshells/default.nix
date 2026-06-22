@@ -1,11 +1,11 @@
 { pix, pkgs }:
 
 let
-  pkgsCommon = {
+  common = {
     build-essential-env = ./common/build-essential-env.nix;
     python-env = ./common/python-env.nix;
   };
 
-  pkgsPlatformSpecialized = {};
+  platform = {};
 
-in pkgs.callPackageAttrs {} (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.stdenv.hostPlatform.system} or {}))
+in pkgs.callPackageAttrs {} (common // (platform.${pkgs.stdenv.hostPlatform.system} or {}))

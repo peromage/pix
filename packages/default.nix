@@ -1,7 +1,7 @@
 { pix, pkgs }:
 
 let
-  pkgsCommon = {
+  common = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;
     pot-utils = ../dotfiles/pot-utils/packages/pot-utils.nix;
@@ -14,7 +14,7 @@ let
     rime-default-config = ../dotfiles/fcitx5/packages/rime-default-config.nix;
   };
 
-  pkgsPlatformSpecialized = {
+  platform = {
     x86_64-darwin = {
       bclm = ./darwin/bclm.nix;
       nix-darwin = ./darwin/nix-darwin.nix;
@@ -25,4 +25,4 @@ let
     };
   };
 
-in pkgs.callPackageAttrs {} (pkgsCommon // (pkgsPlatformSpecialized.${pkgs.stdenv.hostPlatform.system} or {}))
+in pkgs.callPackageAttrs {} (common // (platform.${pkgs.stdenv.hostPlatform.system} or {}))
