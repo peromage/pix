@@ -24,15 +24,17 @@
       # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
       darwinStateVersion = 6;
 
-      supportedSystems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-
+      libnix = nixpkgs.lib;
       pix = self;
-      license = nixpkgs.lib.licenses.gpl3Plus;
+
+      supportedSystems = {
+        x86_64-linux = nixpkgs;
+        x86_64-darwin = nix-darwin.inputs.nixpkgs;
+        aarch64-linux = nixpkgs;
+        aarch64-darwin = nix-darwin.inputs.nixpkgs;
+      };
+
+      license = libnix.licenses.gpl3Plus;
       maintainer = {
         name = "Fang Deng";
         email = "fang@elfang.com";
@@ -43,8 +45,6 @@
       /*
          Lib with additional functions
       */
-      libnix = nixpkgs.lib;
-
       lib = (import ./lib { inherit libnix; }).extend (final: prev: {
         inherit supportedSystems;
 
@@ -54,9 +54,9 @@
           callPackageHelpers
         ];
 
-        forEachSupportedSystems = nixpkgs.lib.genAttrs final.supportedSystems;
+        forEachSupportedSystems = libnix.genAttrs (builtins.attrNames final.supportedSystems);
 
-        makePkgs = system: import nixpkgs {
+        makePkgs = system: import (builtins.getAttr system supportedSystems) {
           inherit system;
           overlays = final.pkgsOverlays;
         };
@@ -67,7 +67,7 @@
            that doesn't depend on the system architecture when it is imported.
            See: https://github.com/NixOS/nixpkgs/pull/177012
         */
-        makeNixOS = fn: final.makeConfiguration nixpkgs.lib.nixosSystem (_: {
+        makeNixOS = fn: final.makeConfiguration libnix.nixosSystem (_: {
           specialArgs = { inherit pix; };
           modules = [
             self.outputs.nixosModules.default
