@@ -6,16 +6,17 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     home-manager = { url = "github:nix-community/home-manager/release-26.05"; inputs.nixpkgs.follows = "nixpkgs"; };
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
-    lanzaboote = { url = "github:nix-community/lanzaboote/master"; inputs.nixpkgs.follows = "nixpkgs"; };
+    lanzaboote.url = "github:nix-community/lanzaboote/master";
     # nix-colors = { url = "github:misterio77/nix-colors/main"; inputs.nixpkgs.follows = "nixpkgs"; };
     # nix-alien = { url = "github:thiagokokada/nix-alien/master"; inputs.nixpkgs.follows = "nixpkgs"; };
 
     # Darwin
-    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
-    home-manager-darwin = { url = "github:nix-community/home-manager/release-26.05"; inputs.nixpkgs.follows = "nix-darwin/nixpkgs"; };
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
+    nix-darwin = { url = "github:nix-darwin/nix-darwin/nix-darwin-26.05"; inputs.nixpkgs.follows = "nixpkgs-darwin"; };
+    home-manager-darwin = { url = "github:nix-community/home-manager/release-26.05"; inputs.nixpkgs.follows = "nixpkgs-darwin"; };
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-darwin, home-manager-darwin, ... }:
+  outputs = { self, nixpkgs, home-manager, nixpkgs-darwin, nix-darwin, home-manager-darwin, ... }:
     let
       /*
          Meta
@@ -40,11 +41,11 @@
         aarch64-linux = { inherit nixpkgs home-manager; };
         # Darwin
         x86_64-darwin = {
-          nixpkgs = nix-darwin.inputs.nixpkgs;
+          nixpkgs = nixpkgs-darwin;
           home-manager = home-manager-darwin;
         };
         aarch64-darwin = {
-          nixpkgs = nix-darwin.inputs.nixpkgs;
+          nixpkgs = nixpkgs-darwin;
           home-manager = home-manager-darwin;
         };
       };
