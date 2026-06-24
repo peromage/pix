@@ -2,17 +2,20 @@
   description = "PIX - Peromage's nIX configuration";
 
   inputs = {
+    # Linux
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
     home-manager = { url = "github:nix-community/home-manager/release-26.05"; inputs.nixpkgs.follows = "nixpkgs"; };
-
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     lanzaboote = { url = "github:nix-community/lanzaboote/master"; inputs.nixpkgs.follows = "nixpkgs"; };
     # nix-colors = { url = "github:misterio77/nix-colors/main"; inputs.nixpkgs.follows = "nixpkgs"; };
     # nix-alien = { url = "github:thiagokokada/nix-alien/master"; inputs.nixpkgs.follows = "nixpkgs"; };
+
+    # Darwin
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
+    home-manager-darwin = { url = "github:nix-community/home-manager/release-26.05"; inputs.nixpkgs.follows = "nix-darwin/nixpkgs"; };
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-darwin, ... }:
+  outputs = { self, nixpkgs, home-manager, nix-darwin, home-manager-darwin, ... }:
     let
       /*
          Meta
@@ -27,11 +30,23 @@
       libnix = nixpkgs.lib;
       pix = self;
 
-      supportedSystems = {
-        x86_64-linux = nixpkgs;
-        x86_64-darwin = nix-darwin.inputs.nixpkgs;
-        aarch64-linux = nixpkgs;
-        aarch64-darwin = nix-darwin.inputs.nixpkgs;
+      # Mapping of platform and package sets to be used
+      # The value should be an attrset with the following names:
+      #   - nixpkgs
+      #   - home-manager
+      systemFlakes = {
+        # Linux
+        x86_64-linux = { inherit nixpkgs home-manager; };
+        aarch64-linux = { inherit nixpkgs home-manager; };
+        # Darwin
+        x86_64-darwin = {
+          nixpkgs = nix-darwin.inputs.nixpkgs;
+          home-manager = home-manager-darwin;
+        };
+        aarch64-darwin = {
+          nixpkgs = nix-darwin.inputs.nixpkgs;
+          home-manager = home-manager-darwin;
+        };
       };
 
       license = libnix.licenses.gpl3Plus;
@@ -46,7 +61,7 @@
          Lib with additional functions
       */
       lib = (import ./lib { inherit libnix; }).extend (final: prev: {
-        inherit supportedSystems;
+        supportedSystems = builtins.attrNames systemFlakes;
 
         pkgsOverlays = with self.outputs.overlays; [
           unrestrictedPkgs
@@ -54,9 +69,9 @@
           callPackageHelpers
         ];
 
-        forEachSupportedSystems = libnix.genAttrs (builtins.attrNames final.supportedSystems);
+        forEachSupportedSystems = libnix.genAttrs final.supportedSystems;
 
-        makePkgs = system: import (builtins.getAttr system supportedSystems) {
+        makePkgs = system: import systemFlakes.${system}.nixpkgs {
           inherit system;
           overlays = final.pkgsOverlays;
         };
@@ -89,7 +104,7 @@
           ];
         });
 
-        makeHome = system: fn: final.makeConfiguration home-manager.lib.homeManagerConfiguration (_: {
+        makeHome = system: fn: final.makeConfiguration systemFlakes.${system}.home-manager.lib.homeManagerConfiguration (_: {
           pkgs = final.makePkgs system;
           extraSpecialArgs = { inherit pix; };
           modules = [
