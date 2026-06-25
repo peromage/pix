@@ -1,0 +1,60 @@
+# Basics
+language = en
+command = sh -c 'command -v fish >/dev/null && exec fish -i || exec bash -i'
+quit-after-last-window-closed = true
+
+# Fonts
+font-family = "Iosevka Term"
+font-style = "Medium"
+# In pt, for example, DPI of the display defines 1pt = 2px
+font-size = 16
+
+# Operations
+cursor-style = block
+cursor-style-blink = false
+cursor-click-to-move = false
+mouse-hide-while-typing = true
+mouse-shift-capture = never
+mouse-reporting = true
+scroll-to-bottom = keystroke,no-output
+focus-follows-mouse = false
+right-click-action = context-menu
+
+# Scrolling
+# In bytes
+scrollback-limit = 10000000
+scrollbar = system
+
+# Working directory
+working-directory = home
+window-inherit-working-directory = false
+window-inherit-font-size = false
+tab-inherit-working-directory = false
+split-inherit-working-directory = true
+
+# Clipboard
+clipboard-read = ask
+clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+copy-on-select = true
+
+# Integration
+title-report = false
+shell-integration = detect
+shell-integration-features = sudo,title,path,ssh-env,ssh-terminfo,no-cursor
+
+# Quick terminal
+quick-terminal-position = bottom
+quick-terminal-size = 20%
+quick-terminal-screen = main
+
+# Mac specific
+macos-option-as-alt = true
+macos-auto-secure-input = true
+macos-secure-input-indication = true
+macos-applescript = true
+
+# Misc
+auto-update = off
