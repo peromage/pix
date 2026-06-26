@@ -193,6 +193,24 @@ from this variable to corresponding hooks, if saved any.")
 
 ;; Side panels {
 
+(use-package ghostel
+  :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
+  :straight t
+
+  :bind
+  ( :map pew-M-z-map
+    ("t" . ghostel)
+    :map ghostel-semi-char-mode-map
+    ("C-s" . consult-line)
+    :map project-prefix-map
+    ("t" . ghostel-project)
+    ("T" . ghostel-projeect-list-buffers))
+
+  :custom
+  (ghostel-shell-integration t)
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+  (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t))
+
 (use-package vterm
   :disabled
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
