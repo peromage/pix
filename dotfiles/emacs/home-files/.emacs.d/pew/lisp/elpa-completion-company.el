@@ -12,10 +12,10 @@
     :map company-active-map
     ("C-c"   . company-complete-selection)
     ("C-k"   . company-abort)
+    ("TAB"   . company-complete)
+    ("<tab>" . company-complete)
     ("RET"   . nil)
     ("<return>"   . nil)
-    ("TAB"   . nil)
-    ("<tab>"   . nil)
     :map pew-M-c-map
     ("i"     . company-complete)
     ("f"     . company-files)
