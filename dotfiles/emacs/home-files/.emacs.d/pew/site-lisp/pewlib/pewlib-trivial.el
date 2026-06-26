@@ -67,6 +67,18 @@ Especially useful when accessing a JSON object."
 NOTE: A and B must be lvalues."
   `(setq ,a (prog1 ,b (setq ,b ,a))))
 
+(defun /p/add-to-list (list-var place elements)
+  "Add a list of ELEMENTS to the LIST-VAR at PLACE.
+PLACE is a keyword either ':begin' or ':end'."
+  (declare (indent 2))
+  (pcase place
+    (:begin
+     (mapc (lambda (elem) (add-to-list list-var elem)) elements))
+    (:end
+     (mapc (lambda (elem) (add-to-list list-var elem t)) elements))
+    (_
+     (user-error "Invalid place %S" place))))
+
 (provide 'pewlib-trivial)
 ;;; pewlib-trivial.el ends here
 
