@@ -398,13 +398,13 @@
   (pew-M-u-map)
   ;; Language related packages, like LSP, agent, etc.
   (pew-M-l-map
-   ("f"   . flymake-show-buffer-diagnostics)
-   ("F"   . flymake-show-project-diagnostics)
-   ("M-f" . flymake-mode))
+   ("m"   . flymake-show-buffer-diagnostics)
+   ("M"   . flymake-show-project-diagnostics)
+   ("M-m" . flymake-mode))
   ;; Frequently accessed packages, like git, movement, etc.
   (pew-M-z-map
-   ("t"   . org-capture)
-   ("M-t" . org-agenda))
+   ("o" . org-capture)
+   ("O" . org-agenda))
   (pew-M-q-map)
   (pew-M-h-map)
 

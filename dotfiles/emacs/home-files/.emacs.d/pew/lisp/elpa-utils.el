@@ -98,7 +98,7 @@
   :bind
   ( :map pew-M-z-map
     ("f"   . avy-goto-char)
-    ("M-f" . avy-goto-line)) )
+    ("F" . avy-goto-line)) )
 
 
 (use-package ace-window
@@ -118,8 +118,8 @@
 
   :bind
   ( :map pew-M-z-map
-    ("g"   . magit-status)
-    ("M-g" . magit-file-dispatch) )
+    ("g" . magit-status)
+    ("G" . magit-file-dispatch) )
 
   :custom
   ;; Don't use the default bindings under "C-x" prefix
