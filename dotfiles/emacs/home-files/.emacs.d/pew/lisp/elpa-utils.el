@@ -216,8 +216,9 @@ from this variable to corresponding hooks, if saved any.")
     (setq-local show-trailing-whitespace nil))
 
   :config
-  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
-  (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t))
+  (pewlib-add-to-list 'project-switch-commands :end
+    '((ghostel-project "Ghostel")
+      (ghostel-project-list-buffers "Ghostel buffers"))))
 
 (use-package vterm
   :disabled
