@@ -196,6 +196,7 @@ from this variable to corresponding hooks, if saved any.")
 (use-package ghostel
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :straight t
+  :hook (ghostel-mode . pew-ghostel-mode-setup)
 
   :bind
   ( :map pew-M-z-map
@@ -204,10 +205,17 @@ from this variable to corresponding hooks, if saved any.")
     ("C-s" . consult-line)
     :map project-prefix-map
     ("t" . ghostel-project)
-    ("T" . ghostel-projeect-list-buffers))
+    ("T" . ghostel-project-list-buffers))
 
   :custom
   (ghostel-shell-integration t)
+  (ghostel-shell '("sh" "-c" "command -v fish >/dev/null && exec fish -i || exec bash -i"))
+
+  :preface
+  (defun pew-ghostel-mode-setup ()
+    (setq-local show-trailing-whitespace nil))
+
+  :config
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
   (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t))
 
