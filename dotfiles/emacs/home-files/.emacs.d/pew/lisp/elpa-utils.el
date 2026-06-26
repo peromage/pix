@@ -194,6 +194,7 @@ from this variable to corresponding hooks, if saved any.")
 ;; Side panels {
 
 (use-package vterm
+  :disabled
   :straight t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
   :commands (vterm vterm-other-window)

@@ -50,8 +50,8 @@
 ;;; Modelines
 
 (use-package doom-modeline
-  :straight t
   :disabled
+  :straight t
   :demand t
 
   :custom
