@@ -81,7 +81,7 @@
 (use-package separedit
   :straight t
   :bind
-  ( :map pew-M-u-map
+  ( :map pew-M-z-map
     ("'" . separedit-dwim)) )
 
 
@@ -96,7 +96,7 @@
 (use-package avy
   :straight t
   :bind
-  ( :map pew-M-u-map
+  ( :map pew-M-z-map
     ("f"   . avy-goto-char)
     ("M-f" . avy-goto-line)) )
 
@@ -104,7 +104,7 @@
 (use-package ace-window
   :straight t
   :bind
-  ( :map pew-M-u-map
+  ( :map pew-M-z-map
     ("w" . ace-window)
     ("W" . ace-swap-window)) )
 
@@ -117,7 +117,7 @@
   :commands magit-status
 
   :bind
-  ( :map pew-M-u-map
+  ( :map pew-M-z-map
     ("g"   . magit-status)
     ("M-g" . magit-file-dispatch) )
 
@@ -195,8 +195,8 @@ from this variable to corresponding hooks, if saved any.")
 
 (use-package vterm
   :disabled
-  :straight t
   :if (memq system-type '(gnu gnu/linux gnu/kfreebsd darwin))
+  :straight t
   :commands (vterm vterm-other-window)
   :hook (vterm-mode . pewlib-terminal-mode-setup)
 

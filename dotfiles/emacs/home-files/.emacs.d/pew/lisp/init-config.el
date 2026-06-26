@@ -393,15 +393,18 @@
   :map
   (pew-M-o-map)
   (pew-M-t-map)
+  ;; Completion
   (pew-M-c-map)
-  (pew-M-u-map
-   ("t"   . org-capture)
-   ("M-t" . org-agenda))
+  (pew-M-u-map)
+  ;; Language related packages, like LSP, agent, etc.
   (pew-M-l-map
    ("f"   . flymake-show-buffer-diagnostics)
    ("F"   . flymake-show-project-diagnostics)
    ("M-f" . flymake-mode))
-  (pew-M-z-map)
+  ;; Frequently accessed packages, like git, movement, etc.
+  (pew-M-z-map
+   ("t"   . org-capture)
+   ("M-t" . org-agenda))
   (pew-M-q-map)
   (pew-M-h-map)
 
@@ -424,10 +427,10 @@
 
    ;; Less frequently used prefix that can be overriden
    ;; Reserved for the future
-   ("M-o" . pew-M-o-map) ;; taken by minibuffer
+   ("M-o" . pew-M-o-map)
    ("M-t" . pew-M-t-map)
-   ("M-c" . pew-M-c-map) ;; taken by completion
-   ("M-u" . pew-M-u-map) ;; taken by utilities
+   ("M-c" . pew-M-c-map)
+   ("M-u" . pew-M-u-map)
    ("M-l" . pew-M-l-map)
    ("M-z" . pew-M-z-map)
    ("M-q" . pew-M-q-map)
