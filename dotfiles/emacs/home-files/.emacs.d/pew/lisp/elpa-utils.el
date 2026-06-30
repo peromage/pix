@@ -210,6 +210,8 @@ from this variable to corresponding hooks, if saved any.")
   :custom
   (ghostel-shell-integration t)
   (ghostel-shell '("sh" "-c" "command -v fish >/dev/null && exec fish -i || exec bash -i"))
+  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\"
+                               "C-z" "M-o" "M-t" "M-c" "M-u" "M-l" "M-z" "M-q" "M-h"))
 
   :preface
   (defun pew-ghostel-mode-setup ()
