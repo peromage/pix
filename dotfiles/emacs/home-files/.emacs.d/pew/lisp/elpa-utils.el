@@ -212,6 +212,9 @@ from this variable to corresponding hooks, if saved any.")
   (ghostel-shell '("sh" "-c" "command -v fish >/dev/null && exec fish -i || exec bash -i"))
   (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\"
                                "C-z" "M-o" "M-t" "M-c" "M-u" "M-l" "M-z" "M-q" "M-h"))
+  ;; Set the initial buffer name to match window management regex in `pewlib-buffer-regex-plist'
+  ;; The name is then renamed by `ghostel-buffer-name-function' after creation
+  (ghostel-buffer-name "*ghostelterm*")
 
   :preface
   (defun pew-ghostel-mode-setup ()
