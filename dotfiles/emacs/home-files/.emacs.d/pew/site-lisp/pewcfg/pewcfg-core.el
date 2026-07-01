@@ -47,8 +47,8 @@ List of each keyword's form signature:
   :setq         (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :setq-default (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
-  :map          (KEYMAP [(KEY . DEFINITION) ...])
-  :transient    (COMMAND [(KEY . DEFINITION) ...])
+  :map          [:parent parent-keymap-name] (KEYMAP [(KEY . DEFINITION) ...])
+  :transient    [:parent parent-keymap-name] (COMMAND [(KEY . DEFINITION) ...])
   :toggle       (VARIABLE [. (VALUE VALUE ...)])
   :face         (FACE [:KEYWORD VALUE ...])
   :property     (SYMBOL [(PROPERTY . VALUE) ...])
@@ -246,12 +246,20 @@ keybindings in a existing map instead."
 (defun pewcfg--generate-:map (keymap &rest bindings)
   "Create a new KEYMAP and bind keys in it.
 KEYMAP is a symbol of the keymap.
-BINDINGS is in the same form as in `pewcfg--generate-:bind'.
+BINDINGS is in the same form as in `pewcfg--generate-:bind'. Additionally, it
+supports optional keyword '(:parent keymap-name)' before any keybindings to
+specify inheritance from a parent keymap.
 NOTE: Unlike `pewcfg--generate-:bind' this macro creates a new map.  It will not be
 effective if the map already exists."
   (declare (indent 1))
   `((define-prefix-command ',keymap)
-    ,@(apply 'pewcfg--generate-:bind keymap bindings)))
+    ,@(pcase bindings
+       (`(:parent ,parent . ,rest-bindings)
+        `((set-keymap-parent ,keymap ,parent)
+          ,@(apply 'pewcfg--generate-:bind keymap rest-bindings)))
+       (_
+        `(,@(apply 'pewcfg--generate-:bind keymap bindings)))
+       )))
 
 ;;; :transient
 (defun pewcfg--normalize-:transient (forms)
