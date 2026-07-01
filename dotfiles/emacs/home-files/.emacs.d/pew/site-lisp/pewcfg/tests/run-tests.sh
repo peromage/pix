@@ -18,10 +18,10 @@
 (normal-top-level-add-subdirs-to-load-path)
 
 ;;; Load required modules
+(require 'ert)
 (require 'pewcfg)
-(require 'common-test-defs)
+(require 'prelude)
 (require 'test-pewcfg-core)
 (require 'test-pewcfg-use-package)
 
-(kill-emacs (execute-test-suites 'execute-suite-test-pewcfg-core
-                                 'execute-suite-test-pewcfg-use-package))
+(ert-run-tests-batch-and-exit)

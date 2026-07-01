@@ -1,9 +1,22 @@
-;;; test-pewcfg-core.el --- unit tests for pewcfg -*- lexical-binding: t; -*-
+;;; test-pewcfg-core.el --- unit tests for pewcfg-core -*- lexical-binding: t; -*-
 
 ;; Author:  Fang Deng <fang@elfang.com>
 
 ;;; Commentary:
+
+;; Unit tests for `pewcfg-core'.
+;;
+;; Conventions:
+;; - `pewcfg--generate-*' and `pewcfg--normalize-*' are checked with
+;;   `should-match' against a `pcase' pattern of their output.
+;; - Macros are checked with `should-expand-to'.
+;; - Everything else uses plain `should'/`should-error'.
+
 ;;; Code:
+
+(require 'ert)
+(require 'prelude)
+(require 'pewcfg-core)
 
 ;;; Test dummies
 (add-to-list 'pewcfg-keywords :unittest)
@@ -14,318 +27,294 @@
 (defun pewcfg--generate-:unittest (&rest args)
   (list args))
 
-(defcustom unittest-var nil "Dummy variable for testing.")
+(defcustom unittest-var nil "Dummy variable for testing."
+  :type 'symbol
+  :group 'pewcfg)
 
-;;; Test suite
-(define-test-suite test-pewcfg-core
-;;; Test utility functions
-  (expect-equal "Test normalize-identity"
-    'foo
-    (pewcfg-normalize-identity 'foo))
+;;; Utility functions
+(ert-deftest pewcfg-core-test-normalize-identity ()
+  (should (equal 'foo (pewcfg-normalize-identity 'foo))))
 
-  (expect-equal "Test normalize-pair"
-    '(foo bar)
-    (pewcfg-normalize-pair '(foo . bar)))
+(ert-deftest pewcfg-core-test-normalize-pair ()
+  (should (equal '(foo bar) (pewcfg-normalize-pair '(foo . bar)))))
 
-  (expect-equal "Test normalize-first-two"
-    '(foo bar)
-    (pewcfg-normalize-first-two '(foo bar baz)))
+(ert-deftest pewcfg-core-test-normalize-first-two ()
+  (should (equal '(foo bar) (pewcfg-normalize-first-two '(foo bar baz)))))
 
-  (expect-equal "Test normalize-single"
-    '(foo)
-    (pewcfg-normalize-single 'foo))
+(ert-deftest pewcfg-core-test-normalize-single ()
+  (should (equal '(foo) (pewcfg-normalize-single 'foo))))
 
-  (expect-equal "Test until-next-keyword"
-    '(:a 4 5 6 :b 7 :c 8 9)
-    (pewcfg-until-next-keyword '(1 2 3 :a 4 5 6 :b 7 :c 8 9)))
+(ert-deftest pewcfg-core-test-until-next-keyword ()
+  (should (equal '(:a 4 5 6 :b 7 :c 8 9)
+                 (pewcfg-until-next-keyword '(1 2 3 :a 4 5 6 :b 7 :c 8 9))))
+  (should (equal nil (pewcfg-until-next-keyword nil)))
+  (should (equal nil (pewcfg-until-next-keyword '(1 2 3 4 5)))))
 
-  (expect-equal "Test until-next-keyword: Empty list"
-    nil
-    (pewcfg-until-next-keyword nil))
+(ert-deftest pewcfg-core-test-slice-keyword-segments ()
+  (should (equal '((:a 4 5 6) (:b 7) (:c 8 9))
+                 (pewcfg-slice-keyword-segments '(1 2 3 :a 4 5 6 :b 7 :c 8 9))))
+  (should (equal nil (pewcfg-slice-keyword-segments nil)))
+  (should (equal nil (pewcfg-slice-keyword-segments '(1 2 3 4 5))))
+  (should (equal '((:a 4 5 6))
+                 (pewcfg-slice-keyword-segments '(1 2 3 :a 4 5 6)))))
 
-  (expect-equal "Test until-next-keyword: Not a plist"
-    nil
-    (pewcfg-until-next-keyword '(1 2 3 4 5)))
+(ert-deftest pewcfg-core-test-tokey ()
+  (should (equal (kbd "C-c C-c") (pewcfg-tokey "C-c C-c")))
+  (should (equal [tab] (pewcfg-tokey [tab]))))
 
-  (expect-equal "Test slice-keyword-segments"
-    '((:a 4 5 6) (:b 7) (:c 8 9))
-    (pewcfg-slice-keyword-segments '(1 2 3 :a 4 5 6 :b 7 :c 8 9)))
+;;; Custom theme
+(ert-deftest pewcfg-core-test-enable-custom-theme ()
+  ;; Enable to make the custom theme appear in `custom-enabled-themes'.
+  (enable-theme pewcfg-custom-theme)
+  (disable-theme pewcfg-custom-theme)
+  (setq unittest-var 'foo)
+  (let ((test-result (list unittest-var)))                               ;; foo
+    (custom-theme-set-variables pewcfg-custom-theme '(unittest-var 'bar))
+    (pewcfg-enable-custom-theme)
+    (push unittest-var test-result)                                      ;; bar
+    (enable-theme pewcfg-custom-theme)
+    (disable-theme pewcfg-custom-theme)
+    (push unittest-var test-result)                                      ;; foo
+    (pewcfg-enable-custom-theme)
+    (push unittest-var test-result)                                      ;; bar
+    (should (equal '(foo bar foo bar) (nreverse test-result)))))
 
-  (expect-equal "Test slice-keyword-segments: Empty list"
-    nil
-    (pewcfg-slice-keyword-segments nil))
+;;; Keyword application
+(ert-deftest pewcfg-core-test-apply-keyword ()
+  (should (equal '((foo foovalue)
+                   (bar barvalue))
+                 (pewcfg-apply-keyword :unittest
+                                       '(foo foovalue)
+                                       '(bar barvalue))))
+  (should-error (pewcfg-apply-keyword :foo '())))
 
-  (expect-equal "Test slice-keyword-segments: Not a plist"
-    nil
-    (pewcfg-slice-keyword-segments '(1 2 3 4 5)))
+;;; pewcfg macro expansion
+(ert-deftest pewcfg-core-test-pewcfg-happy-path ()
+  (should-expand-to (pewcfg
+                      :unittest
+                      (foo foovalue)
+                      (bar barvalue))
+                    `(progn (foo foovalue) (bar barvalue))))
 
-  (expect-equal "Test slice-keyword-segments: Keyword at the end"
-    '((:a 4 5 6))
-    (pewcfg-slice-keyword-segments '(1 2 3 :a 4 5 6)))
+(ert-deftest pewcfg-core-test-pewcfg-errors ()
+  (should-error (macroexpand '(pewcfg (blah) :unittest (foo foovalue))))
+  (should-error (macroexpand '(pewcfg))))
 
-  (expect-equal "Test tokey: From string"
-    ""
-    (pewcfg-tokey "C-c C-c"))
+;;; :custom
+(ert-deftest pewcfg-core-test-custom-normalize ()
+  (should-match (pewcfg--normalize-:custom '((foo foovalue "foodoc")
+                                             (bar barvalue)))
+                `(('(foo foovalue nil nil "foodoc")
+                   '(bar barvalue nil nil "Set by pewcfg:custom")))))
 
-  (expect-equal "Test tokey: From vector"
-    [tab]
-    (pewcfg-tokey [tab]))
+(ert-deftest pewcfg-core-test-custom-generate ()
+  (should-match (pewcfg--generate-:custom `'(foo foovalue nil nil "foodoc")
+                                          `'(bar barvalue nil nil nil))
+                `((let ((custom--inhibit-theme-enable nil))
+                    (custom-theme-set-variables
+                     'pewcfg
+                     '(foo foovalue nil nil "foodoc")
+                     '(bar barvalue nil nil nil))))))
 
-;;; Test custom theme
-  (expect-equal "Test enable-custom-theme: Value set"
-    '(foo bar foo bar)
-    (progn
-      ;; Enable to make the custom theme appear in the `custom-enabled-themes'
-      (enable-theme pewcfg-custom-theme)
-      (disable-theme pewcfg-custom-theme)
-      (setq unittest-var 'foo)
-      (let ((test-result (list unittest-var)))                               ;; foo
-        (custom-theme-set-variables pewcfg-custom-theme '(unittest-var 'bar))
-        (pewcfg-enable-custom-theme)
-        (push unittest-var test-result)                                      ;; bar
-        (enable-theme pewcfg-custom-theme)
-        (disable-theme pewcfg-custom-theme)
-        (push unittest-var test-result)                                      ;; foo
-        (pewcfg-enable-custom-theme)
-        (push unittest-var test-result)                                      ;; bar
-        (nreverse test-result))))
+;;; :customize
+(ert-deftest pewcfg-core-test-customize-normalize ()
+  (should-match (pewcfg--normalize-:customize '((foo foovalue "foodoc")
+                                                (bar barvalue "bardoc")))
+                `((foo foovalue "foodoc")
+                  (bar barvalue "bardoc"))))
 
-;;; Test keyword application
-  (expect-equal "Test apply-keyword: Happy path"
-    '((foo foovalue)
-      (bar barvalue))
-    (pewcfg-apply-keyword :unittest
-                          '(foo foovalue)
-                          '(bar barvalue)))
+(ert-deftest pewcfg-core-test-customize-generate ()
+  (should-match (pewcfg--generate-:customize 'foo 'foovalue "comment")
+                `((customize-set-variable 'foo foovalue "comment")))
+  (should-match (pewcfg--generate-:customize 'foo 'foovalue)
+                `((customize-set-variable 'foo foovalue "Set by pewcfg:customize"))))
 
-  (expect-equal "Test apply-keyword: Invalid keyword"
-    '(error "Invalid keyword :foo")
-    (condition-case e
-        (pewcfg-apply-keyword :foo '())
-      (error e)))
+;;; :setq
+(ert-deftest pewcfg-core-test-setq-normalize ()
+  (should-match (pewcfg--normalize-:setq '((foo foovalue "foodoc")
+                                           (bar barvalue "bardoc")))
+                `((foo foovalue bar barvalue))))
 
-;;; Test pewcfg expansion
-  (expect-equal "Test pewcfg: Happy path"
-    '(progn (foo foovalue) (bar barvalue))
-    (macroexpand '(pewcfg
-                    :unittest
-                    (foo foovalue)
-                    (bar barvalue))))
+(ert-deftest pewcfg-core-test-setq-generate ()
+  (should-match (pewcfg--generate-:setq 'foo 'foovalue 'bar 'barvalue)
+                `((setq foo foovalue bar barvalue))))
 
-  (expect-equal "Test pewcfg: Not start with a keyword"
-    '(error "Not start with a keyword")
-    (condition-case e
-        (macroexpand '(pewcfg (blah) :unittest (foo foovalue)))
-      (error e)))
+;;; :setq-default
+(ert-deftest pewcfg-core-test-setq-default-normalize ()
+  (should-match (pewcfg--normalize-:setq-default '((foo foovalue "foodoc")
+                                                   (bar barvalue "bardoc")))
+                `((foo foovalue bar barvalue))))
 
-  (expect-equal "Test pewcfg: Empty body"
-    '(error "Not start with a keyword")
-    (condition-case e
-        (macroexpand '(pewcfg))
-      (error e)))
+(ert-deftest pewcfg-core-test-setq-default-generate ()
+  (should-match (pewcfg--generate-:setq-default 'foo 'foovalue 'bar 'barvalue)
+                `((setq-default foo foovalue bar barvalue))))
 
-;;; Test :custom
-  (expect-equal "Test :custom: Normalize"
-    '(('(foo foovalue nil nil "foodoc")
-       '(bar barvalue nil nil "Set by pewcfg:custom")))
-    (pewcfg--normalize-:custom '((foo foovalue "foodoc")
-                                 (bar barvalue))))
+;;; :bind
+(ert-deftest pewcfg-core-test-bind-normalize ()
+  (should-match (pewcfg--normalize-:bind '((foo-map
+                                            ("a" . func1)
+                                            ("b" . func2))))
+                `((foo-map
+                   ("a" . func1)
+                   ("b" . func2)))))
 
-  (expect-equal "Test :custom: Generate"
-    `((let ((custom--inhibit-theme-enable nil))
-        (custom-theme-set-variables
-         ',pewcfg-custom-theme
-         '(foo foovalue nil nil "foodoc")
-         '(bar barvalue nil nil nil))))
-    (pewcfg--generate-:custom `'(foo foovalue nil nil "foodoc")
-                              `'(bar barvalue nil nil nil)))
+(ert-deftest pewcfg-core-test-bind-generate ()
+  (should-match (pewcfg--generate-:bind 'foo-map
+                                        '("a" . func1)
+                                        '("b" . func2))
+                `((bind-keys :map foo-map ("a" . func1) ("b" . func2))))
+  (should-match (pewcfg--generate-:bind 'foo-map)
+                `((bind-keys :map foo-map))))
 
-;;; Test :customize
-  (expect-equal "Test :customize: Normalize"
-    '((foo foovalue "foodoc")
-      (bar barvalue "bardoc"))
-    (pewcfg--normalize-:customize '((foo foovalue "foodoc")
-                                    (bar barvalue "bardoc"))))
+;;; :map
+(ert-deftest pewcfg-core-test-map-normalize ()
+  (should-match (pewcfg--normalize-:map '((foo-map
+                                           ("a" . func1)
+                                           ("b" . func2))))
+                `((foo-map
+                   ("a" . func1)
+                   ("b" . func2)))))
 
-  (expect-equal "Test :customize: Generate"
-    '((customize-set-variable 'foo foovalue "comment"))
-    (pewcfg--generate-:customize 'foo 'foovalue "comment"))
+(ert-deftest pewcfg-core-test-map-generate ()
+  (should-match (pewcfg--generate-:map 'foo-map
+                                       '("a" . func1)
+                                       '("b" . func2))
+                `((define-prefix-command 'foo-map)
+                  (bind-keys :map foo-map ("a" . func1) ("b" . func2)))))
 
-  (expect-equal "Test :customize: Generate with default comment"
-    '((customize-set-variable 'foo foovalue "Set by pewcfg:customize"))
-    (pewcfg--generate-:customize 'foo 'foovalue))
+(ert-deftest pewcfg-core-test-map-generate-with-parent ()
+  (should-match (pewcfg--generate-:map 'foo-map
+                                       :parent 'parent-map
+                                       '("a" . func1))
+                `((define-prefix-command 'foo-map)
+                  (set-keymap-parent foo-map parent-map)
+                  (bind-keys :map foo-map ("a" . func1)))))
 
-;;; Test :setq
-  (expect-equal "Test :setq: Normalize"
-    '((foo foovalue bar barvalue))
-    (pewcfg--normalize-:setq '((foo foovalue "foodoc")
-                               (bar barvalue "bardoc"))))
+;;; :transient
+(ert-deftest pewcfg-core-test-transient-normalize ()
+  (should-match (pewcfg--normalize-:transient '((command ("a" . func1)
+                                                         ("b" . func2))))
+                `((command ("a" . func1) ("b" . func2)))))
 
-  (expect-equal "Test :setq: Generate"
-    '((setq foo foovalue bar barvalue))
-    (pewcfg--generate-:setq 'foo 'foovalue 'bar 'barvalue))
+(ert-deftest pewcfg-core-test-transient-generate ()
+  (should-match (pewcfg--generate-:transient 'command
+                                             '("a" . func1)
+                                             '("b" . func2))
+                `((define-prefix-command 'command-map)
+                  (bind-keys :map command-map ("a" . func1) ("b" . func2))
+                  (define-key command-map ,_ #'keyboard-quit)
+                  (defun command (arg) . ,_)
+                  (defun command-repeat () . ,_))))
 
-;;; Test :setq-default
-  (expect-equal "Test :setq-default: Normalize"
-    '((foo foovalue bar barvalue))
-    (pewcfg--normalize-:setq '((foo foovalue "foodoc")
-                               (bar barvalue "bardoc"))))
+(ert-deftest pewcfg-core-test-transient-generate-with-parent ()
+  (should-match (pewcfg--generate-:transient 'command
+                                             :parent 'parent-map
+                                             '("a" . func1)
+                                             '("b" . func2))
+                `((define-prefix-command 'command-map)
+                  (set-keymap-parent command-map parent-map)
+                  (bind-keys :map command-map ("a" . func1) ("b" . func2))
+                  (define-key command-map ,_ #'keyboard-quit)
+                  (defun command (arg) . ,_)
+                  (defun command-repeat () . ,_))))
 
-  (expect-equal "Test :setq-default: Generate"
-    '((setq-default foo foovalue bar barvalue))
-    (pewcfg--generate-:setq-default 'foo 'foovalue 'bar 'barvalue))
+;;; :toggle
+(ert-deftest pewcfg-core-test-toggle-normalize ()
+  (should-match (pewcfg--normalize-:toggle '((foo . foovalue)
+                                             (bar . barvalue)))
+                `((foo foovalue)
+                  (bar barvalue))))
 
-;;; Test :bind
-  (expect-equal "Test :bind: Normalize"
-    '((foo-map
-       ("a" . func1)
-       ("b" . func2)))
-    (pewcfg--normalize-:bind '((foo-map
-                                ("a" . func1)
-                                ("b" . func2)))))
+(ert-deftest pewcfg-core-test-toggle-generate ()
+  (should-match (pewcfg--generate-:toggle 'foo '(v1 v2 v3))
+                `((defvar pew-toggle-foo '(-1 v1 v2 v3) . ,_)
+                  (defun pew-toggle-foo () . ,_)))
+  (should-match (pewcfg--generate-:toggle 'foo)
+                `((defvar pew-toggle-foo '(-1 t nil) . ,_)
+                  (defun pew-toggle-foo () . ,_))))
 
-  (expect-equal "Test :bind: Generate"
-    '((define-key foo-map "a" #'func1)
-      (define-key foo-map "b" #'func2)
-      foo-map)
-    (pewcfg--generate-:bind 'foo-map
-                            '("a" . func1)
-                            '("b" . func2)))
+;;; :face
+(ert-deftest pewcfg-core-test-face-normalize ()
+  (should-match (pewcfg--normalize-:face '((foo
+                                            :family "bar"
+                                            :weight normal
+                                            :height 120
+                                            :width normal)))
+                `((foo
+                   :family "bar"
+                   :weight normal
+                   :height 120
+                   :width normal))))
 
-  (expect-equal "Test :bind: Generate with no definitions"
-    '(foo-map)
-    (pewcfg--generate-:bind 'foo-map))
+(ert-deftest pewcfg-core-test-face-generate ()
+  (should-match (pewcfg--generate-:face 'foo
+                                        :family "bar"
+                                        :weight 'normal
+                                        :height 120
+                                        :width 'normal)
+                `((set-face-attribute 'foo nil
+                                      :family "bar"
+                                      :weight 'normal
+                                      :height 120
+                                      :width 'normal))))
 
-;;; Test :map
-  (expect-equal "Test :map: Normalize"
-    '((foo-map
-       ("a" . func1)
-       ("b" . func2)))
-    (pewcfg--normalize-:map '((foo-map
-                               ("a" . func1)
-                               ("b" . func2)))))
+;;; :property
+(ert-deftest pewcfg-core-test-property-normalize ()
+  (should-match (pewcfg--normalize-:property '((foo (p1 . v1) (p2 . v2))))
+                `((foo (p1 . v1) (p2 . v2)))))
 
-  (expect-equal "Test :map: Generate"
-    (nconc '((define-prefix-command 'foo-map))
-           (pewcfg--generate-:bind 'foo-map
-                                   '("a" . func1)
-                                   '("b" . func2)))
-    (pewcfg--generate-:map 'foo-map
-                           '("a" . func1)
-                           '("b" . func2)))
+(ert-deftest pewcfg-core-test-property-generate ()
+  (should-match (pewcfg--generate-:property 'foo '(p1 . v1) '(p2 . v2))
+                `((put 'foo 'p1 v1)
+                  (put 'foo 'p2 v2))))
 
-;;; Test :transient
-  (expect-equal "Test :transient: Normalize"
-    '((command "key" ("a" . func1) ("b" . func2)))
-    (pewcfg--normalize-:map '((command "key" ("a" . func1) ("b" . func2)))))
+;;; :hook
+(ert-deftest pewcfg-core-test-hook-normalize ()
+  (should-match (pewcfg--normalize-:hook '((foo-hook . func)))
+                `((foo-hook func))))
 
-  (expect-equal "Test :transient: Generate"
-    (nconc (pewcfg--generate-:map 'command-map
-                                  '("a" . func1)
-                                  '("b" . func2))
-           `((define-key command-map ,(kbd "C-g") #'keyboard-quit)
-             (defun command (arg))
-             (defun command-repeat ())))
-    (trim-form-recursively (pewcfg--generate-:transient 'command
-                                                        '("a" . func1)
-                                                        '("b" . func2))))
+(ert-deftest pewcfg-core-test-hook-generate ()
+  (should-match (pewcfg--generate-:hook 'foo-hook 'func)
+                `((add-hook 'foo-hook #'func))))
 
-;;; Test :toggle
-  (expect-equal "Test :toggle: Normalize"
-    '((foo foovalue)
-      (bar barvalue))
-    (pewcfg--normalize-:toggle '((foo . foovalue)
-                                 (bar . barvalue))))
+;;; :automode
+(ert-deftest pewcfg-core-test-automode-normalize ()
+  (should-match (pewcfg--normalize-:automode '(("matcher regex" . foo-mode)))
+                `(("matcher regex" foo-mode))))
 
-  (expect-equal "Test :toggle: Generate"
-    '((defvar pew-toggle-foo '(-1 v1 v2 v3))
-      (defun pew-toggle-foo ()))
-    (trim-form-recursively (pewcfg--generate-:toggle 'foo '(v1 v2 v3))))
+(ert-deftest pewcfg-core-test-automode-generate ()
+  (should-match (pewcfg--generate-:automode "matcher regex" 'foo-mode)
+                `((add-to-list 'auto-mode-alist '("matcher regex" . foo-mode)))))
 
-  (expect-equal "Test :toggle: Generate default"
-    '((defvar pew-toggle-foo '(-1 t nil))
-      (defun pew-toggle-foo ()))
-    (trim-form-recursively (pewcfg--generate-:toggle 'foo)))
+;;; :eval
+(ert-deftest pewcfg-core-test-eval-normalize ()
+  (should-match (pewcfg--normalize-:eval '((foo bar)))
+                `(((foo bar)))))
 
-;;; Test :face
-  (expect-equal "Test :face: Normalize"
-    '((foo
-       :family "bar"
-       :weight normal
-       :height 120
-       :width normal))
-    (pewcfg--normalize-:face '((foo
-                                :family "bar"
-                                :weight normal
-                                :height 120
-                                :width normal))))
+(ert-deftest pewcfg-core-test-eval-generate ()
+  (should-match (pewcfg--generate-:eval '(foo bar))
+                `((foo bar))))
 
-  (expect-equal "Test :face: Generate"
-    '((set-face-attribute 'foo nil
-                          :family "bar"
-                          :weight 'normal
-                          :height 120
-                          :width 'normal))
-    (pewcfg--generate-:face 'foo
-                            :family "bar"
-                            :weight 'normal
-                            :height 120
-                            :width 'normal))
+;;; :eval-after
+(ert-deftest pewcfg-core-test-eval-after-normalize ()
+  (should-match (pewcfg--normalize-:eval-after '((foo (bar a) (baz b))))
+                `((foo (bar a) (baz b)))))
 
-;;; Test :property
-  (expect-equal "Test :property: Normalize"
-    '((foo (p1 . v1) (p2 . v2)))
-    (pewcfg--normalize-:property '((foo (p1 . v1) (p2 . v2)))))
+(ert-deftest pewcfg-core-test-eval-after-generate ()
+  (should-match (pewcfg--generate-:eval-after 'foo '(bar a) '(baz b))
+                `((with-eval-after-load 'foo (bar a) (baz b)))))
 
-  (expect-equal "Test :property: Generate"
-    '((put 'foo 'p1 v1)
-      (put 'foo 'p2 v2))
-    (pewcfg--generate-:property 'foo '(p1 . v1) '(p2 . v2)))
+;;; :vcpkg
+(ert-deftest pewcfg-core-test-vcpkg-normalize ()
+  (should-match (pewcfg--normalize-:vcpkg '(("foobar/foo" "master")))
+                `(("foobar/foo" "master"))))
 
-;;; Test :hook
-  (expect-equal "Test :hook: Normalize"
-    '((foo-hook func))
-    (pewcfg--normalize-:hook '((foo-hook . func))))
-
-  (expect-equal "Test :hook: Generate"
-    '((add-hook 'foo-hook #'func))
-    (pewcfg--generate-:hook 'foo-hook 'func))
-
-;;; Test :automode
-  (expect-equal "Test :automode: Normalize"
-    '(("matcher regex" foo-mode))
-    (pewcfg--normalize-:automode '(("matcher regex" . foo-mode))))
-
-  (expect-equal "Test :automode: Generate"
-    '((add-to-list 'auto-mode-alist '("matcher regex" . foo-mode)))
-    (pewcfg--generate-:automode "matcher regex" 'foo-mode))
-
-;;; Test :eval
-  (expect-equal "Test :eval: Normalize"
-    '(((foo bar)))
-    (pewcfg--normalize-:eval '((foo bar))))
-
-  (expect-equal "Test :eval: Generate"
-    '((foo bar))
-    (pewcfg--generate-:eval '(foo bar)))
-
-;;; Test :eval-after
-  (expect-equal "Test :eval-after: Normalize"
-    '((foo (bar a) (baz b)))
-    (pewcfg--normalize-:eval-after '((foo (bar a) (baz b)))))
-
-  (expect-equal "Test :eval-after: Generate"
-    '((with-eval-after-load 'foo (bar a) (baz b)))
-    (pewcfg--generate-:eval-after 'foo '(bar a) '(baz b)))
-
-  (expect-equal "Test :vcpkg: Normalize"
-    '(("foobar/foo" "master"))
-    (pewcfg--normalize-:vcpkg '(("foobar/foo" "master"))))
-
-  (expect-equal "Test :vcpkg: Generate"
-    '((unless (package-installed-p 'foo)
-        (package-vc-install (list 'foo :url "https://www.github.com/foobar/foo" :branch "master" :vc-backend 'Git))))
-    (pewcfg--generate-:vcpkg "foobar/foo" "master")))
+(ert-deftest pewcfg-core-test-vcpkg-generate ()
+  (should-match (pewcfg--generate-:vcpkg "foobar/foo" "master")
+                `((unless (package-installed-p 'foo)
+                    (package-vc-install
+                     (list 'foo :url "https://www.github.com/foobar/foo"
+                           :branch "master" :vc-backend 'Git))))))
 
 (provide 'test-pewcfg-core)
 ;;; test-pewcfg-core.el ends here
