@@ -34,12 +34,15 @@
                           :eval-after
                           :vcpkg)
   "An alist of keywords used by `pewcfg' to specify sections.
-Each entry is in the form of
-  (KEYWORD . PARTIALLY-APPLIED-FORM)
-or
-  (KEYWORD . FUNCTION)
-where the FUNCTION should accept a form as its parameter.  The structure of the
-form can be found below.
+
+Each keyword must implement two functions named 'pewcfg--normalize-:keyword' and
+'pewcfg--generate-:keyword'.
+
+Each form after the keyword is collected into a list and passed to the normalize
+function. The normalize function takes that list of forms and transform it into
+another list, where each element is a list of arguments passing to the generate
+function (matching its signature). The generate function then returns a list of
+forms to be evaluated.
 
 List of each keyword's form signature:
   :custom       (VARIABLE VALUE [COMMENT])
