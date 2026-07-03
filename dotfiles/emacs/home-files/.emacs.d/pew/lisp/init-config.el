@@ -288,6 +288,18 @@
   (help-window-select)
   (display-line-numbers . (nil absolute relative visual))
 
+  :map
+  (pewkey-completion-map)
+  ;; Language related packages, like LSP, agent, etc.
+  (pewkey-project-map
+   ("m"   . flymake-show-buffer-diagnostics)
+   ("M"   . flymake-show-project-diagnostics)
+   ("M-m" . flymake-mode))
+  ;; Frequently accessed packages, like git, movement, etc.
+  (pewkey-utility-map
+   ("o" . org-capture)
+   ("O" . org-agenda))
+
 ;;; Transient keybindings
   :transient
   (pewkey :parent ctl-x-map
@@ -295,6 +307,9 @@
    ("C-x" . ctl-x-map)
    ("C-u" . universal-argument)
    ("C-p" . pewkey-repeat)
+   ("C-k" . pewkey-utility-map)
+   ("C-l" . pewkey-project-map)
+   ("C-i" . pewkey-completion-map)
 
 ;;;; Windows/Buffers
    ("q"         . pewlib-close-window)
@@ -390,24 +405,6 @@
 ;;;; Editing
    ("DEL" . cycle-spacing))
 
-  :map
-  (pew-M-o-map)
-  (pew-M-t-map)
-  ;; Completion
-  (pew-M-c-map)
-  (pew-M-u-map)
-  ;; Language related packages, like LSP, agent, etc.
-  (pew-M-l-map
-   ("m"   . flymake-show-buffer-diagnostics)
-   ("M"   . flymake-show-project-diagnostics)
-   ("M-m" . flymake-mode))
-  ;; Frequently accessed packages, like git, movement, etc.
-  (pew-M-z-map
-   ("o" . org-capture)
-   ("O" . org-agenda))
-  (pew-M-q-map)
-  (pew-M-h-map)
-
 ;;; Mode keybindings
   :bind
 ;;;; Global
@@ -424,22 +421,7 @@
 
    ;; Override C-x for my own bindings
    ;; The original `ctl-x-map' can still be accessed by "C-x C-x"
-   ("C-x" . pewkey-map)
-
-   ;; Tweak default window split logic
-   ("C-x 2" . pewlib-split-window-below)
-   ("C-x 3" . pewlib-split-window-right)
-
-   ;; Less frequently used prefix that can be overriden
-   ;; Reserved for the future
-   ("M-o" . pew-M-o-map)
-   ("M-t" . pew-M-t-map)
-   ("M-c" . pew-M-c-map)
-   ("M-u" . pew-M-u-map)
-   ("M-l" . pew-M-l-map)
-   ("M-z" . pew-M-z-map)
-   ("M-q" . pew-M-q-map)
-   ("M-h" . pew-M-h-map))
+   ("C-x" . pewkey-map))
 
 ;;;; Dired
   (dired-mode-map

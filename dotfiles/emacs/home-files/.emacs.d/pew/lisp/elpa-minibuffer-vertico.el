@@ -178,7 +178,7 @@ instead of annotator provided by marginalia."
 
   :bind
   ( ([remap describe-bindings] . embark-bindings)
-    :map pew-M-z-map
+    :map pewkey-utility-map
     ("e a" . embark-act)
     ("e d" . embark-dwim)
     ("e e" . embark-export)

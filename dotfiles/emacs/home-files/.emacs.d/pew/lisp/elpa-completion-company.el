@@ -16,7 +16,7 @@
     ("<tab>" . company-complete)
     ("RET"   . nil)
     ("<return>"   . nil)
-    :map pew-M-c-map
+    :map pewkey-completion-map
     ("i"     . company-complete)
     ("f"     . company-files)
     ("t"     . company-gtags)

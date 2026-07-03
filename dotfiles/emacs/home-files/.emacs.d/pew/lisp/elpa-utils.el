@@ -81,7 +81,7 @@
 (use-package separedit
   :straight t
   :bind
-  ( :map pew-M-z-map
+  ( :map pewkey-utility-map
     ("'" . separedit-dwim)) )
 
 
@@ -96,7 +96,7 @@
 (use-package avy
   :straight t
   :bind
-  ( :map pew-M-z-map
+  ( :map pewkey-utility-map
     ("f"   . avy-goto-char)
     ("F" . avy-goto-line)) )
 
@@ -104,7 +104,7 @@
 (use-package ace-window
   :straight t
   :bind
-  ( :map pew-M-z-map
+  ( :map pewkey-utility-map
     ("w" . ace-window)
     ("W" . ace-swap-window)) )
 
@@ -117,7 +117,7 @@
   :commands magit-status
 
   :bind
-  ( :map pew-M-z-map
+  ( :map pewkey-utility-map
     ("g" . magit-status)
     ("G" . magit-file-dispatch) )
 
@@ -199,7 +199,7 @@ from this variable to corresponding hooks, if saved any.")
   :hook (ghostel-mode . pew-ghostel-mode-setup)
 
   :bind
-  ( :map pew-M-z-map
+  ( :map pewkey-utility-map
     ("t" . ghostel)
     :map ghostel-semi-char-mode-map
     ("C-s" . consult-line)

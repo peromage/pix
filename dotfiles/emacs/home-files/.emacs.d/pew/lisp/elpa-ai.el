@@ -30,7 +30,7 @@
   :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
 
   :bind
-  ( :map pew-M-l-map
+  ( :map pewkey-project-map
     ("d" . claude-code-ide-menu))
 
   :custom
