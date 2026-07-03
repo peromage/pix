@@ -290,18 +290,14 @@
 
 ;;; Transient keybindings
   :transient
-  (pewkey
-;;;; Take prefix
+  (pewkey :parent ctl-x-map
+;;;; Overrides
+   ("C-x" . ctl-x-map)
    ("C-u" . universal-argument)
-
-;;;; Repeat
-   ("C-r" . pewkey-repeat)
+   ("C-p" . pewkey-repeat)
 
 ;;;; Windows/Buffers
    ("q"         . pewlib-close-window)
-   ("1"         . delete-other-windows)
-   ("2"         . pewlib-split-window-below)
-   ("3"         . pewlib-split-window-right)
    ("RET"       . pewlib-split-window-auto)
    ("<return>"  . pewlib-split-window-auto)
    ("9"         . window-toggle-side-windows)
@@ -317,9 +313,8 @@
    ("]"         . pewlib-next-editing-buffer)
    ("["         . pewlib-previous-editing-buffer)
    ("i"         . pewlib-display-and-copy-buffer-file-name)
-   ("B"         . display-buffer)
    ("g"         . revert-buffer-quick)
-   ("o"         . other-window)
+   ("B"         . display-buffer)
 
 ;;;; Layout
    ("y" . winner-undo)
@@ -351,8 +346,6 @@
    ("M-,"   . xref-go-back)
    ("C-M-," . xref-go-forward)
    ("M-?"   . xref-find-references)
-   ("C-x"   . exchange-point-and-mark)
-   ("SPC"   . set-mark-command)
 
 ;;;; Dabbrev completion
    ("M-/"   . dabbrev-expand)
@@ -364,20 +357,26 @@
    (";" . comment-line)
    ("/" . isearch-forward-regexp)
    ("?" . isearch-query-replace-regexp)
-   ("+" . what-cursor-position)
+   ("-" . what-cursor-position)
    ("=" . ispell-word)
 
 ;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
-   ("C-=" . text-scale-adjust)
-   ("C--" . text-scale-adjust)
-   ("C-0" . text-scale-adjust)
+   ("C-+" .   global-text-scale-adjust)
+   ("C--" .   global-text-scale-adjust)
+   ("C-0" .   global-text-scale-adjust)
+   ("C-=" .   global-text-scale-adjust)
+   ("C-M-+" . text-scale-adjust)
+   ("C-M--" . text-scale-adjust)
+   ("C-M-0" . text-scale-adjust)
+   ("C-M-=" . text-scale-adjust)
 
 ;;;; Frame Transparency
    ("M-=" . pewlib-increase-frame-opacity)
    ("M--" . pewlib-decrease-frame-opacity)
-   ("A"   . pewlib-pop-window-in-new-frame)
-   ("C-a" . pewlib-pop-window-in-new-frame-persist)
-   ("a"   . other-frame)
+   ("n"   . make-frame-command)
+   ("N"   . pewlib-pop-window-in-new-frame)
+   ("C-n" . pewlib-pop-window-in-new-frame-persist)
+   ("W"   . delete-frame)
 
 ;;;; Rebind word manipulations
    ("M-t" . transpose-words)
@@ -414,17 +413,22 @@
 ;;;; Global
   (global-map
    ;; Remap for better experience
+   ([remap split-window-below] . pewlib-split-window-below)
+   ([remap split-window-right] . pewlib-split-window-right)
+   ([remap split-window-horizontally] . pewlib-split-window-right)
+   ([remap split-window-vertically] . pewlib-split-window-below)
    ([remap next-buffer] . pewlib-next-editing-buffer)
    ([remap previous-buffer] . pewlib-previous-editing-buffer)
    ([remap list-buffers] . ibuffer)
    ([remap isearch-delete-char] . isearch-del-char)
 
+   ;; Override C-x for my own bindings
+   ;; The original `ctl-x-map' can still be accessed by "C-x C-x"
+   ("C-x" . pewkey-map)
+
    ;; Tweak default window split logic
    ("C-x 2" . pewlib-split-window-below)
    ("C-x 3" . pewlib-split-window-right)
-
-   ;; Pewkey
-   ("C-z" . pewkey-map)
 
    ;; Less frequently used prefix that can be overriden
    ;; Reserved for the future
