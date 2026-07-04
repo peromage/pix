@@ -235,11 +235,11 @@ PAIRS is the rest of the var-val pairs"
 KEYMAP is a symbol of the keymap.
 BINDINGS is an alist whose element is:
   (KEY . DEF)
-For DEF's definition see `define-key' and `bind-keys'.
+For DEF's definition see `keymap-set'.
 NOTE: Unlike `pewcfg--generate-:map' this macro does not create a new map.  It sets
 keybindings in a existing map instead."
   (declare (indent 1))
-  `((bind-keys :map ,keymap ,@bindings)))
+  (mapcar (lambda (binding) `(keymap-set ,keymap ,(car binding) ,(cdr binding))) bindings))
 
 ;;; :map
 (defun pewcfg--normalize-:map (forms)
