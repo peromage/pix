@@ -410,14 +410,14 @@
 ;;;; Global
   (global-map
    ;; Remap for better experience
-   ([remap split-window-below] . pewlib-split-window-below)
-   ([remap split-window-right] . pewlib-split-window-right)
-   ([remap split-window-horizontally] . pewlib-split-window-right)
-   ([remap split-window-vertically] . pewlib-split-window-below)
-   ([remap next-buffer] . pewlib-next-editing-buffer)
-   ([remap previous-buffer] . pewlib-previous-editing-buffer)
-   ([remap list-buffers] . ibuffer)
-   ([remap isearch-delete-char] . isearch-del-char)
+   ("<remap> <split-window-below>"        . pewlib-split-window-below)
+   ("<remap> <split-window-right>"        . pewlib-split-window-right)
+   ("<remap> <split-window-horizontally>" . pewlib-split-window-right)
+   ("<remap> <split-window-vertically>"   . pewlib-split-window-below)
+   ("<remap> <next-buffer>"               . pewlib-next-editing-buffer)
+   ("<remap> <previous-buffer>"           . pewlib-previous-editing-buffer)
+   ("<remap> <list-buffers>"              . ibuffer)
+   ("<remap> <isearch-delete-char>"       . isearch-del-char)
 
    ;; Override C-x for my own bindings
    ;; The original `ctl-x-map' can still be accessed by "C-x C-x"
