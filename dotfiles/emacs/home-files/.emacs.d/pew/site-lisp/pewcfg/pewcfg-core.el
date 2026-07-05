@@ -52,14 +52,14 @@ List of each keyword's form signature:
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
   :map          [:parent parent-keymap-name] (KEYMAP [(KEY . DEFINITION) ...])
   :transient    [:parent parent-keymap-name] (COMMAND [(KEY . DEFINITION) ...])
-  :toggle       (VARIABLE [. (VALUE VALUE ...)])
+  :toggle       (VARIABLE [VALUE VALUE ...])
   :face         (FACE [:KEYWORD VALUE ...])
   :property     (SYMBOL [(PROPERTY . VALUE) ...])
-  :hook         (NAME . FUNCTION)
-  :automode     (MATCHER . MODE)
+  :hook         (NAME FUNCTION [DEPTH])
+  :automode     (MATCHER MODE [FALLTHROUGH])
   :eval         (SEXP)
   :eval-after   (FEATURE BODY)
-  :vcpkg        (REPO REV [FETCHER NAME BACKEND])
+  :vcpkg        (NAME PACKAGE REV [BACKEND])
 
 * The difference between ':custom' and ':customize' is that, ':custom' uses a
 synthetic theme `pewcfg-custom-theme' to bind variable values to with the
@@ -235,7 +235,7 @@ PAIRS is the rest of the var-val pairs"
 KEYMAP is a symbol of the keymap.
 BINDINGS is an alist whose element is:
   (KEY . DEF)
-For DEF's definition see `keymap-set'.
+For DEF's definition see `keymap-set'. Additionally, a special syntax
 NOTE: Unlike `pewcfg--generate-:map' this macro does not create a new map.  It sets
 keybindings in a existing map instead."
   (declare (indent 1))
@@ -284,7 +284,8 @@ enabled and put the following code for the keymap.
   (let ((command-map (intern (format "%s-map" command)))
         (command-repeat (intern (format "%s-repeat" command))))
     `(,@(apply 'pewcfg--generate-:map command-map bindings)
-      (define-key ,command-map ,(kbd "C-g") #'keyboard-quit) ;; Necessary to exit transient mode
+      ;; Necessary to exit transient mode
+      ,@(apply 'pewcfg--generate-:bind ,command-map ("C-g" . #'keyboard-quit))
       (defun ,command (arg)
         ,(format "Activate map `%s' temporarily.
 If prefix ARG is given the map will be activated in a repeatable manner." command-map)
@@ -303,9 +304,9 @@ If prefix ARG is given the map will be activated in a repeatable manner." comman
 ;;; :toggle
 (defun pewcfg--normalize-:toggle (forms)
   "Normalize function for ':toggle'."
-  (mapcar #'pewcfg-normalize-pair forms))
+  (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg--generate-:toggle (variable &optional values)
+(defun pewcfg--generate-:toggle (variable &rest values)
   "Create an interactive command to toggle variable from a list of values.
 VARIABLE is a symbol of the variable.
 VALUES is a list of values that the VARIABLE can be possibly set to.
@@ -315,9 +316,9 @@ The variable is used for multiple purposes.  The car of the variable stores the
 current index of the list of values that is stored in the cdr."
   (declare (indent 0))
   (let ((toggle-symbol (intern (format "pew-toggle-%s" variable))))
-    `((defvar ,toggle-symbol ',(if values
-                                   (cons -1 values)
-                                 (cons -1 '(t nil)))
+    `((defvar ,toggle-symbol ,(if values
+                                   `(list -1 ,@values)
+                                 '(list -1 t))
         ,(format  "A list of values used by `%s' command.
 The first element is the index which points to the current value.  The index
 cycles through the list each the toggle command is called." toggle-symbol))
@@ -329,7 +330,7 @@ The values are read from the list `%s'." variable toggle-symbol)
                                      (mod (1+ (car ,toggle-symbol))
                                           (length (cdr ,toggle-symbol))))
                              (cdr ,toggle-symbol)))
-        (message "Set %s: %s" ',variable ,variable)))))
+        (message "Set %s: %S" ',variable ,variable)))))
 
 ;;; :face
 (defun pewcfg--normalize-:face (forms)
@@ -342,12 +343,7 @@ FACE is a symbol of the face.
 ARGS is a plist consists with ATTRIBUTE VALUE pairs.
 See `set-face-attribute'."
   (declare (indent 1))
-  `((set-face-attribute ',face
-                        nil
-                        ,@(mapcar (lambda (x) (cond ((keywordp x) x)
-                                                    ((symbolp x) (list 'quote x))
-                                                    (t x)))
-                                  args))))
+  `((set-face-attribute ',face nil ,@args)))
 
 ;;; :property
 (defun pewcfg--normalize-:property (forms)
@@ -368,25 +364,28 @@ PROP is the symbol of the property and VAL is the value to set with."
 ;;; :hook
 (defun pewcfg--normalize-:hook (forms)
   "Normalize function for ':hook'."
-  (mapcar #'pewcfg-normalize-pair forms))
+  (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg--generate-:hook (name function)
+(defun pewcfg--generate-:hook (name function &optional depth)
   "Set a FUNCTION to a hook NAME.
-NOTE: NAME does not imply suffix '-hook'."
+NOTE: NAME does not imply suffix '-hook'.
+See `add-hook' for parameter."
   (declare (indent 0))
-  `((add-hook ',name #',function)))
+  `((add-hook ',name ,function ,depth)))
 
 ;;; :automode
 (defun pewcfg--normalize-:automode (forms)
   "Normalize function for ':automode'."
-  (mapcar #'pewcfg-normalize-pair forms))
+  (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg--generate-:automode (matcher mode)
+(defun pewcfg--generate-:automode (regexp mode &optional fallthrough)
   "Set `auto-mode-alist'.
-MATCHER is usually a string of regex.
-MODE is a symbol of the mode."
+REGEXP is a string of regex.
+MODE is a symbol of the mode.
+FALLTHROUGH can be anything that is non-nil so it will continue matching when
+matched with matched suffix removed."
   (declare (indent 0))
-  `((add-to-list 'auto-mode-alist ',(cons matcher mode))))
+  `((add-to-list 'auto-mode-alist (list ,regexp ,mode ,fallthrough))))
 
 ;;; :eval
 (defun pewcfg--normalize-:eval (forms)
@@ -413,23 +412,18 @@ MODE is a symbol of the mode."
   "Normalize function for ':vcpkg'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg--generate-:vcpkg (repo rev &optional fetcher name backend)
+(defun pewcfg--generate-:vcpkg (name package rev &optional backend)
   "Install package from a VC source.
-This is a wrapper of `package-vc-install'.
-REPO is the name of the repository including owner, e.g. \"peromage/rice\".
-FETCHER is the remote where to get the package.  Default to \"github\".
-NAME, REV, BACKEND are the specs described in `package-vc-selected-packages'.
+This is a wrapper of `package-vc-install'.  See that function for parameter
+explanation.
 
 NOTE: The package can't be upgraded along with normal package update.  The old
 package must be deleted before installing a new version, assuming the REV is not
 pinned to a specific revision.
 
 See: https://tony-zorman.com/posts/package-vc-install.html"
-  (let ((url (format "https://www.%s.com/%s" (or fetcher "github") repo))
-        (name (or name (intern (file-name-base repo))))
-        (backend (or backend 'Git)))
-    `((unless (package-installed-p ',name)
-        (package-vc-install (list ',name :url ,url :branch ,rev :vc-backend ',backend))))))
+  `((unless (package-installed-p ',name)
+      (package-vc-install ,package ,rev ,backend ',name))))
 
 (provide 'pewcfg-core)
 ;;; pewcfg-core.el ends here
