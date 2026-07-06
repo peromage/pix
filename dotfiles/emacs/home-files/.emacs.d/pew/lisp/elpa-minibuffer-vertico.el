@@ -11,14 +11,14 @@
 
   :bind
   ( :map vertico-map
-    ("RET" . vertico-directory-enter)
-    ("DEL" . vertico-directory-delete-char)
+    ("RET"   . vertico-directory-enter)
+    ("DEL"   . vertico-directory-delete-char)
     ("M-DEL" . vertico-directory-delete-word)
-    ("M-1" . vertico-multiform-vertical)
-    ("M-2" . vertico-multiform-grid)
-    ("M-3" . vertico-multiform-flat)
-    ("M-4" . vertico-multiform-reverse)
-    ("M-5" . vertico-multiform-unobtrusive) )
+    ("M-1"   . vertico-multiform-vertical)
+    ("M-2"   . vertico-multiform-grid)
+    ("M-3"   . vertico-multiform-flat)
+    ("M-4"   . vertico-multiform-reverse)
+    ("M-5"   . vertico-multiform-unobtrusive) )
 
   :custom
   ;; Default views for different commands/results
@@ -48,12 +48,8 @@
   ( ("C-s"   . consult-line)
     ("C-x b" . consult-buffer)
     ("C-x B" . consult-buffer-other-window)
-    ("C-x F" . consult-find)
-    ("C-x g" . consult-ripgrep)
-    ("C-x G" . consult-grep)
-    ("C-x l" . consult-outline)
-    ("C-x j" . consult-imenu)
-    ("C-x J" . consult-flymake)
+    ("C-x i" . consult-ripgrep)
+    ("C-x I" . consult-grep)
     ([remap imenu] . consult-imenu)
     ([remap goto-line] . consult-goto-line)
     ([remap bookmark-jump] . consult-bookmark)

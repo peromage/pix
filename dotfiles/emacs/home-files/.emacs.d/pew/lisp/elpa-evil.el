@@ -236,8 +236,8 @@ See `evil-define-key*'."
 
 ;;; Keybindings
   ;; Toggle key
-  (evil-set-toggle-key "C-x m")
-  (global-set-key (kbd "C-x C-m") #'evil-mode)
+  (evil-set-toggle-key "C-x M")
+  (keymap-global-set "C-x m" #'evil-mode)
 
   ;; Leader keys
   (evil-set-leader '(normal motion visual) (kbd "RET")) ;; <leader>

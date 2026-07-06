@@ -82,7 +82,7 @@
    (eshell-mode . pew-cape-on-eshell-mode))
 
   :bind
-  ( :map pew-M-c-map
+  ( :map pewkey-completion-map
     ("i"  . completion-at-point)
     ("t"  . complete-tag)
     ("d"  . cape-dabbrev)

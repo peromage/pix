@@ -117,9 +117,8 @@
   :commands magit-status
 
   :bind
-  ( :map pewkey-utility-map
-    ("g" . magit-status)
-    ("G" . magit-file-dispatch) )
+  (("C-x v" . magit-status)
+   ("C-x V" . magit-file-dispatch))
 
   :custom
   ;; Don't use the default bindings under "C-x" prefix
@@ -210,8 +209,7 @@ from this variable to corresponding hooks, if saved any.")
   :custom
   (ghostel-shell-integration t)
   (ghostel-shell '("sh" "-c" "command -v fish >/dev/null && exec fish -i || exec bash -i"))
-  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\"
-                               "C-z" "M-o" "M-t" "M-c" "M-u" "M-l" "M-z" "M-q" "M-h"))
+  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\" "C-z"))
   ;; Set the initial buffer name to match window management regex in `pewlib-buffer-regex-plist'
   ;; The name is then renamed by `ghostel-buffer-name-function' after creation
   (ghostel-buffer-name "*ghostelterm*")

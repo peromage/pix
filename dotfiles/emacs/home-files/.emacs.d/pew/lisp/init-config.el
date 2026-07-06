@@ -307,7 +307,7 @@
    ("C-x" . ctl-x-map)
    ("C-u" . #'universal-argument)
    ("C-p" . #'pewkey-repeat)
-   ("C-k" . #'pewkey-utility-map)
+   ("C-j" . #'pewkey-utility-map)
    ("C-l" . #'pewkey-project-map)
    ("C-i" . #'pewkey-completion-map)
 
@@ -385,13 +385,13 @@
    ("C-M-0" . #'text-scale-adjust)
    ("C-M-=" . #'text-scale-adjust)
 
-;;;; Frame Transparency
+;;;; Frame
    ("M-=" . #'pewlib-increase-frame-opacity)
    ("M--" . #'pewlib-decrease-frame-opacity)
-   ("n"   . #'make-frame-command)
+   ("C-n" . #'make-frame-command)
    ("N"   . #'pewlib-pop-window-in-new-frame)
-   ("C-n" . #'pewlib-pop-window-in-new-frame-persist)
    ("W"   . #'delete-frame)
+   ("O"   . #'other-frame)
 
 ;;;; Rebind word manipulations
    ("M-t" . #'transpose-words)
@@ -403,7 +403,10 @@
    ("M-h" . #'mark-paragraph)
 
 ;;;; Editing
-   ("DEL" . #'cycle-spacing))
+   ("DEL" . #'cycle-spacing)
+
+;;;; Other
+   ("C-d" . #'dired-jump))
 
 ;;; Mode keybindings
   :bind
