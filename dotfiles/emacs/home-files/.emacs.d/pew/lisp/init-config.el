@@ -286,173 +286,173 @@
   (line-move-visual)
   (debug-on-error)
   (help-window-select)
-  (display-line-numbers . (nil absolute relative visual))
+  (display-line-numbers nil 'absolute 'relative 'visual)
 
   :map
   (pewkey-completion-map)
   ;; Language related packages, like LSP, agent, etc.
   (pewkey-project-map
-   ("m"   . flymake-show-buffer-diagnostics)
-   ("M"   . flymake-show-project-diagnostics)
-   ("M-m" . flymake-mode))
+   ("m"   . #'flymake-show-buffer-diagnostics)
+   ("M"   . #'flymake-show-project-diagnostics)
+   ("M-m" . #'flymake-mode))
   ;; Frequently accessed packages, like git, movement, etc.
   (pewkey-utility-map
-   ("o" . org-capture)
-   ("O" . org-agenda))
+   ("o" . #'org-capture)
+   ("O" . #'org-agenda))
 
 ;;; Transient keybindings
   :transient
   (pewkey :parent ctl-x-map
 ;;;; Overrides
    ("C-x" . ctl-x-map)
-   ("C-u" . universal-argument)
-   ("C-p" . pewkey-repeat)
-   ("C-k" . pewkey-utility-map)
-   ("C-l" . pewkey-project-map)
-   ("C-i" . pewkey-completion-map)
+   ("C-u" . #'universal-argument)
+   ("C-p" . #'pewkey-repeat)
+   ("C-k" . #'pewkey-utility-map)
+   ("C-l" . #'pewkey-project-map)
+   ("C-i" . #'pewkey-completion-map)
 
 ;;;; Windows/Buffers
-   ("q"         . pewlib-close-window)
-   ("RET"       . pewlib-split-window-auto)
-   ("<return>"  . pewlib-split-window-auto)
-   ("9"         . window-toggle-side-windows)
-   ("0"         . pewlib-close-window)
-   ("j"         . pewlib-next-window)
-   ("k"         . pewlib-prev-window)
-   ("C-<left>"  . shrink-window-horizontally)
-   ("C-<down>"  . shrink-window)
-   ("C-<up>"    . enlarge-window)
-   ("C-<right>" . enlarge-window-horizontally)
-   ("R"         . rename-buffer)
-   ("s"         . save-buffer)
-   ("]"         . pewlib-next-editing-buffer)
-   ("["         . pewlib-previous-editing-buffer)
-   ("i"         . pewlib-display-and-copy-buffer-file-name)
-   ("g"         . revert-buffer-quick)
-   ("B"         . display-buffer)
+   ("q"         . #'pewlib-close-window)
+   ("RET"       . #'pewlib-split-window-auto)
+   ("<return>"  . #'pewlib-split-window-auto)
+   ("9"         . #'window-toggle-side-windows)
+   ("0"         . #'pewlib-close-window)
+   ("j"         . #'pewlib-next-window)
+   ("k"         . #'pewlib-prev-window)
+   ("C-<left>"  . #'shrink-window-horizontally)
+   ("C-<down>"  . #'shrink-window)
+   ("C-<up>"    . #'enlarge-window)
+   ("C-<right>" . #'enlarge-window-horizontally)
+   ("R"         . #'rename-buffer)
+   ("s"         . #'save-buffer)
+   ("]"         . #'pewlib-next-editing-buffer)
+   ("["         . #'pewlib-previous-editing-buffer)
+   ("i"         . #'pewlib-display-and-copy-buffer-file-name)
+   ("g"         . #'revert-buffer-quick)
+   ("B"         . #'display-buffer)
 
 ;;;; Layout
-   ("y" . winner-undo)
-   ("Y" . winner-redo)
+   ("y" . #'winner-undo)
+   ("Y" . #'winner-redo)
 
 ;;;; Other window
-   ("M-V" . pewlib-scroll-other-window-page-down)
-   ("M-C" . pewlib-scroll-other-window-page-up)
-   ("M-N" . pewlib-scroll-other-window-line-down)
-   ("M-P" . pewlib-scroll-other-window-line-up)
-   ("M-L" . pewlib-recenter-other-window)
+   ("M-V" . #'pewlib-scroll-other-window-page-down)
+   ("M-C" . #'pewlib-scroll-other-window-page-up)
+   ("M-N" . #'pewlib-scroll-other-window-line-down)
+   ("M-P" . #'pewlib-scroll-other-window-line-up)
+   ("M-L" . #'pewlib-recenter-other-window)
 
 ;;;; Tab
-   ("w"   . tab-bar-close-tab)
-   ("r"   . tab-bar-rename-tab)
-   ("l"   . tab-bar-switch-to-next-tab)
-   ("L"   . tab-bar-select-tab-by-name)
-   ("h"   . tab-bar-switch-to-prev-tab)
-   ("t"   . tab-bar-new-tab)
-   ("T"   . pewlib-pop-window-in-new-tab)
-   ("C-t" . pewlib-pop-window-in-new-tab-persist)
-   ("."   . pewlib-move-tab-next)
-   (","   . pewlib-move-tab-prev)
+   ("w"   . #'tab-bar-close-tab)
+   ("r"   . #'tab-bar-rename-tab)
+   ("l"   . #'tab-bar-switch-to-next-tab)
+   ("L"   . #'tab-bar-select-tab-by-name)
+   ("h"   . #'tab-bar-switch-to-prev-tab)
+   ("t"   . #'tab-bar-new-tab)
+   ("T"   . #'pewlib-pop-window-in-new-tab)
+   ("C-t" . #'pewlib-pop-window-in-new-tab-persist)
+   ("."   . #'pewlib-move-tab-next)
+   (","   . #'pewlib-move-tab-prev)
 
 ;;;; Jump
-   ("C-o"   . pop-global-mark)
-   ("M-."   . xref-find-definitions)
-   ("C-M-." . xref-find-apropos)
-   ("M-,"   . xref-go-back)
-   ("C-M-," . xref-go-forward)
-   ("M-?"   . xref-find-references)
+   ("C-o"   . #'pop-global-mark)
+   ("M-."   . #'xref-find-definitions)
+   ("C-M-." . #'xref-find-apropos)
+   ("M-,"   . #'xref-go-back)
+   ("C-M-," . #'xref-go-forward)
+   ("M-?"   . #'xref-find-references)
 
 ;;;; Dabbrev completion
-   ("M-/"   . dabbrev-expand)
-   ("C-M-/" . dabbrev-completion)
+   ("M-/"   . #'dabbrev-expand)
+   ("C-M-/" . #'dabbrev-completion)
 
 ;;;; Edit
-   ("u" . undo)
-   ("U" . undo-redo)
-   (";" . comment-line)
-   ("/" . isearch-forward-regexp)
-   ("?" . isearch-query-replace-regexp)
-   ("-" . what-cursor-position)
-   ("=" . ispell-word)
+   ("u" . #'undo)
+   ("U" . #'undo-redo)
+   (";" . #'comment-line)
+   ("/" . #'isearch-forward-regexp)
+   ("?" . #'isearch-query-replace-regexp)
+   ("-" . #'what-cursor-position)
+   ("=" . #'ispell-word)
 
 ;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
-   ("C-+" .   global-text-scale-adjust)
-   ("C--" .   global-text-scale-adjust)
-   ("C-0" .   global-text-scale-adjust)
-   ("C-=" .   global-text-scale-adjust)
-   ("C-M-+" . text-scale-adjust)
-   ("C-M--" . text-scale-adjust)
-   ("C-M-0" . text-scale-adjust)
-   ("C-M-=" . text-scale-adjust)
+   ("C-+"   . #'global-text-scale-adjust)
+   ("C--"   . #'global-text-scale-adjust)
+   ("C-0"   . #'global-text-scale-adjust)
+   ("C-="   . #'global-text-scale-adjust)
+   ("C-M-+" . #'text-scale-adjust)
+   ("C-M--" . #'text-scale-adjust)
+   ("C-M-0" . #'text-scale-adjust)
+   ("C-M-=" . #'text-scale-adjust)
 
 ;;;; Frame Transparency
-   ("M-=" . pewlib-increase-frame-opacity)
-   ("M--" . pewlib-decrease-frame-opacity)
-   ("n"   . make-frame-command)
-   ("N"   . pewlib-pop-window-in-new-frame)
-   ("C-n" . pewlib-pop-window-in-new-frame-persist)
-   ("W"   . delete-frame)
+   ("M-=" . #'pewlib-increase-frame-opacity)
+   ("M--" . #'pewlib-decrease-frame-opacity)
+   ("n"   . #'make-frame-command)
+   ("N"   . #'pewlib-pop-window-in-new-frame)
+   ("C-n" . #'pewlib-pop-window-in-new-frame-persist)
+   ("W"   . #'delete-frame)
 
 ;;;; Rebind word manipulations
-   ("M-t" . transpose-words)
-   ("M-c" . capitalize-word)
-   ("M-u" . upcase-word)
-   ("M-l" . downcase-word)
-   ("M-z" . zap-to-char)
-   ("M-q" . fill-paragraph)
-   ("M-h" . mark-paragraph)
+   ("M-t" . #'transpose-words)
+   ("M-c" . #'capitalize-word)
+   ("M-u" . #'upcase-word)
+   ("M-l" . #'downcase-word)
+   ("M-z" . #'zap-to-char)
+   ("M-q" . #'fill-paragraph)
+   ("M-h" . #'mark-paragraph)
 
 ;;;; Editing
-   ("DEL" . cycle-spacing))
+   ("DEL" . #'cycle-spacing))
 
 ;;; Mode keybindings
   :bind
 ;;;; Global
   (global-map
    ;; Remap for better experience
-   ("<remap> <split-window-below>"        . pewlib-split-window-below)
-   ("<remap> <split-window-right>"        . pewlib-split-window-right)
-   ("<remap> <split-window-horizontally>" . pewlib-split-window-right)
-   ("<remap> <split-window-vertically>"   . pewlib-split-window-below)
-   ("<remap> <next-buffer>"               . pewlib-next-editing-buffer)
-   ("<remap> <previous-buffer>"           . pewlib-previous-editing-buffer)
-   ("<remap> <list-buffers>"              . ibuffer)
-   ("<remap> <isearch-delete-char>"       . isearch-del-char)
+   ("<remap> <split-window-below>"        . #'pewlib-split-window-below)
+   ("<remap> <split-window-right>"        . #'pewlib-split-window-right)
+   ("<remap> <split-window-horizontally>" . #'pewlib-split-window-right)
+   ("<remap> <split-window-vertically>"   . #'pewlib-split-window-below)
+   ("<remap> <next-buffer>"               . #'pewlib-next-editing-buffer)
+   ("<remap> <previous-buffer>"           . #'pewlib-previous-editing-buffer)
+   ("<remap> <list-buffers>"              . #'ibuffer)
+   ("<remap> <isearch-delete-char>"       . #'isearch-del-char)
 
    ;; Override C-x for my own bindings
    ;; The original `ctl-x-map' can still be accessed by "C-x C-x"
-   ("C-x" . pewkey-map))
+   ("C-x" . #'pewkey-map))
 
 ;;;; Dired
   (dired-mode-map
-   ("RET"     . pewlib-dired-go-to)
-   ("DEL"     . pewlib-dired-go-up)
-   ("f"       . dired-find-file)
-   ("b"       . dired-up-directory)
-   ("<left>"  . dired-up-directory)
-   ("<right>" . dired-find-file))
+   ("RET"     . #'pewlib-dired-go-to)
+   ("DEL"     . #'pewlib-dired-go-up)
+   ("f"       . #'dired-find-file)
+   ("b"       . #'dired-up-directory)
+   ("<left>"  . #'dired-up-directory)
+   ("<right>" . #'dired-find-file))
 
 ;;; Mode hooks
   :hook
   ;; Basic modes
-  (prog-mode-hook . pewlib-prog-mode-setup)
-  (text-mode-hook . pewlib-text-mode-setup)
+  (prog-mode-hook #'pewlib-prog-mode-setup)
+  (text-mode-hook #'pewlib-text-mode-setup)
 
   ;; Make shell clean
-  (eshell-mode-hook . pewlib-terminal-mode-setup)
-  (shell-mode-hook  . pewlib-terminal-mode-setup)
+  (eshell-mode-hook #'pewlib-terminal-mode-setup)
+  (shell-mode-hook  #'pewlib-terminal-mode-setup)
 
   ;; Don't save trailing spaces
-  (before-save-hook . pewlib-delete-trailing-whitespaces)
+  (before-save-hook #'pewlib-delete-trailing-whitespaces)
 
   ;; Don't move cursor to the minibuffer prompt
-  (minibuffer-setup-hook . cursor-intangible-mode)
+  (minibuffer-setup-hook #'cursor-intangible-mode)
 
   ;; Don't spawn new windows
-  (grep-mode-hook . pewlib-reuse-window-in-buffer)
+  (grep-mode-hook #'pewlib-reuse-window-in-buffer)
 
   ;; Show less in Dired
-  (dired-mode-hook . dired-hide-details-mode)
+  (dired-mode-hook #'dired-hide-details-mode)
 
 ;;; Symbol properties
   :property
@@ -480,8 +480,8 @@
 
 ;;; Face settings
   :face
-  (default :family "Iosevka" :foundry "UKWN" :slant normal :weight normal :height 120 :width normal)
-  (tab-bar :inherit default))
+  (default :family "Iosevka" :foundry "UKWN" :slant 'normal :weight 'normal :height 120 :width 'normal)
+  (tab-bar :inherit 'default))
 
 (provide 'init-config)
 ;;; init-config.el ends here
