@@ -289,6 +289,7 @@
   (display-line-numbers nil 'absolute 'relative 'visual)
 
   :map
+  (pewkey-prime-map)
   (pewkey-completion-map)
   ;; Language related packages, like LSP, agent, etc.
   (pewkey-project-map
@@ -310,6 +311,7 @@
    ("C-j" . #'pewkey-utility-map)
    ("C-l" . #'pewkey-project-map)
    ("C-i" . #'pewkey-completion-map)
+   ("C-z" . #'pewkey-prime-map)
 
 ;;;; Windows/Buffers
    ("q"         . #'pewlib-close-window)
