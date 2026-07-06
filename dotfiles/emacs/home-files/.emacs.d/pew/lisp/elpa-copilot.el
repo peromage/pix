@@ -1,7 +1,5 @@
-;;; elpa-ai.el --- AI related packages -*- lexical-binding: t; -*-
+;;; elpa-copilot.el --- Copilot agent -*- lexical-binding: t; -*-
 ;;; Commentary:
-
-;;; Code:
 
 ;; Based on the README, Node.js v18+ must be installed as a prerequisite.
 ;; For the first time installation, remember to invoke `copilot-install-server'
@@ -12,6 +10,9 @@
 ;; - Cursor sometimes jumps to the end of Copilot prompt instead of the
 ;; beginning.  As a result, the `copilot-completion-map' will not take effective.
 ;; Workaround: Type the first a few letters to move the cursor to the right position.
+
+;;; Code:
+
 (use-package copilot
   :straight t
   :commands (copilot-mode global-copilot-mode)
@@ -26,27 +27,5 @@
     ("M-f" . copilot-accept-completion-by-word)
     ("M-e" . copilot-accept-completion-by-line) ))
 
-(use-package claude-code-ide
-  :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
-
-  :bind
-  ( :map pewkey-project-map
-    ("d" . claude-code-ide-menu))
-
-  :custom
-  (claude-code-ide-use-side-window t)
-  (claude-code-ide-window-side 'right)
-  (claude-code-ide-window-width 100)
-  (claude-code-ide-diagnostics-backend 'flymake)
-  (claude-code-ide-enable-execute-code t)
-  (claude-code-ide-cli-extra-flags "--model opus")
-  ;; Vterm related
-  (claude-code-ide-terminal-backend 'ghostel)
-  (claude-code-ide-vterm-anti-flicker t)
-  (claude-code-ide-vterm-render-delay 0.01)
-
-  :config
-  (claude-code-ide-emacs-tools-setup))
-
-(provide 'elpa-ai)
-;;; elpa-ai.el ends here
+(provide 'elpa-copilot)
+;;; elpa-copilot.el ends here

@@ -133,5 +133,25 @@
                                                     )
                                               completion-at-point-functions))) ;; End cape
 
+;;; Icons
+
+(use-package nerd-icons-corfu
+  :straight t
+  :after corfu
+
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+
+(use-package kind-icon
+  :straight t
+  :after corfu
+
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
 (provide 'elpa-completion-corfu)
 ;;; elpa-completion-corfu.el ends here

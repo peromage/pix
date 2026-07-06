@@ -21,28 +21,61 @@
     (normal-top-level-add-subdirs-to-load-path)))
 
 ;;; Module loading
-;; NOTE: The loading sequence is important
+;; --- Bootstrap ---
 (require 'pewcfg)
 (require 'pewlib)
 (require 'init-boot)
 (require 'init-package)
 (require 'init-config)
 
-;; Load ELPA packages
-(require 'elpa-ui)
-(require 'elpa-evil)
-(require 'elpa-completion-company)
-;; (require 'elpa-completion-corfu)
+;; --- Basics ---
 ;; (require 'elpa-minibuffer-ivy)
 (require 'elpa-minibuffer-vertico)
-(require 'elpa-utils)
-(require 'elpa-org)
-(require 'elpa-ai)
+;; (require 'elpa-completion-corfu)
+(require 'elpa-completion-company)
 
-;; Language supports
-(require 'elpa-langs)
-;; (require 'elpa-lsp) ;; LSP is the dependency of language modules
+;; --- Languages ---
+;; (require 'elpa-lsp)
 (require 'elpa-eglot)
+(require 'elpa-treesit)
+(require 'elpa-copilot)
+(require 'elpa-claude-code-ide)
+;; (require 'elpa-flycheck)
+(require 'elpa-langs)
+(require 'elpa-lang-cpp)
+(require 'elpa-lang-python)
+(require 'elpa-lang-nix)
+(require 'elpa-lang-lua)
+(require 'elpa-lang-cmake)
+(require 'elpa-lang-kdl)
+;; (require 'elpa-lang-plantuml)
+;; (require 'elpa-lang-graphviz-dot)
+(require 'elpa-lang-mermaid)
+
+;; --- Daily drivers ---
+(require 'elpa-magit)
+(require 'elpa-git-gutter)
+;; (require 'elpa-vterm)
+(require 'elpa-ghostel)
+(require 'elpa-paredit)
+(require 'elpa-separedit)
+(require 'elpa-ace-window)
+(require 'elpa-avy)
+(require 'elpa-yasnippet)
+(require 'elpa-evil)
+(require 'elpa-org)
+
+;; --- Misc ---
+(require 'elpa-utils)
+(require 'elpa-keycast)
+;; (require 'elpa-which-key)
+;; (require 'elpa-treemacs)
+
+;; --- Appearance ---
+;; (require 'elpa-ui-doom-modeline)
+(require 'elpa-ui-fonts)
+(require 'elpa-ui-prot-modeline)
+(require 'elpa-ui-themes)
 
 ;; ANCHOR-PRE-CUSTOM-EL
 
