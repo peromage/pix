@@ -328,7 +328,7 @@
    ("s"         . #'save-buffer)
    ("]"         . #'pewlib-next-editing-buffer)
    ("["         . #'pewlib-previous-editing-buffer)
-   ("i"         . #'pewlib-display-and-copy-buffer-file-name)
+   ("G"         . #'pewlib-display-and-copy-buffer-file-name)
    ("g"         . #'revert-buffer-quick)
    ("B"         . #'display-buffer)
 
