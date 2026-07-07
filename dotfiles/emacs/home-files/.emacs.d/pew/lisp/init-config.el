@@ -311,7 +311,6 @@
    ("C-j" . #'pewkey-utility-map)
    ("C-l" . #'pewkey-project-map)
    ("C-i" . #'pewkey-completion-map)
-   ("C-z" . #'pewkey-prime-map)
 
 ;;;; Windows/Buffers
    ("q"         . #'pewlib-close-window)
@@ -426,7 +425,8 @@
 
    ;; Override C-x for my own bindings
    ;; The original `ctl-x-map' can still be accessed by "C-x C-x"
-   ("C-x" . #'pewkey-map))
+   ("C-x" . #'pewkey-map)
+   ("C-z" . #'pewkey-prime-map))
 
 ;;;; Dired
   (dired-mode-map
