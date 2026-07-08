@@ -249,8 +249,11 @@
   (ispell-dictionary "en_US")
 
 ;;;; ediff
+  (ediff-keep-variants nil)
+  (ediff-make-buffers-readonly-at-startup nil)
+  (ediff-show-clashes-only nil)
   (ediff-window-setup-function 'ediff-setup-windows-plain)
-  (ediff-split-window-function 'split-window-vertically)
+  (ediff-split-window-function 'split-window-horizontally)
 
 ;;;; electric
   (electric-indent-mode nil)
