@@ -296,9 +296,9 @@
   (pewkey-completion-map)
   ;; Language related packages, like LSP, agent, etc.
   (pewkey-project-map
-   ("m"   . #'flymake-show-buffer-diagnostics)
-   ("M"   . #'flymake-show-project-diagnostics)
-   ("M-m" . #'flymake-mode))
+   ("C-f" . #'flymake-mode)
+   ("f"   . #'flymake-show-buffer-diagnostics)
+   ("F"   . #'flymake-show-project-diagnostics))
   ;; Frequently accessed packages, like git, movement, etc.
   (pewkey-utility-map
    ("o" . #'org-capture)

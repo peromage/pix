@@ -9,8 +9,8 @@
   :commands magit-status
 
   :bind
-  (("C-x v" . magit-status)
-   ("C-x V" . magit-file-dispatch))
+  (("C-x v"   . magit-status)
+   ("C-x C-v" . magit-file-dispatch))
 
   :custom
   ;; Don't use the default bindings under "C-x" prefix
