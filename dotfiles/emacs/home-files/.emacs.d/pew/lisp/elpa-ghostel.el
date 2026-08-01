@@ -19,7 +19,7 @@
   :custom
   (ghostel-shell-integration t)
   (ghostel-shell '("sh" "-c" "command -v fish >/dev/null && exec fish -i || exec bash -i"))
-  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\" "C-z"))
+  (ghostel-keymap-exceptions '("C-c" "C-x" "C-u" "C-h" "M-x" "M-:" "C-\\" "C-z" "ESC"))
   ;; Set the initial buffer name to match window management regex in `pewlib-buffer-regex-plist'
   ;; The name is then renamed by `ghostel-buffer-name-function' after creation
   (ghostel-buffer-name "*ghostelterm*")
