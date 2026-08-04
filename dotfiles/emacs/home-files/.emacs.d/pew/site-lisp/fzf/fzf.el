@@ -35,18 +35,19 @@ Dependencies:
   - fzf (must in PATH)
   - vterm (Emacs plugin)"
   (interactive "DSearch in: ")
-  (let* ((name "fzf-find-file")
+  (let* ((default-directory directory)
+         (name "fzf-find-file")
          (cache (make-temp-file (format "%s-" name)))
+         ;; Replace the shell process causing terminal exit once it finishes
          (command (format "exec fzf >%s" cache))
          (callback (lambda ()
-                     (with-temp-buffer
-                       (insert-file-contents-literally cache)
-                       (delete-file cache)
-                       (let ((result (string-trim (buffer-string))))
-                         (when result
-                           (find-file (expand-file-name result directory)))))))
+                     (let ((fzf-output (with-temp-buffer
+                                         (insert-file-contents-literally cache)
+                                         (delete-file cache)
+                                         (string-trim (buffer-string)))))
+                       (when fzf-output
+                         (find-file (expand-file-name fzf-output directory))))))
          (handlers (cdr (assq (or term fzf-default-term) fzf-terms)))
-         (default-directory directory)
          (buffer (save-excursion (funcall (car handlers) name))))
     (with-current-buffer buffer
       (add-hook 'kill-buffer-hook callback nil 'local)
