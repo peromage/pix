@@ -45,8 +45,14 @@ Dependencies:
                                          (insert-file-contents-literally cache)
                                          (delete-file cache)
                                          (string-trim (buffer-string)))))
-                       (when fzf-output
-                         (find-file (expand-file-name fzf-output directory))))))
+                       (unless (string= "" fzf-output)
+                         ;; Defer opening the file: running `find-file' inside
+                         ;; `kill-buffer-hook' switches `current-buffer', which
+                         ;; breaks the terminal backend's own kill-buffer-hook
+                         ;; that dereferences buffer-local state (e.g. ghostel's
+                         ;; native terminal handle) after us.
+                         (run-at-time 0 nil #'find-file
+                                      (expand-file-name fzf-output directory))))))
          (handlers (cdr (assq (or term fzf-default-term) fzf-terms)))
          (buffer (save-excursion (funcall (car handlers) name))))
     (with-current-buffer buffer
