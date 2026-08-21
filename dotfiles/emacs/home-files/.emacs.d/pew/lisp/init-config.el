@@ -358,13 +358,15 @@
    ("."   . #'pewlib-move-tab-next)
    (","   . #'pewlib-move-tab-prev)
 
-;;;; Jump
+;;;; Marker
    ("C-o"   . #'pop-global-mark)
    ("M-."   . #'xref-find-definitions)
    ("C-M-." . #'xref-find-apropos)
    ("M-,"   . #'xref-go-back)
    ("C-M-," . #'xref-go-forward)
    ("M-?"   . #'xref-find-references)
+   ("SPC"   . #'set-mark-command)
+   ("m"     . #'rectangle-mark-mode)
 
 ;;;; Dabbrev completion
    ("M-/"   . #'dabbrev-expand)

@@ -19,8 +19,8 @@
   :straight t
   :demand t
 
-  :bind
-  ("C-x m" . evil-mode)
+  ;; :bind
+  ;; ("C-x m" . evil-mode)
 
   :custom
   ;; Default evil-want behavior
@@ -240,7 +240,7 @@ See `evil-define-key*'."
 
 ;;; Keybindings
   ;; Toggle key
-  (evil-set-toggle-key "C-x M")
+  ;; (evil-set-toggle-key "C-x M")
 
   ;; Leader keys
   (evil-set-leader '(normal motion visual) (kbd "RET")) ;; <leader>
