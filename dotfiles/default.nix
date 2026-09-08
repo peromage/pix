@@ -6,6 +6,7 @@
     ./emacs
     ./fcitx5
     ./fish
+    ./ghostty
     ./git
     ./gnome
     ./gnupg
