@@ -24,6 +24,7 @@ in pkgs.buildEnv {
     pkgs.pixPkgs.pot-spelling
     ripgrep
     libvterm-neovim  # libvterm doesn't support aarch64-darwin
+    libghostty-vt
     fzf
   ];
 }
