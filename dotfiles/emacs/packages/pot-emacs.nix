@@ -24,7 +24,7 @@ in pkgs.buildEnv {
     pkgs.pixPkgs.pot-spelling
     ripgrep
     libvterm-neovim  # libvterm doesn't support aarch64-darwin
-    libghostty-vt
+    #libghostty-vt   # May be enable in the future, ghostel downloads it currently
     fzf
   ];
 }
