@@ -240,7 +240,7 @@ See `evil-define-key*'."
 
 ;;; Keybindings
   ;; Toggle key
-  ;; (evil-set-toggle-key "C-x M")
+  (evil-set-toggle-key "C-x M")
 
   ;; Leader keys
   (evil-set-leader '(normal motion visual) (kbd "RET")) ;; <leader>
