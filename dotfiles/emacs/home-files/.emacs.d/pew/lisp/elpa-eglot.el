@@ -13,7 +13,7 @@
   :hook (eglot-managed-mode . pew-eglot-managed-mode-setup)
 
   :bind
-  ( :map pewkey-project-map
+  ( :map pewkey-utility-map
     ("l" . eglot)
     :map eglot-mode-map
     ("C-c l f" . eglot-format)

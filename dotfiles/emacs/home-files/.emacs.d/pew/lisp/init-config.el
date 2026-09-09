@@ -295,14 +295,13 @@
   (pewkey-prime-map)
   (pewkey-completion-map)
   ;; Language related packages, like LSP, agent, etc.
-  (pewkey-project-map
-   ("C-f" . #'flymake-mode)
-   ("f"   . #'flymake-show-buffer-diagnostics)
-   ("F"   . #'flymake-show-project-diagnostics))
+  (pewkey-project-map)
   ;; Frequently accessed packages, like git, movement, etc.
   (pewkey-utility-map
    ("o" . #'org-capture)
-   ("O" . #'org-agenda))
+   ("O" . #'org-agenda)
+   ("m" . #'flymake-show-buffer-diagnostics)
+   ("M" . #'flymake-mode))
 
 ;;; Transient keybindings
   :transient
@@ -311,9 +310,10 @@
    ("C-x" . ctl-x-map)
    ("C-u" . #'universal-argument)
    ("C-p" . #'pewkey-repeat)
-   ("C-j" . #'pewkey-utility-map)
-   ("C-l" . #'pewkey-project-map)
-   ("C-i" . #'pewkey-completion-map)
+   ;; Available "a", "d", "w", "e", "c"
+   ("d" . #'pewkey-utility-map)
+   ("c" . #'pewkey-project-map)
+   ("a" . #'pewkey-completion-map)
 
 ;;;; Windows/Buffers
    ("q"         . #'pewlib-close-window)
@@ -347,7 +347,7 @@
    ("M-L" . #'pewlib-recenter-other-window)
 
 ;;;; Tab
-   ("w"   . #'tab-bar-close-tab)
+   ("Q"   . #'tab-bar-close-tab)
    ("r"   . #'tab-bar-rename-tab)
    ("l"   . #'tab-bar-switch-to-next-tab)
    ("L"   . #'tab-bar-select-tab-by-name)
@@ -396,7 +396,7 @@
    ("M--" . #'pewlib-decrease-frame-opacity)
    ("C-n" . #'make-frame-command)
    ("N"   . #'pewlib-pop-window-in-new-frame)
-   ("W"   . #'delete-frame)
+   ("M-Q" . #'delete-frame)
    ("O"   . #'other-frame)
 
 ;;;; Rebind word manipulations

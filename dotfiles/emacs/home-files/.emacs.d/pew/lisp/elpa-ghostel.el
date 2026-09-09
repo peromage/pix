@@ -14,7 +14,7 @@
     ("C-s" . consult-line)
     :map project-prefix-map
     ("t" . ghostel-project)
-    ("T" . ghostel-project-list-buffers))
+    ("T" . ghostel-project-list-buffers) )
 
   :custom
   (ghostel-shell-integration t)

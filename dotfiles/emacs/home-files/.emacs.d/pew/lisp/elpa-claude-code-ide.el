@@ -7,8 +7,8 @@
   :straight (:type git :host github :repo "manzaltu/claude-code-ide.el")
 
   :bind
-  ( :map pewkey-project-map
-    ("d" . claude-code-ide-menu))
+  ( :map pewkey-utility-map
+    ("k" . claude-code-ide-menu) )
 
   :custom
   (claude-code-ide-use-side-window t)
