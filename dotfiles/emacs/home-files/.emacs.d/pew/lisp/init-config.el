@@ -302,6 +302,8 @@
    ("O" . #'org-agenda)
    ("m" . #'flymake-show-buffer-diagnostics)
    ("M" . #'flymake-mode))
+  (pewkey-reserved-1-map)
+  (pewkey-reserved-2-map)
 
 ;;; Transient keybindings
   :transient
@@ -310,10 +312,11 @@
    ("C-x" . ctl-x-map)
    ("C-u" . #'universal-argument)
    ("C-p" . #'pewkey-repeat)
-   ;; Available "a", "d", "w", "e", "c"
-   ("d" . #'pewkey-utility-map)
-   ("c" . #'pewkey-project-map)
    ("a" . #'pewkey-completion-map)
+   ("d" . #'pewkey-utility-map)
+   ("w" . #'pewkey-reserved-1-map)  ;; Not overriding somehow
+   ("e" . #'pewkey-reserved-2-map)
+   ("c" . #'pewkey-project-map)
 
 ;;;; Windows/Buffers
    ("q"         . #'pewlib-close-window)
