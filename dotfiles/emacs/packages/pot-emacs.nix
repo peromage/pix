@@ -13,7 +13,7 @@ let
      https://nixos.wiki/wiki/Emacs
   */
   myEmacs = (pkgs.emacsPackagesFor emacs).emacsWithPackages (epkgs: with epkgs; [
-    vterm # Since vterm cannot be compiled in user environment, use this instead
+    # vterm # Since vterm cannot be compiled in user environment, use this instead
   ]);
 
   ## May omit buildEnv?
@@ -23,8 +23,8 @@ in pkgs.buildEnv {
     myEmacs
     pkgs.pixPkgs.pot-spelling
     ripgrep
-    libvterm-neovim  # libvterm doesn't support aarch64-darwin
-    #libghostty-vt   # May be enable in the future, ghostel downloads it currently
+    # libvterm-neovim  # libvterm doesn't support aarch64-darwin
+    libghostty-vt  # ghostel can download it, too
     fzf
   ];
 }
