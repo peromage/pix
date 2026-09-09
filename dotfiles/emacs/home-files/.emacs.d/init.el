@@ -57,6 +57,7 @@
 (require 'elpa-git-gutter)
 ;; (require 'elpa-vterm)
 (require 'elpa-ghostel)
+(require 'elpa-devdocs)
 (require 'elpa-paredit)
 (require 'elpa-separedit)
 (require 'elpa-ace-window)
