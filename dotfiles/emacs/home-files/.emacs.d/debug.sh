@@ -33,10 +33,10 @@ copy_from_emacs_d() {
     for i in "${ITEMS[@]}"; do
         if [[ -e "$SRC/$i" ]]; then
             echo "Copying $SRC/$i to $i"
-            rm -rf "./straight/$i"
+            rm -rf "./$i"
             cp -af "$SRC/$i" "./$i"
         else
-            echo "Does not exist: $SRC/$i"
+            echo "Not exist: $SRC/$i"
         fi
     done
 
@@ -49,9 +49,10 @@ while getopts "ch" opt "$@"; do
             copy_from_emacs_d
             exit 0
             ;;
-        *) show_help
-           exit 1
-           ;;
+        *)
+            show_help
+            exit 1
+            ;;
     esac
 done
 
