@@ -130,7 +130,7 @@
 ;;;; Whitespaces
   ;; Leaving '(face ...) would cause confusion with `show-trailing-whitespace'
   (whitespace-style '(face trailing space-before-tab missing-newline-at-eof tab-mark))
-  (show-trailing-whitespace t) ;; Independent to `whitespace-mode'
+  ;; (show-trailing-whitespace t) ;; Independent to `whitespace-mode'
   (require-final-newline t) ;; Add missing newline on save
 
 ;;;; Line fold
