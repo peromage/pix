@@ -141,5 +141,7 @@ keybind = ctrl+shift+e=write_scrollback_file:paste
 keybind = global:super+backspace=toggle_quick_terminal
 
 ## *Other configs*
+## In ascending order (the later the higher priority)
+config-file = ?~/Library/Application Support/com.mitchellh.ghostty/auto/theme.ghostty
 config-file = ?auto/theme.ghostty
 config-file = ?config-override.ghostty
