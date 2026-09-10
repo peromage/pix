@@ -1,15 +1,23 @@
-# Basics
+## *Options*
+
+## Basics
 language = en
 command = sh -c 'command -v fish >/dev/null && exec fish -i || exec bash -i'
 quit-after-last-window-closed = true
+quit-after-last-window-closed-delay =
 
-# Fonts
+## Visual
+background-opacity = 0.9
+background-opacity-cells = false
+background-blur = true
+
+## Fonts
 font-family = "Iosevka Term"
 font-style = "Medium"
-# In pt, for example, DPI of the display defines 1pt = 2px
+## In pt, for example, DPI of the display defines 1pt = 2px
 font-size = 16
 
-# Operations
+## Operations
 cursor-style = block
 cursor-style-blink = false
 cursor-click-to-move = false
@@ -20,19 +28,19 @@ scroll-to-bottom = keystroke,no-output
 focus-follows-mouse = false
 right-click-action = context-menu
 
-# Scrolling
-# In bytes
+## Scrolling
+## In bytes
 scrollback-limit = 10000000
 scrollbar = system
 
-# Working directory
+## Working directory
 working-directory = home
 window-inherit-working-directory = false
 window-inherit-font-size = false
 tab-inherit-working-directory = false
 split-inherit-working-directory = true
 
-# Clipboard
+## Clipboard
 clipboard-read = ask
 clipboard-write = allow
 clipboard-trim-trailing-spaces = true
@@ -40,21 +48,93 @@ clipboard-paste-protection = true
 clipboard-paste-bracketed-safe = true
 copy-on-select = true
 
-# Integration
+## Integration
 title-report = false
 shell-integration = detect
 shell-integration-features = sudo,title,path,ssh-env,ssh-terminfo,no-cursor
 
-# Quick terminal
+## Quick terminal
 quick-terminal-position = bottom
-quick-terminal-size = 20%
+quick-terminal-size = 25%
 quick-terminal-screen = main
 
-# Mac specific
+## Mac specific
 macos-option-as-alt = true
 macos-auto-secure-input = true
 macos-secure-input-indication = true
 macos-applescript = true
 
-# Misc
+## Misc
 auto-update = off
+
+
+## *Keybindings*
+keybind = clear
+
+## Split
+keybind = ctrl+shift+1=toggle_split_zoom
+keybind = ctrl+shift+2=new_split:down
+keybind = ctrl+shift+3=new_split:right
+keybind = ctrl+shift+enter=new_split:auto
+keybind = ctrl+shift+up=resize_split:up,10
+keybind = ctrl+shift+down=resize_split:down,10
+keybind = ctrl+shift+left=resize_split:left,10
+keybind = ctrl+shift+right=resize_split:right,10
+keybind = ctrl+shift+j=goto_split:next
+keybind = ctrl+shift+k=goto_split:previous
+keybind = ctrl+shift+r=prompt_tab_title
+
+## Tab
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+h=previous_tab
+keybind = ctrl+shift+l=next_tab
+keybind = ctrl+shift+tab=previous_tab
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+period=move_tab:1
+keybind = ctrl+shift+comma=move_tab:-1
+
+## Window
+keybind = ctrl+shift+n=new_window
+
+## Surface
+keybind = ctrl+shift+alt+r=prompt_surface_title
+keybind = ctrl+shift+q=close_surface
+
+## Interface
+keybind = ctrl+shift+equal=increase_font_size:1
+keybind = ctrl+shift+minus=decrease_font_size:1
+keybind = ctrl+shift+0=reset_font_size
+keybind = ctrl+shift+alt+equal=toggle_background_opacity
+
+## Scrolling
+keybind = scrolling/h=adjust_selection:left
+keybind = scrolling/j=adjust_selection:down
+keybind = scrolling/k=adjust_selection:up
+keybind = scrolling/l=adjust_selection:right
+
+keybind = scrolling/ctrl+e=scroll_page_lines:1
+keybind = scrolling/ctrl+y=scroll_page_lines:-1
+keybind = scrolling/ctrl+f=scroll_page_down
+keybind = scrolling/ctrl+b=scroll_page_up
+keybind = scrolling/g=scroll_to_top
+keybind = scrolling/shift+g=scroll_to_bottom
+
+keybind = scrolling/q=deactivate_key_table
+keybind = scrolling/escape=deactivate_key_table
+
+keybind = ctrl+shift+s=activate_key_table:scrolling
+
+## Editing
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
+
+keybind = ctrl+shift+f=start_search
+keybind = ctrl+shift+a=select_all
+keybind = ctrl+shift+alt+l=clear_screen
+
+## Utility
+keybind = ctrl+shift+p=toggle_command_palette
+keybind = ctrl+shift+i=toggle_quick_terminal
+keybind = ctrl+shift+e=write_scrollback_file:paste
