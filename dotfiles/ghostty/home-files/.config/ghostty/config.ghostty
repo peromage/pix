@@ -99,6 +99,8 @@ keybind = ctrl+shift+comma=move_tab:-1
 
 ## Window
 keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+o=goto_window:next
+keybind = ctrl+shift+alt+o=goto_window:previous
 
 ## Surface
 keybind = ctrl+shift+alt+r=prompt_surface_title
