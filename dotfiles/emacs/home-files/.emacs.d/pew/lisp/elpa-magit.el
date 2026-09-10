@@ -55,7 +55,12 @@ from this variable to corresponding hooks, if saved any.")
            (pcase-dolist (`(,hook-symbol . ,masks) pew-magit-simple-hook-mask-alist)
              (let ((saved (assq hook-symbol pew-magit-simple--saved-hooks)))
                (when saved
-                   (setf (symbol-value hook-symbol) (cdr saved)))))))))
+                   (setf (symbol-value hook-symbol) (cdr saved))))))))
+
+  :config
+  (pewlib-add-to-list 'project-switch-commands :end
+    '((magit-status "Magit" ?m)
+      (magit-file-dispatch "Magit dispatch" ?M))))
 
 (provide 'elpa-magit)
 ;;; elpa-magit.el ends here

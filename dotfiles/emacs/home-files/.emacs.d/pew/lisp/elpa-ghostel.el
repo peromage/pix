@@ -11,10 +11,7 @@
   ( :map pewkey-utility-map
     ("t" . ghostel)
     :map ghostel-semi-char-mode-map
-    ("C-s" . consult-line)
-    :map project-prefix-map
-    ("t" . ghostel-project)
-    ("T" . ghostel-project-list-buffers) )
+    ("C-s" . consult-line) )
 
   :custom
   (ghostel-shell-integration t)
@@ -30,8 +27,8 @@
 
   :config
   (pewlib-add-to-list 'project-switch-commands :end
-    '((ghostel-project "Ghostel")
-      (ghostel-project-list-buffers "Ghostel buffers"))))
+    '((ghostel-project "Ghostel" ?t)
+      (ghostel-project-list-buffers "Ghostel buffers" ?T))))
 
 (provide 'elpa-ghostel)
 ;;; elpa-ghostel.el ends here
