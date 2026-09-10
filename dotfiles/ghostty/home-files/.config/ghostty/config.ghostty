@@ -11,6 +11,7 @@ confirm-close-surface = true
 background-opacity = 0.9
 background-opacity-cells = false
 background-blur = true
+cursor-invert-fg-bg = true
 
 ## Fonts
 font-family = "Iosevka Term"
@@ -48,6 +49,8 @@ clipboard-trim-trailing-spaces = true
 clipboard-paste-protection = true
 clipboard-paste-bracketed-safe = true
 copy-on-select = true
+selection-clear-on-typing = true
+selection-clear-on-copy = false
 
 ## Integration
 title-report = false
