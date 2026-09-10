@@ -136,5 +136,5 @@ keybind = ctrl+shift+alt+l=clear_screen
 
 ## Utility
 keybind = ctrl+shift+p=toggle_command_palette
-keybind = ctrl+shift+i=toggle_quick_terminal
 keybind = ctrl+shift+e=write_scrollback_file:paste
+keybind = global:super+backspace=toggle_quick_terminal
