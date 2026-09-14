@@ -56,6 +56,8 @@ selection-clear-on-copy = false
 title-report = false
 shell-integration = detect
 shell-integration-features = sudo,title,path,ssh-env,ssh-terminfo,no-cursor
+link-url = true
+link-previews = true
 
 ## Quick terminal
 quick-terminal-position = bottom
