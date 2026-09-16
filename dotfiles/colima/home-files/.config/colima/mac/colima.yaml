@@ -1,0 +1,40 @@
+# See: https://iniakunhuda.medium.com/2-years-with-colima-the-optimization-guide-i-wish-i-had-from-day-one-8b89b8155285
+
+# Hardware
+cpu: 4
+memory: 8
+disk: 100
+
+# Native ARM - never emulate unnecessarily
+arch: aarch64
+runtime: docker
+
+# Enable if need linux/amd64 images
+rosetta: false
+
+# Apple Virtualization.Framework (macOS 13+)
+vmType: vz
+# Fastest option when using vz (Note: requires delete+recreate)
+mountType: virtiofs
+
+# Essential for file watchers (webpack, nodemon, etc.)
+mountInotify: true
+
+network:
+  address: false
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+
+# Enable only when actually need it
+kubernetes:
+  enabled: false
+
+autoActivate: true
+forwardAgent: false
+docker: {}
+
+# Use `mounts: []` to expose the whole $HOME
+mounts:
+  - location: ~/wkspace
+    writable: true
