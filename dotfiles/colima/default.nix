@@ -15,14 +15,9 @@ in {
 
     # colima tends to overwrite config files so don't link
     # See also: https://iniakunhuda.medium.com/2-years-with-colima-the-optimization-guide-i-wish-i-had-from-day-one-8b89b8155285
-    home.file."COLIMA_COPY_ONLY" = {
-      text = "";
-      force = true; # Ensure this is always run
-      onChange = ''
-        rsync() { "${pkgs.rsync}/bin/rsync" "$@"; }
-        rm ${homeDir}/COLIMA_COPY_ONLY
-        rsync -abc --chmod=u=rw,g=rw,o=r ${src}/* ${homeDir}/.config/colima
-      '';
-    };
+    home.activation.copyColimaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      export PATH="${pkgs.rsync}/bin:$PATH"
+      run rsync -abc --chmod=D755,F644 ${src}/* ${homeDir}/.config/colima
+    '';
   };
 }
