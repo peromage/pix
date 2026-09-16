@@ -19,5 +19,7 @@ in {
       export PATH="${pkgs.rsync}/bin:$PATH"
       run rsync -abc --chmod=D755,F644 ${src}/* ${homeDir}/.config/colima
     '';
+
+    home.packages = with pkgs; [ docker ];
   };
 }
