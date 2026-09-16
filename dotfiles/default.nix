@@ -3,6 +3,7 @@
   imports = [
     ./alacritty
     ./bash
+    ./colima
     ./emacs
     ./fcitx5
     ./fish

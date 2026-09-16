@@ -1,0 +1,21 @@
+# See: https://iniakunhuda.medium.com/2-years-with-colima-the-optimization-guide-i-wish-i-had-from-day-one-8b89b8155285
+
+cpu: 4          # Half of performance cores
+memory: 8       # 50% of total RAM
+disk: 100       # Generous for image caching
+arch: aarch64   # Native ARM - never emulate unnecessarily
+runtime: docker
+vmType: vz              # Apple Virtualization.Framework (macOS 13+)
+rosetta: false          # Enable if you need linux/amd64 images
+mountType: virtiofs     # Fastest option when using vz (⚠️ requires delete+recreate)
+mountInotify: true      # Essential for file watchers (webpack, nodemon, etc.)
+network:
+  address: false
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+kubernetes:
+  enabled: false  # Enable only when you actually need it
+autoActivate: true
+forwardAgent: false
+docker: {}
