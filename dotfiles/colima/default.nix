@@ -14,6 +14,7 @@ in {
     services.colima.enable = true;
 
     # colima tends to overwrite config files so don't link
+    # See also: https://iniakunhuda.medium.com/2-years-with-colima-the-optimization-guide-i-wish-i-had-from-day-one-8b89b8155285
     home.file."COLIMA_COPY_ONLY" = {
       text = "";
       force = true; # Ensure this is always run
