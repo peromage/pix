@@ -3,6 +3,7 @@
 let
   cfg = config.pix.dotfiles.colima;
   src = ./home-files/.config/colima;
+  homeDir = config.home.homeDirectory;
 
 in {
   options.pix.dotfiles.colima = {
@@ -12,9 +13,15 @@ in {
   config = lib.mkIf cfg.enable {
     services.colima.enable = true;
 
-    xdg.configFile."colima" = {
-      source = src;
-      recursive = true;
+    # colima tends to overwrite config files so don't link
+    home.file."COLIMA_COPY_ONLY" = {
+      text = "";
+      force = true; # Ensure this is always run
+      onChange = ''
+        rsync() { "${pkgs.rsync}/bin/rsync" "$@"; }
+        rm ${homeDir}/COLIMA_COPY_ONLY
+        rsync -abc --chmod=u=rw,g=rw,o=r ${src}/* ${homeDir}/.config/colima
+      '';
     };
   };
 }
