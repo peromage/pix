@@ -1,11 +1,16 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.python;
-  myPython = let python = pkgs.pixPkgs.pot-python; in python.override {
-    userPyenvDir = "${config.xdg.dataHome}/${python.userPyenvDir}";
-  };
-
+  myPython = let
+    python = pkgs.pixPkgs.pot-python;
+  in
+    python.override {
+      userPyenvDir = "${config.xdg.dataHome}/${python.userPyenvDir}";
+    };
 in {
   options.pix.dotfiles.python = {
     enable = lib.mkEnableOption "Pot Python";
@@ -21,6 +26,6 @@ in {
       myPython.userPath
     ];
 
-    home.packages = [ myPython ];
+    home.packages = [myPython];
   };
 }

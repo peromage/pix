@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.dotfiles.mc;
   src = ./home-files/.config/mc;
-
 in {
   options.pix.dotfiles.mc = {
     enable = lib.mkEnableOption "Pot Midnight Commander";
@@ -11,7 +13,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     xdg.configFile."mc" = {
       source = src;

@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.services.waydroid;
-
 in {
   options.pix.services.waydroid = {
     enable = lib.mkEnableOption "waydroid";
@@ -12,14 +14,14 @@ in {
     virtualisation.waydroid.enable = true;
 
     /*
-       To start a user session in the background and avoid accidental shutdown
-       If don't care about the session life time, use `waydroid show-full-ui' to
-       directly start it.
+    To start a user session in the background and avoid accidental shutdown
+    If don't care about the session life time, use `waydroid show-full-ui' to
+    directly start it.
     */
     systemd.user.services.waydroid-session = {
       enable = true;
       description = "Waydroid user session";
-      after = [ "waydroid-container.service" ];
+      after = ["waydroid-container.service"];
       # wantedBy = [ "default.target" ]; # Means to be started manually on demand
       serviceConfig = {
         Type = "simple";

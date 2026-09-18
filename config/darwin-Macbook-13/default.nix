@@ -1,6 +1,8 @@
-{ pix, pkgs, ... }:
-
 {
+  pix,
+  pkgs,
+  ...
+}: {
   imports = [
     ./homebrew.nix
     ./packages.nix
@@ -15,7 +17,7 @@
   };
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = ["nix-command" "flakes"];
     package = pkgs.nixVersions.stable;
     registry.nixpkgs.flake = nixpkgs;
     nixPath = [

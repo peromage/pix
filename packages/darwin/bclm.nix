@@ -1,10 +1,10 @@
-{ stdenv
-, lib
-, fetchFromGitHub
-, swift
-, swiftPackages
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  swift,
+  swiftPackages,
 }:
-
 swiftPackages.stdenv.mkDerivation rec {
   pname = "bclm";
   version = "0.1.0";

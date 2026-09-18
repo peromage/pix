@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.services.globalprotect;
-
 in {
   options.pix.services.globalprotect = {
     enable = lib.mkEnableOption "GlobalProtect VPN client";

@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.dotfiles.password-store;
-
 in {
   options.pix.dotfiles.password-store = {
     enable = lib.mkEnableOption "Pot Password Store";
@@ -17,10 +19,11 @@ in {
         PASSWORD_STORE_CLIP_TIME = "30";
       };
 
-      package = pkgs.pass.withExtensions (exts: with exts; [
-        pass-otp
-        pass-genphrase
-      ]);
+      package = pkgs.pass.withExtensions (exts:
+        with exts; [
+          pass-otp
+          pass-genphrase
+        ]);
     };
   };
 }

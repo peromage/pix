@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.virtmanager;
-
 in {
   options.pix.services.virtmanager = {
     enable = lib.mkEnableOption "virtual manager";
@@ -20,8 +21,8 @@ in {
     })
 
     /*
-       FIXME: Missing a DKMS module:
-       https://github.com/strongtz/i915-sriov-dkms
+    FIXME: Missing a DKMS module:
+    https://github.com/strongtz/i915-sriov-dkms
     */
     (lib.mkIf (cfg.enable && cfg.enableIntelSRIOV) {
       boot = {

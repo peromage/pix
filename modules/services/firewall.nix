@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.firewall;
-
 in {
   options.pix.services.firewall = {
     enable = lib.mkEnableOption "stateful firewall";

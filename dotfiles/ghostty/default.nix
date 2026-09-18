@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ...}:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.ghostty;
   src = ./home-files/.config/ghostty;
-
 in {
   options.pix.dotfiles.ghostty = {
     enable = lib.mkEnableOption "Pot Ghostty";
@@ -11,9 +13,11 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.ghostty = {
-      enable = true;
-    } // cfg.passthru;
+    programs.ghostty =
+      {
+        enable = true;
+      }
+      // cfg.passthru;
 
     xdg.configFile."ghostty" = {
       source = src;

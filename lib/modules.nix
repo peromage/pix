@@ -1,88 +1,94 @@
-{ self, libnix }:
-
+{
+  self,
+  libnix,
+}:
 with self; {
   /*
-     A thin wrapper for configuration.
-     This function provides ability to override the original configuration by
-     calling the underlying `extend' function.
+  A thin wrapper for configuration.
+  This function provides ability to override the original configuration by
+  calling the underlying `extend' function.
 
-     `f' is a configuration generation function like `nixosSystem',
-     `darwinSystem' or `homeManagerConfiguration'.
+  `f' is a configuration generation function like `nixosSystem',
+  `darwinSystem' or `homeManagerConfiguration'.
 
-     `fp' is a fixed-point function that produces the result consumed by `f'
-     function.
+  `fp' is a fixed-point function that produces the result consumed by `f'
+  function.
 
-     Type:
-       makeConfiguration :: (a -> a) -> (a -> a) -> AttrSet
+  Type:
+    makeConfiguration :: (a -> a) -> (a -> a) -> AttrSet
   */
-  makeConfiguration = f: fp: f (libnix.fix fp) // {
-    extend = overlay: makeConfiguration f (libnix.extends overlay fp);
-  };
+  makeConfiguration = f: fp:
+    f (libnix.fix fp)
+    // {
+      extend = overlay: makeConfiguration f (libnix.extends overlay fp);
+    };
 
   /*
-     Merge a list of attribute sets from config top level.
+  Merge a list of attribute sets from config top level.
 
-     NOTE: This is a workaround to solve the infinite recursion issue when trying
-     merge configs from top level.  The first level of attribute names must be
-     specified explicitly.
+  NOTE: This is a workaround to solve the infinite recursion issue when trying
+  merge configs from top level.  The first level of attribute names must be
+  specified explicitly.
 
-     See: https://gist.github.com/udf/4d9301bdc02ab38439fd64fbda06ea43
+  See: https://gist.github.com/udf/4d9301bdc02ab38439fd64fbda06ea43
 
-     Type:
-       mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
+  Type:
+    mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
     libnix.getAttrs firstLevelNames
-      (libnix.mapAttrs
-        (n: v: libnix.mkMerge v)
-        (libnix.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    (libnix.mapAttrs
+      (n: v: libnix.mkMerge v)
+      (libnix.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   /*
-     Merge multiple module block conditonally.
+  Merge multiple module block conditonally.
 
-     To leverage lazyness and avoid infinit recursion when some module blocks
-     need to be evaluated conditionally.
+  To leverage lazyness and avoid infinit recursion when some module blocks
+  need to be evaluated conditionally.
 
-     Type:
-       mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
+  Type:
+    mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
   mkMergeIf = listOfAttrs: libnix.mkMerge (map (x: libnix.mkIf x.cond x.as) listOfAttrs);
 
   /*
-     Shorthand to declare options with some presets.
+  Shorthand to declare options with some presets.
 
-     Type:
-       mkEnableOption :: String -> AttrSet -> AttrSet
+  Type:
+    mkEnableOption :: String -> AttrSet -> AttrSet
   */
-  mkPresetEnableOption = name: options: {
-    enable = libnix.mkEnableOption name;
-    passthru = libnix.mkOption {};
-  } // options;
+  mkPresetEnableOption = name: options:
+    {
+      enable = libnix.mkEnableOption name;
+      passthru = libnix.mkOption {};
+    }
+    // options;
 
   /*
-     Apply predicate `f' on each attribute and return true if at least one is true.
-     Otherwise, return false.
+  Apply predicate `f' on each attribute and return true if at least one is true.
+  Otherwise, return false.
 
-     Type:
-       anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
+  Type:
+    anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
   anyAttrs = f: attrs: libnix.any (name: f name attrs.${name}) (libnix.attrNames attrs);
 
   /*
-     Merge two package sets from flakes.
+  Merge two package sets from flakes.
 
-     The package set should be like:
+  The package set should be like:
 
-     {
-       x86_64-linux = { ... };
-       aarch64-darwin = { ... };
-       ...
-     }
+  {
+    x86_64-linux = { ... };
+    aarch64-darwin = { ... };
+    ...
+  }
 
-     The second package set overwrites the same keys from the first one.
+  The second package set overwrites the same keys from the first one.
 
-     Type:
-       mergePackages :: AttrSet -> AttrSet -> AttrSet
+  Type:
+    mergePackages :: AttrSet -> AttrSet -> AttrSet
   */
   mergePackages = pa: pb: builtins.mapAttrs (name: value: value // (pb.${name} or {})) pa;
 }

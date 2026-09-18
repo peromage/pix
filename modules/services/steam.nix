@@ -1,27 +1,30 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.services.steam;
 
   customSteam = pkgs.steam.override {
-    extraPkgs = spkgs: with spkgs; [
-      xorg.libXcursor
-      xorg.libXi
-      xorg.libXinerama
-      xorg.libXScrnSaver
-      libpng
-      libpulseaudio
-      libvorbis
-      stdenv.cc.cc.lib
-      libkrb5
-      keyutils
-      steamPackages.steamcmd
-      steamPackages.steam-runtime
-      wqy_zenhei
-      wqy_microhei
-    ];
+    extraPkgs = spkgs:
+      with spkgs; [
+        xorg.libXcursor
+        xorg.libXi
+        xorg.libXinerama
+        xorg.libXScrnSaver
+        libpng
+        libpulseaudio
+        libvorbis
+        stdenv.cc.cc.lib
+        libkrb5
+        keyutils
+        steamPackages.steamcmd
+        steamPackages.steam-runtime
+        wqy_zenhei
+        wqy_microhei
+      ];
   };
-
 in {
   options.pix.services.steam = {
     enable = lib.mkEnableOption "Steam";

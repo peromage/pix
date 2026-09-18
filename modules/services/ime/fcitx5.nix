@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.services.ime.fcitx5;
   gnomeCfg = config.pix.desktops.env.gnome;
-
 in {
   options.pix.services.ime.fcitx5 = {
     enable = lib.mkEnableOption "Fcitx5";
@@ -22,16 +24,17 @@ in {
       enable = true;
       type = "fcitx5";
       fcitx5.addons = with pkgs; [
-        (fcitx5-rime.override { rimeDataPkgs = []; })
+        (fcitx5-rime.override {rimeDataPkgs = [];})
         kdePackages.fcitx5-configtool
         fcitx5-gtk
       ];
     };
 
-    environment.systemPackages = with pkgs; [
-      (librime.override { plugins = [ librime-lua librime-octagram ];})
-      rime-cli
-    ]
-    ++ lib.optional gnomeCfg.enable gnomeExtensions.kimpanel;
+    environment.systemPackages = with pkgs;
+      [
+        (librime.override {plugins = [librime-lua librime-octagram];})
+        rime-cli
+      ]
+      ++ lib.optional gnomeCfg.enable gnomeExtensions.kimpanel;
   };
 }

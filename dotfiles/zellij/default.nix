@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.zellij;
   src = ./home-files/.config/zellij;
-
 in {
   options.pix.dotfiles.zellij = {
     enable = lib.mkEnableOption "Pot Zellij";

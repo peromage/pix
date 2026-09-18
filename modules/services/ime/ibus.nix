@@ -1,8 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.services.ime.ibus;
-
 in {
   options.pix.services.ime.ibus = {
     enable = lib.mkEnableOption "Ibus";

@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.i18n;
-
 in {
   options.pix.services.i18n = {
     enable = lib.mkEnableOption "internationalization";

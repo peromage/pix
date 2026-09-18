@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.hardware.bootloader.grub;
-
 in {
   options.pix.hardware.bootloader.grub = {
     enable = lib.mkEnableOption "Grub bootloader";

@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.dotfiles.fcitx5;
   srcFcitx5Config = ./home-files/.config/fcitx5;
   srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
-
 in {
   options.pix.dotfiles.fcitx5 = {
     enable = lib.mkEnableOption "Pot Fcitx5";

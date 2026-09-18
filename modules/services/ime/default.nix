@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.ime;
   enabledIME = lib.filterAttrs (_: v: v.enable) cfg;
-
 in {
   imports = [
     ./fcitx5.nix

@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   emacsCfg = config.pix.dotfiles.emacs;
   spellingCfg = config.pix.dotfiles.spelling;
-
 in {
   options.pix.dotfiles = {
     emacs = {
@@ -20,7 +22,7 @@ in {
 
   config = lib.mkMerge [
     (lib.mkIf emacsCfg.enable {
-      home.packages = [ emacsCfg.package  emacsCfg.configPackage ];
+      home.packages = [emacsCfg.package emacsCfg.configPackage];
 
       home.file.".emacs.d" = {
         source = "${emacsCfg.configPackage}/etc/pot-emacs-config";
@@ -29,7 +31,7 @@ in {
     })
 
     (lib.mkIf spellingCfg.enable {
-      home.packages = [ spellingCfg.package ];
+      home.packages = [spellingCfg.package];
     })
   ];
 }

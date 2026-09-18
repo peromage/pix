@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.dotfiles.pot-utils;
   mkIfDarwin = cond: lib.mkIf (pkgs.stdenv.isDarwin && cond);
-
 in {
   options.pix.dotfiles.pot-utils = {
     enable = lib.mkEnableOption "Pot Utils";
@@ -15,9 +17,9 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.pixPkgs.pot-utils ];
+    home.packages = [pkgs.pixPkgs.pot-utils];
 
-    home.activation.fixMacOSApps = mkIfDarwin cfg.darwin.fixHomeManagerApps (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    home.activation.fixMacOSApps = mkIfDarwin cfg.darwin.fixHomeManagerApps (lib.hm.dag.entryAfter ["writeBoundary"] ''
       run ${pkgs.pixPkgs.pot-utils}/bin/darwin-fix-homemanager-apps.sh
     '');
 

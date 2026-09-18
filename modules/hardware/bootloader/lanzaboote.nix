@@ -1,10 +1,13 @@
-{ config, lib, pkgs, pix, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  pix,
+  ...
+}: let
   cfg = config.pix.hardware.bootloader.lanzaboote;
-
 in {
-  imports = [ pix.inputs.lanzaboote.nixosModules.lanzaboote ];
+  imports = [pix.inputs.lanzaboote.nixosModules.lanzaboote];
 
   options.pix.hardware.bootloader.lanzaboote = {
     enable = lib.mkEnableOption ''

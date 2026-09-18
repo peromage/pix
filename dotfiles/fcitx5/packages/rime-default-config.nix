@@ -1,5 +1,4 @@
-{ stdenvNoCC }:
-
+{stdenvNoCC}:
 stdenvNoCC.mkDerivation {
   pname = "rime-default-config";
   version = "0.0.1";

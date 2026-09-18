@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.hardware.bootloader.systemd-boot;
-
 in {
   options.pix.hardware.bootloader.systemd-boot = {
     enable = lib.mkEnableOption "Systemd-boot bootloader";

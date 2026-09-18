@@ -1,11 +1,15 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.frp;
 
-  allowedPorts = cfg.openPorts ++ [ cfg.bindPort ];
-  proxyBindAddr = if null == cfg.proxyBindAddr then cfg.bindAddr else cfg.proxyBindAddr;
-
+  allowedPorts = cfg.openPorts ++ [cfg.bindPort];
+  proxyBindAddr =
+    if null == cfg.proxyBindAddr
+    then cfg.bindAddr
+    else cfg.proxyBindAddr;
 in {
   options.pix.services.frp = {
     enable = lib.mkEnableOption "FRP server";

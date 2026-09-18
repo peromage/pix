@@ -1,9 +1,11 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.alacritty;
   src = ./home-files/.config/alacritty;
-
 in {
   options.pix.dotfiles.alacritty = {
     enable = lib.mkEnableOption "Pot Alacritty";
@@ -11,9 +13,11 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    programs.alacritty = {
-      enable = true;
-    } // cfg.passthru;
+    programs.alacritty =
+      {
+        enable = true;
+      }
+      // cfg.passthru;
 
     xdg.configFile."alacritty" = {
       source = src;

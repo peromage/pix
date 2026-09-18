@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.sshd;
-
 in {
   options.pix.services.sshd = {
     enable = lib.mkEnableOption "SSH service";
@@ -13,7 +14,7 @@ in {
 
     ports = lib.mkOption {
       type = with lib.types; listOf port;
-      default = [ 22 ];
+      default = [22];
       description = "SSH daemon listening ports.";
     };
   };

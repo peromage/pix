@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.shadowsocks;
-
 in {
   options.pix.services.shadowsocks = {
     enable = lib.mkEnableOption "ShadowSocks";
@@ -15,7 +16,7 @@ in {
 
     bind = lib.mkOption {
       type = with lib.types; listOf str;
-      default = [ "0.0.0.0" ];
+      default = ["0.0.0.0"];
       description = "Addresses to listen to.";
     };
 
@@ -44,7 +45,7 @@ in {
       mode = "tcp_and_udp";
     };
 
-    networking.firewall.allowedTCPPorts = [ cfg.port ];
+    networking.firewall.allowedTCPPorts = [cfg.port];
 
     assertions = lib.singleton {
       assertion = null != cfg.password;

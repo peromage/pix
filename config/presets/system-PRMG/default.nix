@@ -1,8 +1,12 @@
-{ config, lib, pkgs, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib; {
   /*
-     Pix options
+  Pix options
   */
   pix.system.hostName = "PRMG";
   pix.services = {
@@ -28,7 +32,7 @@ with lib; {
   pix.desktops.env.gnome.enable = true;
 
   /*
-     Non-pix options
+  Non-pix options
   */
   programs.nix-ld = {
     enable = true;
@@ -36,35 +40,37 @@ with lib; {
   };
 
   /*
-     Fonts
+  Fonts
   */
   fonts = {
     fontDir.enable = true;
 
-    packages = (with pkgs; [
-      iosevka
-      cascadia-code
-      emacs-all-the-icons-fonts
-      liberation_ttf
-      noto-fonts
-      noto-fonts-color-emoji
-      noto-fonts-cjk-sans
-      noto-fonts-cjk-serif
-      noto-fonts-lgc-plus
-      dejavu_fonts
-      wqy_zenhei
-      wqy_microhei
-    ]) ++ (with pkgs.nerd-fonts; [
-      fira-code
-      _0xproto
-      roboto-mono
-      symbols-only
-      comic-shanns-mono
-      heavy-data
-      ubuntu
-      ubuntu-sans
-      ubuntu-mono
-    ]);
+    packages =
+      (with pkgs; [
+        iosevka
+        cascadia-code
+        emacs-all-the-icons-fonts
+        liberation_ttf
+        noto-fonts
+        noto-fonts-color-emoji
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+        noto-fonts-lgc-plus
+        dejavu_fonts
+        wqy_zenhei
+        wqy_microhei
+      ])
+      ++ (with pkgs.nerd-fonts; [
+        fira-code
+        _0xproto
+        roboto-mono
+        symbols-only
+        comic-shanns-mono
+        heavy-data
+        ubuntu
+        ubuntu-sans
+        ubuntu-mono
+      ]);
 
     fontconfig = {
       enable = true;
@@ -76,7 +82,7 @@ with lib; {
         style = "slight";
       };
 
-      defaultFonts= {
+      defaultFonts = {
         emoji = [
           "Noto Color Emoji"
         ];
@@ -106,7 +112,7 @@ with lib; {
   };
 
   /*
-     Packages
+  Packages
   */
   environment.systemPackages = with pkgs; [
     ## Most used CLI
@@ -147,7 +153,7 @@ with lib; {
     lsof # List open files
 
     ## Networking
-    dnsutils  # dig, nslookup
+    dnsutils # dig, nslookup
     iperf3
     nmap
 

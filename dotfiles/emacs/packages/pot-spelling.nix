@@ -1,6 +1,4 @@
-{ pkgs }:
-
-let
+{pkgs}: let
   myAspellDicts = with pkgs.aspellDicts; [
     en
   ];
@@ -13,17 +11,16 @@ let
   emacsAspell = pkgs.aspellWithDicts (aspellDicts: myAspellDicts);
 
   emacsHunspell = pkgs.hunspell.withDicts (hunspellDicts: myHunspellDicts);
-
-in pkgs.buildEnv {
-  name = "pot-spelling";
-  paths =
-    # For Emacs enclosure
-    (with pkgs; [
-      emacsAspell
-      emacsHunspell
-    ])
-
-    # For other applications that search for $PROFILE/share/hunspell
-    ++ myAspellDicts
-    ++ myHunspellDicts;
-}
+in
+  pkgs.buildEnv {
+    name = "pot-spelling";
+    paths =
+      # For Emacs enclosure
+      (with pkgs; [
+        emacsAspell
+        emacsHunspell
+      ])
+      # For other applications that search for $PROFILE/share/hunspell
+      ++ myAspellDicts
+      ++ myHunspellDicts;
+  }

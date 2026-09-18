@@ -1,14 +1,15 @@
-{ pkgs, userNpmDir ? "npm-packages" }:
-
-let
+{
+  pkgs,
+  userNpmDir ? "npm-packages",
+}: let
   myNodeJs = pkgs.nodejs_latest;
+in
+  pkgs.buildEnv {
+    name = "pot-nodejs";
+    paths = [myNodeJs];
 
-in pkgs.buildEnv {
-  name = "pot-nodejs";
-  paths = [ myNodeJs ];
-
-  passthru = {
-    userNpmDir = userNpmDir;
-    userPath = "${userNpmDir}/bin";
-  };
-}
+    passthru = {
+      userNpmDir = userNpmDir;
+      userPath = "${userNpmDir}/bin";
+    };
+  }

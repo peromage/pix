@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.hardware.bootloader;
-
 in {
   imports = [
     ./grub.nix
@@ -14,7 +15,6 @@ in {
 
   config = let
     enabledBootloaders = lib.filterAttrs (_: v: v.enable) cfg;
-
   in {
     assertions = [
       {

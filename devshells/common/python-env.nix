@@ -1,16 +1,19 @@
 /*
-   Python FHS environment.
+Python FHS environment.
 
-   This is used as a "virtual" environment which allows to install user packages.
-   This also supports some packages that require C compilation during installation.
+This is used as a "virtual" environment which allows to install user packages.
+This also supports some packages that require C compilation during installation.
 */
-
-{ pkgs, writeScriptBin }:
-
-let
-  python = let p = pkgs.pixPkgs.pot-python; in p.override {
-    userPyenvDir = ''''${XDG_DATA_HOME:-$HOME/.local/share}/${p.userPyenvDir}'';
-  };
+{
+  pkgs,
+  writeScriptBin,
+}: let
+  python = let
+    p = pkgs.pixPkgs.pot-python;
+  in
+    p.override {
+      userPyenvDir = ''''${XDG_DATA_HOME:-$HOME/.local/share}/${p.userPyenvDir}'';
+    };
 
   initUserPyenvScript = writeScriptBin "init-user-pyenv.sh" ''
     set -e
@@ -24,11 +27,12 @@ let
 
   fhsenv = pkgs.buildFHSEnv {
     name = "python-fhs-env";
-    targetPkgs = pkgs: with pkgs; [
-      python
-      pixPkgs.build-essential
-      initUserPyenvScript
-    ];
+    targetPkgs = pkgs:
+      with pkgs; [
+        python
+        pixPkgs.build-essential
+        initUserPyenvScript
+      ];
 
     ## See: https://nixos.wiki/wiki/Python#Emulating_virtualenv_with_nix-shell
     profile = ''
@@ -46,5 +50,5 @@ let
       fi
     '';
   };
-
-in fhsenv.env
+in
+  fhsenv.env

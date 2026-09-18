@@ -1,8 +1,11 @@
-{ config, lib, pkgs, pix, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  pix,
+  ...
+}: let
   cfg = config.pix.desktops;
-
 in {
   imports = [
     ./gnome.nix
@@ -12,8 +15,8 @@ in {
 
   options.pix.desktops = {
     /*
-       The display server is actually selected by the display manager.
-       See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
+    The display server is actually selected by the display manager.
+    See: https://discourse.nixos.org/t/enabling-x11-still-results-in-wayland/25362/2
     */
     enableWayland = lib.mkOption {
       type = lib.types.bool;

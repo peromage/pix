@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.bash;
   src = ./home-files;
-
 in {
   options.pix.dotfiles.bash = {
     enable = lib.mkEnableOption "Pot Bash";

@@ -1,30 +1,29 @@
-{ pkgs }:
-
-let
+{pkgs}: let
   emacs = pkgs.emacs;
 
   /*
-     Emacs dependencies.  Some packages like vterm may have issues to build in
-     Nix environment due to encapsulated environment.  Include them together
-     with this declaration so that Emacs can find them.
+  Emacs dependencies.  Some packages like vterm may have issues to build in
+  Nix environment due to encapsulated environment.  Include them together
+  with this declaration so that Emacs can find them.
 
-     Refs:
-     https://github.com/martinbaillie/dotfiles/blob/c31b8aa815a940c45210c7ab9029141a8e6c6e93/modules/editors/emacs.nix#L30
-     https://nixos.wiki/wiki/Emacs
+  Refs:
+  https://github.com/martinbaillie/dotfiles/blob/c31b8aa815a940c45210c7ab9029141a8e6c6e93/modules/editors/emacs.nix#L30
+  https://nixos.wiki/wiki/Emacs
   */
-  myEmacs = (pkgs.emacsPackagesFor emacs).emacsWithPackages (epkgs: with epkgs; [
-    # vterm # Since vterm cannot be compiled in user environment, use this instead
-  ]);
-
+  myEmacs = (pkgs.emacsPackagesFor emacs).emacsWithPackages (epkgs:
+    with epkgs; [
+      # vterm # Since vterm cannot be compiled in user environment, use this instead
+    ]);
   ## May omit buildEnv?
-in pkgs.buildEnv {
-  name = "pot-emacs";
-  paths = with pkgs; [
-    myEmacs
-    pkgs.pixPkgs.pot-spelling
-    ripgrep
-    # libvterm-neovim  # libvterm doesn't support aarch64-darwin
-    libghostty-vt  # ghostel can download it, too
-    fzf
-  ];
-}
+in
+  pkgs.buildEnv {
+    name = "pot-emacs";
+    paths = with pkgs; [
+      myEmacs
+      pkgs.pixPkgs.pot-spelling
+      ripgrep
+      # libvterm-neovim  # libvterm doesn't support aarch64-darwin
+      libghostty-vt # ghostel can download it, too
+      fzf
+    ];
+  }

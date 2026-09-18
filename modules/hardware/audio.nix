@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.hardware.audio;
-
 in {
   options.pix.hardware.audio = {
     enable = lib.mkEnableOption "audio services";

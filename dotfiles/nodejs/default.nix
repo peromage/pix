@@ -1,11 +1,16 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.nodejs;
-  myNodejs = let nodejs = pkgs.pixPkgs.pot-nodejs; in nodejs.override {
-    userNpmDir = "${config.xdg.dataHome}/${nodejs.userNpmDir}";
-  };
-
+  myNodejs = let
+    nodejs = pkgs.pixPkgs.pot-nodejs;
+  in
+    nodejs.override {
+      userNpmDir = "${config.xdg.dataHome}/${nodejs.userNpmDir}";
+    };
 in {
   options.pix.dotfiles.nodejs = {
     enable = lib.mkEnableOption "Pot NodeJS";
@@ -16,7 +21,7 @@ in {
       myNodejs.userPath
     ];
 
-    home.packages = [ myNodejs ];
+    home.packages = [myNodejs];
 
     home.file.".npmrc".text = ''
       prefix=${myNodejs.userNpmDir}

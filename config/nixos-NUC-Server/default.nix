@@ -1,6 +1,8 @@
-{ lib, pix, ... }:
-
 {
+  lib,
+  pix,
+  ...
+}: {
   imports = [
     ./hardware.nix
     ../presets/system-PROX

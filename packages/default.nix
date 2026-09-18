@@ -1,6 +1,7 @@
-{ pix, pkgs }:
-
-let
+{
+  pix,
+  pkgs,
+}: let
   common = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;
@@ -24,5 +25,5 @@ let
       nix-darwin = ./darwin/nix-darwin.nix;
     };
   };
-
-in pkgs.callPackageAttrs {} (common // (platform.${pkgs.stdenv.hostPlatform.system} or {}))
+in
+  pkgs.callPackageAttrs {} (common // (platform.${pkgs.stdenv.hostPlatform.system} or {}))

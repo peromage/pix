@@ -1,8 +1,11 @@
-{ config, lib, pkgs, pix, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  pix,
+  ...
+}: let
   cfg = config.pix.services.nix;
-
 in {
   options.pix.services.nix = {
     enable = lib.mkEnableOption "Nix settings";
@@ -32,7 +35,7 @@ in {
           auto-optimise-store = true; ## Use hard links to save space
 
           sandbox = true;
-          experimental-features = [ "nix-command" "flakes" ];
+          experimental-features = ["nix-command" "flakes"];
           trusted-users = [
             "@wheel"
           ];
@@ -43,20 +46,20 @@ in {
         };
 
         /*
-           Synonyms:
-           pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
-           pkgs.nixVersions.unstable -> pkgs.nixUnstable
+        Synonyms:
+        pkgs.nixVersions.stable -> pkgs.nix, pkgs.nixFlakes, pkgs.nixStable
+        pkgs.nixVersions.unstable -> pkgs.nixUnstable
 
-           See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
+        See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/aliases.nix
         */
         package = pkgs.nixVersions.stable;
 
-        nixPath = [ "nixpkgs=${pix.inputs.nixpkgs}" ];
+        nixPath = ["nixpkgs=${pix.inputs.nixpkgs}"];
 
         optimise = {
           automatic = true;
           persistent = true;
-          dates = [ "weekly" ];
+          dates = ["weekly"];
           randomizedDelaySec = "1min";
         };
       };
@@ -66,7 +69,7 @@ in {
       nix.gc = {
         automatic = true;
         persistent = true;
-        dates = [ "weekly" ];
+        dates = ["weekly"];
         options = ""; ## Use "nix-collect-garbage --delete-older-than 30d" to purge old system profiles
         randomizedDelaySec = "1min";
       };

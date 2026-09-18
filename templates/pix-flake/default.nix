@@ -3,9 +3,9 @@
   path = ./src;
   description = "Sample flake";
   welcomeText = ''
-      This is sample flake that can be used for testing purposes.
+    This is sample flake that can be used for testing purposes.
 
-      The sample demonstrates how to make customized (mutable) configs without
-      changing the original flake.
+    The sample demonstrates how to make customized (mutable) configs without
+    changing the original flake.
   '';
 }

@@ -1,5 +1,7 @@
-{ stdenvNoCC, homeDir ? "/home/fang" }:
-
+{
+  stdenvNoCC,
+  homeDir ? "/home/fang",
+}:
 stdenvNoCC.mkDerivation {
   pname = "pot-gnupg-config";
   version = "0.0.1";

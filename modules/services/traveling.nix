@@ -1,29 +1,29 @@
 /*
-   Settings while traveling to some restricted regions.
+Settings while traveling to some restricted regions.
 
-   For flakes the following options can be added to avoid problems during
-   evaluation.
+For flakes the following options can be added to avoid problems during
+evaluation.
 
-   For example:
+For example:
 
-   {
-     nixConfig = {
-       substituters = [
-         "https://mirror.sjtu.edu.cn/nix-channels/store"
-       ];
-     };
-   }
+{
+  nixConfig = {
+    substituters = [
+      "https://mirror.sjtu.edu.cn/nix-channels/store"
+    ];
+  };
+}
 */
-
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.traveling;
-
 in {
   options.pix.services.traveling = {
     region = lib.mkOption {
-      type = with lib.types; nullOr (enum [ "China" ]);
+      type = with lib.types; nullOr (enum ["China"]);
       default = null;
       description = "Travel region.";
     };

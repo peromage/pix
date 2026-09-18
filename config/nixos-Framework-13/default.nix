@@ -1,8 +1,9 @@
 ### Instance for my 13-inch 12th-gen-Intel Framework laptop
-
-{ lib, pix, ... }:
-
 {
+  lib,
+  pix,
+  ...
+}: {
   imports = [
     ./hardware.nix
     ./mounts.nix

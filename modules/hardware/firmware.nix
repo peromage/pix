@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.hardware.firmware;
-
 in {
   options.pix.hardware.firmware = {
     ## Don't forget `fwupdmgr update'

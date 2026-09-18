@@ -1,9 +1,10 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.git;
   src = ./home-files/.config/git;
-
 in {
   options.pix.dotfiles.git = {
     enable = lib.mkEnableOption "Pot Git";
@@ -24,9 +25,15 @@ in {
     programs.git = {
       enable = true;
       lfs.enable = true;
-      includes = [
-        { path = "${src}/config"; }
-      ] ++ (map (p: if lib.isAttrs p then p else { path = p; }) cfg.includes);
+      includes =
+        [
+          {path = "${src}/config";}
+        ]
+        ++ (map (p:
+          if lib.isAttrs p
+          then p
+          else {path = p;})
+        cfg.includes);
     };
   };
 }

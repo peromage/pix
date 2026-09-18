@@ -1,21 +1,21 @@
 /*
-   Nixified Gnome dconf configurations.
+Nixified Gnome dconf configurations.
 
-   To reliably convert dumped dconf database to home-manager config, use `dconf2nix'.
+To reliably convert dumped dconf database to home-manager config, use `dconf2nix'.
 
-   1. Make modifications through Gnome menus.
-   2. Dump and nixify dconf: `dconf dump /org/gnome/ | dconf2nix -r /org/gnome/ > dconf.nix'
-   3. Cherry-pick config.
+1. Make modifications through Gnome menus.
+2. Dump and nixify dconf: `dconf dump /org/gnome/ | dconf2nix -r /org/gnome/ > dconf.nix'
+3. Cherry-pick config.
 */
-
-{ config, lib, ...}:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.dotfiles.gnome;
-  dconfDump = import ./dconf.nix { inherit lib; };
+  dconfDump = import ./dconf.nix {inherit lib;};
   getConf = regex: lib.filterAttrs (name: _: lib.match regex name != null) dconfDump.dconf.settings;
   getConfs = lib.foldl (acc: regex: acc // getConf regex) {};
-
 in {
   options.pix.dotfiles.gnome = {
     enableKeyboardShortcuts = lib.mkEnableOption "Customized keyboard shortcut";

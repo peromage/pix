@@ -1,6 +1,10 @@
-{ config, pkgs, lib, pix, ... }:
-
 {
+  config,
+  pkgs,
+  lib,
+  pix,
+  ...
+}: {
   imports = with pix.inputs; [
     nixpkgs.nixosModules.notDetected
     nixos-hardware.nixosModules.framework-12th-gen-intel
@@ -34,7 +38,7 @@
       "nvme.noacpi=1" # Sleep power reduction
     ];
 
-    extraModulePackages = [ ];
+    extraModulePackages = [];
   };
 
   environment.systemPackages = with pkgs; [

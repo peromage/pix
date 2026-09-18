@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.services.documentation;
-
 in {
   options.pix.services.documentation = {
     enable = lib.mkEnableOption "documentation generation";

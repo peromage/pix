@@ -1,8 +1,9 @@
-{ config, lib, ... }:
-
-let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.pix.hardware.networking;
-
 in {
   options.pix.hardware.networking = {
     enable = lib.mkEnableOption "network management";

@@ -1,9 +1,6 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib, ... }:
-
-with lib.hm.gvariant;
-
-{
+{lib, ...}:
+with lib.hm.gvariant; {
   dconf.settings = {
     "org/gnome/Connections" = {
       first-run = false;
@@ -13,7 +10,7 @@ with lib.hm.gvariant;
       custom-font = "Iosevka 10";
       font-scale = 1.2000000000000002;
       last-window-maximised = false;
-      last-window-size = mkTuple [ 1210 834 ];
+      last-window-size = mkTuple [1210 834];
       use-system-font = false;
     };
 
@@ -46,7 +43,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/Totem" = {
-      active-plugins = [ "vimeo" "variable-rate" "skipto" "screenshot" "screensaver" "save-file" "rotation" "recent" "movie-properties" "open-directory" "mpris" "autoload-subtitles" "apple-trailers" ];
+      active-plugins = ["vimeo" "variable-rate" "skipto" "screenshot" "screensaver" "save-file" "rotation" "recent" "movie-properties" "open-directory" "mpris" "autoload-subtitles" "apple-trailers"];
       subtitle-encoding = "UTF-8";
     };
 
@@ -63,25 +60,25 @@ with lib.hm.gvariant;
       target-currency = "";
       target-units = "radian";
       window-maximized = false;
-      window-size = mkTuple [ 367 576 ];
+      window-size = mkTuple [367 576];
       word-size = 64;
     };
 
     "org/gnome/calendar" = {
       active-view = "month";
       window-maximized = true;
-      window-size = mkTuple [ 768 600 ];
+      window-size = mkTuple [768 600];
     };
 
     "org/gnome/clocks/state/window" = {
       maximized = false;
       panel-id = "stopwatch";
-      size = mkTuple [ 870 690 ];
+      size = mkTuple [870 690];
     };
 
     "org/gnome/control-center" = {
       last-panel = "keyboard";
-      window-state = mkTuple [ 1275 747 false ];
+      window-state = mkTuple [1275 747 false];
     };
 
     "org/gnome/desktop/a11y/applications" = {
@@ -90,18 +87,18 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/app-folders" = {
-      folder-children = [ "Utilities" "YaST" ];
+      folder-children = ["Utilities" "YaST"];
     };
 
     "org/gnome/desktop/app-folders/folders/Utilities" = {
-      apps = [ "gnome-abrt.desktop" "gnome-system-log.desktop" "nm-connection-editor.desktop" "org.gnome.baobab.desktop" "org.gnome.Connections.desktop" "org.gnome.DejaDup.desktop" "org.gnome.Dictionary.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.FileRoller.desktop" "org.gnome.fonts.desktop" "org.gnome.seahorse.Application.desktop" "org.gnome.tweaks.desktop" "org.gnome.Usage.desktop" "vinagre.desktop" ];
-      categories = [ "X-GNOME-Utilities" ];
+      apps = ["gnome-abrt.desktop" "gnome-system-log.desktop" "nm-connection-editor.desktop" "org.gnome.baobab.desktop" "org.gnome.Connections.desktop" "org.gnome.DejaDup.desktop" "org.gnome.Dictionary.desktop" "org.gnome.DiskUtility.desktop" "org.gnome.eog.desktop" "org.gnome.Evince.desktop" "org.gnome.FileRoller.desktop" "org.gnome.fonts.desktop" "org.gnome.seahorse.Application.desktop" "org.gnome.tweaks.desktop" "org.gnome.Usage.desktop" "vinagre.desktop"];
+      categories = ["X-GNOME-Utilities"];
       name = "X-GNOME-Utilities.directory";
       translate = true;
     };
 
     "org/gnome/desktop/app-folders/folders/YaST" = {
-      categories = [ "X-SuSE-YaST" ];
+      categories = ["X-SuSE-YaST"];
       name = "suse-yast.directory";
       translate = true;
     };
@@ -124,9 +121,9 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/input-sources" = {
-      mru-sources = [ (mkTuple [ "xkb" "us" ]) ];
-      sources = [ (mkTuple [ "xkb" "us" ]) ];
-      xkb-options = [ "terminate:ctrl_alt_bksp" "lv3:ralt_switch" ];
+      mru-sources = [(mkTuple ["xkb" "us"])];
+      sources = [(mkTuple ["xkb" "us"])];
+      xkb-options = ["terminate:ctrl_alt_bksp" "lv3:ralt_switch"];
     };
 
     "org/gnome/desktop/interface" = {
@@ -142,7 +139,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/notifications" = {
-      application-children = [ "gnome-power-panel" "org-gnome-console" "brave-browser" "org-gnome-settings" "gnome-network-panel" "org-gnome-nautilus" "firefox" "balena-etcher-electron" "org-gnome-fileroller" "emacsclient" "org-wezfurlong-wezterm" "steam" "qq" "gimp" "org-gnome-texteditor" "discord" "com-discordapp-discord" "com-valvesoftware-steam" "minecraft-launcher" "org-gnome-software" "org-gnome-terminal" "org-prismlauncher-prismlauncher" ];
+      application-children = ["gnome-power-panel" "org-gnome-console" "brave-browser" "org-gnome-settings" "gnome-network-panel" "org-gnome-nautilus" "firefox" "balena-etcher-electron" "org-gnome-fileroller" "emacsclient" "org-wezfurlong-wezterm" "steam" "qq" "gimp" "org-gnome-texteditor" "discord" "com-discordapp-discord" "com-valvesoftware-steam" "minecraft-launcher" "org-gnome-software" "org-gnome-terminal" "org-prismlauncher-prismlauncher"];
     };
 
     "org/gnome/desktop/notifications/application/balena-etcher-electron" = {
@@ -266,7 +263,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/search-providers" = {
-      sort-order = [ "org.gnome.Contacts.desktop" "org.gnome.Documents.desktop" "org.gnome.Nautilus.desktop" ];
+      sort-order = ["org.gnome.Contacts.desktop" "org.gnome.Documents.desktop" "org.gnome.Nautilus.desktop"];
     };
 
     "org/gnome/desktop/session" = {
@@ -286,18 +283,18 @@ with lib.hm.gvariant;
       cycle-panels-backward = [];
       cycle-windows = [];
       cycle-windows-backward = [];
-      maximize-horizontally = [ "<Shift><Super>Left" ];
-      maximize-vertically = [ "<Shift><Super>Up" ];
-      minimize = [ "<Super>d" ];
+      maximize-horizontally = ["<Shift><Super>Left"];
+      maximize-vertically = ["<Shift><Super>Up"];
+      minimize = ["<Super>d"];
       move-to-monitor-down = [];
       move-to-monitor-left = [];
       move-to-monitor-right = [];
       move-to-monitor-up = [];
       move-to-workspace-1 = [];
       move-to-workspace-last = [];
-      move-to-workspace-left = [ "<Super>comma" ];
-      move-to-workspace-right = [ "<Super>period" ];
-      panel-run-dialog = [ "<Super>r" ];
+      move-to-workspace-left = ["<Super>comma"];
+      move-to-workspace-right = ["<Super>period"];
+      panel-run-dialog = ["<Super>r"];
       switch-applications = [];
       switch-applications-backward = [];
       switch-input-source = [];
@@ -306,10 +303,10 @@ with lib.hm.gvariant;
       switch-panels-backward = [];
       switch-to-workspace-1 = [];
       switch-to-workspace-last = [];
-      switch-to-workspace-left = [ "<Super>b" ];
-      switch-to-workspace-right = [ "<Super>f" ];
-      switch-windows = [ "<Alt>Tab" ];
-      switch-windows-backward = [ "<Shift><Alt>Tab" ];
+      switch-to-workspace-left = ["<Super>b"];
+      switch-to-workspace-right = ["<Super>f"];
+      switch-windows = ["<Alt>Tab"];
+      switch-windows-backward = ["<Shift><Alt>Tab"];
       toggle-maximized = [];
     };
 
@@ -324,7 +321,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/evince/default" = {
-      window-ratio = mkTuple [ 0.9803921568627451 0.7575757575757576 ];
+      window-ratio = mkTuple [0.9803921568627451 0.7575757575757576];
     };
 
     "org/gnome/evolution-data-server" = {
@@ -360,8 +357,8 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/nautilus/list-view" = {
-      default-column-order = [ "name" "size" "type" "owner" "group" "permissions" "where" "date_modified" "date_modified_with_time" "date_accessed" "date_created" "recency" "detailed_type" ];
-      default-visible-columns = [ "name" "size" "date_modified" "date_created" ];
+      default-column-order = ["name" "size" "type" "owner" "group" "permissions" "where" "date_modified" "date_modified_with_time" "date_accessed" "date_created" "recency" "detailed_type"];
+      default-visible-columns = ["name" "size" "date_modified" "date_created"];
     };
 
     "org/gnome/nautilus/preferences" = {
@@ -375,7 +372,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/nautilus/window-state" = {
-      initial-size = mkTuple [ 1254 911 ];
+      initial-size = mkTuple [1254 911];
       maximized = false;
     };
 
@@ -440,12 +437,12 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/" ];
+      custom-keybindings = ["/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"];
       magnifier = [];
       magnifier-zoom-in = [];
       magnifier-zoom-out = [];
       screenreader = [];
-      screensaver = [ "<Super>l" ];
+      screensaver = ["<Super>l"];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -473,11 +470,11 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/shell" = {
-      command-history = [ "r" "bash" "systemctl hibernation" "flameshot" "systemctl hibernate" "restart" "zeal" "webex" "nix run nixpkgs#barrier" "emacs" ];
+      command-history = ["r" "bash" "systemctl hibernation" "flameshot" "systemctl hibernate" "restart" "zeal" "webex" "nix run nixpkgs#barrier" "emacs"];
       disable-user-extensions = false;
-      disabled-extensions = [ "launch-new-instance@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" "places-menu@gnome-shell-extensions.gcampax.github.com" "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com" "light-style@gnome-shell-extensions.gcampax.github.com" "windowsNavigator@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com" ];
-      enabled-extensions = [ "kimpanel@kde.org" "trayIconsReloaded@selfmade.pl" "apps-menu@gnome-shell-extensions.gcampax.github.com" "x11gestures@joseexposito.github.io" "window-list@gnome-shell-extensions.gcampax.github.com" ];
-      favorite-apps = [ "firefox.desktop" "emacsclient.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Terminal.desktop" "org.gnome.Settings.desktop" "com.microsoft.Edge.desktop" ];
+      disabled-extensions = ["launch-new-instance@gnome-shell-extensions.gcampax.github.com" "native-window-placement@gnome-shell-extensions.gcampax.github.com" "places-menu@gnome-shell-extensions.gcampax.github.com" "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com" "light-style@gnome-shell-extensions.gcampax.github.com" "windowsNavigator@gnome-shell-extensions.gcampax.github.com" "workspace-indicator@gnome-shell-extensions.gcampax.github.com"];
+      enabled-extensions = ["kimpanel@kde.org" "trayIconsReloaded@selfmade.pl" "apps-menu@gnome-shell-extensions.gcampax.github.com" "x11gestures@joseexposito.github.io" "window-list@gnome-shell-extensions.gcampax.github.com"];
+      favorite-apps = ["firefox.desktop" "emacsclient.desktop" "org.gnome.Nautilus.desktop" "org.gnome.Terminal.desktop" "org.gnome.Settings.desktop" "com.microsoft.Edge.desktop"];
       last-selected-power-profile = "power-saver";
       welcome-dialog-last-shown-version = "44.2";
     };
@@ -490,10 +487,10 @@ with lib.hm.gvariant;
 
     "org/gnome/shell/keybindings" = {
       focus-active-notification = [];
-      screenshot = [ "Print" ];
+      screenshot = ["Print"];
       screenshot-window = [];
-      show-screen-recording-ui = [ "<Shift><Super>r" ];
-      show-screenshot-ui = [ "<Super>s" ];
+      show-screen-recording-ui = ["<Shift><Super>r"];
+      show-screenshot-ui = ["<Super>s"];
       toggle-message-tray = [];
       toggle-overview = [];
       toggle-quick-settings = [];
@@ -548,7 +545,7 @@ with lib.hm.gvariant;
 
     "org/gnome/terminal/legacy/profiles:" = {
       default = "233c6191-db1e-403e-9b76-0f006019cf4c";
-      list = [ "233c6191-db1e-403e-9b76-0f006019cf4c" ];
+      list = ["233c6191-db1e-403e-9b76-0f006019cf4c"];
     };
 
     "org/gnome/terminal/legacy/profiles:/:233c6191-db1e-403e-9b76-0f006019cf4c" = {
@@ -565,6 +562,5 @@ with lib.hm.gvariant;
     "org/gnome/tweaks" = {
       show-extensions-notice = false;
     };
-
   };
 }
