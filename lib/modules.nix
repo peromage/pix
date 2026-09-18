@@ -13,7 +13,7 @@ with self; {
      function.
 
      Type:
-       makeConfiguration :: (a -> a) -> (a -> a)
+       makeConfiguration :: (a -> a) -> (a -> a) -> AttrSet
   */
   makeConfiguration = f: fp: f (libnix.fix fp) // {
     extend = overlay: makeConfiguration f (libnix.extends overlay fp);
@@ -49,11 +49,22 @@ with self; {
   mkMergeIf = listOfAttrs: libnix.mkMerge (map (x: libnix.mkIf x.cond x.as) listOfAttrs);
 
   /*
+     Shorthand to declare options with some presets.
+
+     Type:
+       mkEnableOption :: String -> AttrSet -> AttrSet
+  */
+  mkPresetEnableOption = name: options: {
+    enable = libnix.mkEnableOption name;
+    passthru = libnix.mkOption {};
+  } // options;
+
+  /*
      Apply predicate `f' on each attribute and return true if at least one is true.
      Otherwise, return false.
 
      Type:
-       anyAttrs :: (String -> a -> Bool) -> Bool
+       anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
   anyAttrs = f: attrs: libnix.any (name: f name attrs.${name}) (libnix.attrNames attrs);
 
