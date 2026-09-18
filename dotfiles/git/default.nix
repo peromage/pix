@@ -9,7 +9,7 @@ in {
   options.pix.dotfiles.git = {
     enable = lib.mkEnableOption "Pot Git";
 
-    includes = lib.mkOption {
+    includeConfigs = lib.mkOption {
       type = with lib.types; listOf (oneOf [attrs str path]);
       default = [];
       description = ''
@@ -33,7 +33,7 @@ in {
           if lib.isAttrs p
           then p
           else {path = p;})
-        cfg.includes);
+        cfg.includeConfigs);
     };
   };
 }
