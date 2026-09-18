@@ -9,7 +9,7 @@
 in {
   options.pix.dotfiles.ghostty = {
     enable = lib.mkEnableOption "Pot Ghostty";
-    passthru = lib.mkOption {};
+    passthru = lib.mkOption {default = {};};
   };
 
   config = lib.mkIf cfg.enable {

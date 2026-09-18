@@ -9,7 +9,7 @@
 in {
   options.pix.dotfiles.kitty = {
     enable = lib.mkEnableOption "Pot Kitty";
-    passthru = lib.mkOption {};
+    passthru = lib.mkOption {default = {};};
   };
 
   config = lib.mkIf cfg.enable {

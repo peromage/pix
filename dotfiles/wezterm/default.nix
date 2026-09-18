@@ -9,7 +9,7 @@
 in {
   options.pix.dotfiles.wezterm = {
     enable = lib.mkEnableOption "Pot Wez's Terminal";
-    passthru = lib.mkOption {};
+    passthru = lib.mkOption {default = {};};
   };
 
   config = lib.mkIf cfg.enable {

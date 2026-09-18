@@ -9,7 +9,7 @@
 in {
   options.pix.dotfiles.vscode = {
     enable = lib.mkEnableOption "Pot Visual Studio Code";
-    passthru = lib.mkOption {};
+    passthru = lib.mkOption {default = {};};
   };
 
   config = lib.mkIf cfg.enable {

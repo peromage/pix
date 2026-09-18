@@ -9,7 +9,7 @@
 in {
   options.pix.dotfiles.alacritty = {
     enable = lib.mkEnableOption "Pot Alacritty";
-    passthru = lib.mkOption {};
+    passthru = lib.mkOption {default = {};};
   };
 
   config = lib.mkIf cfg.enable {
