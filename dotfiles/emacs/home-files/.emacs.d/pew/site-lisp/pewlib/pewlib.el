@@ -10,6 +10,7 @@
 (require 'pewlib-editing)
 (require 'pewlib-extra)
 (require 'pewlib-debug)
+(require 'pewlib-utils)
 
 (provide 'pewlib)
 ;;; pewlib.el ends here
