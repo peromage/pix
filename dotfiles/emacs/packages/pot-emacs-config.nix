@@ -2,21 +2,21 @@
   stdenvNoCC,
   runCommand,
   # Extra .el files to be loaded in init.el
-  load ? [],
+  initLoadFiles ? [],
   # Extra files/directories included with this config
-  include ? [],
+  extraPaths ? [],
 }: let
-  loadFiles = with builtins;
+  toLoad = with builtins;
     concatStringsSep
     " "
-    (map (f: assert readFileType f == "regular"; toString f) load);
+    (map (f: assert readFileType f == "regular"; toString f) initLoadFiles);
 
   loadBundlePackage = runCommand "load-bundle" {} ''
     DIR="$out/etc/pot-emacs-config-load-bundle"
-    LOAD_EL="$DIR/.load.el"
+    LOAD_EL="$DIR/.toload.el"
     mkdir -p "$DIR"
 
-    for f in ${loadFiles}; do
+    for f in ${toLoad}; do
       cp "$f" "$DIR"
       # Keep the passed-in order
       printf "(load \"$DIR/%s\")\n" "$(basename "$f")" >>"$LOAD_EL"
@@ -27,7 +27,7 @@ in
     pname = "pot-emacs-config";
     version = "0.0.1";
     src = ../home-files/.emacs.d;
-    srcs = include;
+    srcs = extraPaths;
     sourceRoot = ".emacs.d";
     dontPatchShebangs = true;
     buildInputs = [loadBundlePackage];
@@ -48,7 +48,7 @@ in
     '';
 
     buildPhase = ''
-      SOURCE="${loadBundlePackage}/etc/pot-emacs-config-load-bundle/.load.el"
+      SOURCE="${loadBundlePackage}/etc/pot-emacs-config-load-bundle/.toload.el"
       if ! [ -f "$SOURCE" ]; then
         # Nothing to do
         return 0
