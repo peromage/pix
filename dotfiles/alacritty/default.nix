@@ -7,14 +7,13 @@ let
 in {
   options.pix.dotfiles.alacritty = {
     enable = lib.mkEnableOption "Pot Alacritty";
-    package = lib.mkPackageOption pkgs "alacritty" {};
+    passthru = lib.mkOption {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.alacritty = {
       enable = true;
-      package = cfg.package;
-    };
+    } // cfg.passthru;
 
     xdg.configFile."alacritty" = {
       source = src;

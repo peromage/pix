@@ -7,14 +7,13 @@ let
 in {
   options.pix.dotfiles.ghostty = {
     enable = lib.mkEnableOption "Pot Ghostty";
-    package = lib.mkPackageOption pkgs "ghostty" {};
+    passthru = lib.mkOption {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.ghostty = {
       enable = true;
-      package = cfg.package;
-    };
+    } // cfg.passthru;
 
     xdg.configFile."ghostty" = {
       source = src;

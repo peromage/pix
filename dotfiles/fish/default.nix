@@ -7,25 +7,25 @@ let
 in {
   options.pix.dotfiles.fish = {
     enable = lib.mkEnableOption "Pot Fish";
-    package = lib.mkPackageOption pkgs "fish" {};
 
     init = lib.mkOption {
       type = lib.types.str;
       default = "";
       description = "Additional interactive shell init code.";
     };
+
+    passthru = lib.mkOption {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.fish = {
       enable = true;
-      package = cfg.package;
       shellInit = "";
       loginShellInit = "";
       interactiveShellInit = ''
         source ${src}/config.fish
       '' + cfg.init;
-    };
+    } // cfg.passthru;
 
     xdg.configFile = {
       "fish/functions" = {

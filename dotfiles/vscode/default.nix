@@ -7,14 +7,13 @@ let
 in {
   options.pix.dotfiles.vscode = {
     enable = lib.mkEnableOption "Pot Visual Studio Code";
-    package = lib.mkPackageOption pkgs "vscode" {};
+    passthru = lib.mkOption {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.vscode = {
       enable = true;
-      package = cfg.package;
-    };
+    } // cfg.passthru;
 
     xdg.configFile."Code" = {
       source = src;

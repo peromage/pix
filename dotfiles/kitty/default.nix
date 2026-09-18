@@ -7,14 +7,13 @@ let
 in {
   options.pix.dotfiles.kitty = {
     enable = lib.mkEnableOption "Pot Kitty";
-    package = lib.mkPackageOption pkgs "kitty" {};
+    passthru = lib.mkOption {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.kitty = {
       enable = true;
-      package = cfg.package;
-    };
+    } // cfg.passthru;
 
     xdg.configFile."kitty" = {
       source = src;

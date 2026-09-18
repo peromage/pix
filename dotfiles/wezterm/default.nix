@@ -7,15 +7,14 @@ let
 in {
   options.pix.dotfiles.wezterm = {
     enable = lib.mkEnableOption "Pot Wez's Terminal";
-    package = lib.mkPackageOption pkgs "wezterm" {};
+    passthru = lib.mkOption {};
   };
 
   config = lib.mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
-      package = cfg.package;
       # enableBashIntegration = true;
-    };
+    } // cfg.passthru;
 
     xdg.configFile."wezterm" = {
       source = src;
