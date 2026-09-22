@@ -343,11 +343,11 @@
    ("Y" . #'winner-redo)
 
 ;;;; Other window
-   ("M-V" . #'pewlib-scroll-other-window-page-down)
-   ("M-C" . #'pewlib-scroll-other-window-page-up)
-   ("M-N" . #'pewlib-scroll-other-window-line-down)
-   ("M-P" . #'pewlib-scroll-other-window-line-up)
-   ("M-L" . #'pewlib-recenter-other-window)
+   ("M-v" . #'pewlib-scroll-other-window-page-down)
+   ("M-c" . #'pewlib-scroll-other-window-page-up)
+   ("M-n" . #'pewlib-scroll-other-window-line-down)
+   ("M-p" . #'pewlib-scroll-other-window-line-up)
+   ("M-l" . #'pewlib-recenter-other-window)
 
 ;;;; Tab
    ("Q"   . #'tab-bar-close-tab)
@@ -403,13 +403,13 @@
    ("O"   . #'other-frame)
 
 ;;;; Rebind word manipulations
-   ("M-t" . #'transpose-words)
-   ("M-c" . #'capitalize-word)
-   ("M-u" . #'upcase-word)
-   ("M-l" . #'downcase-word)
-   ("M-z" . #'zap-to-char)
-   ("M-q" . #'fill-paragraph)
-   ("M-h" . #'mark-paragraph)
+   ("M-T" . #'transpose-words)
+   ("M-C" . #'capitalize-word)
+   ("M-U" . #'upcase-word)
+   ("M-L" . #'downcase-word)
+   ("M-Z" . #'zap-to-char)
+   ("M-Q" . #'fill-paragraph)
+   ("M-H" . #'mark-paragraph)
 
 ;;;; Editing
    ("DEL" . #'cycle-spacing)
