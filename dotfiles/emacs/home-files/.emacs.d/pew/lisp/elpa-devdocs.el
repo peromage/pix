@@ -7,7 +7,10 @@
 
   :bind
   ( :map pewkey-utility-map
-    ("d" . devdocs-lookup)) )
+    ("d" . devdocs-lookup))
+
+  :custom
+  (devdocs-window-select t))
 
 
 (provide 'elpa-devdocs)
