@@ -1,7 +1,7 @@
 [user]
 name = Fang Deng
 email = fang@elfang.com
-signingkey = 71B8EB3AA4CBF530!
+signingkey = 3FFFFF2E13DA8A73!
 
 [commit]
 gpgsign = true
