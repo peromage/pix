@@ -43,11 +43,9 @@ compiling C code, use `nix-shell' or `nix develop' in a standard FHS environment
       ## Essential for building Python packages
       setuptools
       wheel
-      poetry-core
 
       ## Package management
       pip
-      pipx # Ad-hoc user space tool
 
       ## Packages required for peripherals
       libevdev
@@ -58,7 +56,7 @@ in
     name = "pot-python";
     paths = [
       myPython
-      pkgs.poetry
+      pkgs.uv # Eazy deps management
     ];
 
     passthru = {
