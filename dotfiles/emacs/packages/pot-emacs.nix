@@ -23,7 +23,7 @@ in
       pkgs.pixPkgs.pot-spelling
       ripgrep
       # libvterm-neovim  # libvterm doesn't support aarch64-darwin
-      libghostty-vt # ghostel can download it, too
+      # libghostty-vt # ghostty should have included it
       fzf
     ];
   }
