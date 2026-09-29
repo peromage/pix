@@ -4,21 +4,20 @@
   pkgs,
   ...
 }: let
-  cfgOverall = config.pix.desktops;
-  cfg = cfgOverall.env.gnome;
+  cfg = config.pix.desktops.env.gnome;
 in {
   options.pix.desktops.env.gnome = {
     enable = lib.mkEnableOption "Gnome";
     enableGDM = lib.mkEnableOption "GDM display manager" // {default = true;};
   };
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    ## For both Wayland and X11
+  ## Gnome has dropped X11 support completely
+  config =
+    lib.mkIf cfg.enable
     {
       services = {
         desktopManager.gnome.enable = true;
         displayManager.gdm.enable = cfg.enableGDM;
-        displayManager.gdm.wayland = cfgOverall.enableWayland;
       };
 
       environment.systemPackages =
@@ -35,14 +34,5 @@ in {
         ]);
 
       security.pam.services.gdm.enableGnomeKeyring = true;
-    }
-
-    ## X11 utilities
-    (lib.mkIf (!cfgOverall.enableWayland) {
-      environment.systemPackages = with pkgs; [
-        gnomeExtensions.x11-gestures
-      ];
-      services.touchegg.enable = true;
-    })
-  ]);
+    };
 }
