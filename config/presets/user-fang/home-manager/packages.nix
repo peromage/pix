@@ -14,12 +14,12 @@
     fish.enable = true;
     git = {
       enable = true;
-      includes = [
+      includeConfigs = [
         "${pix.outPath}/dotfiles/git/home-files/.config/git/user-fang"
       ];
     };
     gpg.enable = true;
-    kitty.enable = true;
+    ghostty.enable = true;
     pwsh.enable = true;
     tmux.enable = true;
     zellij.enable = true;
@@ -46,7 +46,7 @@
     rsync
 
     ## Fancy stuff
-    neofetch
+    fastfetch
     btop # Replace `htop'
     eza # Replace `ls'
     fzf
