@@ -1,0 +1,105 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+auto_switch = false
+
+[ui]
+prompt_new_tab_name = false
+prompt_new_workspace_name = false
+sidebar_collapsed_mode = "hidden"
+mouse_capture = true
+copy_on_select = true
+redraw_on_focus_gained = true
+status_indicators = "symbols"
+
+pane_gaps = true
+pane_scrollbars = true
+
+window_title = "{hostname}: {workspace}-{tab}"
+hide_tab_bar_when_single_tab = false
+tab_bar_position = "bottom"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "datetime", format = "@%H:%M" }
+]
+tab_bar_right_separator = " "
+
+[ui.toast]
+delivery = "off"
+herdr.position = "bottom-right"
+clipboard.enabled = true
+clipboard.position = "bottom-center"
+
+[terminal]
+default_shell = "" # Use SHELL env
+shell_mode = "auto"
+new_cwd = "follow"
+kitty_graphics = true
+
+[remote]
+manage_ssh_config = true
+
+[update]
+## Do not auto update
+version_check = false
+manifest_check = false
+
+[keys]
+## General
+prefix = "`"
+copy_mode = "prefix+s"
+settings = "prefix+shift+s"
+edit_scrollback = "prefix+e"
+reload_config = "prefix+shift+c"
+detach = "prefix+d"
+toggle_sidebar = "prefix+b"
+remote_image_paste = "prefix+shift+v"
+
+## Navigation
+open_notification_target = "prefix+o"
+goto = "prefix+g"
+workspace_picker = "prefix+w"
+navigate_workspace_up = "p"
+navigate_workspace_down = "n"
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
+
+## Pane
+zoom = "prefix+1"
+split_horizontal = "prefix+2"
+split_vertical = "prefix+3"
+cycle_pane_next = "prefix+j"
+cycle_pane_previous = "prefix+k"
+swap_pane_left = "prefix+shift+h"
+swap_pane_down = "prefix+shift+j"
+swap_pane_up = "prefix+shift+k"
+swap_pane_right = "prefix+shift+l"
+last_pane = "prefix+shift+o"
+close_pane = "prefix+q"
+resize_mode = "prefix+y"
+rename_pane = "prefix+shift+y"
+
+## Tab
+new_tab = "prefix+t"
+rename_tab = "prefix+r"
+next_tab = "prefix+l"
+previous_tab = "prefix+h"
+move_tab_next = "prefix+."
+move_tab_previous = "prefix+,"
+close_tab = "prefix+shift+q"
+
+
+## Workspace
+new_workspace = "prefix+n"
+rename_workspace = "prefix+shift+r"
+close_workspace = "prefix+shift+w"
+next_workspace = "prefix+]"
+previous_workspace = "prefix+["
+
+## Agent
+next_agent = "prefix+'"
+previous_agent = "prefix+;"
