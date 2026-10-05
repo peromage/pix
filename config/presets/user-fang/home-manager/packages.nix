@@ -82,6 +82,7 @@
     ghostscript # PDF tools
     localsend # Airdrop alternative
     qrencode
+    deskflow
 
     ## Note taking
     libwacom
