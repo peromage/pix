@@ -1,6 +1,6 @@
 {
   self,
-  libnix,
+  libnixpkgs,
 }:
 with self; {
   /*
@@ -9,7 +9,7 @@ with self; {
   Type:
     join :: String -> [Any] -> String
   */
-  join = sep: list: libnix.foldl (a: i: a + "${sep}${i}") (libnix.head list) (libnix.tail list);
+  join = sep: list: libnixpkgs.foldl (a: i: a + "${sep}${i}") (libnixpkgs.head list) (libnixpkgs.tail list);
 
   /*
   Apply a list of arguments to the function.
@@ -17,7 +17,7 @@ with self; {
   Type:
     apply :: (Any -> Any) -> [Any] -> Any
   */
-  apply = libnix.foldl (f: x: f x);
+  apply = libnixpkgs.foldl (f: x: f x);
 
   /*
   Filter the return value of the original function.
@@ -63,7 +63,7 @@ with self; {
   /*
   Fix point and override pattern.
   See: http://r6.ca/blog/20140422T142911Z.html
-  See also: `libnix.makeExtensible'.  Better use `libnix.makeExtensible' instead of
+  See also: `libnixpkgs.makeExtensible'.  Better use `libnixpkgs.makeExtensible' instead of
   this as this may encounter infinite recursion since it doesn't provide
   access to prev (only final).
   */
@@ -76,7 +76,7 @@ with self; {
         fixOverridable (self:
           f self
           // (
-            if libnix.isFunction g
+            if libnixpkgs.isFunction g
             then g self
             else g
           ));

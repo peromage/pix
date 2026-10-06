@@ -1,6 +1,6 @@
 {
   self,
-  libnix,
+  libnixpkgs,
 }:
 with self; {
   /*
@@ -18,9 +18,9 @@ with self; {
     makeConfiguration :: (a -> a) -> (a -> a) -> AttrSet
   */
   makeConfiguration = f: fp:
-    f (libnix.fix fp)
+    f (libnixpkgs.fix fp)
     // {
-      extend = overlay: makeConfiguration f (libnix.extends overlay fp);
+      extend = overlay: makeConfiguration f (libnixpkgs.extends overlay fp);
     };
 
   /*
@@ -36,10 +36,10 @@ with self; {
     mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    libnix.getAttrs firstLevelNames
-    (libnix.mapAttrs
-      (n: v: libnix.mkMerge v)
-      (libnix.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    libnixpkgs.getAttrs firstLevelNames
+    (libnixpkgs.mapAttrs
+      (n: v: libnixpkgs.mkMerge v)
+      (libnixpkgs.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   /*
   Merge multiple module block conditonally.
@@ -50,7 +50,7 @@ with self; {
   Type:
     mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: libnix.mkMerge (map (x: libnix.mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: libnixpkgs.mkMerge (map (x: libnixpkgs.mkIf x.cond x.as) listOfAttrs);
 
   /*
   Shorthand to declare options with some presets.
@@ -60,8 +60,8 @@ with self; {
   */
   mkPresetEnableOption = name: options:
     {
-      enable = libnix.mkEnableOption name;
-      passthru = libnix.mkOption {};
+      enable = libnixpkgs.mkEnableOption name;
+      passthru = libnixpkgs.mkOption {};
     }
     // options;
 
@@ -72,7 +72,7 @@ with self; {
   Type:
     anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
-  anyAttrs = f: attrs: libnix.any (name: f name attrs.${name}) (libnix.attrNames attrs);
+  anyAttrs = f: attrs: libnixpkgs.any (name: f name attrs.${name}) (libnixpkgs.attrNames attrs);
 
   /*
   Merge two package sets from flakes.
