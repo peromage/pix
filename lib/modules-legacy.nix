@@ -4,26 +4,6 @@
 }:
 with self; {
   /*
-  A thin wrapper for configuration.
-  This function provides ability to override the original configuration by
-  calling the underlying `extend' function.
-
-  `f' is a configuration generation function like `nixosSystem',
-  `darwinSystem' or `homeManagerConfiguration'.
-
-  `fp' is a fixed-point function that produces the result consumed by `f'
-  function.
-
-  Type:
-    makeConfiguration :: (a -> a) -> (a -> a) -> AttrSet
-  */
-  makeConfiguration = f: fp:
-    f (libnixpkgs.fix fp)
-    // {
-      extend = overlay: makeConfiguration f (libnixpkgs.extends overlay fp);
-    };
-
-  /*
   Merge a list of attribute sets from config top level.
 
   NOTE: This is a workaround to solve the infinite recursion issue when trying
@@ -64,15 +44,6 @@ with self; {
       passthru = libnixpkgs.mkOption {};
     }
     // options;
-
-  /*
-  Apply predicate `f' on each attribute and return true if at least one is true.
-  Otherwise, return false.
-
-  Type:
-    anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
-  */
-  anyAttrs = f: attrs: libnixpkgs.any (name: f name attrs.${name}) (libnixpkgs.attrNames attrs);
 
   /*
   Merge two package sets from flakes.

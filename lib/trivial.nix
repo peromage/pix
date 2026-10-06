@@ -81,4 +81,13 @@ with self; {
             else g
           ));
     };
+
+    /*
+  Apply predicate `f' on each attribute and return true if at least one is true.
+  Otherwise, return false.
+
+  Type:
+    anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
+  */
+  anyAttrs = f: attrs: libnixpkgs.any (name: f name attrs.${name}) (libnixpkgs.attrNames attrs);
 }
