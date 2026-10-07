@@ -1,7 +1,9 @@
 {
   pix,
-  pkgs,
+  system,
 }: let
+  pkgs = pix.lib.makePkgs system;
+
   common = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;

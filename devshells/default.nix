@@ -1,7 +1,9 @@
 {
   pix,
-  pkgs,
+  system,
 }: let
+  pkgs = pix.lib.makePkgs system;
+
   common = {
     build-essential-env = ./common/build-essential-env.nix;
     python-env = ./common/python-env.nix;
