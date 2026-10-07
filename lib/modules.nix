@@ -1,5 +1,4 @@
-self:
-let
+self: let
   lib = (self.getInputs "").nixpkgs.lib;
   pix = (self.getInputs "").pix;
 in {
@@ -24,10 +23,10 @@ in {
     };
 
   makePkgs = system:
-  import (self.getInputs system).nixpkgs {
-    inherit system;
-    overlays = self.overlays;
-  };
+    import (self.getInputs system).nixpkgs {
+      inherit system;
+      overlays = self.overlays;
+    };
 
   /*
   Note that the `system' attribute is not explicitly set (default to null)
@@ -36,41 +35,41 @@ in {
   See: https://github.com/NixOS/nixpkgs/pull/177012
   */
   makeNixOS = fn:
-  self.makeConfiguration lib.nixosSystem (_: {
-    specialArgs = {inherit pix;};
-    modules = [
-      pix.outputs.nixosModules.default
-      {
-        nixpkgs.overlays = self.overlays;
-        system.stateVersion = pix.meta.stateVersion;
-      }
-      fn
-    ];
-  });
+    self.makeConfiguration lib.nixosSystem (_: {
+      specialArgs = {inherit pix;};
+      modules = [
+        pix.outputs.nixosModules.default
+        {
+          nixpkgs.overlays = self.overlays;
+          system.stateVersion = pix.meta.stateVersion;
+        }
+        fn
+      ];
+    });
 
   makeDarwin = fn:
-  self.makeConfiguration (self.getInputs "").nix-darwin.lib.darwinSystem (_: {
-    specialArgs = {inherit pix;};
-    modules = [
-      {
-        system.stateVersion = pix.meta.darwinStateVersion;
-      }
-      fn
-    ];
-  });
+    self.makeConfiguration (self.getInputs "").nix-darwin.lib.darwinSystem (_: {
+      specialArgs = {inherit pix;};
+      modules = [
+        {
+          system.stateVersion = pix.meta.darwinStateVersion;
+        }
+        fn
+      ];
+    });
 
   makeHome = system: fn:
-  self.makeConfiguration (self.getInputs system).home-manager.lib.homeManagerConfiguration (_: {
-    pkgs = self.makePkgs system;
-    extraSpecialArgs = {inherit pix;};
-    modules = [
-      pix.outputs.homeModules.default
-      {
-        home.stateVersion = pix.meta.stateVersion;
-      }
-      fn
-    ];
-  });
+    self.makeConfiguration (self.getInputs system).home-manager.lib.homeManagerConfiguration (_: {
+      pkgs = self.makePkgs system;
+      extraSpecialArgs = {inherit pix;};
+      modules = [
+        pix.outputs.homeModules.default
+        {
+          home.stateVersion = pix.meta.stateVersion;
+        }
+        fn
+      ];
+    });
 
   /*
   Merge two package sets from flakes.

@@ -1,5 +1,4 @@
-self:
-let
+self: let
   lib = (self.getInputs "").nixpkgs.lib;
 in {
   /*
@@ -81,7 +80,7 @@ in {
           ));
     };
 
-    /*
+  /*
   Apply predicate `f' on each attribute and return true if at least one is true.
   Otherwise, return false.
 

@@ -31,7 +31,11 @@
     };
   };
 
-  outputs = {self, nixpkgs, ...}@inputs: let
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
     /*
     Meta
     */

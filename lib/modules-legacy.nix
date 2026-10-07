@@ -1,5 +1,4 @@
-self:
-let
+self: let
   lib = (self.getInputs "").nixpkgs.lib;
 in {
   /*

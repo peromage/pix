@@ -1,5 +1,4 @@
-{nixpkgs, ...}@inputs:
-let
+{nixpkgs, ...} @ inputs: let
   lib = nixpkgs.lib;
 
   prelude = final: {
@@ -17,10 +16,9 @@ let
     # specific flakes substituted.
     # Passing an empty string returns an unfiltered input attrset
     getInputs = system:
-    if system == "" then
-      inputs
-    else
-      let
+      if system == ""
+      then inputs
+      else let
         # e.g. x86_64-linux -> __linux
         osSuffix = "__${lib.elemAt (lib.match "[[:alnum:]-_]+-([[:alpha:]]+)" system) 0}";
         hasSuffix = lib.hasSuffix osSuffix;
@@ -28,7 +26,8 @@ let
         # e.g. nixpkgs__darwin
         hasInfix = lib.hasInfix "__";
         commonInputs = lib.filterAttrs (name: _: ! hasInfix name) inputs;
-        osInputs = lib.mapAttrs'
+        osInputs =
+          lib.mapAttrs'
           (name: value: lib.nameValuePair (removeSuffix name) value)
           (lib.filterAttrs (name: _: hasSuffix name) inputs);
       in

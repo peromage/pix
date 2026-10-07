@@ -21,7 +21,7 @@
         callPackage = prev.newScope ({inherit pix;} // autoArgs);
       in
         pix.inputs.nixpkgs.lib.mapAttrs
-          (_: file: callPackage file {});
+        (_: file: callPackage file {});
     };
   };
 }
