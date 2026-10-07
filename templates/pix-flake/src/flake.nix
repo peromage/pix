@@ -2,10 +2,11 @@
 Sample flake to demonstrate how to use pix in a non-deterministic way.
 */
 {
+  description = "Use pix flake";
   inputs = {
     pix.url = "github:peromage/pix/master";
 
-    ## Override nixpkgs
+    # Override nixpkgs
     #nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     #pix.inputs.nixpkgs.follows = "nixpkgs"
   };
@@ -17,7 +18,8 @@ Sample flake to demonstrate how to use pix in a non-deterministic way.
   }: let
     lib = pix.inputs.nixpkgs.lib;
   in {
-    ## Override some attributes in the original configuration
+    /*
+    # Override existig configuration from pix
     nixosConfigurations.default = pix.nixosConfigurations.Framework.extend (final: prev: {
       modules =
         prev.modules
@@ -29,5 +31,32 @@ Sample flake to demonstrate how to use pix in a non-deterministic way.
           }
         ];
     });
+
+    # Use pix modules
+    nixosConfigurations.myMachine = pix.lib.makeNixOS ({
+      lib,
+      pix,
+      ...
+    }: {
+      # Linux configuration details
+    });
+
+    darwinConfigurations.myMac = pix.lib.makeDarwin ({
+      lib,
+      pix,
+      ...
+    }: {
+      # Darwin configuration details
+    });
+
+    homeConfigurations.myHome = pix.lib.makeHome ({
+      lib,
+      pkgs,
+      pix,
+      ...
+    }: {
+      # Home configuration details
+    });
+    */
   };
 }
