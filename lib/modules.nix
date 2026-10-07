@@ -72,9 +72,9 @@ in {
     });
 
   /*
-  Merge two package sets from flakes.
+  Merge two package sets.
 
-  The package set should be like:
+  The package set should look like:
 
   {
     x86_64-linux = { ... };
@@ -82,10 +82,10 @@ in {
     ...
   }
 
-  The second package set overwrites the same keys from the first one.
+  The second package set merges into the same keys from the first one.
 
   Type:
     mergePackages :: AttrSet -> AttrSet -> AttrSet
   */
-  mergePackages = base: override: lib.mapAttrs (platform: packages: packages // (override.${platform} or {})) base;
+  mergePackages = base: override: base // (lib.genAttrs (lib.attrNames override) (platform: (base.${platform} or {}) // override.${platform}));
 }
