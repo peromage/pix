@@ -1,15 +1,14 @@
-{
-  self,
-  libnixpkgs,
-}:
-with self; {
+self:
+let
+  lib = (self.getInputs "").nixpkgs.lib;
+in {
   /*
   Join a list of strings/paths with separaters.
 
   Type:
     join :: String -> [Any] -> String
   */
-  join = sep: list: libnixpkgs.foldl (a: i: a + "${sep}${i}") (libnixpkgs.head list) (libnixpkgs.tail list);
+  join = sep: list: lib.foldl (a: i: a + "${sep}${i}") (lib.head list) (lib.tail list);
 
   /*
   Apply a list of arguments to the function.
@@ -17,7 +16,7 @@ with self; {
   Type:
     apply :: (Any -> Any) -> [Any] -> Any
   */
-  apply = libnixpkgs.foldl (f: x: f x);
+  apply = lib.foldl (f: x: f x);
 
   /*
   Filter the return value of the original function.
@@ -55,7 +54,7 @@ with self; {
   filterArgs = f: narg: filter: let
     virtualFilter = filter: narg: arg:
       if narg == 1
-      then apply f (filter arg)
+      then self.apply f (filter arg)
       else virtualFilter (filter arg) (narg - 1);
   in
     assert narg > 0; virtualFilter filter narg;
@@ -63,7 +62,7 @@ with self; {
   /*
   Fix point and override pattern.
   See: http://r6.ca/blog/20140422T142911Z.html
-  See also: `libnixpkgs.makeExtensible'.  Better use `libnixpkgs.makeExtensible' instead of
+  See also: `lib.makeExtensible'.  Better use `lib.makeExtensible' instead of
   this as this may encounter infinite recursion since it doesn't provide
   access to prev (only final).
   */
@@ -73,10 +72,10 @@ with self; {
     x
     // {
       fixOverride = g:
-        fixOverridable (self:
+        self.fixOverridable (self:
           f self
           // (
-            if libnixpkgs.isFunction g
+            if lib.isFunction g
             then g self
             else g
           ));
@@ -89,5 +88,5 @@ with self; {
   Type:
     anyAttrs :: (String -> a -> Bool) -> AttrSet -> Bool
   */
-  anyAttrs = f: attrs: libnixpkgs.any (name: f name attrs.${name}) (libnixpkgs.attrNames attrs);
+  anyAttrs = f: attrs: lib.any (name: f name attrs.${name}) (lib.attrNames attrs);
 }

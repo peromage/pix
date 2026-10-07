@@ -1,5 +1,9 @@
-{self, libnixpkgs}: {
-    /*
+self:
+let
+  lib = (self.getInputs "").nixpkgs.lib;
+  pix = (self.getInputs "").pix;
+in {
+  /*
   A thin wrapper for configuration.
   This function provides ability to override the original configuration by
   calling the underlying `extend' function.
@@ -14,8 +18,75 @@
     makeConfiguration :: (a -> a) -> (a -> a) -> AttrSet
   */
   makeConfiguration = f: fp:
-    f (libnixpkgs.fix fp)
+    f (lib.fix fp)
     // {
-      extend = overlay: makeConfiguration f (libnixpkgs.extends overlay fp);
+      extend = overlay: self.makeConfiguration f (lib.extends overlay fp);
     };
+
+  makePkgs = system:
+  import (self.getInputs system).nixpkgs {
+    inherit system;
+    overlays = self.overlays;
+  };
+
+  /*
+  Note that the `system' attribute is not explicitly set (default to null)
+  to allow modules to set it themselves.  This allows a hermetic configuration
+  that doesn't depend on the system architecture when it is imported.
+  See: https://github.com/NixOS/nixpkgs/pull/177012
+  */
+  makeNixOS = fn:
+  self.makeConfiguration lib.nixosSystem (_: {
+    specialArgs = {inherit pix;};
+    modules = [
+      pix.outputs.nixosModules.default
+      {
+        nixpkgs.overlays = self.overlays;
+        system.stateVersion = pix.meta.stateVersion;
+      }
+      fn
+    ];
+  });
+
+  makeDarwin = fn:
+  self.makeConfiguration (self.getInputs "").nix-darwin.lib.darwinSystem (_: {
+    specialArgs = {inherit pix;};
+    modules = [
+      {
+        system.stateVersion = pix.meta.darwinStateVersion;
+      }
+      fn
+    ];
+  });
+
+  makeHome = system: fn:
+  self.makeConfiguration (self.getInputs system).home-manager.lib.homeManagerConfiguration (_: {
+    pkgs = self.makePkgs system;
+    extraSpecialArgs = {inherit pix;};
+    modules = [
+      pix.outputs.homeModules.default
+      {
+        home.stateVersion = pix.meta.stateVersion;
+      }
+      fn
+    ];
+  });
+
+  /*
+  Merge two package sets from flakes.
+
+  The package set should be like:
+
+  {
+    x86_64-linux = { ... };
+    aarch64-darwin = { ... };
+    ...
+  }
+
+  The second package set overwrites the same keys from the first one.
+
+  Type:
+    mergePackages :: AttrSet -> AttrSet -> AttrSet
+  */
+  mergePackages = base: override: lib.mapAttrs (platform: packages: packages // (override.${platform} or {})) base;
 }

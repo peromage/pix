@@ -9,4 +9,4 @@
 
   platform = {};
 in
-  pkgs.callPackageAttrs {} (common // (platform.${pkgs.stdenv.hostPlatform.system} or {}))
+  pkgs.pixScope.callPackageAttrs {} (common // (platform.${pkgs.stdenv.hostPlatform.system} or {}))

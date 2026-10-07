@@ -13,13 +13,15 @@
     pixPkgs = pix.packages.${final.stdenv.hostPlatform.system};
   };
 
-  callPackageHelpers = final: prev: {
-    callPackage = prev.newScope {inherit pix;};
+  pixScope = final: prev: {
+    pixScope = {
+      callPackage = prev.newScope {inherit pix;};
 
-    callPackageAttrs = autoArgs: let
-      callPackage = prev.newScope ({inherit pix;} // autoArgs);
-    in
-      pix.inputs.nixpkgs.lib.mapAttrs
-      (_: file: callPackage file {});
+      callPackageAttrs = autoArgs: let
+        callPackage = prev.newScope ({inherit pix;} // autoArgs);
+      in
+        pix.inputs.nixpkgs.lib.mapAttrs
+          (_: file: callPackage file {});
+    };
   };
 }

@@ -1,10 +1,13 @@
 {
   description = "PIX - Peromage's nIX configuration";
 
+  # When using this flake as an input in a downstream flake and overriding certain
+  # inputs of this flake, for example, to use a different version of nixpkgs,
+  # simply make it follow the altered version from the downstream flake. Other
+  # inputs that follows it will be updated automatically, like `home-manager` (
+  # follows persists)
   inputs = {
     # Linux
-    # To override the release version downstream, change all versions in the
-    # URL at once (follows will persist).
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -13,141 +16,57 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware/master";
     lanzaboote.url = "github:nix-community/lanzaboote/master";
-    # nix-colors = { url = "github:misterio77/nix-colors/main"; inputs.nixpkgs.follows = "nixpkgs"; };
-    # nix-alien = { url = "github:thiagokokada/nix-alien/master"; inputs.nixpkgs.follows = "nixpkgs"; };
 
     # Darwin
-    # To override the release version downstream, change all versions in the
-    # URL at once (follows will persist).
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
+    # Duplicated flakes made specifically for Darwin system are suffixed by
+    # `__darwin`
+    nixpkgs__darwin.url = "github:nixos/nixpkgs/nixpkgs-26.05-darwin";
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+      inputs.nixpkgs.follows = "nixpkgs__darwin";
     };
-    home-manager-darwin = {
+    home-manager__darwin = {
       url = "github:nix-community/home-manager/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+      inputs.nixpkgs.follows = "nixpkgs__darwin";
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nixpkgs-darwin,
-    nix-darwin,
-    home-manager-darwin,
-    ...
-  }: let
+  outputs = {self, nixpkgs, ...}@inputs: let
     /*
     Meta
     */
-    # May not require change
-    # See: https://search.nixos.org/options?channel=unstable&show=system.stateVersion&query=stateVersion
-    stateVersion = "25.11";
-    # Different from NixOS stateVersion
-    # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
-    darwinStateVersion = 6;
-
-    libnix = nixpkgs.lib;
     pix = self;
-
-    # Mapping of platform and package sets to be used
-    # The value should be an attrset with the following names:
-    #   - nixpkgs
-    #   - home-manager
-    systemFlakes = {
-      # Linux
-      x86_64-linux = {inherit nixpkgs home-manager;};
-      aarch64-linux = {inherit nixpkgs home-manager;};
-      # Darwin
-      x86_64-darwin = {
-        nixpkgs = nixpkgs-darwin;
-        home-manager = home-manager-darwin;
+    lib = nixpkgs.lib;
+    meta = {
+      maintainer = {
+        name = "Fang Deng";
+        email = "fang@elfang.com";
+        github = "peromage";
+        githubId = 10389606;
       };
-      aarch64-darwin = {
-        nixpkgs = nixpkgs-darwin;
-        home-manager = home-manager-darwin;
-      };
-    };
+      license = lib.licenses.gpl3Plus;
 
-    license = libnix.licenses.gpl3Plus;
-    maintainer = {
-      name = "Fang Deng";
-      email = "fang@elfang.com";
-      github = "peromage";
-      githubId = 10389606;
+      # May not require change
+      # See: https://search.nixos.org/options?channel=unstable&show=system.stateVersion&query=stateVersion
+      stateVersion = "25.11";
+      # Different from NixOS stateVersion
+      # See: https://nix-darwin.github.io/nix-darwin/manual/#opt-system.stateVersion
+      darwinStateVersion = 6;
     };
 
     /*
     Lib with additional functions
     */
-    lib = (import ./lib {inherit libnix;}).extend (final: prev: {
-      supportedSystems = builtins.attrNames systemFlakes;
-
-      pkgsOverlays = with self.outputs.overlays; [
-        unrestrictedPkgs
-        pixPkgs
-        callPackageHelpers
-      ];
-
-      forEachSupportedSystems = libnix.genAttrs final.supportedSystems;
-
-      makePkgs = system:
-        import systemFlakes.${system}.nixpkgs {
-          inherit system;
-          overlays = final.pkgsOverlays;
-        };
-
-      /*
-      Note that the `system' attribute is not explicitly set (default to null)
-      to allow modules to set it themselves.  This allows a hermetic configuration
-      that doesn't depend on the system architecture when it is imported.
-      See: https://github.com/NixOS/nixpkgs/pull/177012
-      */
-      makeNixOS = fn:
-        final.makeConfiguration libnix.nixosSystem (_: {
-          specialArgs = {inherit pix;};
-          modules = [
-            self.outputs.nixosModules.default
-            {
-              nixpkgs.overlays = final.pkgsOverlays;
-              system.stateVersion = stateVersion;
-            }
-            fn
-          ];
-        });
-
-      makeDarwin = fn:
-        final.makeConfiguration nix-darwin.lib.darwinSystem (_: {
-          specialArgs = {inherit pix;};
-          modules = [
-            {
-              system.stateVersion = darwinStateVersion;
-            }
-            fn
-          ];
-        });
-
-      makeHome = system: fn:
-        final.makeConfiguration systemFlakes.${system}.home-manager.lib.homeManagerConfiguration (_: {
-          pkgs = final.makePkgs system;
-          extraSpecialArgs = {inherit pix;};
-          modules = [
-            self.outputs.homemanagerModules.default
-            {
-              home.stateVersion = stateVersion;
-            }
-            fn
-          ];
-        });
+    libpix = (import ./lib (inputs // {inherit pix;})).extend (final: prev: {
+      overlays = lib.attrValues pix.overlays;
     });
   in
-    with lib; {
+    with libpix; {
       /*
       Pix
       */
-      inherit license maintainer pix lib;
+      inherit meta;
+      lib = libpix;
 
       /*
       Expose modules
@@ -161,7 +80,7 @@
         default = import ./modules;
       };
 
-      homemanagerModules = {
+      homeModules = {
         default = import ./dotfiles;
       };
 
@@ -187,10 +106,10 @@
       which keeps `nix flake show` on Nixpkgs reasonably fast, though less
       information rich.
       */
-      packages = forEachSupportedSystems (system:
+      packages = libpix.forEachSupportedSystems (system:
         import ./packages {
           inherit pix;
-          pkgs = makePkgs system;
+          pkgs = libpix.makePkgs system;
         });
 
       /*
@@ -199,10 +118,10 @@
       Related commands:
         nix develop .#SHELL_NAME
       */
-      devShells = forEachSupportedSystems (system:
+      devShells = libpix.forEachSupportedSystems (system:
         import ./devshells {
           inherit pix;
-          pkgs = makePkgs system;
+          pkgs = libpix.makePkgs system;
         });
 
       /*
@@ -213,7 +132,7 @@
 
       Alternatively, `nixpkgs-fmt'
       */
-      formatter = forEachSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      formatter = libpix.forEachSupportedSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
 
       /*
       Overlays
@@ -237,8 +156,8 @@
         nixos-rebuild build|boot|switch|test --flake .#HOST_NAME
       */
       nixosConfigurations = {
-        Framework = makeNixOS ./config/nixos-Framework-13;
-        NUC = makeNixOS ./config/nixos-NUC-Server;
+        Framework = libpix.makeNixOS ./config/nixos-Framework-13;
+        NUC = libpix.makeNixOS ./config/nixos-NUC-Server;
       };
 
       /*
@@ -248,7 +167,7 @@
         darwin-rebuild switch --flake .#HOST_NAME
       */
       darwinConfigurations = {
-        Macbook = makeDarwin ./config/darwin-Macbook-13;
+        Macbook = libpix.makeDarwin ./config/darwin-Macbook-13;
       };
 
       /*
@@ -267,7 +186,7 @@
       from there automatically.
       */
       homeConfigurations = {
-        fang = makeHome "x86_64-linux" ./config/presets/user-fang/home-manager;
+        fang = libpix.makeHome "x86_64-linux" ./config/presets/user-fang/home-manager;
       };
     };
 }

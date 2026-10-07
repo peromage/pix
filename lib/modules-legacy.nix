@@ -1,8 +1,7 @@
-{
-  self,
-  libnixpkgs,
-}:
-with self; {
+self:
+let
+  lib = (self.getInputs "").nixpkgs.lib;
+in {
   /*
   Merge a list of attribute sets from config top level.
 
@@ -16,10 +15,10 @@ with self; {
     mkMergeTopLevel :: [String] -> [AttrSet] -> AttrSet
   */
   mkMergeTopLevel = firstLevelNames: listOfAttrs:
-    libnixpkgs.getAttrs firstLevelNames
-    (libnixpkgs.mapAttrs
-      (n: v: libnixpkgs.mkMerge v)
-      (libnixpkgs.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
+    lib.getAttrs firstLevelNames
+    (lib.mapAttrs
+      (n: v: lib.mkMerge v)
+      (lib.foldAttrs (n: a: [n] ++ a) [] listOfAttrs));
 
   /*
   Merge multiple module block conditonally.
@@ -30,7 +29,7 @@ with self; {
   Type:
     mkMergeIf :: [{ cond :: Bool, as :: AttrSet }] -> AttrSet
   */
-  mkMergeIf = listOfAttrs: libnixpkgs.mkMerge (map (x: libnixpkgs.mkIf x.cond x.as) listOfAttrs);
+  mkMergeIf = listOfAttrs: lib.mkMerge (map (x: lib.mkIf x.cond x.as) listOfAttrs);
 
   /*
   Shorthand to declare options with some presets.
@@ -40,26 +39,8 @@ with self; {
   */
   mkPresetEnableOption = name: options:
     {
-      enable = libnixpkgs.mkEnableOption name;
-      passthru = libnixpkgs.mkOption {};
+      enable = lib.mkEnableOption name;
+      passthru = lib.mkOption {};
     }
     // options;
-
-  /*
-  Merge two package sets from flakes.
-
-  The package set should be like:
-
-  {
-    x86_64-linux = { ... };
-    aarch64-darwin = { ... };
-    ...
-  }
-
-  The second package set overwrites the same keys from the first one.
-
-  Type:
-    mergePackages :: AttrSet -> AttrSet -> AttrSet
-  */
-  mergePackages = pa: pb: builtins.mapAttrs (name: value: value // (pb.${name} or {})) pa;
 }
