@@ -2,14 +2,17 @@
   config,
   lib,
   pkgs,
-  stdenvNoCC,
   ...
 }: let
   cfg = config.pix.dotfiles.gpg;
-  src = ./home-files/.gnupg;
-  gnupgConfigPackage = pkgs.pixPkgs.pot-gnupg-config.override {
-    homeDir = config.home.homeDirectory;
-  };
+  configSrc = ./home-files/.gnupg;
+  gnupgConfig = pkgs.runCommand "pot-gnupg-config" {} ''
+    mkdir -p "$out"
+    cp -r "${configSrc}/." "$out"
+    sed -i"" "s#/home/fang/#${config.home.homeDirectory}/#" "$out/gpg-agent.conf"
+    chmod 600 "$out"/*
+    chmod u+x "$out/pinentry-auto.sh"
+  '';
 in {
   options.pix.dotfiles.gpg = {
     enable = lib.mkEnableOption "Pot GNUPG";
@@ -31,11 +34,7 @@ in {
       pinentry.package = cfg.pinentryPackage;
     };
 
-    home.packages =
-      [
-        gnupgConfigPackage
-      ]
-      ++ lib.optional (cfg.pinentryPackage != null) cfg.pinentryPackage;
+    home.packages = lib.optional (cfg.pinentryPackage != null) cfg.pinentryPackage;
 
     ## Workaround to prevent SSH_AUTH_SOCK being set with wrong value
     ## Ref: https://wiki.archlinux.org/title/GNOME/Keyring#Disabling
@@ -48,7 +47,7 @@ in {
 
     ## Override with my own settings
     home.file.".gnupg" = {
-      source = "${gnupgConfigPackage}/etc/pot-gnupg-config";
+      source = gnupgConfig;
       recursive = true;
     };
   };
