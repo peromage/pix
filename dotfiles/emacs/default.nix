@@ -8,7 +8,8 @@
 
   configSrc = ./home-files/.emacs.d;
   configPreset = let
-    loadLines = lib.concatMapStringsSep "\n"
+    loadLines =
+      lib.concatMapStringsSep "\n"
       (file: ''(load "${file}")'')
       cfg.extraLoadEl;
   in
