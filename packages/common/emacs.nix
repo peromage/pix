@@ -17,10 +17,10 @@
   ## May omit buildEnv?
 in
   pkgs.buildEnv {
-    name = "pot-emacs";
+    name = "pix-emacs";
     paths = with pkgs; [
       myEmacs
-      pkgs.pixPkgs.pot-spelling
+      pkgs.pixPkgs.pix-spelling
       ripgrep
       # libvterm-neovim  # libvterm doesn't support aarch64-darwin
       # libghostty-vt # ghostty should have included it

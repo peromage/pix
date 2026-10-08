@@ -13,7 +13,7 @@
   emacsHunspell = pkgs.hunspell.withDicts (hunspellDicts: myHunspellDicts);
 in
   pkgs.buildEnv {
-    name = "pot-spelling";
+    name = "pix-spelling";
     paths =
       # For Emacs enclosure
       (with pkgs; [

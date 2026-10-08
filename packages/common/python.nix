@@ -53,7 +53,7 @@ compiling C code, use `nix-shell' or `nix develop' in a standard FHS environment
     ]);
 in
   pkgs.buildEnv {
-    name = "pot-python";
+    name = "pix-python";
     paths = [
       myPython
       pkgs.uv # Eazy deps management

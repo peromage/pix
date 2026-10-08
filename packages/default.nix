@@ -7,11 +7,11 @@
   common = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;
-    pot-utils = ./common/pot-utils.nix;
-    pot-emacs = ./common/pot-emacs.nix;
-    pot-spelling = ./common/pot-spelling.nix;
-    pot-nodejs = ./common/pot-nodejs.nix;
-    pot-python = ./common/pot-python.nix;
+    utils = ./common/utils.nix;
+    emacs = ./common/emacs.nix;
+    spelling = ./common/spelling.nix;
+    nodejs = ./common/nodejs.nix;
+    python = ./common/python.nix;
     rime-default-config = ./common/rime-default-config.nix;
   };
 
