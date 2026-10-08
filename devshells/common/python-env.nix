@@ -9,7 +9,7 @@ This also supports some packages that require C compilation during installation.
   writeScriptBin,
 }: let
   python = let
-    p = pkgs.pixPkgs.pot-python;
+    p = pkgs.pixPkgs.python;
   in
     p.override {
       userPyenvDir = ''''${XDG_DATA_HOME:-$HOME/.local/share}/${p.userPyenvDir}'';

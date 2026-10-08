@@ -20,7 +20,7 @@ in
     name = "pix-emacs";
     paths = with pkgs; [
       myEmacs
-      pkgs.pixPkgs.pix-spelling
+      pkgs.pixPkgs.spelling
       ripgrep
       # libvterm-neovim  # libvterm doesn't support aarch64-darwin
       # libghostty-vt # ghostty should have included it

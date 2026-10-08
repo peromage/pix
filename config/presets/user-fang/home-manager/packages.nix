@@ -31,7 +31,7 @@
     };
     python.enable = true;
     nodejs.enable = true;
-    pot-utils.enable = true;
+    myscripts.enable = true;
   };
 
   home.packages = with pkgs; [
