@@ -10,6 +10,7 @@
     ./git
     ./gnome
     ./gnupg
+    ./herdr
     ./kitty
     ./mc
     ./myscripts

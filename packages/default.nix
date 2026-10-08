@@ -6,13 +6,14 @@
 
   common = {
     build-essential = ./common/build-essential.nix;
+    emacs = ./common/emacs.nix;
+    herdr = ./common/herdr.nix;
     home-manager = ./common/home-manager.nix;
     myscripts = ./common/myscripts.nix;
-    emacs = ./common/emacs.nix;
-    spelling = ./common/spelling.nix;
     nodejs = ./common/nodejs.nix;
     python = ./common/python.nix;
     rime-default-config = ./common/rime-default-config.nix;
+    spelling = ./common/spelling.nix;
   };
 
   platform = {
