@@ -7,14 +7,12 @@
   common = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;
-    pot-utils = ../dotfiles/pot-utils/packages/pot-utils.nix;
-    pot-emacs = ../dotfiles/emacs/packages/pot-emacs.nix;
-    pot-emacs-config = ../dotfiles/emacs/packages/pot-emacs-config.nix;
-    pot-spelling = ../dotfiles/emacs/packages/pot-spelling.nix;
-    pot-gnupg-config = ../dotfiles/gnupg/packages/pot-gnupg-config.nix;
-    pot-nodejs = ../dotfiles/nodejs/packages/pot-nodejs.nix;
-    pot-python = ../dotfiles/python/packages/pot-python.nix;
-    rime-default-config = ../dotfiles/fcitx5/packages/rime-default-config.nix;
+    pot-utils = ./common/pot-utils.nix;
+    pot-emacs = ./common/pot-emacs.nix;
+    pot-spelling = ./common/pot-spelling.nix;
+    pot-nodejs = ./common/pot-nodejs.nix;
+    pot-python = ./common/pot-python.nix;
+    rime-default-config = ./common/rime-default-config.nix;
   };
 
   platform = {
