@@ -6,7 +6,7 @@
 }: let
   cfg = config.pix.dotfiles.gpg;
   configSrc = ./home-files/.gnupg;
-  gnupgConfig = pkgs.runCommand "pot-gnupg-config" {} ''
+  gnupgConfig = pkgs.runCommand "my-gnupg-config" {} ''
     mkdir -p "$out"
     cp -r "${configSrc}/." "$out"
     sed -i"" "s#/home/fang/#${config.home.homeDirectory}/#" "$out/gpg-agent.conf"
@@ -15,7 +15,7 @@
   '';
 in {
   options.pix.dotfiles.gpg = {
-    enable = lib.mkEnableOption "Pot GNUPG";
+    enable = lib.mkEnableOption "My GNUPG";
     pinentryPackage = lib.mkPackageOption pkgs "pinentry-gtk2" {nullable = true;};
   };
 

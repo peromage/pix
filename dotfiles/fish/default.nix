@@ -8,7 +8,7 @@
   src = ./home-files/.config/fish;
 in {
   options.pix.dotfiles.fish = {
-    enable = lib.mkEnableOption "Pot Fish";
+    enable = lib.mkEnableOption "My Fish";
 
     init = lib.mkOption {
       type = lib.types.str;

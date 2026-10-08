@@ -6,14 +6,14 @@
 }: let
   cfg = config.pix.dotfiles.python;
   myPython = let
-    python = pkgs.pixPkgs.pot-python;
+    python = pkgs.pixPkgs.python;
   in
     python.override {
       userPyenvDir = "${config.xdg.dataHome}/${python.userPyenvDir}";
     };
 in {
   options.pix.dotfiles.python = {
-    enable = lib.mkEnableOption "Pot Python";
+    enable = lib.mkEnableOption "My Python";
   };
 
   config = lib.mkIf cfg.enable {

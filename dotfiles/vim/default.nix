@@ -7,7 +7,7 @@
   src = ./home-files/.vim;
 in {
   options.pix.dotfiles.vim = {
-    enable = lib.mkEnableOption "Pot Vim";
+    enable = lib.mkEnableOption "My Vim";
   };
 
   config = lib.mkIf cfg.enable {

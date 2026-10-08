@@ -6,14 +6,14 @@
 }: let
   cfg = config.pix.dotfiles.nodejs;
   myNodejs = let
-    nodejs = pkgs.pixPkgs.pot-nodejs;
+    nodejs = pkgs.pixPkgs.nodejs;
   in
     nodejs.override {
       userNpmDir = "${config.xdg.dataHome}/${nodejs.userNpmDir}";
     };
 in {
   options.pix.dotfiles.nodejs = {
-    enable = lib.mkEnableOption "Pot NodeJS";
+    enable = lib.mkEnableOption "My NodeJS";
   };
 
   config = lib.mkIf cfg.enable {

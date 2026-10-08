@@ -8,7 +8,7 @@
   src = ./home-files/.config/ghostty;
 in {
   options.pix.dotfiles.ghostty = {
-    enable = lib.mkEnableOption "Pot Ghostty";
+    enable = lib.mkEnableOption "My Ghostty";
     passthru = lib.mkOption {default = {};};
   };
 

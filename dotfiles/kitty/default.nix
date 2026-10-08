@@ -8,7 +8,7 @@
   src = ./home-files/.config/kitty;
 in {
   options.pix.dotfiles.kitty = {
-    enable = lib.mkEnableOption "Pot Kitty";
+    enable = lib.mkEnableOption "My Kitty";
     passthru = lib.mkOption {default = {};};
   };
 

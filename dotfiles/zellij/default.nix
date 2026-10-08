@@ -7,7 +7,7 @@
   src = ./home-files/.config/zellij;
 in {
   options.pix.dotfiles.zellij = {
-    enable = lib.mkEnableOption "Pot Zellij";
+    enable = lib.mkEnableOption "My Zellij";
   };
 
   config = lib.mkIf cfg.enable {

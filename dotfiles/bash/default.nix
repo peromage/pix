@@ -7,7 +7,7 @@
   src = ./home-files;
 in {
   options.pix.dotfiles.bash = {
-    enable = lib.mkEnableOption "Pot Bash";
+    enable = lib.mkEnableOption "My Bash";
   };
 
   config = lib.mkIf cfg.enable {

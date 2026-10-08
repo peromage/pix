@@ -3,7 +3,7 @@
   lib,
 }:
 stdenvNoCC.mkDerivation {
-  pname = "pix-scripts";
+  pname = "pix-myscripts";
   version = "0.0.1";
   src = ../home-files;
   dontPatchShebangs = true;

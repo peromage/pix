@@ -8,7 +8,7 @@
   src = ./home-files/.config/wezterm;
 in {
   options.pix.dotfiles.wezterm = {
-    enable = lib.mkEnableOption "Pot Wez's Terminal";
+    enable = lib.mkEnableOption "My Wez's Terminal";
     passthru = lib.mkOption {default = {};};
   };
 

@@ -8,7 +8,7 @@
   src = ./home-files/.config/Code;
 in {
   options.pix.dotfiles.vscode = {
-    enable = lib.mkEnableOption "Pot Visual Studio Code";
+    enable = lib.mkEnableOption "My Visual Studio Code";
     passthru = lib.mkOption {default = {};};
   };
 

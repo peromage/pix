@@ -8,7 +8,7 @@
   src = ./home-files/.config/systemd/user/x0vncserver.service;
 in {
   options.pix.dotfiles.tigervnc = {
-    enable = lib.mkEnableOption "Pot TigerVNC";
+    enable = lib.mkEnableOption "My TigerVNC";
   };
 
   config = lib.mkIf cfg.enable {

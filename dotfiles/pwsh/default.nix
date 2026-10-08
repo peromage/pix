@@ -8,7 +8,7 @@
   src = ./home-files/.config/powershell;
 in {
   options.pix.dotfiles.pwsh = {
-    enable = lib.mkEnableOption "Pot PowerShell";
+    enable = lib.mkEnableOption "My PowerShell";
   };
 
   config = lib.mkIf cfg.enable {

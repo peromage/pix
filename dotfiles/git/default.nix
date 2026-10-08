@@ -7,7 +7,7 @@
   src = ./home-files/.config/git;
 in {
   options.pix.dotfiles.git = {
-    enable = lib.mkEnableOption "Pot Git";
+    enable = lib.mkEnableOption "My Git";
 
     includeConfigs = lib.mkOption {
       type = with lib.types; listOf (oneOf [attrs str path]);

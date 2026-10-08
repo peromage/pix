@@ -12,9 +12,9 @@
     ./gnupg
     ./kitty
     ./mc
+    ./myscripts
     ./nodejs
     ./password-store
-    ./pot-utils
     ./pwsh
     ./python
     ./tigervnc

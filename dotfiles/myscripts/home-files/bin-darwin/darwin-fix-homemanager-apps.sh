@@ -8,12 +8,12 @@
 ## How to run this automatically on switching Home Manager profile
 ##
 ## home.activation.fixMacOSApps = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-##   run ${pot-util}/bin/fix-macos-hm-apps.sh
+##   run ${myscripts}/bin/fix-macos-hm-apps.sh
 ## ''
 ##
 ## Or simply
 ##
-## pix.dotfiles.pot-utils.fixMacOSApps = true;
+## pix.dotfiles.myscripts.fixMacOSApps = true;
 ##
 ## See also: https://github.com/nix-community/home-manager/issues/1341#issuecomment-1705731962
 ## The author later made a Nix utility which comes handy.

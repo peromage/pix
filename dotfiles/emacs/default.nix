@@ -12,7 +12,7 @@
       (file: ''(load "${file}")'')
       cfg.extraLoadEl;
   in
-    pkgs.runCommand "pot-emacs-config-preset" {} ''
+    pkgs.runCommand "my-emacs-config-preset" {} ''
       # Prepare files
       PRE_CUSTOM_EL_ANCHOR=";; ANCHOR-PRE-CUSTOM-EL"
 
@@ -24,9 +24,9 @@
         --replace-fail "$PRE_CUSTOM_EL_ANCHOR" "$PRE_CUSTOM_EL_ANCHOR
       ${loadLines}"
     '';
-  configExtra = pkgs.linkFarm "pot-emacs-config-extra" cfg.extraFiles;
+  configExtra = pkgs.linkFarm "my-emacs-config-extra" cfg.extraFiles;
   emacsConfig = pkgs.symlinkJoin {
-    name = "pot-emacs-config";
+    name = "my-emacs-config";
     paths = [
       configPreset
       configExtra
@@ -35,7 +35,7 @@
 in {
   options.pix.dotfiles = {
     emacs = {
-      enable = lib.mkEnableOption "Pot Emacs";
+      enable = lib.mkEnableOption "My Emacs";
 
       extraLoadEl = lib.mkOption {
         type = lib.types.listOf lib.types.path;
@@ -59,8 +59,8 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.pixPkgs.pot-emacs
-      pkgs.pixPkgs.pot-spelling
+      pkgs.pixPkgs.emacs
+      pkgs.pixPkgs.spelling
     ];
 
     home.file.".emacs.d" = {

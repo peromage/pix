@@ -7,7 +7,7 @@
   cfg = config.pix.dotfiles.password-store;
 in {
   options.pix.dotfiles.password-store = {
-    enable = lib.mkEnableOption "Pot Password Store";
+    enable = lib.mkEnableOption "My Password Store";
   };
 
   config = lib.mkIf cfg.enable {

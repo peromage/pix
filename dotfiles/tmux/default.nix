@@ -7,7 +7,7 @@
   src = ./home-files/.config/tmux;
 in {
   options.pix.dotfiles.tmux = {
-    enable = lib.mkEnableOption "Pot Tmux";
+    enable = lib.mkEnableOption "My Tmux";
   };
 
   config = lib.mkIf cfg.enable {

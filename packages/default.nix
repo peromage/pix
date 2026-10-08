@@ -7,7 +7,7 @@
   common = {
     build-essential = ./common/build-essential.nix;
     home-manager = ./common/home-manager.nix;
-    utils = ./common/utils.nix;
+    myscripts = ./common/myscripts.nix;
     emacs = ./common/emacs.nix;
     spelling = ./common/spelling.nix;
     nodejs = ./common/nodejs.nix;

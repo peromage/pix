@@ -8,7 +8,7 @@
   src = ./home-files/.config/mc;
 in {
   options.pix.dotfiles.mc = {
-    enable = lib.mkEnableOption "Pot Midnight Commander";
+    enable = lib.mkEnableOption "My Midnight Commander";
     package = lib.mkPackageOption pkgs "mc" {};
   };
 

@@ -9,7 +9,7 @@
   srcFcitx5PluginConfig = ./home-files/.local/share/fcitx5;
 in {
   options.pix.dotfiles.fcitx5 = {
-    enable = lib.mkEnableOption "Pot Fcitx5";
+    enable = lib.mkEnableOption "My Fcitx5";
   };
 
   config = lib.mkIf cfg.enable {

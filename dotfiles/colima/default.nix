@@ -9,7 +9,7 @@
   homeDir = config.home.homeDirectory;
 in {
   options.pix.dotfiles.colima = {
-    enable = lib.mkEnableOption "Pot Colima";
+    enable = lib.mkEnableOption "My Colima";
   };
 
   config = lib.mkIf cfg.enable {

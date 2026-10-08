@@ -8,7 +8,7 @@
   src = ./home-files/.config/alacritty;
 in {
   options.pix.dotfiles.alacritty = {
-    enable = lib.mkEnableOption "Pot Alacritty";
+    enable = lib.mkEnableOption "My Alacritty";
     passthru = lib.mkOption {default = {};};
   };
 
