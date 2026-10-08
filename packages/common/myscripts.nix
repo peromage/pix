@@ -5,7 +5,7 @@
 stdenvNoCC.mkDerivation {
   pname = "pix-myscripts";
   version = "0.0.1";
-  src = ../home-files;
+  src = ../../dotfiles/myscripts/home-files;
   dontPatchShebangs = true;
 
   installPhase =
