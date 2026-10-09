@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.pix.dotfiles.herdr;
   src = ./home-files/.config/herdr;
 in {
@@ -9,11 +13,11 @@ in {
 
   config = lib.mkIf cfg.enable {
     # Doesn't exist in 26.05, need a workaround
-    home.packages = [ pkgs.pixPkgs.herdr ];
+    home.packages = [pkgs.pixPkgs.herdr];
 
     xdg.configFile."herdr" = {
       source = src;
       recursive = true;
-    }
+    };
   };
 }

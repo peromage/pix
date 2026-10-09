@@ -36,7 +36,7 @@
         hasInfix = lib.hasInfix "__";
         # Remove the suffix of OS or system inputs
         normalizeInput = suffix:
-        lib.mapAttrs'
+          lib.mapAttrs'
           (name: value: lib.nameValuePair (lib.removeSuffix suffix name) value)
           (lib.filterAttrs (name: _: lib.hasSuffix suffix name) final.inputs);
 
