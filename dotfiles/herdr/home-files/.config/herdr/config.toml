@@ -8,6 +8,7 @@ auto_switch = false
 prompt_new_tab_name = false
 prompt_new_workspace_name = false
 sidebar_collapsed_mode = "hidden"
+sidebar_start_collapsed = true
 mouse_capture = true
 copy_on_select = true
 redraw_on_focus_gained = true
