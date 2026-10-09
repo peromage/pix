@@ -56,7 +56,7 @@ edit_scrollback = "prefix+e"
 reload_config = "prefix+shift+c"
 detach = "prefix+d"
 toggle_sidebar = "prefix+b"
-remote_image_paste = "prefix+shift+v"
+remote_image_paste = "prefix+ctrl+v"
 
 ## Navigation
 open_notification_target = "prefix+o"
