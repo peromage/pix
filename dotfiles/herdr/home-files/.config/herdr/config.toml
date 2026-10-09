@@ -15,7 +15,8 @@ redraw_on_focus_gained = true
 status_indicators = "symbols"
 right_click_passthrough_modifier = "ctrl"
 
-pane_gaps = true
+pane_gaps = false
+pane_outer_borders = false
 pane_scrollbars = true
 
 window_title = "{hostname}: {workspace}-{tab}"
