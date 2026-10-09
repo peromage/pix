@@ -13,6 +13,7 @@ mouse_capture = true
 copy_on_select = true
 redraw_on_focus_gained = true
 status_indicators = "symbols"
+right_click_passthrough_modifier = "ctrl"
 
 pane_gaps = true
 pane_scrollbars = true
