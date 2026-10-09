@@ -2,6 +2,7 @@
   lib = nixpkgs.lib;
 
   prelude = final: {
+    inherit inputs;
     overlays = [];
     supportedSystems = [
       "x86_64-linux"
@@ -12,26 +13,39 @@
 
     forEachSupportedSystems = lib.genAttrs final.supportedSystems;
 
-    # A wrapper function that returns an attrset of flake inputs with OS
-    # specific flakes substituted.
-    # Passing an empty string returns an unfiltered input attrset
+    /*
+    A wrapper function that returns an attrset of flake inputs with OS
+    specific flakes substituted.
+    Passing an empty string returns an unfiltered input attrset
+
+    Example input flake names:
+      nixpkgs                 -> Common input
+      nixpkgs__darwin         -> OS input
+      nixpkgs__aarch64-darwin -> System input
+
+    Precedence: Common < OS < System
+    */
     getInputs = system:
       if system == ""
-      then inputs
+      then final.inputs
       else let
         # e.g. x86_64-linux -> __linux
         osSuffix = "__${lib.elemAt (lib.match "[[:alnum:]-_]+-([[:alpha:]]+)" system) 0}";
-        hasSuffix = lib.hasSuffix osSuffix;
-        removeSuffix = lib.removeSuffix osSuffix;
+        sysSuffix = "__${system}";
         # e.g. nixpkgs__darwin
         hasInfix = lib.hasInfix "__";
-        commonInputs = lib.filterAttrs (name: _: ! hasInfix name) inputs;
-        osInputs =
-          lib.mapAttrs'
-          (name: value: lib.nameValuePair (removeSuffix name) value)
-          (lib.filterAttrs (name: _: hasSuffix name) inputs);
+        # Remove the suffix of OS or system inputs
+        normalizeInput = suffix:
+        lib.mapAttrs'
+          (name: value: lib.nameValuePair (lib.removeSuffix suffix name) value)
+          (lib.filterAttrs (name: _: lib.hasSuffix suffix name) final.inputs);
+
+        commonInputs = lib.filterAttrs (name: _: ! hasInfix name) final.inputs;
+        osInputs = normalizeInput osSuffix;
+        sysInputs = normalizeInput sysSuffix;
       in
-        commonInputs // osInputs;
+        # common < OS < system
+        commonInputs // osInputs // sysInputs;
   };
 
   libpix = self:
