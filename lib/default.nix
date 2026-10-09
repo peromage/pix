@@ -30,7 +30,7 @@
       then final.inputs
       else let
         # e.g. x86_64-linux -> __linux
-        osSuffix = "__${lib.elemAt (lib.match "[[:alnum:]-_]+-([[:alpha:]]+)" system) 0}";
+        osSuffix = "__${lib.elemAt (lib.match "[[:alnum:]_-]+-([[:alpha:]]+)" system) 0}";
         sysSuffix = "__${system}";
         # e.g. nixpkgs__darwin
         hasInfix = lib.hasInfix "__";
