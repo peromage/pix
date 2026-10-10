@@ -9,7 +9,6 @@
   pix.dotfiles = {
     bash.enable = true;
     emacs.enable = true;
-    # spelling.enable = true;
     fcitx5.enable = true;
     fish.enable = true;
     git = {
@@ -22,6 +21,7 @@
     ghostty.enable = true;
     pwsh.enable = true;
     tmux.enable = true;
+    herdr.enable = true;
     zellij.enable = true;
     vim.enable = true;
     wezterm.enable = true;
