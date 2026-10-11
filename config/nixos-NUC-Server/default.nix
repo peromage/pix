@@ -8,5 +8,6 @@
     ../presets/system-PROX
     ../presets/user-wangguan
     ../presets/user-root
+    ./deploy.nix
   ];
 }
