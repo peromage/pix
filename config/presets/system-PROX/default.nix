@@ -19,9 +19,14 @@ with lib; {
 
   pix.desktops.env.xfce.enable = true;
 
+  environment.sessionVariables = {
+    EDITOR = "vim";
+    SHELL = "${pkgs.fish}/bin/fish";
+  };
+
   environment.systemPackages = with pkgs; [
-    brave
     vim
+    fish
     tmux
     git
     curl
@@ -30,12 +35,17 @@ with lib; {
     tree
     pixPkgs.emacs
 
-    ## Filesystems
+    # Filesystems
     ntfs3g
     exfat
     exfatprogs
     e2fsprogs
     fuse
     fuse3
+
+    # Productivity
+    brave
+    deskflow
+    ghostty
   ];
 }
