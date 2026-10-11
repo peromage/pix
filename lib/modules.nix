@@ -88,4 +88,12 @@ in {
     mergePackages :: AttrSet -> AttrSet -> AttrSet
   */
   mergePackages = base: override: base // (lib.genAttrs (lib.attrNames override) (platform: (base.${platform} or {}) // override.${platform}));
+
+  /*
+  Short hand to declare a mandatory option (without default).
+  */
+  mkRequiredOption = type: description:
+    lib.mkOption {
+      inherit type description;
+    };
 }
