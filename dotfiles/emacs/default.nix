@@ -10,7 +10,7 @@
   configPreset = let
     loadLines =
       lib.concatMapStringsSep "\n"
-      (file: ''(load "${file}")'')
+      (file: ''(load \"${file}\")'')
       cfg.extraLoadEl;
   in
     pkgs.runCommand "my-emacs-config-preset" {} ''
