@@ -9,5 +9,6 @@
     ../presets/user-wangguan
     ../presets/user-root
     ./deploy.nix
+    ./frigate/docker-compose.nix
   ];
 }

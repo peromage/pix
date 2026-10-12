@@ -7,6 +7,10 @@
   cfg = config.pix.machines.nuc;
   mkRequiredOption = pix.lib.mkRequiredOption;
 in {
+  imports = [
+    ./frigate/docker-compose.nix
+  ];
+
   # Some options containing secrets must be set on local before evaluation
   options.pix.machines.nuc = with lib.types; {
     wangguanPassword = mkRequiredOption str "";
@@ -31,6 +35,11 @@ in {
         nameserver = "1.1.1.1,1.0.0.1";
       };
     };
+
+    # Additional Frigate settings
+    pix.services.firewall.allowedTCPPorts = [
+      8971
+    ];
 
     # pix.services.frp = {
     #   enable = true;

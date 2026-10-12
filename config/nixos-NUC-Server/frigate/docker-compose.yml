@@ -1,0 +1,21 @@
+services:
+  frigate:
+    container_name: frigate
+    privileged: true # This may not be necessary for all setups
+    restart: unless-stopped
+    stop_grace_period: 30s # Allow enough time to shut down the various services
+    image: ghcr.io/blakeblackshear/frigate:stable
+    shm_size: "256mb" # Update for your cameras based on SHM calculation
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # Sync host time
+      - /home/wangguan/.frigate/config:/config # Config file directory
+      - /home/wangguan/.frigate/storage:/media/frigate # Recording storage directory
+      - type: tmpfs # 1GB in-memory filesystem for recording segment storage
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+    ports:
+      - "8554:8554" # Access RTSP feeds from go2rtc
+      - "8971:8971" # Authenticated UI and API access (default HTTPS)
+    environment:
+      TZ: "America/Detroit" # Timezone
