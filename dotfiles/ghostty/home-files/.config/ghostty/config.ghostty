@@ -96,13 +96,13 @@ keybind = ctrl+shift+h=previous_tab
 keybind = ctrl+shift+l=next_tab
 keybind = ctrl+shift+tab=previous_tab
 keybind = ctrl+tab=next_tab
-keybind = ctrl+shift+period=move_tab:1
-keybind = ctrl+shift+comma=move_tab:-1
+keybind = ctrl+shift+alt+l=move_tab:1
+keybind = ctrl+shift+alt+h=move_tab:-1
 
 ## Window
 keybind = ctrl+shift+n=new_window
-keybind = ctrl+shift+o=goto_window:next
-keybind = ctrl+shift+alt+o=goto_window:previous
+keybind = ctrl+shift+period=goto_window:next
+keybind = ctrl+shift+comma=goto_window:previous
 
 ## Surface
 keybind = ctrl+shift+alt+r=prompt_surface_title
