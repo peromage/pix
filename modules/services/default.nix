@@ -1,12 +1,13 @@
 {...}: {
   imports = [
-    ./ime
+    ./containers.nix
     ./documentation.nix
     ./firewall.nix
     ./flatpak.nix
     ./frp.nix
     ./globalprotect.nix
     ./i18n.nix
+    ./ime
     ./nix.nix
     ./shadowsocks.nix
     ./sshd.nix
@@ -15,6 +16,5 @@
     ./vconsole.nix
     ./virtmanager.nix
     ./waydroid.nix
-    ./containers.nix
   ];
 }
