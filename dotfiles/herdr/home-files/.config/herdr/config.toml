@@ -104,5 +104,5 @@ next_workspace = "prefix+."
 previous_workspace = "prefix+,"
 
 ## Agent
-next_agent = "prefix+j"
-previous_agent = "prefix+k"
+next_agent = "prefix+shift+j"
+previous_agent = "prefix+shift+k"
