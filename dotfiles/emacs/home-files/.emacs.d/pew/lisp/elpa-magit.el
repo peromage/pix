@@ -59,8 +59,7 @@ from this variable to corresponding hooks, if saved any.")
 
   :config
   (pewlib-add-to-list 'project-switch-commands :end
-    '((magit-status "Magit" ?m)
-      (magit-file-dispatch "Magit dispatch" ?M))))
+    '((magit-project-status "Magit" ?m))))
 
 (provide 'elpa-magit)
 ;;; elpa-magit.el ends here
