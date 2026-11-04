@@ -29,3 +29,4 @@
 
 ## Utility scripts
 !/*.sh
+!/*.py
