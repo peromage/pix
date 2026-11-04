@@ -293,17 +293,16 @@
 
   :map
   (pewkey-prime-map)
-  (pewkey-completion-map)
-  ;; Language related packages, like LSP, agent, etc.
-  (pewkey-project-map)
   ;; Frequently accessed packages, like git, movement, etc.
   (pewkey-utility-map
    ("o" . #'org-capture)
    ("O" . #'org-agenda)
    ("m" . #'flymake-show-buffer-diagnostics)
    ("M" . #'flymake-mode))
-  (pewkey-reserved-1-map)
-  (pewkey-reserved-2-map)
+  (pewkey-project-map)  ;; Language related packages, like LSP, agent, etc.
+  (pewkey-extra-map)
+  (pewkey-window-map)
+  (pewkey-completion-map)
 
 ;;; Transient keybindings
   :transient
@@ -312,11 +311,11 @@
    ("C-x" . ctl-x-map)
    ("C-u" . #'universal-argument)
    ("C-p" . #'pewkey-repeat)
-   ("a" . #'pewkey-completion-map)
-   ("d" . #'pewkey-utility-map)
-   ("w" . #'pewkey-reserved-1-map)  ;; Not overriding somehow
-   ("e" . #'pewkey-reserved-2-map)
-   ("c" . #'pewkey-project-map)
+   ("c"   . #'pewkey-utility-map)
+   ("d"   . #'pewkey-project-map)
+   ("e"   . #'pewkey-extra-map)
+   ("w"   . #'pewkey-window-map)  ;; Merges into `window-prefix-map'
+   ("a"   . #'pewkey-completion-map)
 
 ;;;; Windows/Buffers
    ("q"         . #'pewlib-close-window)
