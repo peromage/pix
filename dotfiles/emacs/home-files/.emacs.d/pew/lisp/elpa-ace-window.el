@@ -5,7 +5,7 @@
 (use-package ace-window
   :straight t
   :bind
-  ( :map pewkey-utility-map
+  ( :map pewkey-window-map
     ("w" . ace-window)
     ("W" . ace-swap-window)) )
 
