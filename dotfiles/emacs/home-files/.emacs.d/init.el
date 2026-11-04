@@ -61,6 +61,7 @@
 (require 'elpa-paredit)
 (require 'elpa-separedit)
 (require 'elpa-ace-window)
+(require 'elpa-transpose-frame)
 (require 'elpa-avy)
 (require 'elpa-yasnippet)
 (require 'elpa-evil)
