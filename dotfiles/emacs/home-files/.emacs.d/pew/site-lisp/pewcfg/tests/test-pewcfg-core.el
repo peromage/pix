@@ -190,17 +190,27 @@
   (should-match (pewcfg--generate-:map 'foo-map
                   '("a" . #'func1)
                   '("b" . #'func2))
-                `((define-prefix-command 'foo-map)
-                  (keymap-set foo-map "a" #'func1)
-                  (keymap-set foo-map "b" #'func2))))
+                `((defvar-keymap foo-map
+                    "a" #'func1
+                    "b" #'func2))))
 
 (ert-deftest pewcfg-core-test-map-generate-with-parent ()
   (should-match (pewcfg--generate-:map 'foo-map
                   :parent 'parent-map
                   '("a" . #'func1))
-                `((define-prefix-command 'foo-map)
-                  (set-keymap-parent foo-map parent-map)
-                  (keymap-set foo-map "a" #'func1))))
+                `((defvar-keymap foo-map
+                    :parent parent-map
+                    "a" #'func1))))
+
+(ert-deftest pewcfg-core-test-map-generate-with-keyword-args ()
+  (should-match (pewcfg--generate-:map 'foo-map
+                  :parent 'parent-map
+                  :repeat t
+                  '("a" . #'func1))
+                `((defvar-keymap foo-map
+                    :parent parent-map
+                    :repeat t
+                    "a" #'func1))))
 
 ;;; :transient
 (ert-deftest pewcfg-core-test-transient-normalize ()
@@ -215,9 +225,9 @@
   (should-match (pewcfg--generate-:transient 'command
                   '("a" . #'func1)
                   '("b" . #'func2))
-                `((define-prefix-command 'command-map)
-                  (keymap-set command-map "a" #'func1)
-                  (keymap-set command-map "b" #'func2)
+                `((defvar-keymap command-map
+                    "a" #'func1
+                    "b" #'func2)
                   (keymap-set command-map "C-g" #'keyboard-quit)
                   (defun command (arg) . ,_)
                   (defun command-repeat () . ,_))))
@@ -227,10 +237,10 @@
                   :parent 'parent-map
                   '("a" . #'func1)
                   '("b" . #'func2))
-                `((define-prefix-command 'command-map)
-                  (set-keymap-parent command-map parent-map)
-                  (keymap-set command-map "a" #'func1)
-                  (keymap-set command-map "b" #'func2)
+                `((defvar-keymap command-map
+                    :parent parent-map
+                    "a" #'func1
+                    "b" #'func2)
                   (keymap-set command-map "C-g" #'keyboard-quit)
                   (defun command (arg) . ,_)
                   (defun command-repeat () . ,_))))

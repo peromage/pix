@@ -50,8 +50,8 @@ List of each keyword's form signature:
   :setq         (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :setq-default (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
-  :map          [:parent parent-keymap-name] (KEYMAP [(KEY . DEFINITION) ...])
-  :transient    [:parent parent-keymap-name] (COMMAND [(KEY . DEFINITION) ...])
+  :map          (KEYMAP [:KEYWORD VALUE ...] [(KEY . DEFINITION) ...])
+  :transient    (COMMAND [:KEYWORD VALUE ...] [(KEY . DEFINITION) ...])
   :toggle       (VARIABLE [VALUE VALUE ...])
   :face         (FACE [:KEYWORD VALUE ...])
   :property     (SYMBOL [(PROPERTY . VALUE) ...])
@@ -246,23 +246,25 @@ keybindings in a existing map instead."
   "Normalize function for ':map'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg--generate-:map (keymap &rest bindings)
-  "Create a new KEYMAP and bind keys in it.
+(defun pewcfg--generate-:map (keymap &rest args)
+  "Create a new KEYMAP with `defvar-keymap' and bind keys in it.
 KEYMAP is a symbol of the keymap.
-BINDINGS is in the same form as in `pewcfg--generate-:bind'. Additionally, it
-supports optional keyword '(:parent keymap-name)' before any keybindings to
-specify inheritance from a parent keymap.
-NOTE: Unlike `pewcfg--generate-:bind' this macro creates a new map.  It will not be
-effective if the map already exists."
+ARGS may begin with any keyword arguments accepted by `defvar-keymap'
+\(e.g. :parent, :repeat, :suppress), which are passed through to it verbatim.
+The remaining elements are key bindings in the same cons-cell form as in
+`pewcfg--generate-:bind':
+  (KEY . DEF)
+NOTE: Unlike `pewcfg--generate-:bind' this function creates a new map.  It will
+not be effective if the map already exists."
   (declare (indent 1))
-  `((define-prefix-command ',keymap)
-    ,@(pcase bindings
-       (`(:parent ,parent . ,rest-bindings)
-        `((set-keymap-parent ,keymap ,parent)
-          ,@(apply 'pewcfg--generate-:bind keymap rest-bindings)))
-       (_
-        `(,@(apply 'pewcfg--generate-:bind keymap bindings)))
-       )))
+  (let ((options nil)
+        (bindings args))
+    (while (keywordp (car bindings))
+      (push (pop bindings) options)
+      (push (pop bindings) options))
+    `((defvar-keymap ,keymap
+        ,@(nreverse options)
+        ,@(mapcan (lambda (binding) (list (car binding) (cdr binding))) bindings)))))
 
 ;;; :transient
 (defun pewcfg--normalize-:transient (forms)
