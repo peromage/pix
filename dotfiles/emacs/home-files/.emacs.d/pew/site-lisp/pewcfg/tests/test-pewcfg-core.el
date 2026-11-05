@@ -229,6 +229,7 @@
                     "a" #'func1
                     "b" #'func2)
                   (keymap-set command-map "C-g" #'keyboard-quit)
+                  (pewcfg-transient-make-repeatable command-map)
                   (defun command (arg) . ,_)
                   (defun command-repeat () . ,_))))
 
@@ -242,8 +243,34 @@
                     "a" #'func1
                     "b" #'func2)
                   (keymap-set command-map "C-g" #'keyboard-quit)
+                  (pewcfg-transient-make-repeatable command-map)
                   (defun command (arg) . ,_)
                   (defun command-repeat () . ,_))))
+
+(ert-deftest pewcfg-core-test-transient-make-repeatable ()
+  (defvar-keymap test-transient-sub-map
+    "o" #'ignore)
+  (defvar-keymap test-transient-parent-map
+    "p" #'beginning-of-line)
+  (defvar-keymap test-transient-map
+    :parent test-transient-parent-map
+    "a"   #'forward-char
+    "c"   #'test-transient-sub-map
+    "C-u" #'universal-argument
+    "C-g" #'keyboard-quit)
+  (pewcfg-transient-make-repeatable test-transient-map)
+  ;; Leaf command is wrapped into a closure (no longer the bare symbol).
+  (should (functionp (keymap-lookup test-transient-map "a")))
+  (should-not (eq (keymap-lookup test-transient-map "a") 'forward-char))
+  ;; Sub-keymap reference is left untouched.
+  (should (eq (keymap-lookup test-transient-map "c") 'test-transient-sub-map))
+  ;; Prefix-argument command is left untouched.
+  (should (eq (keymap-lookup test-transient-map "C-u") 'universal-argument))
+  ;; `C-g' stays a plain quit.
+  (should (eq (keymap-lookup test-transient-map "C-g") 'keyboard-quit))
+  ;; Inherited (parent) bindings are not wrapped and the parent is preserved.
+  (should (eq (keymap-lookup test-transient-map "p") 'beginning-of-line))
+  (should (eq (keymap-parent test-transient-map) test-transient-parent-map)))
 
 ;;; :toggle
 (ert-deftest pewcfg-core-test-toggle-normalize ()

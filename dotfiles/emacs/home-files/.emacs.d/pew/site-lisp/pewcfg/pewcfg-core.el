@@ -51,7 +51,7 @@ List of each keyword's form signature:
   :setq-default (VARIABLE VALUE [COMMENT]) ;; COMMENT has no effect
   :bind         (KEYMAP [(KEY . DEFINITION) ...])
   :map          (KEYMAP [:KEYWORD VALUE ...] [(KEY . DEFINITION) ...])
-  :transient    (COMMAND [:KEYWORD VALUE ...] [(KEY . DEFINITION) ...])
+  :transient    (COMMAND [:parent PARENT] [(KEY . DEFINITION) ...])
   :toggle       (VARIABLE [VALUE VALUE ...])
   :face         (FACE [:KEYWORD VALUE ...])
   :property     (SYMBOL [(PROPERTY . VALUE) ...])
@@ -271,23 +271,80 @@ not be effective if the map already exists."
   "Normalize function for ':transient'."
   (mapcar #'pewcfg-normalize-identity forms))
 
-(defun pewcfg--generate-:transient (command &rest bindings)
+(defun pewcfg-transient--keymap-ref-p (definition)
+  "Return non-nil if DEFINITION is or points to a keymap.
+DEFINITION may be a keymap object or a symbol whose function or value cell
+holds a keymap (e.g. a map created by `defvar-keymap')."
+  (or (keymapp definition)
+      (and (symbolp definition)
+           (or (and (fboundp definition) (keymapp (symbol-function definition)))
+               (and (boundp definition) (keymapp (symbol-value definition)))))))
+
+(defun pewcfg-transient--repeater (key command)
+  "Return a command that runs COMMAND then lets KEY repeat it.
+After COMMAND runs, a transient map is armed in which KEY alone repeats
+COMMAND.  Pressing any other key deactivates the map and that key is then
+processed normally."
+  (lambda ()
+    (interactive)
+    (setq this-command command)
+    (call-interactively command)
+    (set-transient-map (define-keymap key (pewcfg-transient--repeater key command)))))
+
+(defvar pewcfg-transient-no-repeat-commands
+  '(universal-argument digit-argument negative-argument keyboard-quit)
+  "Commands that `pewcfg-transient-make-repeatable' leaves unwrapped.
+Prefix-argument commands must not be wrapped, otherwise a repeated key would
+re-fire them through a transient map instead of accumulating the argument.")
+
+(defun pewcfg-transient-make-repeatable (keymap)
+  "Wrap each OWN leaf binding of KEYMAP so its key repeats the command.
+Sub-keymap references and commands listed in
+`pewcfg-transient-no-repeat-commands' are left untouched.  Inherited (parent)
+bindings are not affected.  Returns KEYMAP."
+  (let ((parent (keymap-parent keymap))
+        (replacements nil))
+    ;; Detach the parent so `map-keymap' only visits KEYMAP's own bindings.
+    (set-keymap-parent keymap nil)
+    (unwind-protect
+        (map-keymap
+         (lambda (event definition)
+           (unless (or (pewcfg-transient--keymap-ref-p definition)
+                       (and (symbolp definition)
+                            (memq definition pewcfg-transient-no-repeat-commands)))
+             (push (cons (key-description (vector event)) definition) replacements)))
+         keymap)
+      (set-keymap-parent keymap parent))
+    (dolist (replacement replacements)
+      (keymap-set keymap (car replacement)
+                  (pewcfg-transient--repeater (car replacement) (cdr replacement))))
+    keymap))
+
+(defun pewcfg--generate-:transient (command &rest args)
   "Create an interactive COMMAND that enters transient mode when invoked.
 COMMAND is a symbol of the command.
-BINDINGS is the same with `pewcfg--generate-:bind'.
+ARGS is an optional ':parent PARENT' keyword argument followed by keybindings
+in the same '(KEY . DEFINITION)' form as `pewcfg--generate-:bind'.  Only
+':parent' is forwarded to `pewcfg--generate-:map' for map creation.
 A map 'COMMAND-map' and interactive commands 'COMMAND' and 'COMMAND-repeat' will
 be created.  See `set-transient-map'.
-NOTE: \\`C-g' and \\`C-h' should be preserved.
-NOTE: Discouraged `repeat-map' property method in Emacs 28 since it require some
-extra work and potentially decrease startup speed.  It needs `repeat-mode' to be
-enabled and put the following code for the keymap.
-  (map-keymap (lambda (key cmd) (put cmd 'repeat-map 'keymap) keymap)"
+Each own leaf binding in the map becomes self-repeating via
+`pewcfg-transient-make-repeatable': after it fires, pressing the same key
+repeats it while any other key stops repeating and runs its own binding.
+NOTE: \\`C-g' is preserved to exit transient mode."
   (declare (indent 1))
   (let ((command-map (intern (format "%s-map" command)))
-        (command-repeat (intern (format "%s-repeat" command))))
-    `(,@(apply 'pewcfg--generate-:map command-map bindings)
+        (command-repeat (intern (format "%s-repeat" command)))
+        (parent-args nil)
+        (bindings args))
+    (when (eq (car bindings) :parent)
+      (setq parent-args (list :parent (cadr bindings)))
+      (setq bindings (cddr bindings)))
+    `(,@(apply 'pewcfg--generate-:map command-map (append parent-args bindings))
       ;; Necessary to exit transient mode
       ,@(pewcfg--generate-:bind command-map '("C-g" . #'keyboard-quit))
+      ;; Make every own leaf binding self-repeating.
+      (pewcfg-transient-make-repeatable ,command-map)
       (defun ,command (arg)
         ,(format "Activate map `%s' temporarily.
 If prefix ARG is given the map will be activated in a repeatable manner." command-map)
