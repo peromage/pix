@@ -383,16 +383,6 @@
    ("-" . #'what-cursor-position)
    ("=" . #'ispell-word)
 
-;;;; Zoom (zooming in/out depends on the last key.  see `text-scale-adjust')
-   ("C-+"   . #'global-text-scale-adjust)
-   ("C--"   . #'global-text-scale-adjust)
-   ("C-0"   . #'global-text-scale-adjust)
-   ("C-="   . #'global-text-scale-adjust)
-   ("C-M-+" . #'text-scale-adjust)
-   ("C-M--" . #'text-scale-adjust)
-   ("C-M-0" . #'text-scale-adjust)
-   ("C-M-=" . #'text-scale-adjust)
-
 ;;;; Frame
    ("M-=" . #'pewlib-increase-frame-opacity)
    ("M--" . #'pewlib-decrease-frame-opacity)
