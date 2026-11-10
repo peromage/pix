@@ -392,13 +392,13 @@
    ("O"   . #'other-frame)
 
 ;;;; Rebind word manipulations
-   ("M-T" . #'transpose-words)
-   ("M-C" . #'capitalize-word)
-   ("M-U" . #'upcase-word)
-   ("M-L" . #'downcase-word)
-   ("M-Z" . #'zap-to-char)
-   ("M-Q" . #'fill-paragraph)
-   ("M-H" . #'mark-paragraph)
+   ("C-M-t" . #'transpose-words)
+   ("C-M-c" . #'capitalize-word)
+   ("C-M-u" . #'upcase-word)
+   ("C-M-l" . #'downcase-word)
+   ("C-M-z" . #'zap-to-char)
+   ("C-M-q" . #'fill-paragraph)
+   ("C-M-h" . #'mark-paragraph)
 
 ;;;; Editing
    ("DEL" . #'cycle-spacing)
