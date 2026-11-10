@@ -253,7 +253,7 @@ See `evil-define-key*'."
 
   ;; Command state bindings
   (pew-evil-set-key '(normal motion visual) 'global nil
-    '(("SPC" . pewkey-map)
+    '(("SPC" . pewkey)
       ;; Search
       ("#" . evil-ex-nohighlight)
       ;; Default jump forward is C-i which is bad in terminal environment
