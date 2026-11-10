@@ -6,12 +6,12 @@
 ;;; Code:
 
 ;;; Themes
-(defun /p/load-theme (theme)
+(defun /p/load-theme (&optional theme)
   "Load THEME but make sure it is the only one active."
-  (interactive (list '__PEW_LOAD_THEME__))
-  (if (eq '__PEW_LOAD_THEME__ theme)
+  (interactive)
+  (if (null theme)
       (call-interactively #'load-theme)
-    (load-theme theme t))
+    (load-theme theme :no-confirm))
   ;; Disable the rest of the themes
   (if (> (length custom-enabled-themes) 1)
       (dolist (theme (cdr custom-enabled-themes))

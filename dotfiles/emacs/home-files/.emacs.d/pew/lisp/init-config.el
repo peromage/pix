@@ -163,6 +163,7 @@
   ;; Pinentry -- Let Emacs use minibuffer to prompt passphrase
   (epg-pinentry-mode 'loopback)
   (compilation-scroll-output 'first-error)
+  (custom-theme-allow-multiple-selections nil)
 
 ;;;; File save
   (auto-save-default nil)
