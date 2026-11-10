@@ -23,9 +23,8 @@ enabled and put the following code for the keymap.
   (declare (indent 1))
   (let ((command-map (intern (format "%s-map" command)))
         (command-repeat (intern (format "%s-repeat" command))))
-    `(,@(apply 'pewcfg--generate-:map command-map bindings)
-      ;; Necessary to exit transient mode
-      ,@(pewcfg--generate-:bind command-map '("C-g" . #'keyboard-quit))
+    ;; Override "C-g"
+    `(,@(apply 'pewcfg--generate-:map command-map (nconc bindings '(("C-g" . #'keyboard-quit))))
       (defun ,command (arg)
         ,(format "Activate map `%s' temporarily.
 If prefix ARG is given the map will be activated in a repeatable manner." command-map)

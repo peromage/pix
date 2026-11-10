@@ -227,8 +227,8 @@
                   '("b" . #'func2))
                 `((defvar-keymap command-map
                     "a" #'func1
-                    "b" #'func2)
-                  (keymap-set command-map "C-g" #'keyboard-quit)
+                    "b" #'func2
+                    "C-g" #'keyboard-quit)
                   (defun command (arg) . ,_)
                   (defun command-repeat () . ,_))))
 
@@ -240,8 +240,8 @@
                 `((defvar-keymap command-map
                     :parent parent-map
                     "a" #'func1
-                    "b" #'func2)
-                  (keymap-set command-map "C-g" #'keyboard-quit)
+                    "b" #'func2
+                    "C-g" #'keyboard-quit)
                   (defun command (arg) . ,_)
                   (defun command-repeat () . ,_))))
 
