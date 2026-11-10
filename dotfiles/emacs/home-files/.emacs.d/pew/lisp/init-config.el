@@ -311,11 +311,11 @@
    ("C-x" . ctl-x-map)
    ("C-u" . #'universal-argument)
    ("C-p" . #'pewkey-repeat)
-   ("c"   . #'pewkey-utility-map)
-   ("d"   . #'pewkey-project-map)
-   ("e"   . #'pewkey-extra-map)
-   ("w"   . #'pewkey-window-map)  ;; Merges into `window-prefix-map'
-   ("a"   . #'pewkey-completion-map)
+   ("c"   . pewkey-utility-map)
+   ("d"   . pewkey-project-map)
+   ("e"   . pewkey-extra-map)
+   ("w"   . pewkey-window-map)  ;; Merges into `window-prefix-map'
+   ("a"   . pewkey-completion-map)
 
 ;;;; Windows/Buffers
    ("q"         . #'pewlib-close-window)
@@ -422,8 +422,8 @@
 
    ;; Override C-x for my own bindings
    ;; The original `ctl-x-map' can still be accessed by "C-x C-x"
-   ("C-x" . #'pewkey-map)
-   ("C-z" . #'pewkey-prime-map))
+   ("C-x" . pewkey-map)
+   ("C-z" . pewkey-prime-map))
 
 ;;;; Dired
   (dired-mode-map
