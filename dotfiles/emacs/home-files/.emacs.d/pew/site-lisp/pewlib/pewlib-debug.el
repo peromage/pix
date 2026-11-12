@@ -60,12 +60,17 @@ Existing content will be overwritten."
   (interactive "nKeycode: ")
   (message "%s" (key-description (vector keycode))))
 
-(defun /p/display-and-copy-buffer-file-name ()
-  "Echo current buffer file name and copy to kill ring."
-  (interactive)
-  (let ((name (buffer-file-name)))
-    (message "%s [%s]" name buffer-file-coding-system)
-    (kill-new name)))
+(defun /p/revert-buffer (&optional auto-save)
+  "A wrapper of `revert-buffer-quick' with additonal information echoed after reloading."
+  (interactive "P")
+  (pcase (buffer-file-name)
+    ((pred null)
+     (message "Buffer is not associated with any file"))
+    (file-name
+     (revert-buffer-quick auto-save)
+     ;; Copy the file name to kill ring
+     (kill-new file-name)
+     (message "Reverted (%s): %s " buffer-file-coding-system file-name))))
 
 (defun /p/display-mode-inheritance (mode)
   "Echo current major mode inheritance.
