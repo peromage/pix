@@ -19,10 +19,6 @@
   :straight t
   :defer t)
 
-(use-package csharp-mode
-  :straight t
-  :defer t)
-
 (use-package powershell
   :straight t
   :defer t)
