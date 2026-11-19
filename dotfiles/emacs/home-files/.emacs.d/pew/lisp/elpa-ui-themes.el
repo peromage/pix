@@ -27,11 +27,23 @@
   :defer t)
 
 ;; From https://protesilaos.com/
+;; NOTE: Since Emacs 28+ the modus-themes has a built-in copy which could
+;; potentially jeopardize the theme loading of modus collection (as this
+;; external copy is loaded after). One way to resolve this is to set ':demand t'
+;; but I don't want to do that so just a reminder
 (use-package modus-themes
   :straight t
   :defer t)
 
 (use-package ef-themes
+  :straight t
+  :defer t)
+
+(use-package doric-themes
+  :straight t
+  :defer t)
+
+(use-package standard-themes
   :straight t
   :defer t)
 
